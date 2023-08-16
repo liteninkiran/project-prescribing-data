@@ -11,7 +11,7 @@ export class OrganisationService {
     constructor(private http: HttpClient) { }
 
     public getOrganisations(): Observable<IOrganisations> {
-        const url = 'https://directory.spineservices.nhs.uk/ORD/2-0-0/organisations?PrimaryRoleId=RO177';
+        const url = 'https://directory.spineservices.nhs.uk/ORD/2-0-0/organisations?Status=Active&Limit=1000';
         return this.http.get<IOrganisations>(`${url}`);
     }
 }
