@@ -1,0 +1,39 @@
+<div class="container">
+
+    <!-- Heading -->
+    <h1>NHS Prescribing Data</h1>
+
+    <!-- Grid -->
+    <mat-grid-list [cols]="2" rowHeight="350px">
+
+        <!-- Organisations -->
+        <mat-grid-tile>
+
+            <mat-card>
+
+                <!-- Heading -->
+                <h2 routerLink="organisations">Organisations</h2>
+
+                <!-- Blurb -->
+                <p>The Organisation Data Service (ODS) issues and manages unique identification codes (ODS codes) and accompanying reference data for organisations that interact with any area of the NHS.</p>
+
+                <!-- External Links -->
+                <p>Check out these external links (opens in new tab):</p>
+
+                <ul>
+                    <li><a href="https://directory.spineservices.nhs.uk/apidocs/#/FHIR/get_STU3_Organization" target="_blank">API Docs</a></li>
+                    <li><a href="https://openprescribing.net/practice/" target="_blank">Open Prescribing</a></li>
+                    <li><a href="https://digital.nhs.uk/services/organisation-data-service/export-data-files/csv-downloads/gp-and-gp-practice-related-data" target="_blank">NHS Digital</a></li>
+                </ul>
+            
+            </mat-card>
+
+        </mat-grid-tile>
+
+    </mat-grid-list>
+
+    <div class="logo">
+        <img src="assets/svg/nhs.svg" alt="">
+    </div>
+
+</div>

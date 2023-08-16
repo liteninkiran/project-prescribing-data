@@ -3,14 +3,12 @@
     <mat-toolbar color="primary">
 
         <!-- Register -->
-        <a mat-button (click)="getDataClick()" *ngIf="false">
-            <mat-icon fontIcon="get_app"></mat-icon>
-            Get Data
+        <a mat-button routerLink="organisations">
+            <mat-icon fontIcon="medical_services"></mat-icon>
+            Organisations
         </a>
 
     </mat-toolbar>
-
-    <app-organisation [data]="data$ | async"></app-organisation>
 
     <router-outlet></router-outlet>
 
