@@ -13,3 +13,9 @@ export interface IOrganisation {
     PrimaryRoleId: string;
     Status: string;
 };
+
+export interface IColumnConfig {
+    columnId: string;
+    columnName: string;
+    visible: boolean;
+};
