@@ -19,23 +19,23 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     public columns: string[] = [
         'OrgId',
         'Name',
+        'PostCode',
+        'Status',
         'OrgLink',
         'OrgRecordClass',
-        'PostCode',
         'PrimaryRoleDescription',
         'PrimaryRoleId',
-        'Status',
         'LastChangeDate',
     ];
     public formGroup = this.fb.group({
         'OrgId': true,
         'Name': true,
+        'PostCode': true,
+        'Status': true,
         'OrgLink': false,
         'OrgRecordClass': false,
-        'PostCode': true,
         'PrimaryRoleDescription': false,
         'PrimaryRoleId': false,
-        'Status': true,
         'LastChangeDate': false,
     });
 
