@@ -30,10 +30,12 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatTreeModule } from '@angular/material/tree';
+import { OrganisationComponent } from './components/organisation/organisation.component';
 
 @NgModule({
     declarations: [
         AppComponent,
+        OrganisationComponent,
     ],
     imports: [
         BrowserAnimationsModule,

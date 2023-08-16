@@ -3,12 +3,14 @@
     <mat-toolbar color="primary">
 
         <!-- Register -->
-        <a mat-button (click)="getDataClick()">
+        <a mat-button (click)="getDataClick()" *ngIf="false">
             <mat-icon fontIcon="get_app"></mat-icon>
             Get Data
         </a>
 
     </mat-toolbar>
+
+    <app-organisation [data]="data$ | async"></app-organisation>
 
     <router-outlet></router-outlet>
 
