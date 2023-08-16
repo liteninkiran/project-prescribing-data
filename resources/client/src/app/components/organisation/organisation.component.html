@@ -1,9 +1,17 @@
-<div *ngIf="data">
+<div class="container" *ngIf="data">
+
+    <h1>Organisations</h1>
+
+    <section class="example-section" [formGroup]="formGroup">
+        <h4>Select Columns:</h4>
+        <span *ngFor="let item of columns"><mat-checkbox [formControlName]="item" (click)="toggleColumn()">{{ item }}</mat-checkbox></span>
+    </section>
+
     <table mat-table [dataSource]="data.Organisations" class="mat-elevation-z8">
 
-        <ng-container matColumnDef="LastChangeDate">
-            <th mat-header-cell *matHeaderCellDef> Last Change Date </th>
-            <td mat-cell *matCellDef="let element"> {{element.LastChangeDate}} </td>
+        <ng-container matColumnDef="OrgId">
+            <th mat-header-cell *matHeaderCellDef> Organisation ID </th>
+            <td mat-cell *matCellDef="let element"> {{element.OrgId}} </td>
         </ng-container>
 
         <ng-container matColumnDef="Name">
@@ -11,18 +19,13 @@
             <td mat-cell *matCellDef="let element"> {{element.Name}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="OrgId">
-            <th mat-header-cell *matHeaderCellDef> Org Id </th>
-            <td mat-cell *matCellDef="let element"> {{element.OrgId}} </td>
-        </ng-container>
-
         <ng-container matColumnDef="OrgLink">
-            <th mat-header-cell *matHeaderCellDef> Org Link </th>
+            <th mat-header-cell *matHeaderCellDef> Organisation Link </th>
             <td mat-cell *matCellDef="let element"> {{element.OrgLink}} </td>
         </ng-container>
 
         <ng-container matColumnDef="OrgRecordClass">
-            <th mat-header-cell *matHeaderCellDef> Org Record Class </th>
+            <th mat-header-cell *matHeaderCellDef> Organisation Record Class </th>
             <td mat-cell *matCellDef="let element"> {{element.OrgRecordClass}} </td>
         </ng-container>
 
@@ -44,6 +47,11 @@
         <ng-container matColumnDef="Status">
             <th mat-header-cell *matHeaderCellDef> Status </th>
             <td mat-cell *matCellDef="let element"> {{element.Status}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="LastChangeDate">
+            <th mat-header-cell *matHeaderCellDef> Last Change Date </th>
+            <td mat-cell *matCellDef="let element"> {{element.LastChangeDate}} </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
