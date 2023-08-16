@@ -2,10 +2,12 @@
 
     <h1>Organisations</h1>
 
-    <section class="example-section" [formGroup]="formGroup">
-        <h4>Select Columns:</h4>
-        <span *ngFor="let item of columns"><mat-checkbox [formControlName]="item" (click)="toggleColumn()">{{ item }}</mat-checkbox></span>
-    </section>
+    <mat-form-field>
+        <mat-label>Visible columns:</mat-label>
+        <mat-select [formControl]="columnDropDown" multiple panelClass="column-list" (selectionChange)="onSelectionChange()">
+            <mat-option *ngFor="let item of columnConfig" [value]="item.columnId">{{ item.columnName }}</mat-option>
+        </mat-select>
+    </mat-form-field>
 
     <table mat-table [dataSource]="data.Organisations" class="mat-elevation-z8">
 

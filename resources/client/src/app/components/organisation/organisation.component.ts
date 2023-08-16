@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { IOrganisations } from 'src/app/interfaces/organisation.interfaces';
 
@@ -8,6 +8,7 @@ import { IOrganisations } from 'src/app/interfaces/organisation.interfaces';
     selector: 'app-organisation',
     templateUrl: './organisation.component.html',
     styleUrls: ['./organisation.component.scss'],
+    encapsulation: ViewEncapsulation.None,
 })
 export class OrganisationComponent implements OnInit, OnDestroy {
 
@@ -27,7 +28,59 @@ export class OrganisationComponent implements OnInit, OnDestroy {
         'PrimaryRoleId',
         'LastChangeDate',
     ];
-    public formGroup = this.fb.group({
+    public columnConfig: {
+        columnId: string;
+        columnName: string;
+        visible: boolean;
+    }[] = [
+        {
+            columnId: 'OrgId',
+            columnName: 'Organisation ID',
+            visible: true,
+        },
+        {
+            columnId: 'Name',
+            columnName: 'Organisation Name',
+            visible: true,
+        },
+        {
+            columnId: 'PostCode',
+            columnName: 'Postcode',
+            visible: true,
+        },
+        {
+            columnId: 'Status',
+            columnName: 'Status',
+            visible: true,
+        },
+        {
+            columnId: 'OrgLink',
+            columnName: 'Organisation Link',
+            visible: false,
+        },
+        {
+            columnId: 'OrgRecordClass',
+            columnName: 'Organisation Record Class',
+            visible: false,
+        },
+        {
+            columnId: 'PrimaryRoleDescription',
+            columnName: 'Primary Role Description',
+            visible: false,
+        },
+        {
+            columnId: 'PrimaryRoleId',
+            columnName: 'Primary Role ID',
+            visible: false,
+        },
+        {
+            columnId: 'LastChangeDate',
+            columnName: 'Last Change Date',
+            visible: false,
+        },
+    ];
+
+    public formGroup: FormGroup = this.fb.group({
         'OrgId': true,
         'Name': true,
         'PostCode': true,
@@ -38,6 +91,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
         'PrimaryRoleId': false,
         'LastChangeDate': false,
     });
+    public columnDropDown = new FormControl(['']);
 
     private url = 'https://directory.spineservices.nhs.uk/ORD/2-0-0/organisations?PrimaryRoleId=RO177';
 
@@ -49,9 +103,8 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        this.data$ = this.getData();
-        const sub: Subscription = this.data$.subscribe((d: IOrganisations) => this.data = d);
-        this.subscriptions.push(sub);
+        this.subscribeToData();
+        this.setDropDownValues();
         this.refreshColumnDisplay();
     }
 
@@ -59,17 +112,27 @@ export class OrganisationComponent implements OnInit, OnDestroy {
         this.subscriptions.map((sub: Subscription) => sub.unsubscribe())
     }
 
-    public getData(): Observable<IOrganisations> {
-        return this.http.get<IOrganisations>(`${this.url}`);
-    }
-
-    public toggleColumn() {
+    public onSelectionChange(): void {
         this.refreshColumnDisplay();
     }
 
-    private refreshColumnDisplay() {
-        const obj: any = {};
-        Object.assign(obj, this.formGroup.value)
-        this.displayedColumns = this.columns.filter(column => obj[column]);
+    private getData(): Observable<IOrganisations> {
+        return this.http.get<IOrganisations>(`${this.url}`);
+    }
+
+    private refreshColumnDisplay(): void {
+        this.displayedColumns = this.columnDropDown.value as string[];
+    }
+
+    private setDropDownValues(): void {
+        const visibleColumns = this.columnConfig.filter(d => d.visible);
+        const visibleColumnIds = visibleColumns.map(d => d.columnId);
+        this.columnDropDown.setValue(visibleColumnIds);
+    }
+
+    private subscribeToData(): void {
+        this.data$ = this.getData();
+        const sub: Subscription = this.data$.subscribe((d: IOrganisations) => this.data = d);
+        this.subscriptions.push(sub);
     }
 }
