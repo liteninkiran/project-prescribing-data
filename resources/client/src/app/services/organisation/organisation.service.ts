@@ -10,7 +10,7 @@ export class OrganisationService {
 
     constructor(private http: HttpClient) { }
 
-    public getOrganisations(status = 'Active', limit = 10, offset = 1): Observable<IOrganisations> {
+    public getOrganisations(limit = 10, offset = 1, status = 'Active'): Observable<IOrganisations> {
         const url = `https://directory.spineservices.nhs.uk/ORD/2-0-0/organisations?Status=${status}&Limit=${limit}&Offset=${offset}`;
         return this.http.get<IOrganisations>(`${url}`);
     }

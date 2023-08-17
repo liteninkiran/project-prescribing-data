@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { IColumnConfig, IOrganisations } from 'src/app/interfaces/organisation.interfaces';
 import { Observable, Subscription } from 'rxjs';
 import { OrganisationService } from 'src/app/services/organisation/organisation.service';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
     selector: 'app-organisation',
@@ -19,6 +19,13 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     public columnDropDown = new FormControl(['']);
     public displayedColumns: string[] = [];
     public columnConfig: IColumnConfig[] = [];
+    public dataOptions!: FormGroup;
+    public offsetInput: FormControl = new FormControl();
+    public offsetConfig = {
+        min: 1,
+        max: 200000,
+        default: 1,
+    };
     public limitInput: FormControl = new FormControl();
     public limitConfig = {
         min: 1,
@@ -34,6 +41,10 @@ export class OrganisationComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this.setFormControls();
+        this.dataOptions = new FormGroup({
+            'offset': this.offsetInput,
+            'limit': this.limitInput,
+        });
         this.columnConfig = this.columnConfigData();
         this.subscribeToData();
         this.setDropDownValues();
@@ -48,6 +59,10 @@ export class OrganisationComponent implements OnInit, OnDestroy {
         this.setDisplayedColumns();
     }
 
+    public onSubmitForm(): void {
+        this.subscribeToData();
+    }
+
     private setDisplayedColumns(): void {
         this.displayedColumns = this.columnDropDown.value as string[];
     }
@@ -59,17 +74,23 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     }
 
     private subscribeToData(): void {
-        this.data$ = this.orgService.getOrganisations();
+        this.data = null;
+        this.data$ = this.orgService.getOrganisations(this.dataOptions.value.limit, this.dataOptions.value.offset);
         const sub: Subscription = this.data$.subscribe((d: IOrganisations) => this.data = d);
         this.subscriptions.push(sub);
     }
 
     private setFormControls(): void {
-        const validators = [
+        const offsetValidators = [
+            Validators.min(this.offsetConfig.min),
+            Validators.max(this.offsetConfig.max),
+        ];
+        const limitValidators = [
             Validators.min(this.limitConfig.min),
             Validators.max(this.limitConfig.max),
         ];
-        this.limitInput = new FormControl(this.limitConfig.default, validators);
+        this.offsetInput = new FormControl(this.offsetConfig.default, offsetValidators);
+        this.limitInput = new FormControl(this.limitConfig.default, limitValidators);
     }
 
     private columnConfigData(): IColumnConfig[] {

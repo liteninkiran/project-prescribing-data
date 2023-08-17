@@ -4,7 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button'
@@ -30,6 +30,9 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatTreeModule } from '@angular/material/tree';
+import { MatExpansionModule} from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDividerModule } from '@angular/material/divider';
 
 import { HomeComponent } from './components/home/home.component';
 import { OrganisationComponent } from './components/organisation/organisation.component';
@@ -45,6 +48,7 @@ import { OrganisationComponent } from './components/organisation/organisation.co
         BrowserModule,
         AppRoutingModule,
         HttpClientModule,
+        FormsModule,
         ReactiveFormsModule,
         MatMenuModule,
         MatButtonModule,
@@ -70,6 +74,9 @@ import { OrganisationComponent } from './components/organisation/organisation.co
         MatNativeDateModule,
         MatGridListModule,
         MatTreeModule,
+        MatExpansionModule,
+        MatFormFieldModule,
+        MatDividerModule,
     ],
     providers: [],
     bootstrap: [
