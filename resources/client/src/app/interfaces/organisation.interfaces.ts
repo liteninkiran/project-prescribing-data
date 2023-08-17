@@ -19,3 +19,18 @@ export interface IColumnConfig {
     columnName: string;
     visible: boolean;
 };
+
+export interface INumInputConfig {
+    min: number;
+    max: number;
+    default: number;
+};
+
+export interface IStatusConfig {
+    default: string;
+};
+
+export interface IStatus {
+    id: string;
+    displayName: string;
+};

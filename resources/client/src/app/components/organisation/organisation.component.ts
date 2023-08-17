@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
-import { IColumnConfig, IOrganisations } from 'src/app/interfaces/organisation.interfaces';
+import { IColumnConfig, INumInputConfig, IOrganisations, IStatus, IStatusConfig } from 'src/app/interfaces/organisation.interfaces';
 import { Observable, Subscription } from 'rxjs';
 import { OrganisationService } from 'src/app/services/organisation/organisation.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -13,25 +13,25 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class OrganisationComponent implements OnInit, OnDestroy {
 
+    // Data
     public data$: Observable<IOrganisations> = new Observable();
     public data: IOrganisations | null = null;
     public subscriptions: Subscription[] = [];
-    public columnDropDown = new FormControl(['']);
+
+    // Form
+    public form!: FormGroup;
+    public columnDropDown: FormControl = new FormControl(['']);          // Must be array because multiple=true
+    public offsetInput: FormControl = new FormControl();
+    public limitInput: FormControl = new FormControl();
+    public statusInput: FormControl = new FormControl();
+
+    // Configuration
     public displayedColumns: string[] = [];
     public columnConfig: IColumnConfig[] = [];
-    public dataOptions!: FormGroup;
-    public offsetInput: FormControl = new FormControl();
-    public offsetConfig = {
-        min: 0,
-        max: 1000000,
-        default: 0,
-    };
-    public limitInput: FormControl = new FormControl();
-    public limitConfig = {
-        min: 1,
-        max: 1000,
-        default: 20,
-    };
+    public offsetConfig: INumInputConfig = {} as INumInputConfig;
+    public limitConfig: INumInputConfig = {} as INumInputConfig;
+    public statusConfig: IStatusConfig = {} as IStatusConfig;
+    public status: IStatus[] = [];
 
     constructor(
         private orgService: OrganisationService,
@@ -40,12 +40,9 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
+        this.setConfigData();
         this.setFormControls();
-        this.dataOptions = new FormGroup({
-            'offset': this.offsetInput,
-            'limit': this.limitInput,
-        });
-        this.columnConfig = this.columnConfigData();
+        this.setForm();
         this.subscribeToData();
         this.setDropDownValues();
         this.setDisplayedColumns();
@@ -75,7 +72,11 @@ export class OrganisationComponent implements OnInit, OnDestroy {
 
     private subscribeToData(): void {
         this.data = null;
-        this.data$ = this.orgService.getOrganisations(this.dataOptions.value.limit, this.dataOptions.value.offset);
+        this.data$ = this.orgService.getOrganisations(
+            this.form.value.limit,
+            this.form.value.offset,
+            this.form.value.status
+        );
         const sub: Subscription = this.data$.subscribe((d: IOrganisations) => this.data = d);
         this.subscriptions.push(sub);
     }
@@ -91,6 +92,23 @@ export class OrganisationComponent implements OnInit, OnDestroy {
         ];
         this.offsetInput = new FormControl(this.offsetConfig.default, offsetValidators);
         this.limitInput = new FormControl(this.limitConfig.default, limitValidators);
+        this.statusInput = new FormControl(this.statusConfig.default);
+    }
+
+    private setForm(): void {
+        this.form = new FormGroup({
+            'offset': this.offsetInput,
+            'limit': this.limitInput,
+            'status': this.statusInput,
+        });
+    }
+
+    private setConfigData(): void {
+        this.columnConfig = this.columnConfigData();
+        this.offsetConfig = this.offsetConfigData();
+        this.limitConfig = this.limitConfigData();
+        this.statusConfig = this.statusConfigData();
+        this.status = this.statusData();
     }
 
     private columnConfigData(): IColumnConfig[] {
@@ -140,6 +158,35 @@ export class OrganisationComponent implements OnInit, OnDestroy {
                 columnName: 'Last Change Date',
                 visible: false,
             },
+        ];
+    }
+
+    private offsetConfigData(): INumInputConfig {
+        return {
+            min: 0,
+            max: 1000000,
+            default: 0,
+        };
+    }
+
+    private limitConfigData(): INumInputConfig {
+        return {
+            min: 1,
+            max: 1000,
+            default: 10,
+        };
+    }
+
+    private statusConfigData(): IStatusConfig {
+        return {
+            default: 'active',
+        };
+    }
+
+    private statusData(): IStatus[] {
+        return [
+            { id: 'active', displayName: 'Active' },
+            { id: 'inactive', displayName: 'Inactive' },
         ];
     }
 }

@@ -17,18 +17,24 @@ export class OrganisationService {
 
         https://directory.spineservices.nhs.uk/ORD/2-0-0/organisations
             ?Name=surgery
-            &Roles=RO198%2CRO197
+            &Roles=RO198%2CRO197            <-- COMMA
             &LastChangeDate=2021-12-01
             &RelTypeId=RE5
             &TargetOrgId=RRF12
             &OrgRecordClass=RC2
             &NonPrimaryRoleId=RO197
             &PrimaryRoleId=RO198
-            &PostCode=CW10%209FG
+            &PostCode=CW10%209FG            <-- SPACE
             &Status=Active
             &Limit=5
             &Offset=0
             &_format=json
+
+
+        Note:
+
+        %2C = COMMA
+        %20 = SPACE
 */
 
         let url: string = 'https://directory.spineservices.nhs.uk/ORD/2-0-0/organisations?';
