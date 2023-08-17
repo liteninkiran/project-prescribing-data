@@ -22,9 +22,9 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     public dataOptions!: FormGroup;
     public offsetInput: FormControl = new FormControl();
     public offsetConfig = {
-        min: 1,
-        max: 200000,
-        default: 1,
+        min: 0,
+        max: 1000000,
+        default: 0,
     };
     public limitInput: FormControl = new FormControl();
     public limitConfig = {

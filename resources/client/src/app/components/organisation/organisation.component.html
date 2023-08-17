@@ -52,6 +52,7 @@
 
                 </mat-form-field>
 
+                <!-- Filters -->
                 <form #dataOptionsForm="ngForm" (ngSubmit)="onSubmitForm()">
 
                     <!-- Offset -->
@@ -115,7 +116,7 @@
                     </mat-form-field>
 
                     <!--  Submit Button -->
-                    <button mat-raised-button color="primary">
+                    <button mat-raised-button color="primary" [disabled]="dataOptions.invalid">
                         Refresh Data
                     </button>
 

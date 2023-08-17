@@ -10,8 +10,34 @@ export class OrganisationService {
 
     constructor(private http: HttpClient) { }
 
-    public getOrganisations(limit = 10, offset = 1, status = 'Active'): Observable<IOrganisations> {
-        const url = `https://directory.spineservices.nhs.uk/ORD/2-0-0/organisations?Status=${status}&Limit=${limit}&Offset=${offset}`;
+    public getOrganisations(limit: number = 10, offset: number = 0, status: string | null = 'Active'): Observable<IOrganisations> {
+
+/*
+        Example URL:
+
+        https://directory.spineservices.nhs.uk/ORD/2-0-0/organisations
+            ?Name=surgery
+            &Roles=RO198%2CRO197
+            &LastChangeDate=2021-12-01
+            &RelTypeId=RE5
+            &TargetOrgId=RRF12
+            &OrgRecordClass=RC2
+            &NonPrimaryRoleId=RO197
+            &PrimaryRoleId=RO198
+            &PostCode=CW10%209FG
+            &Status=Active
+            &Limit=5
+            &Offset=0
+            &_format=json
+*/
+
+        let url: string = 'https://directory.spineservices.nhs.uk/ORD/2-0-0/organisations?';
+
+        url += offset > 0 ? `Offset=${offset}&` : '';
+        url += limit  > 0 ? `Limit=${limit}&`   : '';
+        url += status     ? `Status=${status}&` : '';
+        url = url.slice(0, -1);
+
         return this.http.get<IOrganisations>(`${url}`);
     }
 }
