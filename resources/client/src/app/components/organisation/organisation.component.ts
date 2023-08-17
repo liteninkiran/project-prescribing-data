@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { IColumnConfig, IOrganisations } from 'src/app/interfaces/organisation.interfaces';
 import { Observable, Subscription } from 'rxjs';
 import { OrganisationService } from 'src/app/services/organisation/organisation.service';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
     selector: 'app-organisation',
@@ -19,6 +19,12 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     public columnDropDown = new FormControl(['']);
     public displayedColumns: string[] = [];
     public columnConfig: IColumnConfig[] = [];
+    public limitInput: FormControl = new FormControl();
+    public limitConfig = {
+        min: 1,
+        max: 1000,
+        default: 20,
+    };
 
     constructor(
         private orgService: OrganisationService,
@@ -27,6 +33,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
+        this.setFormControls();
         this.columnConfig = this.columnConfigData();
         this.subscribeToData();
         this.setDropDownValues();
@@ -55,6 +62,14 @@ export class OrganisationComponent implements OnInit, OnDestroy {
         this.data$ = this.orgService.getOrganisations();
         const sub: Subscription = this.data$.subscribe((d: IOrganisations) => this.data = d);
         this.subscriptions.push(sub);
+    }
+
+    private setFormControls(): void {
+        const validators = [
+            Validators.min(this.limitConfig.min),
+            Validators.max(this.limitConfig.max),
+        ];
+        this.limitInput = new FormControl(this.limitConfig.default, validators);
     }
 
     private columnConfigData(): IColumnConfig[] {

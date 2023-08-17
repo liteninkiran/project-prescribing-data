@@ -19,6 +19,13 @@
             </mat-select>
         </mat-form-field>
 
+        <mat-form-field class="example-full-width">
+            <mat-label>Limit</mat-label>
+            <input type="number" matInput required [formControl]="limitInput" [min]="limitConfig.min" [max]="limitConfig.max">
+            <mat-hint>{{ limitConfig.min }} to {{ limitConfig.max }}</mat-hint>
+            <mat-error *ngIf="limitInput.hasError('min') || limitInput.hasError('max')">Please enter a value between {{ limitConfig.min }} and {{ limitConfig.max }}</mat-error>
+        </mat-form-field>
+
         <!-- Data Table -->
         <table mat-table [dataSource]="data.Organisations" class="mat-elevation-z8">
 
