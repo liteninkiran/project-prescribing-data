@@ -26,7 +26,7 @@
                     <!-- Panel Description -->
                     <mat-panel-description>
                         <mat-icon>settings</mat-icon>
-                        Column List | Limit | Offset
+                        Column List | Limit | Offset | Status | Role
                     </mat-panel-description>
 
                 </mat-expansion-panel-header>
@@ -43,7 +43,7 @@
                     <mat-select
                         [formControl]="columnDropDown"
                         multiple
-                        panelClass="column-list"
+                        panelClass="long-list"
                         (selectionChange)="onSelectionChange()"
                     >
                         <!-- Loop through column definition config array -->
@@ -115,12 +115,23 @@
 
                     </mat-form-field>
 
+                    <!-- Status -->
                     <mat-form-field>
                         <mat-label>Status</mat-label>
                         <mat-select [formControl]="statusInput" placeholder="Select a status">
-                            <mat-option>--</mat-option>
+                            <mat-option></mat-option>
                             <mat-option *ngFor="let s of status" [value]="s.id">
                                 {{ s.displayName }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <!-- Role -->
+                    <mat-form-field>
+                        <mat-label>Role</mat-label>
+                        <mat-select [formControl]="roleInput" placeholder="Select role(s)" multiple panelClass="long-list">
+                            <mat-option *ngFor="let role of roles?.Roles" [value]="role.id">
+                                {{ role.displayName }}
                             </mat-option>
                         </mat-select>
                     </mat-form-field>

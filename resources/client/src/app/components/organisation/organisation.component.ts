@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
-import { IColumnConfig, INumInputConfig, IOrganisations, IStatus, IStatusConfig } from 'src/app/interfaces/organisation.interfaces';
+import { IColumnConfig, INumInputConfig, IOrganisations, IRole, IRoles, IStatus, IStatusConfig } from 'src/app/interfaces/organisation.interfaces';
 import { Observable, Subscription } from 'rxjs';
 import { OrganisationService } from 'src/app/services/organisation/organisation.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -16,6 +16,8 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     // Data
     public data$: Observable<IOrganisations> = new Observable();
     public data: IOrganisations | null = null;
+    public roles$: Observable<IRoles> = new Observable();
+    public roles: IRoles | null = null;
     public subscriptions: Subscription[] = [];
 
     // Form
@@ -24,6 +26,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     public offsetInput: FormControl = new FormControl();
     public limitInput: FormControl = new FormControl();
     public statusInput: FormControl = new FormControl();
+    public roleInput: FormControl = new FormControl(['']);              // Must be array because multiple=true
 
     // Configuration
     public displayedColumns: string[] = [];
@@ -43,6 +46,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
         this.setConfigData();
         this.setFormControls();
         this.setForm();
+        this.getRoles();
         this.subscribeToData();
         this.setDropDownValues();
         this.setDisplayedColumns();
@@ -75,9 +79,21 @@ export class OrganisationComponent implements OnInit, OnDestroy {
         this.data$ = this.orgService.getOrganisations(
             this.form.value.limit,
             this.form.value.offset,
-            this.form.value.status
+            this.form.value.status,
+            this.form.value.roles,
         );
         const sub: Subscription = this.data$.subscribe((d: IOrganisations) => this.data = d);
+        this.subscriptions.push(sub);
+    }
+
+    private getRoles(): void {
+        this.roles = null;
+        this.roles$ = this.orgService.getRoles();
+        const sub: Subscription = this.roles$.subscribe((d: IRoles) => {
+            this.roles = d;
+            this.roles.Roles = this.roles.Roles.filter((role: IRole) => role.primaryRole === 'true');
+            this.roles.Roles.sort((a: IRole, b: IRole) => a.displayName > b.displayName ? 1 : -1);
+        });
         this.subscriptions.push(sub);
     }
 
@@ -93,6 +109,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
         this.offsetInput = new FormControl(this.offsetConfig.default, offsetValidators);
         this.limitInput = new FormControl(this.limitConfig.default, limitValidators);
         this.statusInput = new FormControl(this.statusConfig.default);
+        this.roleInput = new FormControl();
     }
 
     private setForm(): void {
@@ -100,6 +117,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
             'offset': this.offsetInput,
             'limit': this.limitInput,
             'status': this.statusInput,
+            'roles': this.roleInput,
         });
     }
 

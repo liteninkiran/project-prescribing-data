@@ -14,6 +14,17 @@ export interface IOrganisation {
     Status: string;
 };
 
+export interface IRoles {
+    Roles: IRole[];
+};
+
+export interface IRole {
+    id: string;
+    code: string;
+    displayName: string;
+    primaryRole: string;
+};
+
 export interface IColumnConfig {
     columnId: string;
     columnName: string;

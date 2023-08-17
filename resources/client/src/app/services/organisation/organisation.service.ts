@@ -10,7 +10,12 @@ export class OrganisationService {
 
     constructor(private http: HttpClient) { }
 
-    public getOrganisations(limit: number = 10, offset: number = 0, status: string | null = 'Active'): Observable<IOrganisations> {
+    public getOrganisations(
+        limit: number = 10,
+        offset: number = 0,
+        status: string | null = null,
+        roles: string[] | null = null
+    ): Observable<IOrganisations> {
 
 /*
         Example URL:
@@ -39,11 +44,17 @@ export class OrganisationService {
 
         let url: string = 'https://directory.spineservices.nhs.uk/ORD/2-0-0/organisations?';
 
-        url += offset > 0 ? `Offset=${offset}&` : '';
-        url += limit  > 0 ? `Limit=${limit}&`   : '';
-        url += status     ? `Status=${status}&` : '';
+        url += offset > 0 ? `Offset=${offset}&`             : '';
+        url += limit  > 0 ? `Limit=${limit}&`               : '';
+        url += status     ? `Status=${status}&`             : '';
+        url += roles      ? `Roles=${roles.join('%2C')}&`   : '';
         url = url.slice(0, -1);
 
         return this.http.get<IOrganisations>(`${url}`);
+    }
+
+    public getRoles(): Observable<any> {
+        const url: string = 'https://directory.spineservices.nhs.uk/ORD/2-0-0/roles';
+        return this.http.get<any>(`${url}`);
     }
 }
