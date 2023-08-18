@@ -64,3 +64,8 @@ export interface IStatus {
     id: string;
     displayName: string;
 };
+
+export interface ILastChangedDateConfig {
+    min: Date;
+    max: Date;
+};

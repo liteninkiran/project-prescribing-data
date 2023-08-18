@@ -5,6 +5,7 @@ import { OrganisationService } from 'src/app/services/organisation/organisation.
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { 
     IColumnConfig, 
+    ILastChangedDateConfig, 
     INumInputConfig, 
     IOrganisation, 
     IOrganisations, 
@@ -60,14 +61,12 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     public limitConfig: INumInputConfig = {} as INumInputConfig;
     public statusConfig: IStatusConfig = {} as IStatusConfig;
     public roleConfig: IRoleConfig = {} as IRoleConfig;
+    public lastChangedDateConfig: ILastChangedDateConfig = {} as ILastChangedDateConfig;
     public getUserLocation = async (): Promise<GeolocationPosition> => {
         return new Promise((res, rej) => {
             navigator.geolocation.getCurrentPosition(res, rej);
         });
     };
-
-    public maxDate: Date = new Date();
-    public minDate: Date = new Date();
 
     constructor(
         private orgService: OrganisationService,
@@ -77,8 +76,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        this.minDate.setDate(this.minDate.getDate() - 185);
-        this.setLocation();
+        //this.setLocation();
         this.setConfigData();
         this.setForm();
         this.setData();
@@ -95,6 +93,11 @@ export class OrganisationComponent implements OnInit, OnDestroy {
 
     public onSubmitForm(): void {
         this.subscribeToData();
+    }
+
+    public onRowClick(row: IOrganisation): void {
+        window.open(row.OrgLink, "_blank");
+        console.log(row);
     }
 
     private setData(): void {
@@ -219,6 +222,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
         this.limitConfig = this.numInputConfigData('limit');
         this.statusConfig = this.statusConfigData();
         this.roleConfig = this.roleConfigData();
+        this.lastChangedDateConfig = this.lastChangedDateConfigData();
     }
 
     private columnConfigData(): IColumnConfig[] {
@@ -253,12 +257,22 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     private roleConfigData(): IRoleConfig {
         return {
             primaryDefault: [
-                // 'RO177',    // PRESCRIBING COST CENTRE
+                'RO177',    // PRESCRIBING COST CENTRE
                 // 'RO227',    // SCOTTISH GP PRACTICE
             ],
             nonPrimaryDefault: [
                 // 'RO76',     // GP PRACTICE
             ],
+        };
+    }
+
+    private lastChangedDateConfigData(): ILastChangedDateConfig {
+        const maxDate: Date = new Date();
+        const minDate: Date = new Date();
+        minDate.setDate(minDate.getDate() - 185);
+            return {
+                min: minDate,
+                max: maxDate,
         };
     }
 

@@ -157,7 +157,7 @@
                         <!-- Last Change Date -->
                         <mat-form-field>
                             <mat-label>Last Change Date</mat-label>
-                            <input [min]="minDate" [max]="maxDate" matInput [matDatepicker]="picker" [formControl]="lastChangeDateInput">
+                            <input [min]="lastChangedDateConfig.min" [max]="lastChangedDateConfig.max" matInput [matDatepicker]="picker" [formControl]="lastChangeDateInput">
                             <mat-hint>Must be within the last 185 days</mat-hint>
                             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                             <mat-datepicker #picker></mat-datepicker>
@@ -206,7 +206,7 @@
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 
                 <!-- Data Rows -->
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowClick(row)" matTooltipPosition="above" [matTooltip]="row.OrgId"></tr>
 
             </table>
         </div>
