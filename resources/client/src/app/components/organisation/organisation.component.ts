@@ -1,9 +1,21 @@
 import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
-import { IColumnConfig, INumInputConfig, IOrganisation, IOrganisations, IRole, IRoleConfig, IRoleData, IRoleInput, IRoles, IStatus, IStatusConfig } from 'src/app/interfaces/organisation.interfaces';
-import { Observable, Subscription } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Observable, Subscription } from 'rxjs';
 import { OrganisationService } from 'src/app/services/organisation/organisation.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { 
+    IColumnConfig, 
+    INumInputConfig, 
+    IOrganisation, 
+    IOrganisations, 
+    IRole, 
+    IRoleConfig, 
+    IRoleData, 
+    IRoleInput, 
+    IRoles, 
+    IStatus, 
+    IStatusConfig,
+} from 'src/app/interfaces/organisation.interfaces';
 
 @Component({
     selector: 'app-organisation',
