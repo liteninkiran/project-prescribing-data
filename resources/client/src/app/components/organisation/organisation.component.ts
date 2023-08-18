@@ -17,14 +17,16 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     // Data
     public data$: Observable<IOrganisations> = new Observable();
     public data: IOrganisations | null = null;
-    public oldData: IOrganisations | null = null;
     public roles$: Observable<IRoles> = new Observable();
     public roles: IRoleData = {
         primaryRoles: null,
         nonPrimaryRoles: null,
     };
     public status: IStatus[] = [];
+    public postcodes$: Observable<any> = new Observable();
+    public postcodes: any | null = null;
     public subscriptions: Subscription[] = [];
+    public userLocation!: GeolocationPosition;
 
     // Form
     public form!: FormGroup;
@@ -45,6 +47,11 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     public limitConfig: INumInputConfig = {} as INumInputConfig;
     public statusConfig: IStatusConfig = {} as IStatusConfig;
     public roleConfig: IRoleConfig = {} as IRoleConfig;
+    public getUserLocation = async (): Promise<GeolocationPosition> => {
+        return new Promise((res, rej) => {
+            navigator.geolocation.getCurrentPosition(res, rej);
+        });
+    };
 
     constructor(
         private orgService: OrganisationService,
@@ -54,6 +61,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
+        this.setLocation();
         this.setConfigData();
         this.setForm();
         this.setData();
@@ -90,7 +98,6 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     }
 
     private subscribeToData(): void {
-        this.oldData = this.data;
         this.data = null;
         this.data$ = this.orgService.getOrganisations(
             this.form.value.limit,
@@ -108,11 +115,11 @@ export class OrganisationComponent implements OnInit, OnDestroy {
                 });
             },
             (err: any) => {
-                this.data = this.oldData;
+                this.data = { Organisations: [] };
+                console.log(this.data);
                 this._snackBar.open(err.error.errorText, 'Close');
             }
         );
-        this.oldData = null;
         this.subscriptions.push(sub);
     }
 
@@ -226,5 +233,23 @@ export class OrganisationComponent implements OnInit, OnDestroy {
             { id: 'active', displayName: 'Active' },
             { id: 'inactive', displayName: 'Inactive' },
         ];
+    }
+
+    private async setLocation(): Promise<void> {
+        this.userLocation = await this.getUserLocation();
+        this.setPostcodes();
+    }
+
+    private setPostcodes(): void {
+        this.postcodes$ = this.orgService.getPostcode(
+            this.userLocation.coords.latitude,
+            this.userLocation.coords.longitude
+        );
+        const sub: Subscription = this.postcodes$.subscribe((res) => {
+            this.postcodes = res.result;
+            this.postcodeInput.setValue(this.postcodes[0].outcode);
+            this.subscribeToData();
+        });
+        this.subscriptions.push(sub);
     }
 }
