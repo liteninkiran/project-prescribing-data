@@ -108,8 +108,10 @@ export class OrganisationComponent implements OnInit, OnDestroy {
         );
         const sub: Subscription = this.data$.subscribe(
             (res: IOrganisations) => {
+                let i = 1;
                 this.data = res;
                 this.data.Organisations.map((o: IOrganisation) => {
+                    o.RowNum = i++;
                     o.LastChangeDt = new Date(o.LastChangeDate);
                     o.LastChangeDate = o.LastChangeDt.toLocaleDateString('en-GB');
                 });
@@ -190,6 +192,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
 
     private columnConfigData(): IColumnConfig[] {
             return [
+                { columnId: 'RowNum', columnName: 'Row', visible: true },
                 { columnId: 'OrgId', columnName: 'Organisation ID', visible: true },
                 { columnId: 'Name', columnName: 'Organisation Name', visible: true },
                 { columnId: 'PostCode', columnName: 'Postcode', visible: true },
@@ -204,9 +207,9 @@ export class OrganisationComponent implements OnInit, OnDestroy {
 
     private numInputConfigData(type: string): INumInputConfig {
         switch (type) {
-            case 'offset': return { min: 0, max: 1000000, default:  0 };
-            case 'limit' : return { min: 1, max:    1000, default: 10 };
-            default      : return { min: 0, max:       0, default:  0 };
+            case 'offset': return { min: 0, max: 1000000, default:   0 };
+            case 'limit' : return { min: 1, max:    1000, default: 100 };
+            default      : return { min: 0, max:       0, default:   0 };
         }
     }
 
@@ -223,7 +226,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
                 // 'RO227',    // SCOTTISH GP PRACTICE
             ],
             nonPrimaryDefault: [
-                'RO76',     // GP PRACTICE
+                // 'RO76',     // GP PRACTICE
             ],
         };
     }
