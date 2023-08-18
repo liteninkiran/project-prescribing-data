@@ -157,7 +157,8 @@
                         <!-- Last Change Date -->
                         <mat-form-field>
                             <mat-label>Last Change Date</mat-label>
-                            <input matInput [matDatepicker]="picker" [formControl]="lastChangeDateInput">
+                            <input [min]="minDate" [max]="maxDate" matInput [matDatepicker]="picker" [formControl]="lastChangeDateInput">
+                            <mat-hint>Must be within the last 185 days</mat-hint>
                             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                             <mat-datepicker #picker></mat-datepicker>
                         </mat-form-field>

@@ -66,6 +66,9 @@ export class OrganisationComponent implements OnInit, OnDestroy {
         });
     };
 
+    public maxDate: Date = new Date();
+    public minDate: Date = new Date();
+
     constructor(
         private orgService: OrganisationService,
         private _snackBar: MatSnackBar,
@@ -74,6 +77,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
+        this.minDate.setDate(this.minDate.getDate() - 185);
         this.setLocation();
         this.setConfigData();
         this.setForm();
