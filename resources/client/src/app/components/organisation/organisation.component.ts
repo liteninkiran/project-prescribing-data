@@ -16,6 +16,7 @@ import {
     IRoles, 
     IStatus, 
     IStatusConfig,
+    IValidControl,
 } from 'src/app/interfaces/organisation.interfaces';
 
 @Component({
@@ -98,6 +99,10 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     public onRowClick(row: IOrganisation): void {
         window.open(row.OrgLink, "_blank");
         console.log(row);
+    }
+
+    public onMouseOver(event: MouseEvent, orgId: string) {
+        console.log(orgId);
     }
 
     private setData(): void {
@@ -193,14 +198,15 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     private setFormGroup(): void {
         const requireOneControl = () => {
             return (formGroup: any) => {
-                const err = {
-                    atLeastOneRequired: 'At least one filter must be applied',
-                };
-                const valid = formGroup.get('status'            ).value !== undefined ||
-                              formGroup.get('primaryRoles'      ).value.length > 0 ||
-                              formGroup.get('nonPrimaryRoles'   ).value.length > 0 ||
-                              formGroup.get('postcode'          ).value.length > 0 ||
-                              formGroup.get('lastChangeDate'    ).value !== null;
+                const err = { atLeastOneRequired: 'At least one filter must be applied' };
+                const validControls: IValidControl[] = [
+                    { name: 'status', hasValue: formGroup.get('status').value !== undefined },
+                    { name: 'postcode', hasValue: formGroup.get('postcode').value !== null && formGroup.get('postcode').value !== '' },
+                    { name: 'primaryRoles', hasValue: formGroup.get('primaryRoles').value.length > 0 },
+                    { name: 'lastChangeDate', hasValue: formGroup.get('lastChangeDate').value !== null },
+                    { name: 'nonPrimaryRoles', hasValue: formGroup.get('nonPrimaryRoles').value.length > 0 },
+                ];
+                const valid = validControls.filter((ctl: IValidControl) => ctl.hasValue).length > 0;
                 return valid ? null : err;
             } 
         }

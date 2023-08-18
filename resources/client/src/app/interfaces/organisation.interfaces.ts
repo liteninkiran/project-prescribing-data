@@ -69,3 +69,8 @@ export interface ILastChangedDateConfig {
     min: Date;
     max: Date;
 };
+
+export interface IValidControl {
+    name: string;
+    hasValue: boolean;
+};

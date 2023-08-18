@@ -26,7 +26,13 @@
                     <!-- Panel Description -->
                     <mat-panel-description>
                         <mat-icon>settings</mat-icon>
-                        Column List | Limit | Offset | Status | Role(s) | Postcode
+                        <span>Column List</span>
+                        <span>&nbsp;|&nbsp;Limit: {{ limitInput.value }}</span>
+                        <span>&nbsp;|&nbsp;Offset: {{ offsetInput.value }}</span>
+                        <span *ngIf="statusInput.value">&nbsp;|&nbsp;Status: <strong>{{ statusInput.value }}</strong></span>
+                        <span *ngIf="roleInput.primaryRole.value.length + roleInput.nonPrimaryRole.value.length > 0">&nbsp;|&nbsp;Role<span *ngIf="roleInput.primaryRole.value.length + roleInput.nonPrimaryRole.value.length > 1">s</span>: <strong>{{ roleInput.primaryRole.value.concat(roleInput.nonPrimaryRole.value) }}</strong></span>
+                        <span *ngIf="postcodeInput.value">&nbsp;|&nbsp;Postcode: <strong>{{ postcodeInput.value }}</strong></span>
+                        <span *ngIf="lastChangeDateInput.value">&nbsp;|&nbsp;Last Changed Date: <strong>{{ lastChangeDateInput.value | date: 'dd MMMM yyyy' }}</strong></span>
                     </mat-panel-description>
 
                 </mat-expansion-panel-header>
@@ -206,7 +212,12 @@
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 
                 <!-- Data Rows -->
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowClick(row)" matTooltipPosition="above" [matTooltip]="row.OrgId"></tr>
+                <tr
+                    mat-row
+                    *matRowDef="let row; columns: displayedColumns;"
+                    (click)="onRowClick(row)"
+                    (mouseover)="onMouseOver($event, row.OrgId)"
+                ></tr>
 
             </table>
         </div>
