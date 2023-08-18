@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
-import { IColumnConfig, INumInputConfig, IOrganisations, IRole, IRoles, IStatus, IStatusConfig } from 'src/app/interfaces/organisation.interfaces';
+import { IColumnConfig, INumInputConfig, IOrganisations, IRole, IRoleConfig, IRoles, IStatus, IStatusConfig } from 'src/app/interfaces/organisation.interfaces';
 import { Observable, Subscription } from 'rxjs';
 import { OrganisationService } from 'src/app/services/organisation/organisation.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -18,6 +18,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     public data: IOrganisations | null = null;
     public roles$: Observable<IRoles> = new Observable();
     public roles: IRoles | null = null;
+    public status: IStatus[] = [];
     public subscriptions: Subscription[] = [];
 
     // Form
@@ -34,7 +35,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     public offsetConfig: INumInputConfig = {} as INumInputConfig;
     public limitConfig: INumInputConfig = {} as INumInputConfig;
     public statusConfig: IStatusConfig = {} as IStatusConfig;
-    public status: IStatus[] = [];
+    public roleConfig: IRoleConfig = {} as IRoleConfig;
 
     constructor(
         private orgService: OrganisationService,
@@ -44,11 +45,8 @@ export class OrganisationComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this.setConfigData();
-        this.setFormControls();
         this.setForm();
-        this.getRoles();
-        this.subscribeToData();
-        this.setDropDownValues();
+        this.setData();
         this.setDisplayedColumns();
     }
 
@@ -62,6 +60,13 @@ export class OrganisationComponent implements OnInit, OnDestroy {
 
     public onSubmitForm(): void {
         this.subscribeToData();
+    }
+
+    private setData(): void {
+        this.setRolesData();
+        this.setStatusData();
+        this.subscribeToData();
+        this.setDropDownValues();
     }
 
     private setDisplayedColumns(): void {
@@ -86,7 +91,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
         this.subscriptions.push(sub);
     }
 
-    private getRoles(): void {
+    private setRolesData(): void {
         this.roles = null;
         this.roles$ = this.orgService.getRoles();
         const sub: Subscription = this.roles$.subscribe((d: IRoles) => {
@@ -95,6 +100,15 @@ export class OrganisationComponent implements OnInit, OnDestroy {
             this.roles.Roles.sort((a: IRole, b: IRole) => a.displayName > b.displayName ? 1 : -1);
         });
         this.subscriptions.push(sub);
+    }
+
+    private setStatusData(): void {
+        this.status = this.statusData();
+    }
+
+    private setForm(): void {
+        this.setFormControls();
+        this.setFormGroup();
     }
 
     private setFormControls(): void {
@@ -109,10 +123,10 @@ export class OrganisationComponent implements OnInit, OnDestroy {
         this.offsetInput = new FormControl(this.offsetConfig.default, offsetValidators);
         this.limitInput = new FormControl(this.limitConfig.default, limitValidators);
         this.statusInput = new FormControl(this.statusConfig.default);
-        this.roleInput = new FormControl();
+        this.roleInput = new FormControl(this.roleConfig.default);
     }
 
-    private setForm(): void {
+    private setFormGroup(): void {
         this.form = new FormGroup({
             'offset': this.offsetInput,
             'limit': this.limitInput,
@@ -126,7 +140,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
         this.offsetConfig = this.offsetConfigData();
         this.limitConfig = this.limitConfigData();
         this.statusConfig = this.statusConfigData();
-        this.status = this.statusData();
+        this.roleConfig = this.roleConfigData();
     }
 
     private columnConfigData(): IColumnConfig[] {
@@ -164,7 +178,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
             {
                 columnId: 'PrimaryRoleDescription',
                 columnName: 'Primary Role Description',
-                visible: false,
+                visible: true,
             },
             {
                 columnId: 'PrimaryRoleId',
@@ -198,6 +212,15 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     private statusConfigData(): IStatusConfig {
         return {
             default: 'active',
+        };
+    }
+
+    private roleConfigData(): IRoleConfig {
+        return {
+            default: [
+                'RO177',    // PRESCRIBING COST CENTRE
+                'RO227',   // SCOTTISH GP PRACTICE
+            ],
         };
     }
 

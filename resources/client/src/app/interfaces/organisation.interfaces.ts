@@ -25,6 +25,10 @@ export interface IRole {
     primaryRole: string;
 };
 
+export interface IRoleConfig {
+    default: string[];
+};
+
 export interface IColumnConfig {
     columnId: string;
     columnName: string;
