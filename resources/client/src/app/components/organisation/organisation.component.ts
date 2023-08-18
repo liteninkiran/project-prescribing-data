@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
-import { IColumnConfig, INumInputConfig, IOrganisations, IRole, IRoleConfig, IRoleData, IRoleInput, IRoles, IStatus, IStatusConfig } from 'src/app/interfaces/organisation.interfaces';
+import { IColumnConfig, INumInputConfig, IOrganisation, IOrganisations, IRole, IRoleConfig, IRoleData, IRoleInput, IRoles, IStatus, IStatusConfig } from 'src/app/interfaces/organisation.interfaces';
 import { Observable, Subscription } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { OrganisationService } from 'src/app/services/organisation/organisation.service';
@@ -100,13 +100,19 @@ export class OrganisationComponent implements OnInit, OnDestroy {
             this.form.value.postcode,
         );
         const sub: Subscription = this.data$.subscribe(
-            (res: IOrganisations) => this.data = res,
+            (res: IOrganisations) => {
+                this.data = res;
+                this.data.Organisations.map((o: IOrganisation) => {
+                    o.LastChangeDt = new Date(o.LastChangeDate);
+                    o.LastChangeDate = o.LastChangeDt.toLocaleDateString('en-GB');
+                });
+            },
             (err: any) => {
                 this.data = this.oldData;
-                this.oldData = null;
                 this._snackBar.open(err.error.errorText, 'Close');
             }
         );
+        this.oldData = null;
         this.subscriptions.push(sub);
     }
 
@@ -185,7 +191,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
                 { columnId: 'OrgLink', columnName: 'Organisation Link', visible: false },
                 { columnId: 'OrgRecordClass', columnName: 'Organisation Record Class', visible: false },
                 { columnId: 'Status', columnName: 'Status', visible: true },
-                { columnId: 'LastChangeDate', columnName: 'Last Change Date', visible: false },
+                { columnId: 'LastChangeDate', columnName: 'Last Change Date', visible: true },
             ];
     }
 

@@ -5,6 +5,7 @@ export interface IOrganisations {
 };
 
 export interface IOrganisation {
+    LastChangeDt?: Date;
     LastChangeDate: string;
     Name: string;
     OrgId: string;
