@@ -39,6 +39,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
         nonPrimaryRole: new FormControl(['']),                           // Must be array because multiple=true
     };
     public postcodeInput: FormControl = new FormControl();
+    public lastChangeDateInput: FormControl = new FormControl();
 
     // Configuration
     public displayedColumns: string[] = [];
@@ -105,6 +106,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
             this.form.value.status,
             this.form.value.primaryRoles.concat(this.form.value.nonPrimaryRoles),
             this.form.value.postcode,
+            this.formatDate(this.form.value.lastChangeDate),
         );
         const sub: Subscription = this.data$.subscribe(
             (res: IOrganisations) => {
@@ -118,7 +120,6 @@ export class OrganisationComponent implements OnInit, OnDestroy {
             },
             (err: any) => {
                 this.data = { Organisations: [] };
-                console.log(this.data);
                 this._snackBar.open(err.error.errorText, 'Close');
             }
         );
@@ -126,8 +127,6 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     }
 
     private setRolesData(): void {
-        this.roles.primaryRoles = null;
-        this.roles.nonPrimaryRoles = null;
         this.roles$ = this.orgService.getRoles();
         const sub: Subscription = this.roles$.subscribe((d: IRoles) => {
             const transformData = (roles: IRole[], isPrimary: string) => {
@@ -169,6 +168,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
         this.roleInput.primaryRole = new FormControl(this.roleConfig.primaryDefault);
         this.roleInput.nonPrimaryRole = new FormControl(this.roleConfig.nonPrimaryDefault);
         this.postcodeInput = new FormControl(null);
+        this.lastChangeDateInput = new FormControl(null);
     }
 
     private setFormGroup(): void {
@@ -179,6 +179,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
             'primaryRoles': this.roleInput.primaryRole,
             'nonPrimaryRoles': this.roleInput.nonPrimaryRole,
             'postcode': this.postcodeInput,
+            'lastChangeDate': this.lastChangeDateInput,
         });
     }
 
@@ -233,7 +234,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
 
     private statusData(): IStatus[] {
         return [
-            { id: 'active', displayName: 'Active' },
+            { id: 'active'  , displayName: 'Active'   },
             { id: 'inactive', displayName: 'Inactive' },
         ];
     }
@@ -246,7 +247,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     private setPostcodes(): void {
         this.postcodes$ = this.orgService.getPostcode(
             this.userLocation.coords.latitude,
-            this.userLocation.coords.longitude
+            this.userLocation.coords.longitude,
         );
         const sub: Subscription = this.postcodes$.subscribe((res) => {
             this.postcodes = res.result;
@@ -254,5 +255,22 @@ export class OrganisationComponent implements OnInit, OnDestroy {
             this.subscribeToData();
         });
         this.subscriptions.push(sub);
+    }
+
+    private formatDate(date: Date): string | null {
+        if (date) {
+            const mn = '0' + (date.getMonth() + 1).toString();
+            const dy = '0' + date.getDate().toString();
+            const yr = date.getFullYear().toString();
+            const dateParts = [
+                yr,
+                mn.substring(mn.length - 2),
+                dy.substring(dy.length - 2),
+            ];
+        
+            return dateParts.join('-');
+        } else {
+            return null;
+        }
     }
 }

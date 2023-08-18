@@ -26,7 +26,7 @@
                     <!-- Panel Description -->
                     <mat-panel-description>
                         <mat-icon>settings</mat-icon>
-                        Column List | Limit | Offset | Status | Role(s)
+                        Column List | Limit | Offset | Status | Role(s) | Postcode
                     </mat-panel-description>
 
                 </mat-expansion-panel-header>
@@ -147,9 +147,17 @@
                     </mat-form-field>
 
                     <!-- Postcode -->
-                    <mat-form-field class="example-full-width">
-                        <mat-label>Postal Code</mat-label>
+                    <mat-form-field>
+                        <mat-label>Postcode</mat-label>
                         <input matInput [formControl]="postcodeInput" minlength="2" maxlength="8" placeholder="E1 6AN">
+                    </mat-form-field>
+
+                    <!-- Last Change Date -->
+                    <mat-form-field>
+                        <mat-label>Last Change Date</mat-label>
+                        <input matInput [matDatepicker]="picker" [formControl]="lastChangeDateInput">
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
 
                     <!--  Submit Button -->

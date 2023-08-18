@@ -16,17 +16,19 @@ export class OrganisationService {
         status: string | null = null,
         roles: string[] | null = null,
         postcode: string | null = null,
+        lastChangeDate: string | null = null,
     ): Observable<IOrganisations> {
 
         let url: string = 'https://directory.spineservices.nhs.uk/ORD/2-0-0/organisations?';
         const rolesStr = roles?.join('%2C');
         const postcodeStr = postcode?.replace(' ', '%20');
 
-        url += offset > 0 ? `Offset=${offset}&`        : '';
-        url += limit  > 0 ? `Limit=${limit}&`          : '';
-        url += status     ? `Status=${status}&`        : '';
-        url += roles      ? `Roles=${rolesStr}&`       : '';
-        url += postcode   ? `PostCode=${postcodeStr}&` : '';
+        url += offset > 0     ? `Offset=${offset}&`                 : '';
+        url += limit  > 0     ? `Limit=${limit}&`                   : '';
+        url += status         ? `Status=${status}&`                 : '';
+        url += roles          ? `Roles=${rolesStr}&`                : '';
+        url += postcode       ? `PostCode=${postcodeStr}&`          : '';
+        url += lastChangeDate ? `LastChangeDate=${lastChangeDate}&` : '';
         url = url.slice(0, -1);
 
         return this.http.get<IOrganisations>(`${url}`);
