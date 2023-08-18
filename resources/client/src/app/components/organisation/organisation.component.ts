@@ -34,6 +34,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
         primaryRole: new FormControl(['']),                              // Must be array because multiple=true
         nonPrimaryRole: new FormControl(['']),                           // Must be array because multiple=true
     };
+    public postcodeInput: FormControl = new FormControl();
 
     // Configuration
     public displayedColumns: string[] = [];
@@ -92,6 +93,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
             this.form.value.offset,
             this.form.value.status,
             this.form.value.primaryRoles.concat(this.form.value.nonPrimaryRoles),
+            this.form.value.postcode,
         );
         const sub: Subscription = this.data$.subscribe((d: IOrganisations) => this.data = d);
         this.subscriptions.push(sub);
@@ -140,6 +142,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
         this.statusInput = new FormControl(this.statusConfig.default);
         this.roleInput.primaryRole = new FormControl(this.roleConfig.primaryDefault);
         this.roleInput.nonPrimaryRole = new FormControl(this.roleConfig.nonPrimaryDefault);
+        this.postcodeInput = new FormControl(null);
     }
 
     private setFormGroup(): void {
@@ -149,6 +152,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
             'status': this.statusInput,
             'primaryRoles': this.roleInput.primaryRole,
             'nonPrimaryRoles': this.roleInput.nonPrimaryRole,
+            'postcode': this.postcodeInput,
         });
     }
 

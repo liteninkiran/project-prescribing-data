@@ -14,10 +14,34 @@ export class OrganisationService {
         limit: number = 10,
         offset: number = 0,
         status: string | null = null,
-        roles: string[] | null = null
+        roles: string[] | null = null,
+        postcode: string | null = null,
     ): Observable<IOrganisations> {
 
+        let url: string = 'https://directory.spineservices.nhs.uk/ORD/2-0-0/organisations?';
+        const rolesStr = roles?.join('%2C');
+        const postcodeStr = postcode?.replace(' ', '%20');
+
+        url += offset > 0 ? `Offset=${offset}&`        : '';
+        url += limit  > 0 ? `Limit=${limit}&`          : '';
+        url += status     ? `Status=${status}&`        : '';
+        url += roles      ? `Roles=${rolesStr}&`       : '';
+        url += postcode   ? `PostCode=${postcodeStr}&` : '';
+        url = url.slice(0, -1);
+
+        return this.http.get<IOrganisations>(`${url}`);
+    }
+
+    public getRoles(): Observable<any> {
+        const url: string = 'https://directory.spineservices.nhs.uk/ORD/2-0-0/roles';
+        return this.http.get<any>(`${url}`);
+    }
+}
+
+
 /*
+        * ORGANISATIONS *
+
         Example URL:
 
         https://directory.spineservices.nhs.uk/ORD/2-0-0/organisations
@@ -41,20 +65,3 @@ export class OrganisationService {
         %2C = COMMA
         %20 = SPACE
 */
-
-        let url: string = 'https://directory.spineservices.nhs.uk/ORD/2-0-0/organisations?';
-
-        url += offset > 0 ? `Offset=${offset}&`             : '';
-        url += limit  > 0 ? `Limit=${limit}&`               : '';
-        url += status     ? `Status=${status}&`             : '';
-        url += roles      ? `Roles=${roles.join('%2C')}&`   : '';
-        url = url.slice(0, -1);
-
-        return this.http.get<IOrganisations>(`${url}`);
-    }
-
-    public getRoles(): Observable<any> {
-        const url: string = 'https://directory.spineservices.nhs.uk/ORD/2-0-0/roles';
-        return this.http.get<any>(`${url}`);
-    }
-}

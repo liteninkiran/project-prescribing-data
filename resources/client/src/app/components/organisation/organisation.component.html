@@ -146,6 +146,12 @@
                         </mat-select>
                     </mat-form-field>
 
+                    <!-- Postcode -->
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Postal Code</mat-label>
+                        <input matInput [formControl]="postcodeInput" maxlength="8" placeholder="E1 6AN">
+                    </mat-form-field>
+
                     <!--  Submit Button -->
                     <button mat-raised-button color="primary" [disabled]="form.invalid">
                         Refresh Data
