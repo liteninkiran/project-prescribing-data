@@ -3,6 +3,7 @@ import { IColumnConfig, INumInputConfig, IOrganisations, IRole, IRoleConfig, IRo
 import { Observable, Subscription } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { OrganisationService } from 'src/app/services/organisation/organisation.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'app-organisation',
@@ -16,6 +17,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     // Data
     public data$: Observable<IOrganisations> = new Observable();
     public data: IOrganisations | null = null;
+    public oldData: IOrganisations | null = null;
     public roles$: Observable<IRoles> = new Observable();
     public roles: IRoleData = {
         primaryRoles: null,
@@ -46,6 +48,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
 
     constructor(
         private orgService: OrganisationService,
+        private _snackBar: MatSnackBar,
     ) {
 
     }
@@ -87,6 +90,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     }
 
     private subscribeToData(): void {
+        this.oldData = this.data;
         this.data = null;
         this.data$ = this.orgService.getOrganisations(
             this.form.value.limit,
@@ -95,7 +99,14 @@ export class OrganisationComponent implements OnInit, OnDestroy {
             this.form.value.primaryRoles.concat(this.form.value.nonPrimaryRoles),
             this.form.value.postcode,
         );
-        const sub: Subscription = this.data$.subscribe((d: IOrganisations) => this.data = d);
+        const sub: Subscription = this.data$.subscribe(
+            (res: IOrganisations) => this.data = res,
+            (err: any) => {
+                this.data = this.oldData;
+                this.oldData = null;
+                this._snackBar.open(err.error.errorText, 'Close');
+            }
+        );
         this.subscriptions.push(sub);
     }
 

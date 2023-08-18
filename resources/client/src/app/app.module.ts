@@ -33,6 +33,7 @@ import { MatTreeModule } from '@angular/material/tree';
 import { MatExpansionModule} from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { HomeComponent } from './components/home/home.component';
 import { OrganisationComponent } from './components/organisation/organisation.component';
@@ -77,6 +78,7 @@ import { OrganisationComponent } from './components/organisation/organisation.co
         MatExpansionModule,
         MatFormFieldModule,
         MatDividerModule,
+        MatSnackBarModule,
     ],
     providers: [],
     bootstrap: [
