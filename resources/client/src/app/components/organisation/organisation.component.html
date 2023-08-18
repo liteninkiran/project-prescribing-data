@@ -26,7 +26,7 @@
                     <!-- Panel Description -->
                     <mat-panel-description>
                         <mat-icon>settings</mat-icon>
-                        Column List | Limit | Offset | Status | Role
+                        Column List | Limit | Offset | Status | Role(s)
                     </mat-panel-description>
 
                 </mat-expansion-panel-header>
@@ -41,7 +41,7 @@
 
                     <!-- Column List Drop-Down Menu -->
                     <mat-select
-                        [formControl]="columnDropDown"
+                        [formControl]="visibleColumns"
                         multiple
                         panelClass="long-list"
                         (selectionChange)="onSelectionChange()"
@@ -126,11 +126,21 @@
                         </mat-select>
                     </mat-form-field>
 
-                    <!-- Role -->
+                    <!-- Primary Role -->
                     <mat-form-field>
-                        <mat-label>Role</mat-label>
-                        <mat-select [formControl]="roleInput" placeholder="Select role(s)" multiple panelClass="long-list">
-                            <mat-option *ngFor="let role of roles?.Roles" [value]="role.id">
+                        <mat-label>Primary Role</mat-label>
+                        <mat-select [formControl]="primaryRoleInput" placeholder="Select role(s)" multiple panelClass="long-list">
+                            <mat-option *ngFor="let role of primaryRoles?.Roles" [value]="role.id">
+                                {{ role.displayName }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <!-- Non-Primary Role -->
+                    <mat-form-field>
+                        <mat-label>Non-Primary Role</mat-label>
+                        <mat-select [formControl]="nonPrimaryRoleInput" placeholder="Select role(s)" multiple panelClass="long-list">
+                            <mat-option *ngFor="let role of nonPrimaryRoles?.Roles" [value]="role.id">
                                 {{ role.displayName }}
                             </mat-option>
                         </mat-select>

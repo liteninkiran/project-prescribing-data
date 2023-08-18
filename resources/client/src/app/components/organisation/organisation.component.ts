@@ -17,17 +17,19 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     public data$: Observable<IOrganisations> = new Observable();
     public data: IOrganisations | null = null;
     public roles$: Observable<IRoles> = new Observable();
-    public roles: IRoles | null = null;
+    public primaryRoles: IRoles | null = null;
+    public nonPrimaryRoles: IRoles | null = null;
     public status: IStatus[] = [];
     public subscriptions: Subscription[] = [];
 
     // Form
     public form!: FormGroup;
-    public columnDropDown: FormControl = new FormControl(['']);          // Must be array because multiple=true
+    public visibleColumns: FormControl = new FormControl(['']);          // Must be array because multiple=true
     public offsetInput: FormControl = new FormControl();
     public limitInput: FormControl = new FormControl();
     public statusInput: FormControl = new FormControl();
-    public roleInput: FormControl = new FormControl(['']);              // Must be array because multiple=true
+    public primaryRoleInput: FormControl = new FormControl(['']);        // Must be array because multiple=true
+    public nonPrimaryRoleInput: FormControl = new FormControl(['']);     // Must be array because multiple=true
 
     // Configuration
     public displayedColumns: string[] = [];
@@ -63,20 +65,20 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     }
 
     private setData(): void {
-        this.setRolesData();
+        this.setVisibleColumns();
         this.setStatusData();
+        this.setRolesData();
         this.subscribeToData();
-        this.setDropDownValues();
     }
 
     private setDisplayedColumns(): void {
-        this.displayedColumns = this.columnDropDown.value as string[];
+        this.displayedColumns = this.visibleColumns.value as string[];
     }
 
-    private setDropDownValues(): void {
+    private setVisibleColumns(): void {
         const visibleColumns = this.columnConfig.filter(d => d.visible);
         const visibleColumnIds = visibleColumns.map(d => d.columnId);
-        this.columnDropDown.setValue(visibleColumnIds);
+        this.visibleColumns.setValue(visibleColumnIds);
     }
 
     private subscribeToData(): void {
@@ -85,19 +87,26 @@ export class OrganisationComponent implements OnInit, OnDestroy {
             this.form.value.limit,
             this.form.value.offset,
             this.form.value.status,
-            this.form.value.roles,
+            this.form.value.primaryRoles.concat(this.form.value.nonPrimaryRoles),
         );
         const sub: Subscription = this.data$.subscribe((d: IOrganisations) => this.data = d);
         this.subscriptions.push(sub);
     }
 
     private setRolesData(): void {
-        this.roles = null;
+        this.primaryRoles = null;
+        this.nonPrimaryRoles = null;
         this.roles$ = this.orgService.getRoles();
         const sub: Subscription = this.roles$.subscribe((d: IRoles) => {
-            this.roles = d;
-            this.roles.Roles = this.roles.Roles.filter((role: IRole) => role.primaryRole === 'true');
-            this.roles.Roles.sort((a: IRole, b: IRole) => a.displayName > b.displayName ? 1 : -1);
+            // Primary Roles
+            this.primaryRoles = { ...d };
+            this.primaryRoles.Roles = this.primaryRoles.Roles.filter((role: IRole) => role.primaryRole === 'true');
+            this.primaryRoles.Roles.sort((a: IRole, b: IRole) => a.displayName > b.displayName ? 1 : -1);
+
+            // Non-Primary Roles
+            this.nonPrimaryRoles = { ...d };
+            this.nonPrimaryRoles.Roles = this.nonPrimaryRoles.Roles.filter((role: IRole) => role.primaryRole === 'false');
+            this.nonPrimaryRoles.Roles.sort((a: IRole, b: IRole) => a.displayName > b.displayName ? 1 : -1);
         });
         this.subscriptions.push(sub);
     }
@@ -123,7 +132,8 @@ export class OrganisationComponent implements OnInit, OnDestroy {
         this.offsetInput = new FormControl(this.offsetConfig.default, offsetValidators);
         this.limitInput = new FormControl(this.limitConfig.default, limitValidators);
         this.statusInput = new FormControl(this.statusConfig.default);
-        this.roleInput = new FormControl(this.roleConfig.default);
+        this.primaryRoleInput = new FormControl(this.roleConfig.primaryDefault);
+        this.nonPrimaryRoleInput = new FormControl(this.roleConfig.nonPrimaryDefault);
     }
 
     private setFormGroup(): void {
@@ -131,7 +141,8 @@ export class OrganisationComponent implements OnInit, OnDestroy {
             'offset': this.offsetInput,
             'limit': this.limitInput,
             'status': this.statusInput,
-            'roles': this.roleInput,
+            'primaryRoles': this.primaryRoleInput,
+            'nonPrimaryRoles': this.nonPrimaryRoleInput,
         });
     }
 
@@ -177,7 +188,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
             },
             {
                 columnId: 'PrimaryRoleDescription',
-                columnName: 'Primary Role Description',
+                columnName: 'Primary Role',
                 visible: true,
             },
             {
@@ -217,9 +228,12 @@ export class OrganisationComponent implements OnInit, OnDestroy {
 
     private roleConfigData(): IRoleConfig {
         return {
-            default: [
-                'RO177',    // PRESCRIBING COST CENTRE
-                'RO227',   // SCOTTISH GP PRACTICE
+            primaryDefault: [
+                // 'RO177',    // PRESCRIBING COST CENTRE
+                // 'RO227',    // SCOTTISH GP PRACTICE
+            ],
+            nonPrimaryDefault: [
+                'RO76',     // GP PRACTICE
             ],
         };
     }

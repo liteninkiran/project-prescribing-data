@@ -26,7 +26,8 @@ export interface IRole {
 };
 
 export interface IRoleConfig {
-    default: string[];
+    primaryDefault: string[];
+    nonPrimaryDefault: string[];
 };
 
 export interface IColumnConfig {
