@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
-import { IColumnConfig, INumInputConfig, IOrganisations, IRole, IRoleConfig, IRoles, IStatus, IStatusConfig } from 'src/app/interfaces/organisation.interfaces';
+import { IColumnConfig, INumInputConfig, IOrganisations, IRole, IRoleConfig, IRoleData, IRoleInput, IRoles, IStatus, IStatusConfig } from 'src/app/interfaces/organisation.interfaces';
 import { Observable, Subscription } from 'rxjs';
-import { OrganisationService } from 'src/app/services/organisation/organisation.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { OrganisationService } from 'src/app/services/organisation/organisation.service';
 
 @Component({
     selector: 'app-organisation',
@@ -17,8 +17,10 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     public data$: Observable<IOrganisations> = new Observable();
     public data: IOrganisations | null = null;
     public roles$: Observable<IRoles> = new Observable();
-    public primaryRoles: IRoles | null = null;
-    public nonPrimaryRoles: IRoles | null = null;
+    public roles: IRoleData = {
+        primaryRoles: null,
+        nonPrimaryRoles: null,
+    };
     public status: IStatus[] = [];
     public subscriptions: Subscription[] = [];
 
@@ -28,8 +30,10 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     public offsetInput: FormControl = new FormControl();
     public limitInput: FormControl = new FormControl();
     public statusInput: FormControl = new FormControl();
-    public primaryRoleInput: FormControl = new FormControl(['']);        // Must be array because multiple=true
-    public nonPrimaryRoleInput: FormControl = new FormControl(['']);     // Must be array because multiple=true
+    public roleInput: IRoleInput = {
+        primaryRole: new FormControl(['']),                              // Must be array because multiple=true
+        nonPrimaryRole: new FormControl(['']),                           // Must be array because multiple=true
+    };
 
     // Configuration
     public displayedColumns: string[] = [];
@@ -94,19 +98,19 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     }
 
     private setRolesData(): void {
-        this.primaryRoles = null;
-        this.nonPrimaryRoles = null;
+        this.roles.primaryRoles = null;
+        this.roles.nonPrimaryRoles = null;
         this.roles$ = this.orgService.getRoles();
         const sub: Subscription = this.roles$.subscribe((d: IRoles) => {
             // Primary Roles
-            this.primaryRoles = { ...d };
-            this.primaryRoles.Roles = this.primaryRoles.Roles.filter((role: IRole) => role.primaryRole === 'true');
-            this.primaryRoles.Roles.sort((a: IRole, b: IRole) => a.displayName > b.displayName ? 1 : -1);
+            this.roles.primaryRoles = { ...d };
+            this.roles.primaryRoles.Roles = this.roles.primaryRoles.Roles.filter((role: IRole) => role.primaryRole === 'true');
+            this.roles.primaryRoles.Roles.sort((a: IRole, b: IRole) => a.displayName > b.displayName ? 1 : -1);
 
             // Non-Primary Roles
-            this.nonPrimaryRoles = { ...d };
-            this.nonPrimaryRoles.Roles = this.nonPrimaryRoles.Roles.filter((role: IRole) => role.primaryRole === 'false');
-            this.nonPrimaryRoles.Roles.sort((a: IRole, b: IRole) => a.displayName > b.displayName ? 1 : -1);
+            this.roles.nonPrimaryRoles = { ...d };
+            this.roles.nonPrimaryRoles.Roles = this.roles.nonPrimaryRoles.Roles.filter((role: IRole) => role.primaryRole === 'false');
+            this.roles.nonPrimaryRoles.Roles.sort((a: IRole, b: IRole) => a.displayName > b.displayName ? 1 : -1);
         });
         this.subscriptions.push(sub);
     }
@@ -132,8 +136,8 @@ export class OrganisationComponent implements OnInit, OnDestroy {
         this.offsetInput = new FormControl(this.offsetConfig.default, offsetValidators);
         this.limitInput = new FormControl(this.limitConfig.default, limitValidators);
         this.statusInput = new FormControl(this.statusConfig.default);
-        this.primaryRoleInput = new FormControl(this.roleConfig.primaryDefault);
-        this.nonPrimaryRoleInput = new FormControl(this.roleConfig.nonPrimaryDefault);
+        this.roleInput.primaryRole = new FormControl(this.roleConfig.primaryDefault);
+        this.roleInput.nonPrimaryRole = new FormControl(this.roleConfig.nonPrimaryDefault);
     }
 
     private setFormGroup(): void {
@@ -141,8 +145,8 @@ export class OrganisationComponent implements OnInit, OnDestroy {
             'offset': this.offsetInput,
             'limit': this.limitInput,
             'status': this.statusInput,
-            'primaryRoles': this.primaryRoleInput,
-            'nonPrimaryRoles': this.nonPrimaryRoleInput,
+            'primaryRoles': this.roleInput.primaryRole,
+            'nonPrimaryRoles': this.roleInput.nonPrimaryRole,
         });
     }
 

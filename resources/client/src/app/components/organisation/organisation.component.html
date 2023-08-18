@@ -129,8 +129,8 @@
                     <!-- Primary Role -->
                     <mat-form-field>
                         <mat-label>Primary Role</mat-label>
-                        <mat-select [formControl]="primaryRoleInput" placeholder="Select role(s)" multiple panelClass="long-list">
-                            <mat-option *ngFor="let role of primaryRoles?.Roles" [value]="role.id">
+                        <mat-select [formControl]="roleInput.primaryRole" placeholder="Select role(s)" multiple panelClass="long-list">
+                            <mat-option *ngFor="let role of roles.primaryRoles?.Roles" [value]="role.id">
                                 {{ role.displayName }}
                             </mat-option>
                         </mat-select>
@@ -139,8 +139,8 @@
                     <!-- Non-Primary Role -->
                     <mat-form-field>
                         <mat-label>Non-Primary Role</mat-label>
-                        <mat-select [formControl]="nonPrimaryRoleInput" placeholder="Select role(s)" multiple panelClass="long-list">
-                            <mat-option *ngFor="let role of nonPrimaryRoles?.Roles" [value]="role.id">
+                        <mat-select [formControl]="roleInput.nonPrimaryRole" placeholder="Select role(s)" multiple panelClass="long-list">
+                            <mat-option *ngFor="let role of roles.nonPrimaryRoles?.Roles" [value]="role.id">
                                 {{ role.displayName }}
                             </mat-option>
                         </mat-select>

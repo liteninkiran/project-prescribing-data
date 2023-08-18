@@ -1,3 +1,5 @@
+import { FormControl } from "@angular/forms";
+
 export interface IOrganisations {
     Organisations: IOrganisation[];
 };
@@ -28,6 +30,16 @@ export interface IRole {
 export interface IRoleConfig {
     primaryDefault: string[];
     nonPrimaryDefault: string[];
+};
+
+export interface IRoleData {
+    primaryRoles: IRoles | null,
+    nonPrimaryRoles: IRoles | null,
+};
+
+export interface IRoleInput {
+    primaryRole: FormControl,
+    nonPrimaryRole: FormControl,
 };
 
 export interface IColumnConfig {
