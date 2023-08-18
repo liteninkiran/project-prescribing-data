@@ -102,15 +102,17 @@ export class OrganisationComponent implements OnInit, OnDestroy {
         this.roles.nonPrimaryRoles = null;
         this.roles$ = this.orgService.getRoles();
         const sub: Subscription = this.roles$.subscribe((d: IRoles) => {
+            const transformData = (roles: IRole[], isPrimary: string) => {
+                roles = roles.filter((role: IRole) => role.primaryRole === isPrimary);
+                roles.sort((a: IRole, b: IRole) => a.displayName > b.displayName ? 1 : -1);
+                return roles;
+            }
             // Primary Roles
             this.roles.primaryRoles = { ...d };
-            this.roles.primaryRoles.Roles = this.roles.primaryRoles.Roles.filter((role: IRole) => role.primaryRole === 'true');
-            this.roles.primaryRoles.Roles.sort((a: IRole, b: IRole) => a.displayName > b.displayName ? 1 : -1);
-
+            this.roles.primaryRoles.Roles = transformData(this.roles.primaryRoles.Roles, 'true');
             // Non-Primary Roles
             this.roles.nonPrimaryRoles = { ...d };
-            this.roles.nonPrimaryRoles.Roles = this.roles.nonPrimaryRoles.Roles.filter((role: IRole) => role.primaryRole === 'false');
-            this.roles.nonPrimaryRoles.Roles.sort((a: IRole, b: IRole) => a.displayName > b.displayName ? 1 : -1);
+            this.roles.nonPrimaryRoles.Roles = transformData(this.roles.nonPrimaryRoles.Roles, 'false');
         });
         this.subscriptions.push(sub);
     }
@@ -152,76 +154,32 @@ export class OrganisationComponent implements OnInit, OnDestroy {
 
     private setConfigData(): void {
         this.columnConfig = this.columnConfigData();
-        this.offsetConfig = this.offsetConfigData();
-        this.limitConfig = this.limitConfigData();
+        this.offsetConfig = this.numInputConfigData('offset');
+        this.limitConfig = this.numInputConfigData('limit');
         this.statusConfig = this.statusConfigData();
         this.roleConfig = this.roleConfigData();
     }
 
     private columnConfigData(): IColumnConfig[] {
-        return [
-            {
-                columnId: 'OrgId',
-                columnName: 'Organisation ID',
-                visible: true,
-            },
-            {
-                columnId: 'Name',
-                columnName: 'Organisation Name',
-                visible: true,
-            },
-            {
-                columnId: 'PostCode',
-                columnName: 'Postcode',
-                visible: true,
-            },
-            {
-                columnId: 'Status',
-                columnName: 'Status',
-                visible: true,
-            },
-            {
-                columnId: 'OrgLink',
-                columnName: 'Organisation Link',
-                visible: false,
-            },
-            {
-                columnId: 'OrgRecordClass',
-                columnName: 'Organisation Record Class',
-                visible: false,
-            },
-            {
-                columnId: 'PrimaryRoleDescription',
-                columnName: 'Primary Role',
-                visible: true,
-            },
-            {
-                columnId: 'PrimaryRoleId',
-                columnName: 'Primary Role ID',
-                visible: false,
-            },
-            {
-                columnId: 'LastChangeDate',
-                columnName: 'Last Change Date',
-                visible: false,
-            },
-        ];
+            return [
+                { columnId: 'OrgId', columnName: 'Organisation ID', visible: true },
+                { columnId: 'Name', columnName: 'Organisation Name', visible: true },
+                { columnId: 'PostCode', columnName: 'Postcode', visible: true },
+                { columnId: 'PrimaryRoleId', columnName: 'Primary Role ID', visible: false },
+                { columnId: 'PrimaryRoleDescription', columnName: 'Primary Role', visible: true },
+                { columnId: 'OrgLink', columnName: 'Organisation Link', visible: false },
+                { columnId: 'OrgRecordClass', columnName: 'Organisation Record Class', visible: false },
+                { columnId: 'Status', columnName: 'Status', visible: true },
+                { columnId: 'LastChangeDate', columnName: 'Last Change Date', visible: false },
+            ];
     }
 
-    private offsetConfigData(): INumInputConfig {
-        return {
-            min: 0,
-            max: 1000000,
-            default: 0,
-        };
-    }
-
-    private limitConfigData(): INumInputConfig {
-        return {
-            min: 1,
-            max: 1000,
-            default: 10,
-        };
+    private numInputConfigData(type: string): INumInputConfig {
+        switch (type) {
+            case 'offset': return { min: 0, max: 1000000, default:  0 };
+            case 'limit' : return { min: 1, max:    1000, default: 10 };
+            default      : return { min: 0, max:       0, default:  0 };
+        }
     }
 
     private statusConfigData(): IStatusConfig {
