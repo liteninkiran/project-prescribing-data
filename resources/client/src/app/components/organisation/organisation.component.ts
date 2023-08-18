@@ -172,6 +172,21 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     }
 
     private setFormGroup(): void {
+
+        function requireOneControl() {
+            return (formGroup: any) => {
+                const valid = formGroup.get('status').value !== undefined ||
+                              formGroup.get('primaryRoles').value.length > 0 ||
+                              formGroup.get('nonPrimaryRoles').value.length > 0 ||
+                              formGroup.get('postcode').value.length > 0 ||
+                              formGroup.get('lastChangeDate').value !== null;
+                if (!valid) {
+                    return { atLeastOneRequired: 'At least one of the items is required' }
+                }
+                return null;
+            } 
+        }
+
         this.form = new FormGroup({
             'offset': this.offsetInput,
             'limit': this.limitInput,
@@ -180,7 +195,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
             'nonPrimaryRoles': this.roleInput.nonPrimaryRole,
             'postcode': this.postcodeInput,
             'lastChangeDate': this.lastChangeDateInput,
-        });
+        }, requireOneControl());
     }
 
     private setConfigData(): void {

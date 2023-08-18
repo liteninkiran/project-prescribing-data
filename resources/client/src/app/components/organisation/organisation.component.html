@@ -169,6 +169,11 @@
                         Refresh Data
                     </button>
 
+                    <!-- Error Messages -->
+                    <mat-error *ngIf="form.hasError('atLeastOneRequired')">
+                        At least one filter must be applied
+                    </mat-error>
+                    
                 </form>
 
             </mat-expansion-panel>
