@@ -175,7 +175,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
         const requireOneControl = () => {
             return (formGroup: any) => {
                 const err = {
-                    atLeastOneRequired: 'At least one of the items is required',
+                    atLeastOneRequired: 'At least one filter must be applied',
                 };
                 const valid = formGroup.get('status'            ).value !== undefined ||
                               formGroup.get('primaryRoles'      ).value.length > 0 ||
