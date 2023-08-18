@@ -7,7 +7,7 @@ table {
     min-height: 450px;
 }
 
-.mat-mdc-form-field {
+#column-list {
     width: 100% !important;
 }
 
@@ -32,8 +32,10 @@ hr {
 
 mat-form-field {
     margin-bottom: 15px;
+    margin-right: 20px;
 }
 
-.demo-inline-calendar-card {
-    width: 300px;
+.flex-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
 }

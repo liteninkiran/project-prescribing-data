@@ -32,7 +32,7 @@
                 </mat-expansion-panel-header>
 
                 <!-- Column Visibility Drop-Down List -->
-                <mat-form-field>
+                <mat-form-field id="column-list">
 
                     <!-- Label -->
                     <mat-label>
@@ -55,110 +55,114 @@
                 <!-- Filters -->
                 <form #dataOptionsForm="ngForm" (ngSubmit)="onSubmitForm()">
 
-                    <!-- Offset -->
-                    <mat-form-field>
+                    <div class="flex-container">
 
-                        <!-- Label -->
-                        <mat-label>
-                            Offset
-                        </mat-label>
+                        <!-- Offset -->
+                        <mat-form-field>
 
-                        <!-- Number Input -->
-                        <input
-                            type="number"
-                            matInput
-                            required
-                            [formControl]="offsetInput"
-                            [min]="offsetConfig.min"
-                            [max]="offsetConfig.max"
-                        >
+                            <!-- Label -->
+                            <mat-label>
+                                Offset
+                            </mat-label>
 
-                        <!-- Hint -->
-                        <mat-hint>
-                            {{ offsetConfig.min | number }} to {{ offsetConfig.max | number }}
-                        </mat-hint>
+                            <!-- Number Input -->
+                            <input
+                                type="number"
+                                matInput
+                                required
+                                [formControl]="offsetInput"
+                                [min]="offsetConfig.min"
+                                [max]="offsetConfig.max"
+                            >
 
-                        <!-- Error Messages -->
-                        <mat-error *ngIf="offsetInput.hasError('min') || offsetInput.hasError('max')">
-                            Please enter a value between {{ offsetConfig.min | number }} and {{ offsetConfig.max | number }}
-                        </mat-error>
+                            <!-- Hint -->
+                            <mat-hint>
+                                {{ offsetConfig.min | number }} to {{ offsetConfig.max | number }}
+                            </mat-hint>
 
-                    </mat-form-field>
+                            <!-- Error Messages -->
+                            <mat-error *ngIf="offsetInput.hasError('min') || offsetInput.hasError('max')">
+                                Please enter a value between {{ offsetConfig.min | number }} and {{ offsetConfig.max | number }}
+                            </mat-error>
 
-                    <!-- Limit -->
-                    <mat-form-field>
+                        </mat-form-field>
 
-                        <!-- Label -->
-                        <mat-label>
-                            Limit
-                        </mat-label>
+                        <!-- Limit -->
+                        <mat-form-field>
 
-                        <!-- Number Input -->
-                        <input
-                            type="number"
-                            matInput
-                            required
-                            [formControl]="limitInput"
-                            [min]="limitConfig.min"
-                            [max]="limitConfig.max"
-                        >
+                            <!-- Label -->
+                            <mat-label>
+                                Limit
+                            </mat-label>
 
-                        <!-- Hint -->
-                        <mat-hint>
-                            {{ limitConfig.min | number }} to {{ limitConfig.max | number }}
-                        </mat-hint>
+                            <!-- Number Input -->
+                            <input
+                                type="number"
+                                matInput
+                                required
+                                [formControl]="limitInput"
+                                [min]="limitConfig.min"
+                                [max]="limitConfig.max"
+                            >
 
-                        <!-- Error Messages -->
-                        <mat-error *ngIf="limitInput.hasError('min') || limitInput.hasError('max')">
-                            Please enter a value between {{ limitConfig.min | number }} and {{ limitConfig.max | number }}
-                        </mat-error>
+                            <!-- Hint -->
+                            <mat-hint>
+                                {{ limitConfig.min | number }} to {{ limitConfig.max | number }}
+                            </mat-hint>
 
-                    </mat-form-field>
+                            <!-- Error Messages -->
+                            <mat-error *ngIf="limitInput.hasError('min') || limitInput.hasError('max')">
+                                Please enter a value between {{ limitConfig.min | number }} and {{ limitConfig.max | number }}
+                            </mat-error>
 
-                    <!-- Status -->
-                    <mat-form-field>
-                        <mat-label>Status</mat-label>
-                        <mat-select [formControl]="statusInput" placeholder="Select a status">
-                            <mat-option></mat-option>
-                            <mat-option *ngFor="let s of status" [value]="s.id">
-                                {{ s.displayName }}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
+                        </mat-form-field>
 
-                    <!-- Primary Role -->
-                    <mat-form-field>
-                        <mat-label>Primary Role</mat-label>
-                        <mat-select [formControl]="roleInput.primaryRole" placeholder="Select role(s)" multiple panelClass="long-list">
-                            <mat-option *ngFor="let role of roles.primaryRoles?.Roles" [value]="role.id">
-                                {{ role.displayName }}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
+                        <!-- Status -->
+                        <mat-form-field>
+                            <mat-label>Status</mat-label>
+                            <mat-select [formControl]="statusInput" placeholder="Select a status">
+                                <mat-option></mat-option>
+                                <mat-option *ngFor="let s of status" [value]="s.id">
+                                    {{ s.displayName }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
 
-                    <!-- Non-Primary Role -->
-                    <mat-form-field>
-                        <mat-label>Non-Primary Role</mat-label>
-                        <mat-select [formControl]="roleInput.nonPrimaryRole" placeholder="Select role(s)" multiple panelClass="long-list">
-                            <mat-option *ngFor="let role of roles.nonPrimaryRoles?.Roles" [value]="role.id">
-                                {{ role.displayName }}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
+                        <!-- Primary Role -->
+                        <mat-form-field>
+                            <mat-label>Primary Role</mat-label>
+                            <mat-select [formControl]="roleInput.primaryRole" placeholder="Select role(s)" multiple panelClass="long-list">
+                                <mat-option *ngFor="let role of roles.primaryRoles?.Roles" [value]="role.id">
+                                    {{ role.displayName }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
 
-                    <!-- Postcode -->
-                    <mat-form-field>
-                        <mat-label>Postcode</mat-label>
-                        <input matInput [formControl]="postcodeInput" minlength="2" maxlength="8" placeholder="E1 6AN">
-                    </mat-form-field>
+                        <!-- Non-Primary Role -->
+                        <mat-form-field>
+                            <mat-label>Non-Primary Role</mat-label>
+                            <mat-select [formControl]="roleInput.nonPrimaryRole" placeholder="Select role(s)" multiple panelClass="long-list">
+                                <mat-option *ngFor="let role of roles.nonPrimaryRoles?.Roles" [value]="role.id">
+                                    {{ role.displayName }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
 
-                    <!-- Last Change Date -->
-                    <mat-form-field>
-                        <mat-label>Last Change Date</mat-label>
-                        <input matInput [matDatepicker]="picker" [formControl]="lastChangeDateInput">
-                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker>
-                    </mat-form-field>
+                        <!-- Postcode -->
+                        <mat-form-field>
+                            <mat-label>Postcode</mat-label>
+                            <input matInput [formControl]="postcodeInput" minlength="2" maxlength="8" placeholder="E1 6AN">
+                        </mat-form-field>
+
+                        <!-- Last Change Date -->
+                        <mat-form-field>
+                            <mat-label>Last Change Date</mat-label>
+                            <input matInput [matDatepicker]="picker" [formControl]="lastChangeDateInput">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+
+                    </div>
 
                     <!--  Submit Button -->
                     <button mat-raised-button color="primary" [disabled]="form.invalid">
