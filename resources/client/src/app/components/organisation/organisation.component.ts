@@ -172,18 +172,17 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     }
 
     private setFormGroup(): void {
-
-        function requireOneControl() {
+        const requireOneControl = () => {
             return (formGroup: any) => {
-                const valid = formGroup.get('status').value !== undefined ||
-                              formGroup.get('primaryRoles').value.length > 0 ||
-                              formGroup.get('nonPrimaryRoles').value.length > 0 ||
-                              formGroup.get('postcode').value.length > 0 ||
-                              formGroup.get('lastChangeDate').value !== null;
-                if (!valid) {
-                    return { atLeastOneRequired: 'At least one of the items is required' }
-                }
-                return null;
+                const err = {
+                    atLeastOneRequired: 'At least one of the items is required',
+                };
+                const valid = formGroup.get('status'            ).value !== undefined ||
+                              formGroup.get('primaryRoles'      ).value.length > 0 ||
+                              formGroup.get('nonPrimaryRoles'   ).value.length > 0 ||
+                              formGroup.get('postcode'          ).value.length > 0 ||
+                              formGroup.get('lastChangeDate'    ).value !== null;
+                return valid ? null : err;
             } 
         }
 
