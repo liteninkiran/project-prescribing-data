@@ -105,6 +105,18 @@ export class OrganisationComponent implements OnInit, OnDestroy {
         console.log(orgId);
     }
 
+    public onPostcodeDoubleClick(): void {
+        this.setLocation(false);
+    }
+
+    public onPostcodeInput(): void {
+        this.postcodeInput.setValue(this.postcodeInput.value.toUpperCase());
+    }
+
+    public onLastChangedDateDoubleClick(): void {
+        this.lastChangeDateInput.setValue(this.lastChangedDateConfig.min);
+    }
+
     private setData(): void {
         this.setVisibleColumns();
         this.setStatusData();
@@ -291,12 +303,14 @@ export class OrganisationComponent implements OnInit, OnDestroy {
         ];
     }
 
-    private async setLocation(): Promise<void> {
-        this.userLocation = await this.getUserLocation();
-        this.setPostcodes();
+    private async setLocation(subscribe: boolean = true): Promise<void> {
+        if (!this.userLocation) {
+            this.userLocation = await this.getUserLocation();
+        }
+        this.setPostcodes(subscribe);
     }
 
-    private setPostcodes(): void {
+    private setPostcodes(subscribe: boolean): void {
         this.postcodes$ = this.orgService.getPostcode(
             this.userLocation.coords.latitude,
             this.userLocation.coords.longitude,
@@ -304,7 +318,9 @@ export class OrganisationComponent implements OnInit, OnDestroy {
         const sub: Subscription = this.postcodes$.subscribe((res) => {
             this.postcodes = res.result;
             this.postcodeInput.setValue(this.postcodes[0].outcode);
-            this.subscribeToData();
+            if (subscribe) {
+                this.subscribeToData();
+            }
         });
         this.subscriptions.push(sub);
     }

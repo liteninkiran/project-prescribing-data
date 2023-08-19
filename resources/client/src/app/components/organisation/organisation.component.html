@@ -38,7 +38,7 @@
                         <span>
                             &nbsp;|&nbsp;Limit:
                             <strong>
-                                {{ limitInput.value }}
+                                {{ limitInput.value | number  }}
                             </strong>
                         </span>
 
@@ -46,7 +46,7 @@
                         <span>
                             &nbsp;|&nbsp;Offset:
                             <strong>
-                                {{ offsetInput.value }}
+                                {{ offsetInput.value | number }}
                             </strong>
                         </span>
 
@@ -219,7 +219,17 @@
                         <!-- Postcode -->
                         <mat-form-field>
                             <mat-label>Postcode</mat-label>
-                            <input matInput [formControl]="postcodeInput" minlength="2" maxlength="8" placeholder="E1 6AN" (input)="postcodeInput.setValue(postcodeInput.value.toUpperCase())">
+                            <input
+                                matInput
+                                [formControl]="postcodeInput"
+                                minlength="2"
+                                maxlength="8"
+                                placeholder="E1 6AN"
+                                (input)="onPostcodeInput()"
+                                (dblclick)="onPostcodeDoubleClick()"
+                                matTooltip="Double click to enter current location outcode"
+                                matTooltipPosition="above"
+                            >
                             <button *ngIf="postcodeInput.value" matSuffix mat-icon-button aria-label="Clear" (click)="postcodeInput.setValue(null)">
                                 <mat-icon>close</mat-icon>
                             </button>
@@ -228,7 +238,16 @@
                         <!-- Last Change Date -->
                         <mat-form-field>
                             <mat-label>Last Change Date</mat-label>
-                            <input [min]="lastChangedDateConfig.min" [max]="lastChangedDateConfig.max" matInput [matDatepicker]="picker" [formControl]="lastChangeDateInput">
+                            <input
+                                matInput
+                                [min]="lastChangedDateConfig.min"
+                                [max]="lastChangedDateConfig.max"
+                                [matDatepicker]="picker"
+                                [formControl]="lastChangeDateInput"
+                                matTooltip="Double click to enter earliest date"
+                                matTooltipPosition="above"
+                                (dblclick)="onLastChangedDateDoubleClick()"
+                            >
                             <mat-hint>Must be within the last 185 days</mat-hint>
                             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                             <mat-datepicker #picker></mat-datepicker>
