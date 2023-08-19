@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IOrganisations } from 'src/app/interfaces/organisation.interfaces';
+import { IOrganisations, ISingleOrg } from 'src/app/interfaces/organisation.interfaces';
 
 @Injectable({
     providedIn: 'root'
@@ -42,6 +42,11 @@ export class OrganisationService {
     public getPostcode(lat: number, long: number): Observable<any> {
         const url: string = `https://api.postcodes.io/postcodes?lon=${long}&lat=${lat}`;
         return this.http.get<any>(`${url}`);
+    }
+
+    public getOrganisation(orgId: string): Observable<ISingleOrg> {
+        const url: string = `https://directory.spineservices.nhs.uk/ORD/2-0-0/organisations/${orgId}`;
+        return this.http.get<ISingleOrg>(`${url}`);
     }
 }
 

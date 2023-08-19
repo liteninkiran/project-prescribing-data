@@ -37,12 +37,14 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { HomeComponent } from './components/home/home.component';
 import { OrganisationComponent } from './components/organisation/organisation.component';
+import { OrganisationViewComponent } from './components/organisation-view/organisation-view.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         HomeComponent,
         OrganisationComponent,
+        OrganisationViewComponent,
     ],
     imports: [
         BrowserAnimationsModule,

@@ -302,10 +302,8 @@
                 <tr
                     mat-row
                     *matRowDef="let row; columns: displayedColumns;"
-                    (click)="onRowClick(row)"
-                    (mouseover)="onMouseOver($event, row.OrgId)"
+                    [routerLink]="'/organisations/' + row.OrgId"
                 ></tr>
-
             </table>
         </div>
 

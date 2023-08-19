@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { OrganisationService } from 'src/app/services/organisation/organisation.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { 
     IColumnConfig, 
     ILastChangedDateConfig, 
@@ -72,6 +73,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     constructor(
         private orgService: OrganisationService,
         private _snackBar: MatSnackBar,
+        private router: Router,
     ) {
 
     }
@@ -94,15 +96,6 @@ export class OrganisationComponent implements OnInit, OnDestroy {
 
     public onSubmitForm(): void {
         this.subscribeToData();
-    }
-
-    public onRowClick(row: IOrganisation): void {
-        window.open(row.OrgLink, "_blank");
-        console.log(row);
-    }
-
-    public onMouseOver(event: MouseEvent, orgId: string) {
-        console.log(orgId);
     }
 
     public onPostcodeDoubleClick(): void {

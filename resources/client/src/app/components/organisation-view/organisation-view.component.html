@@ -1,0 +1,6 @@
+<div class="container">
+    <p>Organisation ID: {{ id }}</p>
+    <div *ngIf="organisation">
+        <pre>{{ organisation | json }}</pre>
+    </div>
+</div>

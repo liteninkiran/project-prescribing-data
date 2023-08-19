@@ -74,3 +74,88 @@ export interface IValidControl {
     name: string;
     hasValue: boolean;
 };
+
+export interface ISingleOrgResponse {
+    Organisation: ISingleOrg;
+};
+
+export interface ISingleOrg {
+    Contacts: string;
+    Date: ISingleOrgDate[];
+    GeoLoc: ISingleOrgGeoLoc;
+    LastChangeDate: string;
+    Name: string;
+    OrgId: ISingleOrgOrgId;
+    Rels: ISingleOrgRels;
+    Roles: ISingleOrgRoles;
+    Status: string;
+    orgRecordClass: string;
+};
+
+export interface ISingleOrgRoles {
+    Role: ISingleOrgRole[];
+};
+
+export interface ISingleOrgRole {
+    id: string;
+    uniqueRoleId: number;
+    Status: string;
+    primaryRole?: boolean;
+    Date: ISingleOrgDate[];
+};
+
+export interface ISingleOrgDate {
+    start: string;
+    end?: string;
+    type: string;
+};
+
+export interface ISingleOrgOrgId {
+    assigningAuthorityName: string;
+    extension: string;
+    root: string;
+};
+
+export interface ISingleOrgGeoLoc {
+    Location: ISingleOrgGeoLocLocation;
+};
+
+export interface ISingleOrgGeoLocLocation {
+    AddrLn1: string;
+    AddrLn2: string;
+    Country: string;
+    County: string;
+    PostCode: string;
+    Town: string;
+};
+
+export interface ISingleOrgContacts {
+    Contact: ISingleOrgContact[];
+};
+
+export interface ISingleOrgContact {
+    type: string;
+    value: string;
+};
+
+export interface ISingleOrgRels {
+    Rel: ISingleOrgRel[];
+};
+
+export interface ISingleOrgRel {
+    Date: ISingleOrgDate[];
+    status: string;
+    Target: ISingleOrgTarget;
+    id: string;
+    uniqueRelId: number;
+};
+
+export interface ISingleOrgTarget {
+    OrgId: ISingleOrgOrgId
+    PrimaryRoleId: ISingleOrgPrimaryRole;
+};
+
+export interface ISingleOrgPrimaryRole {
+    id: string;
+    uniqueRoleId: number;
+};
