@@ -200,16 +200,18 @@ export class OrganisationComponent implements OnInit, OnDestroy {
             return (formGroup: any) => {
                 const err = { atLeastOneRequired: 'At least one filter must be applied' };
                 const validControls: IValidControl[] = [
-                    { name: 'status', hasValue: formGroup.get('status').value !== undefined },
+                    { name: 'status', hasValue: formGroup.get('status').value !== null },
                     { name: 'postcode', hasValue: formGroup.get('postcode').value !== null && formGroup.get('postcode').value !== '' },
                     { name: 'primaryRoles', hasValue: formGroup.get('primaryRoles').value.length > 0 },
                     { name: 'lastChangeDate', hasValue: formGroup.get('lastChangeDate').value !== null },
                     { name: 'nonPrimaryRoles', hasValue: formGroup.get('nonPrimaryRoles').value.length > 0 },
                 ];
+                console.log(formGroup.get('status').value);
                 const valid = validControls.filter((ctl: IValidControl) => ctl.hasValue).length > 0;
                 return valid ? null : err;
             } 
         }
+
 
         this.form = new FormGroup({
             'offset': this.offsetInput,
