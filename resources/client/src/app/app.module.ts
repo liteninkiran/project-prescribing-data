@@ -38,6 +38,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { HomeComponent } from './components/home/home.component';
 import { OrganisationComponent } from './components/organisation/organisation.component';
 import { OrganisationViewComponent } from './components/organisation-view/organisation-view.component';
+import { ArrayConcatPipe } from './pipes/array-concat.pipe';
+import { ArrayConcatContactPipe } from './pipes/array-concat-contact.pipe';
 
 @NgModule({
     declarations: [
@@ -45,6 +47,8 @@ import { OrganisationViewComponent } from './components/organisation-view/organi
         HomeComponent,
         OrganisationComponent,
         OrganisationViewComponent,
+        ArrayConcatPipe,
+        ArrayConcatContactPipe,
     ],
     imports: [
         BrowserAnimationsModule,

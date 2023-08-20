@@ -240,13 +240,13 @@
                             <mat-label>Last Change Date</mat-label>
                             <input
                                 matInput
-                                [min]="lastChangedDateConfig.min"
-                                [max]="lastChangedDateConfig.max"
+                                [min]="lastChangeDateConfig.min"
+                                [max]="lastChangeDateConfig.max"
                                 [matDatepicker]="picker"
                                 [formControl]="lastChangeDateInput"
                                 matTooltip="Double click to enter earliest date"
                                 matTooltipPosition="above"
-                                (dblclick)="onLastChangedDateDoubleClick()"
+                                (dblclick)="onLastChangeDateDoubleClick()"
                             >
                             <mat-hint>Must be within the last 185 days</mat-hint>
                             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
@@ -296,13 +296,13 @@
                 </ng-container>
 
                 <!-- Header Row -->
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
 
                 <!-- Data Rows -->
                 <tr
                     mat-row
                     *matRowDef="let row; columns: displayedColumns;"
-                    [routerLink]="'/organisations/' + row.OrgId"
+                    (click)="onRowClick(row)"
                 ></tr>
             </table>
         </div>

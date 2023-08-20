@@ -65,7 +65,7 @@ export interface IStatus {
     displayName: string;
 };
 
-export interface ILastChangedDateConfig {
+export interface ILastChangeDateConfig {
     min: Date;
     max: Date;
 };
@@ -80,10 +80,11 @@ export interface ISingleOrgResponse {
 };
 
 export interface ISingleOrg {
-    Contacts: string;
+    Contacts?: ISingleOrgContacts;
     Date: ISingleOrgDate[];
     GeoLoc: ISingleOrgGeoLoc;
     LastChangeDate: string;
+    LastChangeDt: Date;
     Name: string;
     OrgId: ISingleOrgOrgId;
     Rels: ISingleOrgRels;
@@ -158,4 +159,10 @@ export interface ISingleOrgTarget {
 export interface ISingleOrgPrimaryRole {
     id: string;
     uniqueRoleId: number;
+};
+
+export interface ISingleOrgRoleCount {
+    active: number;
+    inactive: number;
+    total: number;
 };

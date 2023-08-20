@@ -6,7 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { 
     IColumnConfig, 
-    ILastChangedDateConfig, 
+    ILastChangeDateConfig, 
     INumInputConfig, 
     IOrganisation, 
     IOrganisations, 
@@ -63,7 +63,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     public limitConfig: INumInputConfig = {} as INumInputConfig;
     public statusConfig: IStatusConfig = {} as IStatusConfig;
     public roleConfig: IRoleConfig = {} as IRoleConfig;
-    public lastChangedDateConfig: ILastChangedDateConfig = {} as ILastChangedDateConfig;
+    public lastChangeDateConfig: ILastChangeDateConfig = {} as ILastChangeDateConfig;
     public getUserLocation = async (): Promise<GeolocationPosition> => {
         return new Promise((res, rej) => {
             navigator.geolocation.getCurrentPosition(res, rej);
@@ -98,6 +98,10 @@ export class OrganisationComponent implements OnInit, OnDestroy {
         this.subscribeToData();
     }
 
+    public onRowClick(row: IOrganisation): void {
+        window.open(`/organisations/${row.OrgId}`, "_blank");
+    }
+
     public onPostcodeDoubleClick(): void {
         this.setLocation(false);
     }
@@ -106,8 +110,8 @@ export class OrganisationComponent implements OnInit, OnDestroy {
         this.postcodeInput.setValue(this.postcodeInput.value.toUpperCase());
     }
 
-    public onLastChangedDateDoubleClick(): void {
-        this.lastChangeDateInput.setValue(this.lastChangedDateConfig.min);
+    public onLastChangeDateDoubleClick(): void {
+        this.lastChangeDateInput.setValue(this.lastChangeDateConfig.min);
     }
 
     private setData(): void {
@@ -211,7 +215,6 @@ export class OrganisationComponent implements OnInit, OnDestroy {
                     { name: 'lastChangeDate', hasValue: formGroup.get('lastChangeDate').value !== null },
                     { name: 'nonPrimaryRoles', hasValue: formGroup.get('nonPrimaryRoles').value.length > 0 },
                 ];
-                console.log(formGroup.get('status').value);
                 const valid = validControls.filter((ctl: IValidControl) => ctl.hasValue).length > 0;
                 return valid ? null : err;
             } 
@@ -235,7 +238,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
         this.limitConfig = this.numInputConfigData('limit');
         this.statusConfig = this.statusConfigData();
         this.roleConfig = this.roleConfigData();
-        this.lastChangedDateConfig = this.lastChangedDateConfigData();
+        this.lastChangeDateConfig = this.lastChangeDateConfigData();
     }
 
     private columnConfigData(): IColumnConfig[] {
@@ -279,7 +282,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
         };
     }
 
-    private lastChangedDateConfigData(): ILastChangedDateConfig {
+    private lastChangeDateConfigData(): ILastChangeDateConfig {
         const maxDate: Date = new Date();
         const minDate: Date = new Date();
         minDate.setDate(minDate.getDate() - 185);
