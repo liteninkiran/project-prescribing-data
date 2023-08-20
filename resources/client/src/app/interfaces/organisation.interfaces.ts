@@ -128,6 +128,7 @@ export interface ISingleOrgGeoLocLocation {
     County: string;
     PostCode: string;
     Town: string;
+    UPRN?: number;
 };
 
 export interface ISingleOrgContacts {

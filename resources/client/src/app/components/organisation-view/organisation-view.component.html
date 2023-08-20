@@ -64,8 +64,35 @@
 
     </mat-card>
 
-    <div *ngIf="organisation.Name">
-        <pre>{{ organisation | json }}</pre>
+    <!-- Explore Object Drop-down Menu -->
+    <div *ngIf="organisation.Name" class="explore-object-container">
+
+        <mat-accordion>
+
+            <mat-expansion-panel>
+
+                <!-- Panel Header -->
+                <mat-expansion-panel-header>
+
+                    <!-- Panel Title -->
+                    <mat-panel-title>
+                        Explore:
+                    </mat-panel-title>
+
+                    <!-- Panel Description -->
+                    <mat-panel-description>
+                        {{ organisation.OrgId.extension }} | {{ organisation.Name }}
+                    </mat-panel-description>
+
+                </mat-expansion-panel-header>
+
+                <ngx-json-viewer [json]="organisation" [expanded]="false">
+                </ngx-json-viewer>
+
+            </mat-expansion-panel>
+
+        </mat-accordion>
+
     </div>
 
 </div>

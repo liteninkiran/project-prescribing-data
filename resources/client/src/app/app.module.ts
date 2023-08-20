@@ -34,6 +34,7 @@ import { MatExpansionModule} from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { NgxJsonViewerModule } from 'ngx-json-viewer';
 
 import { HomeComponent } from './components/home/home.component';
 import { OrganisationComponent } from './components/organisation/organisation.component';
@@ -85,6 +86,7 @@ import { ArrayConcatContactPipe } from './pipes/array-concat-contact.pipe';
         MatFormFieldModule,
         MatDividerModule,
         MatSnackBarModule,
+        NgxJsonViewerModule,
     ],
     providers: [],
     bootstrap: [
