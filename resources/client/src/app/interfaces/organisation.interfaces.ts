@@ -162,7 +162,8 @@ export interface ISingleOrgPrimaryRole {
 };
 
 export interface ISingleOrgRoleCount {
-    active: number;
-    inactive: number;
+    Active: number;
+    Inactive: number;
     total: number;
+    view: number;
 };

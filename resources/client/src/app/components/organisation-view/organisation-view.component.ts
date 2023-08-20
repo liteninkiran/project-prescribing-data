@@ -46,8 +46,9 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
     }
 
     private setRoleCount() {
-        this.roleCount.active = this.organisation.Roles.Role.filter(x => x.Status === 'Active').length;
-        this.roleCount.inactive = this.organisation.Roles.Role.filter(x => x.Status === 'Inactive').length;
-        this.roleCount.total = this.roleCount.active + this.roleCount.inactive;
+        this.roleCount.Active = this.organisation.Roles.Role.filter(x => x.Status === 'Active').length;
+        this.roleCount.Inactive = this.organisation.Roles.Role.filter(x => x.Status === 'Inactive').length;
+        this.roleCount.total = this.roleCount.Active + this.roleCount.Inactive;
+        this.roleCount.view = this.roleCount[this.organisation.Status as keyof ISingleOrgRoleCount];
     }
 }
