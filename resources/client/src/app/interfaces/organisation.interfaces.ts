@@ -145,7 +145,7 @@ export interface ISingleOrgRels {
 
 export interface ISingleOrgRel {
     Date: ISingleOrgDate[];
-    status: string;
+    Status: string;
     Target: ISingleOrgTarget;
     id: string;
     uniqueRelId: number;
@@ -161,7 +161,7 @@ export interface ISingleOrgPrimaryRole {
     uniqueRoleId: number;
 };
 
-export interface ISingleOrgRoleCount {
+export interface ISingleOrgStatusCount {
     Active: number;
     Inactive: number;
     total: number;
