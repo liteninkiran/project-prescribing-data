@@ -4,7 +4,7 @@ table {
 
 // Won't work without { encapsulation: ViewEncapsulation.None }
 .long-list {
-    min-height: 450px;
+    min-height: 500px;
 }
 
 #column-list {
@@ -65,7 +65,7 @@ mat-panel-description.mat-expansion-panel-header-description {
 }
 
 .expansion-panel {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .column-option-list {

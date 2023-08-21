@@ -283,7 +283,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
             { columnId: 'OrgLink', columnName: 'Organisation Link', visible: false },
             { columnId: 'OrgRecordClass', columnName: 'Organisation Record Class', visible: false },
             { columnId: 'Status', columnName: 'Status', visible: true },
-            { columnId: 'LastChangeDate', columnName: 'Last Change Date', visible: true },
+            { columnId: 'LastChangeDate', columnName: 'Last Change Date', visible: false },
         ];
 
         this.displayedColumnList = config

@@ -336,9 +336,9 @@
                         <!-- Panel Description -->
                         <mat-panel-description>
 
-                            <mat-icon>link</mat-icon>
+                            <mat-icon>cloud</mat-icon>
 
-                            {{ urlObj.baseUrl }}
+                            Records Returned: {{ data.Organisations.length | number }}
 
                         </mat-panel-description>
 
@@ -370,8 +370,6 @@
 
         <!-- Records exist -->
         <div *ngIf="data.Organisations.length > 0">
-
-            <h3>Showing {{ data.Organisations.length | number }} results</h3>
 
             <!-- Data Table -->
             <table mat-table [dataSource]="data.Organisations" class="mat-elevation-z8">
