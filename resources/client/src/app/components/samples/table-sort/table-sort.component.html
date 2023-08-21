@@ -1,4 +1,13 @@
 <div class="container">
+
+    <!-- Heading -->
+    <h1>Table Sort</h1>
+
+    <hr>
+
+    <!-- Sub Heading -->
+    <h3>Sorting, Pagination and Filtering</h3>
+
     <mat-form-field>
         <mat-label>Filter</mat-label>
         <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
@@ -41,5 +50,7 @@
         </table>
 
         <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+
     </div>
+
 </div>
