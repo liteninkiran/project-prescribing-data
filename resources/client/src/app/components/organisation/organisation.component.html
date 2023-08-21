@@ -30,7 +30,7 @@
                             <!-- Settings Icon -->
                             <mat-icon>list</mat-icon>
 
-                            {{ displayedColumns.join(', ') }}
+                            {{ displayedColumnList }}
 
                         </mat-panel-description>
 
@@ -53,7 +53,7 @@
                         </mat-label>
 
                         <!-- Column List Drop-Down Menu -->
-                        <mat-select [formControl]="visibleColumns" multiple panelClass="long-list" (selectionChange)="onSelectionChange()">
+                        <mat-select [formControl]="visibleColumns" multiple panelClass="long-list" (selectionChange)="onSelectionChange($event)">
                             <!-- Loop through column definition config array -->
                             <mat-option *ngFor="let item of columnConfig" [value]="item.columnId">
                                 {{ item.columnName }}

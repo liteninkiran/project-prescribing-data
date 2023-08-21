@@ -19,6 +19,7 @@ import {
     IStatusConfig,
     IValidControl,
 } from 'src/app/interfaces/organisation.interfaces';
+import { MatSelectChange } from '@angular/material/select';
 
 @Component({
     selector: 'app-organisation',
@@ -42,7 +43,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     public postcodes: any | null = null;
     public subscriptions: Subscription[] = [];
     public userLocation!: GeolocationPosition;
-    public urlObj: { url: string; } = { url: ''};
+    public urlObj: { url: string; } = { url: '' };
 
     // Form
     public form!: FormGroup;
@@ -57,17 +58,17 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     public postcodeInput: FormControl = new FormControl();
     public lastChangeDateInput: FormControl = new FormControl();
     public orgNameInput: FormControl = new FormControl();
-    public formGroup = this.fb.group({
-        'OrgId': true,
-        'Name': true,
-        'PostCode': true,
-        'Status': true,
-        'OrgLink': false,
-        'OrgRecordClass': false,
-        'PrimaryRoleDescription': false,
-        'PrimaryRoleId': false,
-        'LastChangeDate': false,
-    });
+    // public formGroup = this.fb.group({
+    //     'OrgId': true,
+    //     'Name': true,
+    //     'PostCode': true,
+    //     'Status': true,
+    //     'OrgLink': false,
+    //     'OrgRecordClass': false,
+    //     'PrimaryRoleDescription': false,
+    //     'PrimaryRoleId': false,
+    //     'LastChangeDate': false,
+    // });
 
     // Configuration
     public displayedColumns: string[] = [];
@@ -82,6 +83,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
             navigator.geolocation.getCurrentPosition(res, rej);
         });
     };
+    public displayedColumnList: string = '';
 
     constructor(
         private orgService: OrganisationService,
@@ -104,7 +106,8 @@ export class OrganisationComponent implements OnInit, OnDestroy {
         this.subscriptions.map((sub: Subscription) => sub.unsubscribe())
     }
 
-    public onSelectionChange(): void {
+    public onSelectionChange(event: MatSelectChange): void {
+        this.displayedColumnList = event.source.triggerValue;
         this.setDisplayedColumns();
     }
 
@@ -128,9 +131,9 @@ export class OrganisationComponent implements OnInit, OnDestroy {
         this.lastChangeDateInput.setValue(this.lastChangeDateConfig.min);
     }
 
-    public toggleColumn(): void {
-        this.setDisplayedColumns();
-    }
+    // public toggleColumn(): void {
+    //     this.setDisplayedColumns();
+    // }
 
     private setData(): void {
         this.setVisibleColumns();
@@ -264,7 +267,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     }
 
     private columnConfigData(): IColumnConfig[] {
-        return [
+        const config: IColumnConfig[] = [
             { columnId: 'RowNum', columnName: 'Row', visible: true },
             { columnId: 'OrgId', columnName: 'Organisation ID', visible: true },
             { columnId: 'Name', columnName: 'Organisation Name', visible: true },
@@ -276,6 +279,13 @@ export class OrganisationComponent implements OnInit, OnDestroy {
             { columnId: 'Status', columnName: 'Status', visible: true },
             { columnId: 'LastChangeDate', columnName: 'Last Change Date', visible: true },
         ];
+
+        this.displayedColumnList = config
+            .filter(config => config.visible)
+            .map(config => config.columnName)
+            .join(', ');
+
+        return config;
     }
 
     private numInputConfigData(type: string): INumInputConfig {
