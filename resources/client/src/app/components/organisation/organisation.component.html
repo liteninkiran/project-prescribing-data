@@ -330,17 +330,24 @@
 
                         <!-- Panel Title -->
                         <mat-panel-title>
-                            Show URL
+                            Show API Parameters
                         </mat-panel-title>
 
                         <!-- Panel Description -->
                         <mat-panel-description>
+
                             <mat-icon>link</mat-icon>
+
+                            {{ urlObj.baseUrl }}
+
                         </mat-panel-description>
 
                     </mat-expansion-panel-header>
 
                     <div class="url-container">
+                        <h3>Parameters</h3>
+                        <p *ngFor="let item of urlObj.url.substr(urlObj.baseUrl.length + 1).split('&')">{{ item }}</p>
+                        <h3>Full API</h3>
                         <a [href]="urlObj.url" target="_blank">{{ urlObj.url }}</a>
                     </div>
 

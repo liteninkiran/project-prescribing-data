@@ -11,7 +11,7 @@ export class OrganisationService {
     constructor(private http: HttpClient) { }
 
     public getOrganisations(
-        urlObj: { url: string; },
+        urlObj: { url: string; baseUrl: string; },
         limit: number = 10,
         offset: number = 0,
         status: string | null = null,
@@ -21,7 +21,8 @@ export class OrganisationService {
         name: string | null = null,
     ): Observable<IOrganisations> {
 
-        let url: string = 'https://directory.spineservices.nhs.uk/ORD/2-0-0/organisations?';
+        const baseUrl: string = 'https://directory.spineservices.nhs.uk/ORD/2-0-0/organisations';
+        let url: string = `${baseUrl}?`;
         const rolesStr = roles?.join('%2C');
         const postcodeStr = postcode?.replace(' ', '%20');
         const nameStr = name?.replace(' ', '%20');
@@ -35,6 +36,7 @@ export class OrganisationService {
         url += name           ? `Name=${nameStr}&`                  : '';
         url = url.slice(0, -1);
 
+        urlObj.baseUrl = baseUrl;
         urlObj.url = url;
 
         return this.http.get<IOrganisations>(`${url}`);

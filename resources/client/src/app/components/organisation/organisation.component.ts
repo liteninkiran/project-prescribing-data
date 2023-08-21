@@ -43,7 +43,13 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     public postcodes: any | null = null;
     public subscriptions: Subscription[] = [];
     public userLocation!: GeolocationPosition;
-    public urlObj: { url: string; } = { url: '' };
+    public urlObj: {
+        url: string;
+        baseUrl : string;
+    } = {
+        url: '',
+        baseUrl: '',
+    };
 
     // Form
     public form!: FormGroup;
