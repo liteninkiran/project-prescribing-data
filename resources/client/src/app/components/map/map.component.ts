@@ -1,10 +1,11 @@
 import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { DimensionService } from '../../services/d3/dimension.service';
+import { HideMapTooltip, IPayload, MapTooltipActions, ShowMapTooltip } from './map-tooltip.actions';
 import { Observable, Subscription, debounceTime, fromEvent } from 'rxjs';
 import { IMapConfig, IMapData, IMapFeature } from 'src/app/interfaces/chart.interfaces';
+import { DimensionService } from '../../services/d3/dimension.service';
 import ObjectHelper from 'src/app/services/d3/object.helper';
+import * as topojson from 'topojson';
 import * as d3 from 'd3';
-import { HideMapTooltip, IPayload, MapTooltipActions, ShowMapTooltip } from './map-tooltip.actions';
 
 @Component({
     selector: 'app-map',
@@ -61,6 +62,7 @@ export class MapComponent implements OnInit, OnDestroy {
     public svg: d3.Selection<any, any, any, any> = d3.selection();
     public containers: any = {};
     public title: any;
+    public projection: any;
     public features: any;
     public dataFeatures: any;
     public path: any;
@@ -239,7 +241,34 @@ export class MapComponent implements OnInit, OnDestroy {
     }
 
     private setParams(): void {
+        this.setFeatures();
+        this.setProjection();
+        this.setPath();
+        this.setColours();
+    }
 
+    private setProjection(): void {
+        const coords: [number, number] = [
+            this.dimensions.innerWidth,
+            this.dimensions.innerHeight,
+        ];
+        this.projection = d3
+            .geoEquirectangular()
+            .fitSize(coords, this.features);
+    }
+
+    private setPath(): void {
+        this.path = d3.geoPath(this.projection);
+    }
+
+    private setFeatures(): void {
+        this.features = this.geodata.features || [];
+    }
+
+    private setColours(): void {
+        this.colours = d3.scaleThreshold()
+            .domain(this.data.thresholds.slice(2, this.data.thresholds.length))
+            .range(this.config.colours as any);
     }
 
     private setDataFeatures(): void {
