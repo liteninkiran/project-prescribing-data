@@ -10,8 +10,8 @@ import * as d3 from 'd3';
             <svg class="map">
                 <style>
                     .map {
-                        width: 900px;
-                        height: 600px;
+                        width: {{ this.width }}px;
+                        height: {{ this.height }}px;
                         border: 1px solid black;
                     }
 
@@ -22,7 +22,7 @@ import * as d3 from 'd3';
                     }
 
                     .map path.country {
-                        fill: #fff;
+                        fill: #000;
                         stroke: #aaa;
                     }
 
@@ -40,10 +40,12 @@ export class MapComponent implements OnInit, OnDestroy {
     // Main elements
     public host: d3.Selection<any, any, any, any>;
     public svg: d3.Selection<any, any, any, any> = d3.selection();
-    public projection: d3.GeoProjection = d3.geoMercator();
-    public path: d3.GeoPath<any, d3.GeoPermissibleObjects> = d3.geoPath(this.projection);
+    public projection!: d3.GeoProjection;
+    public path!: d3.GeoPath<any, d3.GeoPermissibleObjects>;
     public g: any = {};
     public countries: any;
+    public width = 900;
+    public height = 600;
 
     constructor(
         element: ElementRef,
@@ -52,6 +54,8 @@ export class MapComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
+        this.projection = d3.geoMercator().scale(140).translate([this.width / 2, this.height / 1.4]);
+        this.path = d3.geoPath(this.projection);
         this.svg = this.host.select('svg');
         this.g = this.svg.append('g');
         const url = 'https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-50m.json';
