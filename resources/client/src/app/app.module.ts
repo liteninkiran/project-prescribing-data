@@ -41,13 +41,20 @@ import { OrganisationComponent } from './components/organisation/organisation.co
 import { OrganisationViewComponent } from './components/organisation-view/organisation-view.component';
 import { ArrayConcatPipe } from './pipes/array-concat.pipe';
 import { ArrayConcatContactPipe } from './pipes/array-concat-contact.pipe';
+import { TableSortComponent } from './components/samples/table-sort/table-sort.component';
+import { SamplesComponent } from './components/samples/samples/samples.component';
 
 @NgModule({
     declarations: [
+        // Components
         AppComponent,
         HomeComponent,
         OrganisationComponent,
         OrganisationViewComponent,
+        TableSortComponent,
+        SamplesComponent,
+
+        // Pipes
         ArrayConcatPipe,
         ArrayConcatContactPipe,
     ],
