@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-import { MapHelper } from '../../map/map.helper';
 import { ApiService } from 'src/app/services/d3/api.service';
 
 @Component({
@@ -12,7 +11,6 @@ export class D3MapComponent implements OnInit, OnDestroy {
 
     public geoData$: Observable<any> = new Observable();
     public subscriptions: Subscription[] = [];
-    public covidMap = new MapHelper();
 
     constructor(private api: ApiService) {
 

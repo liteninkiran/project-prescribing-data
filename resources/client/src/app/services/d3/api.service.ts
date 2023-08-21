@@ -10,7 +10,7 @@ export class ApiService {
     constructor(private http: HttpClient) { }
 
     public getGeoData(): Observable<any> {
-        const url = 'assets/STP_April_2020_FEB_in_England_2022.geojson';
+        const url = 'assets/countries-10m.json';
         return this.getJson(url);
     }
 
