@@ -5,7 +5,6 @@ import * as d3 from 'd3';
 @Component({
     selector: 'app-map',
     template: `
-        <h1>Map</h1>
         <div class="map-container">
             <svg class="map">
                 <style>
@@ -22,8 +21,8 @@ import * as d3 from 'd3';
                     }
 
                     .map path.country {
-                        fill: #000;
-                        stroke: #aaa;
+                        fill: #ccc;
+                        stroke: #999;
                     }
 
                     .map path.data {
