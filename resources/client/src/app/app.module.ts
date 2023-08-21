@@ -41,8 +41,9 @@ import { OrganisationComponent } from './components/organisation/organisation.co
 import { OrganisationViewComponent } from './components/organisation-view/organisation-view.component';
 import { ArrayConcatPipe } from './pipes/array-concat.pipe';
 import { ArrayConcatContactPipe } from './pipes/array-concat-contact.pipe';
-import { TableSortComponent } from './components/samples/table-sort/table-sort.component';
 import { SamplesComponent } from './components/samples/samples/samples.component';
+import { TableSortComponent } from './components/samples/table-sort/table-sort.component';
+import { TableSortPaginateFilterComponent } from './components/samples/table-sort-paginate-filter/table-sort-paginate-filter.component';
 
 @NgModule({
     declarations: [
@@ -51,8 +52,9 @@ import { SamplesComponent } from './components/samples/samples/samples.component
         HomeComponent,
         OrganisationComponent,
         OrganisationViewComponent,
-        TableSortComponent,
         SamplesComponent,
+        TableSortComponent,
+        TableSortPaginateFilterComponent,
 
         // Pipes
         ArrayConcatPipe,

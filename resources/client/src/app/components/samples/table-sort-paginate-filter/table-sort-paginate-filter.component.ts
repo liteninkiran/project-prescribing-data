@@ -1,4 +1,5 @@
 import { Component, AfterViewInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
@@ -43,14 +44,15 @@ const NAMES: string[] = [
 ];
 
 @Component({
-    selector: 'app-table-sort',
-    templateUrl: './table-sort.component.html',
-    styleUrls: ['./table-sort.component.scss'],
+    selector: 'app-table-sort-paginate-filter',
+    templateUrl: './table-sort-paginate-filter.component.html',
+    styleUrls: ['./table-sort-paginate-filter.component.scss'],
 })
-export class TableSortComponent implements AfterViewInit {
+export class TableSortPaginateFilterComponent implements AfterViewInit {
     displayedColumns: string[] = ['id', 'name', 'progress', 'fruit'];
     dataSource: MatTableDataSource<UserData>;
 
+    @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;
 
     constructor() {
@@ -62,14 +64,27 @@ export class TableSortComponent implements AfterViewInit {
     }
 
     public ngAfterViewInit() {
+        this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+    }
+
+    public applyFilter(event: Event) {
+        const filterValue = (event.target as HTMLInputElement).value;
+        this.dataSource.filter = filterValue.trim().toLowerCase();
+
+        if (this.dataSource.paginator) {
+            this.dataSource.paginator.firstPage();
+        }
     }
 }
 
 /** Builds and returns a new User. */
 function createNewUser(id: number): UserData {
-    const name = NAMES[Math.round(Math.random() * (NAMES.length - 1))] + ' ' +
-                 NAMES[Math.round(Math.random() * (NAMES.length - 1))].charAt(0) + '.';
+    const name =
+        NAMES[Math.round(Math.random() * (NAMES.length - 1))] +
+        ' ' +
+        NAMES[Math.round(Math.random() * (NAMES.length - 1))].charAt(0) +
+        '.';
 
     return {
         id: id.toString(),

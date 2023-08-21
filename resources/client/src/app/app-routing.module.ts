@@ -5,6 +5,7 @@ import { HomeComponent } from './components/home/home.component';
 import { OrganisationViewComponent } from './components/organisation-view/organisation-view.component';
 import { SamplesComponent } from './components/samples/samples/samples.component';
 import { TableSortComponent } from './components/samples/table-sort/table-sort.component';
+import { TableSortPaginateFilterComponent } from './components/samples/table-sort-paginate-filter/table-sort-paginate-filter.component';
 
 const routes: Routes = [
     {
@@ -26,6 +27,10 @@ const routes: Routes = [
     {
         path: 'samples/table-sort',
         component: TableSortComponent,
+    },
+    {
+        path: 'samples/table-sort-paginate-filter',
+        component: TableSortPaginateFilterComponent,
     },
     {
         path: '**',
