@@ -11,6 +11,7 @@ export class OrganisationService {
     constructor(private http: HttpClient) { }
 
     public getOrganisations(
+        urlObj: { url: string; },
         limit: number = 10,
         offset: number = 0,
         status: string | null = null,
@@ -33,6 +34,8 @@ export class OrganisationService {
         url += lastChangeDate ? `LastChangeDate=${lastChangeDate}&` : '';
         url += name           ? `Name=${nameStr}&`                  : '';
         url = url.slice(0, -1);
+
+        urlObj.url = url;
 
         return this.http.get<IOrganisations>(`${url}`);
     }

@@ -42,6 +42,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     public postcodes: any | null = null;
     public subscriptions: Subscription[] = [];
     public userLocation!: GeolocationPosition;
+    public urlObj: { url: string; } = { url: ''};
 
     // Form
     public form!: FormGroup;
@@ -151,6 +152,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     private subscribeToData(): void {
         this.data = null;
         this.data$ = this.orgService.getOrganisations(
+            this.urlObj,
             this.form.value.limit,
             this.form.value.offset,
             this.form.value.status,
