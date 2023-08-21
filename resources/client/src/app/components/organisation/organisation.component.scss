@@ -33,6 +33,7 @@ hr {
 mat-form-field {
     margin-bottom: 15px;
     margin-right: 20px;
+    height: 78px;
 }
 
 .flex-container {
@@ -41,7 +42,7 @@ mat-form-field {
 }
 
 button {
-    margin-bottom: 10px;
+    margin-bottom: 40px;
 }
 
 .mat-mdc-row .mat-mdc-cell {
@@ -61,4 +62,14 @@ button {
 
 mat-panel-description.mat-expansion-panel-header-description {
     flex-grow: 4;
+}
+
+.expansion-panel {
+    margin-bottom: 20px;
+}
+
+.column-option-list {
+    ul {
+        list-style-type: none;
+    }
 }

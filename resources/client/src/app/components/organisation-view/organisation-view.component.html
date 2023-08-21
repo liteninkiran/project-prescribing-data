@@ -81,7 +81,7 @@
 
                     <!-- Panel Description -->
                     <mat-panel-description>
-                        {{ organisation.OrgId.extension }} | {{ organisation.Name }}
+                        {{ organisation.OrgId.extension }} | {{ organisation.Name | titlecase }}, {{ organisation.GeoLoc.Location.AddrLn1 | titlecase }}, {{ organisation.GeoLoc.Location.AddrLn2 | titlecase }}, {{ organisation.GeoLoc.Location.Town | titlecase }}, {{ organisation.GeoLoc.Location.County }}, {{ organisation.GeoLoc.Location.PostCode }}
                     </mat-panel-description>
 
                 </mat-expansion-panel-header>

@@ -1,21 +1,21 @@
 import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { OrganisationService } from 'src/app/services/organisation/organisation.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { 
-    IColumnConfig, 
-    ILastChangeDateConfig, 
-    INumInputConfig, 
-    IOrganisation, 
-    IOrganisations, 
-    IRole, 
-    IRoleConfig, 
-    IRoleData, 
-    IRoleInput, 
-    IRoles, 
-    IStatus, 
+import {
+    IColumnConfig,
+    ILastChangeDateConfig,
+    INumInputConfig,
+    IOrganisation,
+    IOrganisations,
+    IRole,
+    IRoleConfig,
+    IRoleData,
+    IRoleInput,
+    IRoles,
+    IStatus,
     IStatusConfig,
     IValidControl,
 } from 'src/app/interfaces/organisation.interfaces';
@@ -55,6 +55,18 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     };
     public postcodeInput: FormControl = new FormControl();
     public lastChangeDateInput: FormControl = new FormControl();
+    public orgNameInput: FormControl = new FormControl();
+    public formGroup = this.fb.group({
+        'OrgId': true,
+        'Name': true,
+        'PostCode': true,
+        'Status': true,
+        'OrgLink': false,
+        'OrgRecordClass': false,
+        'PrimaryRoleDescription': false,
+        'PrimaryRoleId': false,
+        'LastChangeDate': false,
+    });
 
     // Configuration
     public displayedColumns: string[] = [];
@@ -74,6 +86,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
         private orgService: OrganisationService,
         private _snackBar: MatSnackBar,
         private router: Router,
+        private fb: FormBuilder,
     ) {
 
     }
@@ -114,6 +127,10 @@ export class OrganisationComponent implements OnInit, OnDestroy {
         this.lastChangeDateInput.setValue(this.lastChangeDateConfig.min);
     }
 
+    public toggleColumn(): void {
+        this.setDisplayedColumns();
+    }
+
     private setData(): void {
         this.setVisibleColumns();
         this.setStatusData();
@@ -140,6 +157,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
             this.form.value.primaryRoles.concat(this.form.value.nonPrimaryRoles),
             this.form.value.postcode,
             this.formatDate(this.form.value.lastChangeDate),
+            this.form.value.orgName,
         );
         const sub: Subscription = this.data$.subscribe(
             (res: IOrganisations) => {
@@ -202,6 +220,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
         this.roleInput.nonPrimaryRole = new FormControl(this.roleConfig.nonPrimaryDefault);
         this.postcodeInput = new FormControl(null);
         this.lastChangeDateInput = new FormControl(null);
+        this.orgNameInput = new FormControl(null);
     }
 
     private setFormGroup(): void {
@@ -211,15 +230,15 @@ export class OrganisationComponent implements OnInit, OnDestroy {
                 const validControls: IValidControl[] = [
                     { name: 'status', hasValue: formGroup.get('status').value !== null },
                     { name: 'postcode', hasValue: formGroup.get('postcode').value !== null && formGroup.get('postcode').value !== '' },
+                    { name: 'orgName', hasValue: formGroup.get('orgName').value !== null && formGroup.get('orgName').value !== '' },
                     { name: 'primaryRoles', hasValue: formGroup.get('primaryRoles').value.length > 0 },
                     { name: 'lastChangeDate', hasValue: formGroup.get('lastChangeDate').value !== null },
                     { name: 'nonPrimaryRoles', hasValue: formGroup.get('nonPrimaryRoles').value.length > 0 },
                 ];
                 const valid = validControls.filter((ctl: IValidControl) => ctl.hasValue).length > 0;
                 return valid ? null : err;
-            } 
+            }
         }
-
 
         this.form = new FormGroup({
             'offset': this.offsetInput,
@@ -229,6 +248,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
             'nonPrimaryRoles': this.roleInput.nonPrimaryRole,
             'postcode': this.postcodeInput,
             'lastChangeDate': this.lastChangeDateInput,
+            'orgName': this.orgNameInput,
         }, requireOneControl());
     }
 
@@ -242,25 +262,25 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     }
 
     private columnConfigData(): IColumnConfig[] {
-            return [
-                { columnId: 'RowNum', columnName: 'Row', visible: true },
-                { columnId: 'OrgId', columnName: 'Organisation ID', visible: true },
-                { columnId: 'Name', columnName: 'Organisation Name', visible: true },
-                { columnId: 'PostCode', columnName: 'Postcode', visible: true },
-                { columnId: 'PrimaryRoleId', columnName: 'Primary Role ID', visible: false },
-                { columnId: 'PrimaryRoleDescription', columnName: 'Primary Role', visible: true },
-                { columnId: 'OrgLink', columnName: 'Organisation Link', visible: false },
-                { columnId: 'OrgRecordClass', columnName: 'Organisation Record Class', visible: false },
-                { columnId: 'Status', columnName: 'Status', visible: true },
-                { columnId: 'LastChangeDate', columnName: 'Last Change Date', visible: true },
-            ];
+        return [
+            { columnId: 'RowNum', columnName: 'Row', visible: true },
+            { columnId: 'OrgId', columnName: 'Organisation ID', visible: true },
+            { columnId: 'Name', columnName: 'Organisation Name', visible: true },
+            { columnId: 'PostCode', columnName: 'Postcode', visible: true },
+            { columnId: 'PrimaryRoleId', columnName: 'Primary Role ID', visible: false },
+            { columnId: 'PrimaryRoleDescription', columnName: 'Primary Role', visible: true },
+            { columnId: 'OrgLink', columnName: 'Organisation Link', visible: false },
+            { columnId: 'OrgRecordClass', columnName: 'Organisation Record Class', visible: false },
+            { columnId: 'Status', columnName: 'Status', visible: true },
+            { columnId: 'LastChangeDate', columnName: 'Last Change Date', visible: true },
+        ];
     }
 
     private numInputConfigData(type: string): INumInputConfig {
         switch (type) {
-            case 'offset': return { min: 0, max: 1000000, default:   0 };
-            case 'limit' : return { min: 1, max:    1000, default: 100 };
-            default      : return { min: 0, max:       0, default:   0 };
+            case 'offset': return { min: 0, max: 1000000, default: 0 };
+            case 'limit': return { min: 1, max: 1000, default: 100 };
+            default: return { min: 0, max: 0, default: 0 };
         }
     }
 
@@ -286,15 +306,15 @@ export class OrganisationComponent implements OnInit, OnDestroy {
         const maxDate: Date = new Date();
         const minDate: Date = new Date();
         minDate.setDate(minDate.getDate() - 185);
-            return {
-                min: minDate,
-                max: maxDate,
+        return {
+            min: minDate,
+            max: maxDate,
         };
     }
 
     private statusData(): IStatus[] {
         return [
-            { id: 'active'  , displayName: 'Active'   },
+            { id: 'active', displayName: 'Active' },
             { id: 'inactive', displayName: 'Inactive' },
         ];
     }
@@ -331,7 +351,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
                 mn.substring(mn.length - 2),
                 dy.substring(dy.length - 2),
             ];
-        
+
             return dateParts.join('-');
         } else {
             return null;
