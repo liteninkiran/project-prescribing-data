@@ -9,12 +9,21 @@ import * as L from 'leaflet';
 })
 export class Map2Component implements OnInit {
 
-    options = {
-        layers: [
-            tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '...' })
-        ],
-        zoom: 13,
-        center: latLng(51.505, -0.09)
+    private urlTemplate: string = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+    private zoom = 13;
+    private tileLayerOptions: L.TileLayerOptions = {
+        maxZoom: 18,
+        attribution: '...',
+    };
+    private currentPosition = {
+        lat: 51.505,
+        long: -0.09,
+    };
+
+    public options = {
+        layers: [ tileLayer(this.urlTemplate, this.tileLayerOptions) ],
+        zoom: this.zoom,
+        center: latLng(this.currentPosition.lat, this.currentPosition.long),
     };
 
     constructor() {
@@ -22,15 +31,9 @@ export class Map2Component implements OnInit {
     }
 
     public ngOnInit(): void {
-
-    }
-
-    public mapReady(map: L.Map) {
-        map.addControl(L.control.zoom({ position: 'bottomright' }));
-
-        // Reset the map
-        setTimeout(() => {
-              map.invalidateSize();
-        }, 0);
+        navigator.geolocation.getCurrentPosition((position) => this.currentPosition = {
+            lat: position.coords.latitude,
+            long: position.coords.longitude,
+        });
     }
 }
