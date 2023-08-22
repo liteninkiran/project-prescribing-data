@@ -122,7 +122,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     }
 
     public onRowClick(row: IOrganisation): void {
-        window.open(`/organisations/${row.OrgId}`, "_blank");
+        window.open(`/#/organisations/${row.OrgId}`, "_blank");
     }
 
     public onPostcodeDoubleClick(): void {
