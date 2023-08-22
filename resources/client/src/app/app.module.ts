@@ -46,6 +46,8 @@ import { TableSortComponent } from './components/samples/table-sort/table-sort.c
 import { TableSortPaginateFilterComponent } from './components/samples/table-sort-paginate-filter/table-sort-paginate-filter.component';
 import { D3MapComponent } from './components/samples/d3-map/d3-map.component';
 import { MapComponent } from './components/map/map.component';
+import { Map2Component } from './components/map-2/map-2.component';
+import { LeafletMapComponent } from './components/samples/leaflet-map/leaflet-map.component';
 
 @NgModule({
     declarations: [
@@ -57,12 +59,14 @@ import { MapComponent } from './components/map/map.component';
         SamplesComponent,
         TableSortComponent,
         TableSortPaginateFilterComponent,
+        D3MapComponent,
+        MapComponent,
+        Map2Component,
+        LeafletMapComponent,
 
         // Pipes
         ArrayConcatPipe,
         ArrayConcatContactPipe,
-        D3MapComponent,
-        MapComponent,
     ],
     imports: [
         BrowserAnimationsModule,
