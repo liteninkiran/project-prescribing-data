@@ -64,17 +64,6 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     public postcodeInput: FormControl = new FormControl();
     public lastChangeDateInput: FormControl = new FormControl();
     public orgNameInput: FormControl = new FormControl();
-    // public formGroup = this.fb.group({
-    //     'OrgId': true,
-    //     'Name': true,
-    //     'PostCode': true,
-    //     'Status': true,
-    //     'OrgLink': false,
-    //     'OrgRecordClass': false,
-    //     'PrimaryRoleDescription': false,
-    //     'PrimaryRoleId': false,
-    //     'LastChangeDate': false,
-    // });
 
     // Configuration
     public displayedColumns: string[] = [];
@@ -136,10 +125,6 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     public onLastChangeDateDoubleClick(): void {
         this.lastChangeDateInput.setValue(this.lastChangeDateConfig.min);
     }
-
-    // public toggleColumn(): void {
-    //     this.setDisplayedColumns();
-    // }
 
     private setData(): void {
         this.setVisibleColumns();
