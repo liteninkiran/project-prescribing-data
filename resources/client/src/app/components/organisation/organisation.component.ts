@@ -160,12 +160,13 @@ export class OrganisationComponent implements OnInit, OnDestroy {
 
     private subscribeToData(): void {
         this.data = null;
+        const roles = this.form.value.primaryRoles.concat(this.form.value.nonPrimaryRoles);
         this.data$ = this.orgService.getOrganisations(
             this.urlObj,
             this.form.value.limit,
             this.form.value.offset,
             this.form.value.status,
-            this.form.value.primaryRoles.concat(this.form.value.nonPrimaryRoles),
+            roles.length === 0 ? null : roles,
             this.form.value.postcode,
             this.formatDate(this.form.value.lastChangeDate),
             this.form.value.orgName,
