@@ -63,6 +63,8 @@ export class TableSortComponent implements AfterViewInit {
 
     public ngAfterViewInit() {
         this.dataSource.sort = this.sort;
+        console.log(this.sort);
+
     }
 }
 

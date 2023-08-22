@@ -168,3 +168,8 @@ export interface ISingleOrgStatusCount {
     total: number;
     view: number;
 };
+
+export interface IUrlObject {
+    url: string;
+    baseUrl: string;
+};

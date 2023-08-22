@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { OrganisationService } from 'src/app/services/organisation/organisation.service';
@@ -17,8 +17,11 @@ import {
     IRoles,
     IStatus,
     IStatusConfig,
+    IUrlObject,
     IValidControl,
 } from 'src/app/interfaces/organisation.interfaces';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
     selector: 'app-organisation',
@@ -27,9 +30,11 @@ import {
     providers: [OrganisationService],
     encapsulation: ViewEncapsulation.None,
 })
-export class OrganisationComponent implements OnInit, OnDestroy {
+export class OrganisationComponent implements OnInit, OnDestroy, AfterViewInit {
+    @ViewChild(MatSort) sort!: MatSort;
 
     // Data
+    public dataSource!: MatTableDataSource<IOrganisation>;
     public data$: Observable<IOrganisations> = new Observable();
     public data: IOrganisations | null = null;
     public roles$: Observable<IRoles> = new Observable();
@@ -42,13 +47,10 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     public postcodes: any | null = null;
     public subscriptions: Subscription[] = [];
     public userLocation!: GeolocationPosition;
-    public urlObj: {
-        url: string;
-        baseUrl: string;
-    } = {
-            url: '',
-            baseUrl: '',
-        };
+    public urlObj: IUrlObject = {
+        url: '',
+        baseUrl: '',
+    };
 
     // Filter form
     public filterForm!: FormGroup;
@@ -86,10 +88,6 @@ export class OrganisationComponent implements OnInit, OnDestroy {
         private _snackBar: MatSnackBar,
         private fb: FormBuilder,
     ) {
-
-    }
-
-    public ngOnInit(): void {
         //this.setLocation();
         this.setConfigData();
         this.setFilterForm();
@@ -98,14 +96,18 @@ export class OrganisationComponent implements OnInit, OnDestroy {
         this.setDisplayedColumns();
     }
 
+    public ngOnInit(): void {
+    }
+
+    public ngAfterViewInit() {
+
+    }
+
     public ngOnDestroy(): void {
         this.subscriptions.map((sub: Subscription) => sub.unsubscribe())
     }
 
     public onCheckboxSelectionChange(event: MatCheckboxChange): void {
-        Object.keys(this.columnForm.controls).forEach(key => {
-            console.log(this.columnForm.controls[key]);
-        });
         this.setDisplayedColumns();
     }
 
@@ -144,7 +146,14 @@ export class OrganisationComponent implements OnInit, OnDestroy {
         }
     }
 
+    private setSort(): void {
+        if (this.dataSource) {
+            this.dataSource.sort = this.sort;
+        }
+    }
+
     private subscribeToData(): void {
+        this.dataSource = new MatTableDataSource<IOrganisation>();
         this.data = null;
         const roles = this.filterForm.value.primaryRoles.concat(this.filterForm.value.nonPrimaryRoles);
         this.data$ = this.orgService.getOrganisations(
@@ -166,6 +175,8 @@ export class OrganisationComponent implements OnInit, OnDestroy {
                     o.LastChangeDt = new Date(o.LastChangeDate);
                     o.LastChangeDate = o.LastChangeDt.toLocaleDateString('en-GB');
                 });
+                this.dataSource = new MatTableDataSource(this.data.Organisations);
+                setTimeout(() => this.setSort(), 500);
             },
             (err: any) => {
                 this.data = { Organisations: [] };
