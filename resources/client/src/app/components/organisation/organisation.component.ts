@@ -99,7 +99,7 @@ export class OrganisationComponent implements OnInit, OnDestroy, AfterViewInit {
     public ngOnInit(): void {
     }
 
-    public ngAfterViewInit() {
+    public ngAfterViewInit(): void {
 
     }
 
@@ -176,7 +176,7 @@ export class OrganisationComponent implements OnInit, OnDestroy, AfterViewInit {
                     o.LastChangeDate = o.LastChangeDt.toLocaleDateString('en-GB');
                 });
                 this.dataSource = new MatTableDataSource(this.data.Organisations);
-                setTimeout(() => this.setSort(), 500);
+                setTimeout(() => this.setSort(), 0);
             },
             (err: any) => {
                 this.data = { Organisations: [] };
