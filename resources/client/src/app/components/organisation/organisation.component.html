@@ -12,7 +12,7 @@
     <div *ngIf="data">
 
         <!-- Column Options -->
-        <div class="expansion-panel">
+        <div class="expansion-panel expansion-panel-column">
             <mat-accordion>
                 <mat-expansion-panel>
 
@@ -30,29 +30,20 @@
                             <!-- Settings Icon -->
                             <mat-icon>list</mat-icon>
 
-                            {{ displayedColumnList }}
+                            Select columns to display on the table
 
                         </mat-panel-description>
 
                     </mat-expansion-panel-header>
 
                     <!-- Column Visibility Drop-Down List -->
-                    <mat-form-field id="column-list">
-
-                        <!-- Label -->
-                        <mat-label>
-                            Visible columns
-                        </mat-label>
-
-                        <!-- Column List Drop-Down Menu -->
-                        <mat-select [formControl]="visibleColumns" multiple panelClass="long-list" (selectionChange)="onSelectionChange($event)">
-                            <!-- Loop through column definition config array -->
-                            <mat-option *ngFor="let item of columnConfig" [value]="item.columnId">
+                    <section class="example-section" [formGroup]="columnForm">
+                        <div class="flex-container-1">
+                            <mat-checkbox [formControlName]="item.columnId" *ngFor="let item of columnConfig" [value]="item.columnId" (change)="onCheckboxSelectionChange($event)">
                                 {{ item.columnName }}
-                            </mat-option>
-                        </mat-select>
-
-                    </mat-form-field>
+                            </mat-checkbox>
+                        </div>
+                    </section>
 
                 </mat-expansion-panel>
 
@@ -156,7 +147,7 @@
                     <!-- Filters -->
                     <form #dataOptionsForm="ngForm" (ngSubmit)="onSubmitForm()">
 
-                        <div class="flex-container">
+                        <div class="flex-container-2">
 
                             <!-- Organisation Name -->
                             <mat-form-field>
@@ -296,13 +287,13 @@
                         </div>
 
                         <!--  Submit Button -->
-                        <button mat-raised-button color="primary" [disabled]="form.invalid">
+                        <button mat-raised-button color="primary" [disabled]="filterForm.invalid">
                             Refresh Data
                         </button>
 
                         <!-- Error Messages -->
-                        <mat-error *ngIf="form.hasError('atLeastOneRequired')">
-                            {{ form.errors?.['atLeastOneRequired'] }}
+                        <mat-error *ngIf="filterForm.hasError('atLeastOneRequired')">
+                            {{ filterForm.errors?.['atLeastOneRequired'] }}
                         </mat-error>
 
                     </form>

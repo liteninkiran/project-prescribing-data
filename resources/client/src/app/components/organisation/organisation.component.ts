@@ -2,8 +2,8 @@ import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { OrganisationService } from 'src/app/services/organisation/organisation.service';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
 import {
     IColumnConfig,
     ILastChangeDateConfig,
@@ -19,7 +19,6 @@ import {
     IStatusConfig,
     IValidControl,
 } from 'src/app/interfaces/organisation.interfaces';
-import { MatSelectChange } from '@angular/material/select';
 
 @Component({
     selector: 'app-organisation',
@@ -45,15 +44,14 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     public userLocation!: GeolocationPosition;
     public urlObj: {
         url: string;
-        baseUrl : string;
+        baseUrl: string;
     } = {
-        url: '',
-        baseUrl: '',
-    };
+            url: '',
+            baseUrl: '',
+        };
 
-    // Form
-    public form!: FormGroup;
-    public visibleColumns: FormControl = new FormControl(['']);          // Must be array because multiple=true
+    // Filter form
+    public filterForm!: FormGroup;
     public offsetInput: FormControl = new FormControl();
     public limitInput: FormControl = new FormControl();
     public statusInput: FormControl = new FormControl();
@@ -64,6 +62,10 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     public postcodeInput: FormControl = new FormControl();
     public lastChangeDateInput: FormControl = new FormControl();
     public orgNameInput: FormControl = new FormControl();
+
+    // Column select form
+    public columnForm!: FormGroup;
+    public columnFormControls: any;
 
     // Configuration
     public displayedColumns: string[] = [];
@@ -78,12 +80,10 @@ export class OrganisationComponent implements OnInit, OnDestroy {
             navigator.geolocation.getCurrentPosition(res, rej);
         });
     };
-    public displayedColumnList: string = '';
 
     constructor(
         private orgService: OrganisationService,
         private _snackBar: MatSnackBar,
-        private router: Router,
         private fb: FormBuilder,
     ) {
 
@@ -92,7 +92,8 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     public ngOnInit(): void {
         //this.setLocation();
         this.setConfigData();
-        this.setForm();
+        this.setFilterForm();
+        this.setColumnForm();
         this.setData();
         this.setDisplayedColumns();
     }
@@ -101,8 +102,10 @@ export class OrganisationComponent implements OnInit, OnDestroy {
         this.subscriptions.map((sub: Subscription) => sub.unsubscribe())
     }
 
-    public onSelectionChange(event: MatSelectChange): void {
-        this.displayedColumnList = event.source.triggerValue;
+    public onCheckboxSelectionChange(event: MatCheckboxChange): void {
+        Object.keys(this.columnForm.controls).forEach(key => {
+            console.log(this.columnForm.controls[key]);
+        });
         this.setDisplayedColumns();
     }
 
@@ -127,34 +130,32 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     }
 
     private setData(): void {
-        this.setVisibleColumns();
         this.setStatusData();
         this.setRolesData();
         this.subscribeToData();
     }
 
-    private setDisplayedColumns(): void {
-        this.displayedColumns = this.visibleColumns.value as string[];
-    }
-
-    private setVisibleColumns(): void {
-        const visibleColumns = this.columnConfig.filter(d => d.visible);
-        const visibleColumnIds = visibleColumns.map(d => d.columnId);
-        this.visibleColumns.setValue(visibleColumnIds);
+    public setDisplayedColumns(): void {
+        this.displayedColumns = [];
+        for (const [key, value] of Object.entries(this.columnForm.value)) {
+            if (value as boolean) {
+                this.displayedColumns.push(key)
+            }
+        }
     }
 
     private subscribeToData(): void {
         this.data = null;
-        const roles = this.form.value.primaryRoles.concat(this.form.value.nonPrimaryRoles);
+        const roles = this.filterForm.value.primaryRoles.concat(this.filterForm.value.nonPrimaryRoles);
         this.data$ = this.orgService.getOrganisations(
             this.urlObj,
-            this.form.value.limit,
-            this.form.value.offset,
-            this.form.value.status,
+            this.filterForm.value.limit,
+            this.filterForm.value.offset,
+            this.filterForm.value.status,
             roles.length === 0 ? null : roles,
-            this.form.value.postcode,
-            this.formatDate(this.form.value.lastChangeDate),
-            this.form.value.orgName,
+            this.filterForm.value.postcode,
+            this.formatDate(this.filterForm.value.lastChangeDate),
+            this.filterForm.value.orgName,
         );
         const sub: Subscription = this.data$.subscribe(
             (res: IOrganisations) => {
@@ -196,12 +197,17 @@ export class OrganisationComponent implements OnInit, OnDestroy {
         this.status = this.statusData();
     }
 
-    private setForm(): void {
-        this.setFormControls();
-        this.setFormGroup();
+    private setFilterForm(): void {
+        this.setFilterFormControls();
+        this.setFilterFormGroup();
     }
 
-    private setFormControls(): void {
+    private setColumnForm(): void {
+        this.setColumnFormControls();
+        this.setColumnFormGroup();
+    }
+
+    private setFilterFormControls(): void {
         const offsetValidators = [
             Validators.min(this.offsetConfig.min),
             Validators.max(this.offsetConfig.max),
@@ -220,7 +226,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
         this.orgNameInput = new FormControl(null);
     }
 
-    private setFormGroup(): void {
+    private setFilterFormGroup(): void {
         const requireOneControl = () => {
             return (formGroup: any) => {
                 const err = { atLeastOneRequired: 'At least one filter must be applied' };
@@ -237,7 +243,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
             }
         }
 
-        this.form = new FormGroup({
+        this.filterForm = new FormGroup({
             'offset': this.offsetInput,
             'limit': this.limitInput,
             'status': this.statusInput,
@@ -259,7 +265,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     }
 
     private columnConfigData(): IColumnConfig[] {
-        const config: IColumnConfig[] = [
+        return [
             { columnId: 'RowNum', columnName: 'Row', visible: true },
             { columnId: 'OrgId', columnName: 'Organisation ID', visible: true },
             { columnId: 'Name', columnName: 'Organisation Name', visible: true },
@@ -271,13 +277,18 @@ export class OrganisationComponent implements OnInit, OnDestroy {
             { columnId: 'Status', columnName: 'Status', visible: true },
             { columnId: 'LastChangeDate', columnName: 'Last Change Date', visible: false },
         ];
+    }
 
-        this.displayedColumnList = config
-            .filter(config => config.visible)
-            .map(config => config.columnName)
-            .join(', ');
+    private setColumnFormControls(): void {
+        const formControls: { [k: string]: boolean } = {};
+        for (const config of this.columnConfig) {
+            formControls[config.columnId] = config.visible;
+        }
+        this.columnFormControls = formControls;
+    }
 
-        return config;
+    private setColumnFormGroup(): void {
+        this.columnForm = this.fb.group(this.columnFormControls);
     }
 
     private numInputConfigData(type: string): INumInputConfig {
