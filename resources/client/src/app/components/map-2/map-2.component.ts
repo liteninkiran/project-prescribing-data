@@ -13,8 +13,8 @@ export class Map2Component implements OnInit {
         layers: [
             tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '...' })
         ],
-        zoom: 5,
-        center: latLng(46.879966, -121.726909)
+        zoom: 13,
+        center: latLng(51.505, -0.09)
     };
 
     constructor() {
@@ -22,11 +22,15 @@ export class Map2Component implements OnInit {
     }
 
     public ngOnInit(): void {
-        const myMap = L.map('map').setView([51.505, -0.09], 13);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(myMap);
+
     }
 
-    
+    public mapReady(map: L.Map) {
+        map.addControl(L.control.zoom({ position: 'bottomright' }));
+
+        // Reset the map
+        setTimeout(() => {
+              map.invalidateSize();
+        }, 0);
+    }
 }

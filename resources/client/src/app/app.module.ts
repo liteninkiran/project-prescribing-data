@@ -35,6 +35,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 import { HomeComponent } from './components/home/home.component';
 import { OrganisationComponent } from './components/organisation/organisation.component';
@@ -104,6 +105,7 @@ import { LeafletMapComponent } from './components/samples/leaflet-map/leaflet-ma
         MatDividerModule,
         MatSnackBarModule,
         NgxJsonViewerModule,
+        LeafletModule,
     ],
     providers: [],
     bootstrap: [
