@@ -15,7 +15,7 @@ export class Map2Component implements OnInit {
         attribution: '...',
     };
     private zoom = 13;
-    private centre = [51.505, -0.09];
+    private centre = [50.7993, -1.0658];
     private centreCoords!: L.LatLngExpression;
 
     // Marker
@@ -52,28 +52,31 @@ export class Map2Component implements OnInit {
     }
 
     public ngOnInit(): void {
-        // this.setLocation();
+        this.setLocation();
         this.setCordinates(this.centre[0], this.centre[1]);
         this.setupMap();
     }
 
-    private async setLocation(): Promise<void> {
+    private async setLocation(setMap = false): Promise<void> {
         if (!this.userLocation) {
             this.userLocation = await this.getUserLocation();
-            this.setCordinates(this.userLocation.coords.latitude, this.userLocation.coords.longitude);
-            this.setupMap();
+            if (setMap) {
+                this.setCordinates(this.userLocation.coords.latitude, this.userLocation.coords.longitude);
+                this.setupMap();
+            }
         }
     }
 
     private setCordinates(lat: number, long: number) {
         this.centreCoords = [lat, long];
         this.markerCoords = [lat - 0.005, long];
-        this.circleCoords = [lat + 0.003, long - 0.02];
+        this.circleCoords = [lat - 0.005, long - 0.021];
         this.popupCoords = [lat + 0.008, long];
         this.polygonCoords = [
-            [lat + 0.004, long + 0.010],
-            [lat - 0.002, long + 0.030],
-            [lat + 0.005, long + 0.043],
+            [lat + 0.004, long + 0.004],
+            [lat + 0.004, long + 0.028],
+            [lat + 0.015, long + 0.028],
+            [lat + 0.015, long + 0.004],
         ];
     }
 
@@ -81,15 +84,14 @@ export class Map2Component implements OnInit {
         this.fixLeafletBug();
         const map = L.map('map').setView(this.centreCoords, this.zoom);
         const tiles = L.tileLayer(this.urlTemplate, this.tileLayerOptions).addTo(map);
-        const marker = L.marker(this.markerCoords).addTo(map).bindPopup(this.markerPopupContent).openPopup();
+        const marker = L.marker(this.markerCoords).addTo(map).bindPopup(this.markerPopupContent);
         const circle = L.circle(this.circleCoords, this.circleOptions).addTo(map).bindPopup(this.circlePopupContent);
         const polygon = L.polygon(this.polygonCoords).addTo(map).bindPopup(this.polygonPopupContent);
-        const popup = L.popup().setLatLng(this.popupCoords).setContent(this.popupPopupContent).openOn(map);
-    
+        const popup = L.popup().setLatLng(this.popupCoords).setContent(this.popupPopupContent);
+
         function onMapClick(e: L.LeafletMouseEvent) {
             popup.setLatLng(e.latlng)
-                .setContent('You clicked the map at ' + e.latlng.toString())
-                .openOn(map);
+                .setContent('You clicked the map at ' + e.latlng.toString());
         }
     
         map.on('click', onMapClick);
