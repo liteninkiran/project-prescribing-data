@@ -12,7 +12,7 @@ const greenIcon = L.icon({
 const blackIcon = L.icon({
     iconUrl     : 'assets/map-marker.svg',
     iconSize    : [40, 40], // size of the icon
-    iconAnchor  : [40, 40], // point of the icon which will correspond to marker's location
+    iconAnchor  : [20, 40], // point of the icon which will correspond to marker's location
     popupAnchor : [0, -40] // point from which the popup should open relative to the iconAnchor
 });
 
@@ -401,9 +401,9 @@ export class Map2Component implements OnInit {
     }
 
     private setMapObjects() {
-        this.map = L.map('map').setView(this.centreCoords, this.zoom);
+        this.map = L.map('map', { zoomSnap: 0.1 }).setView(this.centreCoords, this.zoom);
         this.tiles = L.tileLayer(this.urlTemplate, this.tileLayerOptions).addTo(this.map);
-        L.geoJSON(this.geoJson, {
+        const geoJson: L.GeoJSON = L.geoJSON(this.geoJson, {
             style: function(feature) {
                 return {
                     color: '#000',
@@ -419,6 +419,8 @@ export class Map2Component implements OnInit {
                 }
             },
         }).addTo(this.map);
+
+        this.map.fitBounds(geoJson.getBounds(), { padding: [20, 20] });
     }
 
     private fixLeafletBug() {
