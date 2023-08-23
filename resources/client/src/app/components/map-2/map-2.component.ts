@@ -9,6 +9,8 @@ import * as L from 'leaflet';
 })
 export class Map2Component implements OnInit {
     // Map
+    private map!: L.Map;
+    private tiles!: L.TileLayer;
     private urlTemplate: string = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
     private tileLayerOptions: L.TileLayerOptions = {
         maxZoom: 20,
@@ -19,10 +21,12 @@ export class Map2Component implements OnInit {
     private centreCoords!: L.LatLngExpression;
 
     // Marker
+    private marker!: L.Marker;
     private markerCoords!: L.LatLngExpression;
     private markerPopupContent: L.Content | ((layer: L.Layer) => L.Content) | L.Popup = '<b>Hello world!</b><br />I am a popup.';
 
     // Circle
+    private circle!: L.Circle;
     private circleCoords!: L.LatLngExpression;
     private circlePopupContent: L.Content | ((layer: L.Layer) => L.Content) | L.Popup = 'I am a circle.';
     private circleOptions: L.CircleMarkerOptions = {
@@ -33,10 +37,12 @@ export class Map2Component implements OnInit {
     };
 
     // Popup
+    private popup!: L.Popup;
     private popupCoords!: L.LatLngExpression;
     private popupPopupContent: ((source: L.Layer) => L.Content) | L.Content = 'I am a standalone popup.';
 
     // Polygon
+    private polygon!: L.Polygon;
     private polygonPopupContent: L.Content | ((layer: L.Layer) => L.Content) | L.Popup = 'I am a polygon.';
     private polygonCoords!: L.LatLngExpression[];
 
@@ -82,19 +88,22 @@ export class Map2Component implements OnInit {
 
     private setupMap() {
         this.fixLeafletBug();
-        const map = L.map('map').setView(this.centreCoords, this.zoom);
-        const tiles = L.tileLayer(this.urlTemplate, this.tileLayerOptions).addTo(map);
-        const marker = L.marker(this.markerCoords).addTo(map).bindPopup(this.markerPopupContent);
-        const circle = L.circle(this.circleCoords, this.circleOptions).addTo(map).bindPopup(this.circlePopupContent);
-        const polygon = L.polygon(this.polygonCoords).addTo(map).bindPopup(this.polygonPopupContent);
-        const popup = L.popup().setLatLng(this.popupCoords).setContent(this.popupPopupContent);
+        this.setMapObjects();
+    }
 
-        function onMapClick(e: L.LeafletMouseEvent) {
-            popup.setLatLng(e.latlng)
-                .setContent('You clicked the map at ' + e.latlng.toString());
-        }
-    
-        map.on('click', onMapClick);
+    private setMapObjects() {
+        this.map = L.map('map').setView(this.centreCoords, this.zoom);
+        this.tiles = L.tileLayer(this.urlTemplate, this.tileLayerOptions).addTo(this.map);
+        this.marker = L.marker(this.markerCoords).addTo(this.map).bindPopup(this.markerPopupContent);
+        this.circle = L.circle(this.circleCoords, this.circleOptions).addTo(this.map).bindPopup(this.circlePopupContent);
+        this.polygon = L.polygon(this.polygonCoords).addTo(this.map).bindPopup(this.polygonPopupContent);
+        this.popup = L.popup().setLatLng(this.popupCoords).setContent(this.popupPopupContent);
+        this.map.on('click', (e: L.LeafletMouseEvent) => {
+            this.popup
+                .setLatLng(e.latlng)
+                .setContent(`You clicked the map at ${e.latlng.toString()}`)
+                .openOn(this.map);
+        });
     }
 
     private fixLeafletBug() {
