@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { icon, Marker } from 'leaflet';
 import * as L from 'leaflet';
 
@@ -27,6 +27,7 @@ export interface IMarkerConfig {
     selector: 'app-map-2',
     templateUrl: './map-2.component.html',
     styleUrls: ['./map-2.component.scss'],
+    encapsulation: ViewEncapsulation.None,
 })
 export class Map2Component implements OnInit {
     // Map
@@ -41,19 +42,13 @@ export class Map2Component implements OnInit {
     private centre = [50.794257, -1.066010];
     private centreCoords!: L.LatLngExpression;
 
-    // Shape options
-    private shapeOptions: L.CircleMarkerOptions = {
-        color: '#000',
-        fillColor: '#333',
-        fillOpacity: 0.4,
-        radius: 500,
-        weight: 1,
-    };
-
     // Marker
     private markers: L.Marker[] = [];
     private markerCoords: IMarkerConfig[] = [];
-    private markerPopupContent: L.Content | ((layer: L.Layer) => L.Content) | L.Popup = '<b>Hello world!</b><br />I am a popup.';
+
+    // Popup
+    private popup!: L.Popup;
+    private popupCoords!: L.LatLngExpression;
 
     // User location
     private getUserLocation = async (): Promise<GeolocationPosition> => {
@@ -88,6 +83,7 @@ export class Map2Component implements OnInit {
             { coords: [lat - 0.0000, long - 0.0000], options: { icon: blackIcon }, },
             { coords: [lat + 0.0020, long - 0.0075], options: { icon: greenIcon }, },
         ];
+        this.popupCoords = [lat + 0.005, long];
     }
 
     private setupMap() {
@@ -98,9 +94,19 @@ export class Map2Component implements OnInit {
     private setMapObjects() {
         this.map = L.map('map').setView(this.centreCoords, this.zoom);
         this.tiles = L.tileLayer(this.urlTemplate, this.tileLayerOptions).addTo(this.map);
+        const options = {
+            maxWidth: 400,
+        };
+        this.popup = L
+            .popup(options)
+            .setLatLng(this.popupCoords)
+            .setContent('<img src="https://placehold.co/100x50" />')
+            .openOn(this.map);
         this.markerCoords.map((config: IMarkerConfig) => {
-            const marker: L.Marker = L.marker(config.coords, config.options).addTo(this.map).bindPopup(this.markerPopupContent);
-            console.log(marker);
+            const marker: L.Marker = L
+                .marker(config.coords, config.options)
+                .addTo(this.map)
+                .bindPopup(this.popup);
             this.markers.push(marker);
         });
     }
