@@ -20,31 +20,19 @@ export class Map2Component implements OnInit {
     private centre = [50.7993, -1.0658];
     private centreCoords!: L.LatLngExpression;
 
+    // Shape options
+    private shapeOptions: L.CircleMarkerOptions = {
+        color: '#000',
+        fillColor: '#333',
+        fillOpacity: 0.4,
+        radius: 500,
+        weight: 1,
+    };
+
     // Marker
     private marker!: L.Marker;
     private markerCoords!: L.LatLngExpression;
     private markerPopupContent: L.Content | ((layer: L.Layer) => L.Content) | L.Popup = '<b>Hello world!</b><br />I am a popup.';
-
-    // Circle
-    private circle!: L.Circle;
-    private circleCoords!: L.LatLngExpression;
-    private circlePopupContent: L.Content | ((layer: L.Layer) => L.Content) | L.Popup = 'I am a circle.';
-    private circleOptions: L.CircleMarkerOptions = {
-        color: 'red',
-        fillColor: '#f03',
-        fillOpacity: 0.5,
-        radius: 500,
-    };
-
-    // Popup
-    private popup!: L.Popup;
-    private popupCoords!: L.LatLngExpression;
-    private popupPopupContent: ((source: L.Layer) => L.Content) | L.Content = 'I am a standalone popup.';
-
-    // Polygon
-    private polygon!: L.Polygon;
-    private polygonPopupContent: L.Content | ((layer: L.Layer) => L.Content) | L.Popup = 'I am a polygon.';
-    private polygonCoords!: L.LatLngExpression[];
 
     // User location
     private getUserLocation = async (): Promise<GeolocationPosition> => {
@@ -76,14 +64,6 @@ export class Map2Component implements OnInit {
     private setCordinates(lat: number, long: number) {
         this.centreCoords = [lat, long];
         this.markerCoords = [lat - 0.005, long];
-        this.circleCoords = [lat - 0.005, long - 0.021];
-        this.popupCoords = [lat + 0.008, long];
-        this.polygonCoords = [
-            [lat + 0.004, long + 0.004],
-            [lat + 0.004, long + 0.028],
-            [lat + 0.015, long + 0.028],
-            [lat + 0.015, long + 0.004],
-        ];
     }
 
     private setupMap() {
@@ -95,15 +75,6 @@ export class Map2Component implements OnInit {
         this.map = L.map('map').setView(this.centreCoords, this.zoom);
         this.tiles = L.tileLayer(this.urlTemplate, this.tileLayerOptions).addTo(this.map);
         this.marker = L.marker(this.markerCoords).addTo(this.map).bindPopup(this.markerPopupContent);
-        this.circle = L.circle(this.circleCoords, this.circleOptions).addTo(this.map).bindPopup(this.circlePopupContent);
-        this.polygon = L.polygon(this.polygonCoords).addTo(this.map).bindPopup(this.polygonPopupContent);
-        this.popup = L.popup().setLatLng(this.popupCoords).setContent(this.popupPopupContent);
-        this.map.on('click', (e: L.LeafletMouseEvent) => {
-            this.popup
-                .setLatLng(e.latlng)
-                .setContent(`You clicked the map at ${e.latlng.toString()}`)
-                .openOn(this.map);
-        });
     }
 
     private fixLeafletBug() {
