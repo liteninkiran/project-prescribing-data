@@ -2,6 +2,27 @@ import { Component, OnInit } from '@angular/core';
 import { icon, Marker } from 'leaflet';
 import * as L from 'leaflet';
 
+const greenIcon = L.icon({
+    iconUrl     : 'assets/tree.png',
+    iconSize    : [32, 37], // size of the icon
+    iconAnchor  : [16, 37], // point of the icon which will correspond to marker's location
+    popupAnchor : [0, -37] // point from which the popup should open relative to the iconAnchor
+});
+
+const blackIcon = L.icon({
+    iconUrl     : 'assets/map-marker.svg',
+    iconSize    : [40, 40], // size of the icon
+    iconAnchor  : [40, 40], // point of the icon which will correspond to marker's location
+    popupAnchor : [0, -40] // point from which the popup should open relative to the iconAnchor
+});
+
+export interface IMarkerConfig {
+    coords: L.LatLngExpression,
+    options: {
+        icon: any;
+    };
+}
+
 @Component({
     selector: 'app-map-2',
     templateUrl: './map-2.component.html',
@@ -16,8 +37,8 @@ export class Map2Component implements OnInit {
         maxZoom: 20,
         attribution: '...',
     };
-    private zoom = 13;
-    private centre = [50.7993, -1.0658];
+    private zoom = 16;
+    private centre = [50.794257, -1.066010];
     private centreCoords!: L.LatLngExpression;
 
     // Shape options
@@ -30,8 +51,8 @@ export class Map2Component implements OnInit {
     };
 
     // Marker
-    private marker!: L.Marker;
-    private markerCoords!: L.LatLngExpression;
+    private markers: L.Marker[] = [];
+    private markerCoords: IMarkerConfig[] = [];
     private markerPopupContent: L.Content | ((layer: L.Layer) => L.Content) | L.Popup = '<b>Hello world!</b><br />I am a popup.';
 
     // User location
@@ -63,7 +84,10 @@ export class Map2Component implements OnInit {
 
     private setCordinates(lat: number, long: number) {
         this.centreCoords = [lat, long];
-        this.markerCoords = [lat - 0.005, long];
+        this.markerCoords = [
+            { coords: [lat - 0.0000, long - 0.0000], options: { icon: blackIcon }, },
+            { coords: [lat + 0.0020, long - 0.0075], options: { icon: greenIcon }, },
+        ];
     }
 
     private setupMap() {
@@ -74,7 +98,11 @@ export class Map2Component implements OnInit {
     private setMapObjects() {
         this.map = L.map('map').setView(this.centreCoords, this.zoom);
         this.tiles = L.tileLayer(this.urlTemplate, this.tileLayerOptions).addTo(this.map);
-        this.marker = L.marker(this.markerCoords).addTo(this.map).bindPopup(this.markerPopupContent);
+        this.markerCoords.map((config: IMarkerConfig) => {
+            const marker: L.Marker = L.marker(config.coords, config.options).addTo(this.map).bindPopup(this.markerPopupContent);
+            console.log(marker);
+            this.markers.push(marker);
+        });
     }
 
     private fixLeafletBug() {
