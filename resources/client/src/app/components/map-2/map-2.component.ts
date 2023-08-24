@@ -43,6 +43,7 @@ export class Map2Component implements OnInit {
     private centre = [50.794257, -1.066010];
     private centreCoords!: L.LatLngExpression;
     private otherCoords!: L.LatLngExpression[];
+    private featureGroup!: L.FeatureGroup<any>;
 
     // User location
     private getUserLocation = async (): Promise<GeolocationPosition> => {
@@ -59,6 +60,13 @@ export class Map2Component implements OnInit {
         this.setLocation();
         this.setCordinates(this.centre[0], this.centre[1]);
         this.setupMap();
+    }
+
+    public toggleLayerClick() {
+        this.map.hasLayer(this.featureGroup) ?
+        this.map.removeLayer(this.featureGroup) :
+        this.featureGroup.addTo(this.map) ;
+        
     }
 
     private async setLocation(setMap = false): Promise<void> {
@@ -105,16 +113,15 @@ export class Map2Component implements OnInit {
             markers.push(marker);
         });
 
-        const featureGroup = L
+        this.featureGroup = L
             .featureGroup([...markers])
             .addTo(this.map);
-            // Depracated
             // .on('mousemove', (e: L.LeafletMouseEvent) => {
-            //     const m: L.Marker = e.layer;
+            //     const m: L.Marker = e.propagatedFrom;
             //     m.setIcon(redIcon);
             // });
 
-        this.map.fitBounds(featureGroup.getBounds(), { padding: [40, 40] });
+        this.map.fitBounds(this.featureGroup.getBounds(), { padding: [40, 40] });
 
         const options: {
             units?: turf.Units;
@@ -127,8 +134,12 @@ export class Map2Component implements OnInit {
             markers.forEach((marker: L.Marker) => {
                 const to = turf.point([marker.getLatLng().lat, marker.getLatLng().lng]);
                 const distance = turf.distance(from, to, options);
-                distance < 5 ? marker.setIcon(redIcon) : marker.setIcon(blackIcon);
+                distance < 3 ? marker.setIcon(redIcon) : marker.setIcon(blackIcon);
             });
+        });
+
+        this.map.on('moveend', (e: L.LeafletEvent) => {
+            console.log(this.map.getCenter());
         });
     }
 
