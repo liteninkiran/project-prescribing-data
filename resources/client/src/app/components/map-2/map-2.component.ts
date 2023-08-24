@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { icon, Marker } from 'leaflet';
+import * as turf from '@turf/turf';
 import * as L from 'leaflet';
 
 const greenIcon = L.icon({
@@ -92,15 +93,15 @@ export class Map2Component implements OnInit {
 
         this.otherCoords.forEach((coords: L.LatLngExpression) => {
             const marker: L.Marker = L
-                .marker(coords, { icon: blackIcon })
-                .on('mousemove', (e: L.LeafletMouseEvent) => {
-                    const m: L.Marker = e.target;
-                    m.setIcon(redIcon);
-                })
-                .on('mouseout', (e: L.LeafletMouseEvent) => {
-                    const m: L.Marker = e.target;
-                    m.setIcon(blackIcon);
-                });
+                .marker(coords, { icon: blackIcon });
+                // .on('mousemove', (e: L.LeafletMouseEvent) => {
+                //     const m: L.Marker = e.target;
+                //     m.setIcon(redIcon);
+                // })
+                // .on('mouseout', (e: L.LeafletMouseEvent) => {
+                //     const m: L.Marker = e.target;
+                //     m.setIcon(blackIcon);
+                // });
             markers.push(marker);
         });
 
@@ -114,6 +115,21 @@ export class Map2Component implements OnInit {
             // });
 
         this.map.fitBounds(featureGroup.getBounds(), { padding: [40, 40] });
+
+        const options: {
+            units?: turf.Units;
+        } = {
+            units: 'miles'
+        };
+
+        this.map.on('mousemove', (e: L.LeafletMouseEvent) => {
+            const from = turf.point([e.latlng.lat, e.latlng.lng]);
+            markers.forEach((marker: L.Marker) => {
+                const to = turf.point([marker.getLatLng().lat, marker.getLatLng().lng]);
+                const distance = turf.distance(from, to, options);
+                distance < 5 ? marker.setIcon(redIcon) : marker.setIcon(blackIcon);
+            });
+        });
     }
 
     private fixLeafletBug() {
