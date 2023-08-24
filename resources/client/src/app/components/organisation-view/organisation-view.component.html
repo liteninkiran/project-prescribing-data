@@ -2,67 +2,98 @@
 
     <h2>{{ organisation.Name }}</h2>
 
-    <!-- Card -->
-    <mat-card class="example-card" *ngIf="organisation.Name">
+    <div class="card-container">
+        <!-- Card -->
+        <mat-card class="example-card" *ngIf="organisation.Name">
 
-        <!-- Card Header -->
-            <mat-card-header>
-                <mat-card-title>{{ organisation.Name | titlecase }}</mat-card-title>
-                <mat-card-subtitle>{{ organisation.OrgId.extension }}</mat-card-subtitle>
-            </mat-card-header>
+            <!-- Card Header -->
+                <mat-card-header>
+                    <mat-card-title>{{ organisation.Name | titlecase }}</mat-card-title>
+                    <mat-card-subtitle>{{ organisation.OrgId.extension }}</mat-card-subtitle>
+                </mat-card-header>
 
-        <!-- Card Content -->
-        <mat-card-content>
+            <!-- Card Content -->
+            <mat-card-content>
 
-            <table>
+                <table>
 
-                <tbody>
+                    <tbody>
 
-                    <!-- Record Class -->
-                    <tr>
-                        <td>Record Class</td>
-                        <td>{{ organisation.orgRecordClass }}</td>
-                    </tr>
-
-                    <!-- Status -->
-                    <tr>
-                        <td>Status</td>
-                        <td>{{ organisation.Status }}</td>
-                    </tr>
-
-                    <!-- Contacts -->
-                    <ng-container *ngIf="organisation.Contacts">
+                        <!-- Record Class -->
                         <tr>
-                            <td>Contacts</td>
-                            <td>{{ organisation.Contacts.Contact | ArrayConcatContact }}</td>
+                            <td>Record Class</td>
+                            <td>{{ organisation.orgRecordClass }}</td>
                         </tr>
-                    </ng-container>
 
-                    <!-- Roles -->
-                    <tr>
-                        <td>{{ organisation.Status }} Roles</td>
-                        <td>{{ roleCount.view }}</td>
-                    </tr>
+                        <!-- Status -->
+                        <tr>
+                            <td>Status</td>
+                            <td>{{ organisation.Status }}</td>
+                        </tr>
 
-                    <!-- Relationships -->
-                    <tr>
-                        <td>{{ organisation.Status }} Relationships</td>
-                        <td>{{ relCount.view }}</td>
-                    </tr>
+                        <!-- Contacts -->
+                        <ng-container *ngIf="organisation.Contacts">
+                            <tr>
+                                <td>Contacts</td>
+                                <td>{{ organisation.Contacts.Contact | ArrayConcatContact }}</td>
+                            </tr>
+                        </ng-container>
 
-                    <!-- Last Change Date -->
-                    <tr>
-                        <td>Last Change Date</td>
-                        <td>{{ organisation.LastChangeDate }}</td>
-                    </tr>
+                        <!-- Roles -->
+                        <tr>
+                            <td>{{ organisation.Status }} Roles</td>
+                            <td>{{ roleCount.view }}</td>
+                        </tr>
 
-                </tbody>
+                        <!-- Relationships -->
+                        <tr>
+                            <td>{{ organisation.Status }} Relationships</td>
+                            <td>{{ relCount.view }}</td>
+                        </tr>
 
-            </table>
+                        <!-- Last Change Date -->
+                        <tr>
+                            <td>Last Change Date</td>
+                            <td>{{ organisation.LastChangeDate }}</td>
+                        </tr>
 
-        </mat-card-content>
+                    </tbody>
 
-    </mat-card>
+                </table>
+
+            </mat-card-content>
+
+        </mat-card>
+
+        <!-- Card -->
+        <mat-card class="example-card">
+
+            <!-- Card Header -->
+                <mat-card-header *ngIf="organisation.Name">
+
+                    <!-- Card Title -->
+                    <mat-card-title>
+                        {{ organisation.GeoLoc.Location.AddrLn1 | titlecase }}, {{ organisation.GeoLoc.Location.AddrLn2 | titlecase }}, {{ organisation.GeoLoc.Location.Town | titlecase }}, {{ organisation.GeoLoc.Location.County }}, {{ organisation.GeoLoc.Location.PostCode }}
+                    </mat-card-title>
+
+                    <!-- Card Subtitle -->
+                    <mat-card-subtitle>
+                        Practice locations are approximate, based on postcode.
+                    </mat-card-subtitle>
+
+                </mat-card-header>
+
+            <!-- Card Content -->
+            <mat-card-content>
+
+                <div id="map">
+
+                </div>
+
+            </mat-card-content>
+
+        </mat-card>
+    </div>
 
     <!-- Explore Object Drop-down Menu -->
     <div *ngIf="organisation.Name" class="explore-object-container">

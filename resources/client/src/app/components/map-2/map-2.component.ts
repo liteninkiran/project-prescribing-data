@@ -66,7 +66,6 @@ export class Map2Component implements OnInit {
         this.map.hasLayer(this.featureGroup) ?
         this.map.removeLayer(this.featureGroup) :
         this.featureGroup.addTo(this.map) ;
-        
     }
 
     private async setLocation(setMap = false): Promise<void> {

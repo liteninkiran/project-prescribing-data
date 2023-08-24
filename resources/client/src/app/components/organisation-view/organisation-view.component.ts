@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { ISingleOrg, ISingleOrgResponse, ISingleOrgStatusCount } from 'src/app/interfaces/organisation.interfaces';
 import { OrganisationService } from 'src/app/services/organisation/organisation.service';
+import * as L from 'leaflet';
 
 @Component({
     selector: 'app-organisation-view',
@@ -17,6 +18,16 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
     public organisationSub: Subscription = new Subscription();
     public roleCount: ISingleOrgStatusCount = {} as ISingleOrgStatusCount;
     public relCount: ISingleOrgStatusCount = {} as ISingleOrgStatusCount;
+
+    // Map
+    private map!: L.Map;
+    private tiles!: L.TileLayer;
+    private urlTemplate: string = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+    private tileLayerOptions: L.TileLayerOptions = {
+        maxZoom: 20,
+        attribution: '...',
+    };
+    private zoom = 12;
 
     constructor(
         private route: ActivatedRoute,
@@ -66,6 +77,12 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
             this.setLastChangeDate();
             this.setRoleCount();
             this.setRelCount();
+            this.setMap();
         });
+    }
+
+    private setMap() {
+        this.map = L.map('map', { zoomSnap: 0.1, zoomControl: false }).setView([50.794257, -1.066010], this.zoom);
+        this.tiles = L.tileLayer(this.urlTemplate, this.tileLayerOptions).addTo(this.map);
     }
 }
