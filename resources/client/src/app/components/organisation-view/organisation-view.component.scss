@@ -18,3 +18,28 @@ td:nth-child(1) {
 .explore-object-container {
     margin-bottom: 40px;
 }
+
+.card-container {
+    display: flex;
+
+    .card {
+        width: 100%;
+    }
+
+    .card:nth-child(1) {  
+        margin-right: 10px;
+    }
+
+    .card:nth-child(2) {  
+        margin-left: 10px;
+    }
+
+}
+
+#map {
+    width: 240px;
+    height: 240px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 50%;
+}

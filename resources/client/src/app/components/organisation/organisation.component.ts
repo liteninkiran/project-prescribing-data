@@ -22,6 +22,7 @@ import {
 } from 'src/app/interfaces/organisation.interfaces';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
+import { LocationService } from 'src/app/services/location/location.service';
 
 @Component({
     selector: 'app-organisation',
@@ -85,6 +86,7 @@ export class OrganisationComponent implements OnInit, OnDestroy, AfterViewInit {
 
     constructor(
         private orgService: OrganisationService,
+        private locationService: LocationService,
         private _snackBar: MatSnackBar,
         private fb: FormBuilder,
     ) {
@@ -353,7 +355,7 @@ export class OrganisationComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     private setPostcodes(subscribe: boolean): void {
-        this.postcodes$ = this.orgService.getPostcode(
+        this.postcodes$ = this.locationService.getPostcode(
             this.userLocation.coords.latitude,
             this.userLocation.coords.longitude,
         );
