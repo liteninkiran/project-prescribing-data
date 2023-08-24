@@ -16,6 +16,13 @@ const blackIcon = L.icon({
     popupAnchor : [0, -40] // point from which the popup should open relative to the iconAnchor
 });
 
+const redIcon = L.icon({
+    iconUrl     : 'assets/map-marker-red.svg',
+    iconSize    : [40, 40], // size of the icon
+    iconAnchor  : [20, 40], // point of the icon which will correspond to marker's location
+    popupAnchor : [0, -40] // point from which the popup should open relative to the iconAnchor
+});
+
 @Component({
     selector: 'app-map-2',
     templateUrl: './map-2.component.html',
@@ -34,7 +41,7 @@ export class Map2Component implements OnInit {
     private zoom = 12;
     private centre = [50.794257, -1.066010];
     private centreCoords!: L.LatLngExpression;
-    private otherCoords!: L.LatLngExpression;
+    private otherCoords!: L.LatLngExpression[];
 
     // User location
     private getUserLocation = async (): Promise<GeolocationPosition> => {
@@ -65,7 +72,11 @@ export class Map2Component implements OnInit {
 
     private setCordinates(lat: number, long: number) {
         this.centreCoords = [lat, long];
-        this.otherCoords = [lat + 0.005, long + 0.008];
+        this.otherCoords = [
+            this.centreCoords,
+            [lat + 0.005, long + 0.008],
+            [51, -1],
+        ];
     }
 
     private setupMap() {
@@ -77,10 +88,30 @@ export class Map2Component implements OnInit {
         this.map = L.map('map', { zoomSnap: 0.1 }).setView(this.centreCoords, this.zoom);
         this.tiles = L.tileLayer(this.urlTemplate, this.tileLayerOptions).addTo(this.map);
 
-        const marker1 = L.marker(this.centreCoords, { icon: blackIcon });
-        const marker2 = L.marker(this.otherCoords, { icon: blackIcon });
-        const marker3 = L.marker([51, -1], { icon: blackIcon });
-        const featureGroup = L.featureGroup([marker1, marker2, marker3]).addTo(this.map);
+        const markers: L.Marker[] = [];
+
+        this.otherCoords.forEach((coords: L.LatLngExpression) => {
+            const marker: L.Marker = L
+                .marker(coords, { icon: blackIcon })
+                .on('mousemove', (e: L.LeafletMouseEvent) => {
+                    const m: L.Marker = e.target;
+                    m.setIcon(redIcon);
+                })
+                .on('mouseout', (e: L.LeafletMouseEvent) => {
+                    const m: L.Marker = e.target;
+                    m.setIcon(blackIcon);
+                });
+            markers.push(marker);
+        });
+
+        const featureGroup = L
+            .featureGroup([...markers])
+            .addTo(this.map);
+            // Depracated
+            // .on('mousemove', (e: L.LeafletMouseEvent) => {
+            //     const m: L.Marker = e.layer;
+            //     m.setIcon(redIcon);
+            // });
 
         this.map.fitBounds(featureGroup.getBounds(), { padding: [40, 40] });
     }
