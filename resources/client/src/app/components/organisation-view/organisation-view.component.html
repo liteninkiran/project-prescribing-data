@@ -3,17 +3,17 @@
     <h2>{{ organisation.Name }}</h2>
 
     <div class="card-container">
-        <!-- Card -->
-        <mat-card class="example-card" *ngIf="organisation.Name">
+        <!-- Organisation Card -->
+        <mat-card class="card">
 
             <!-- Card Header -->
-                <mat-card-header>
-                    <mat-card-title>{{ organisation.Name | titlecase }}</mat-card-title>
-                    <mat-card-subtitle>{{ organisation.OrgId.extension }}</mat-card-subtitle>
-                </mat-card-header>
+            <mat-card-header *ngIf="organisation.Name">
+                <mat-card-title>{{ organisation.Name | titlecase }}</mat-card-title>
+                <mat-card-subtitle>{{ organisation.OrgId.extension }}</mat-card-subtitle>
+            </mat-card-header>
 
             <!-- Card Content -->
-            <mat-card-content>
+            <mat-card-content *ngIf="organisation.Name">
 
                 <table>
 
@@ -65,8 +65,8 @@
 
         </mat-card>
 
-        <!-- Card -->
-        <mat-card class="example-card">
+        <!-- Postcode Card -->
+        <mat-card class="card">
 
             <!-- Card Header -->
                 <mat-card-header *ngIf="organisation.Name">
@@ -85,11 +85,10 @@
 
             <!-- Card Content -->
             <mat-card-content>
-
-                <div id="map">
+                <!-- Map -->
+                <div id="map" class="card">
 
                 </div>
-
             </mat-card-content>
 
         </mat-card>

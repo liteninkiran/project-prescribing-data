@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { ISingleOrg, ISingleOrgResponse, ISingleOrgStatusCount } from 'src/app/interfaces/organisation.interfaces';
 import { OrganisationService } from 'src/app/services/organisation/organisation.service';
+import { LocationService } from 'src/app/services/location/location.service';
+import { icon } from 'leaflet';
 import * as L from 'leaflet';
 
 @Component({
@@ -14,8 +16,7 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
 
     public id: string = '';
     public organisation: ISingleOrg = {} as ISingleOrg;
-    public organisationObs: Observable<ISingleOrgResponse> = new Observable();
-    public organisationSub: Subscription = new Subscription();
+    public postcodeData: any | null = null;
     public roleCount: ISingleOrgStatusCount = {} as ISingleOrgStatusCount;
     public relCount: ISingleOrgStatusCount = {} as ISingleOrgStatusCount;
 
@@ -28,20 +29,31 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
         attribution: '...',
     };
     private zoom = 12;
+    private coords: {
+        centre: L.LatLngExpression,
+        marker: L.LatLngExpression,
+    } = { } as any;
+
+    // RxJS
+    private organisation$: Observable<ISingleOrgResponse> = new Observable();
+    private postcodeData$: Observable<any> = new Observable();
+    private subscriptions: Subscription[] = [];
 
     constructor(
         private route: ActivatedRoute,
         private orgService: OrganisationService,
+        private locationService: LocationService,
     ) {
 
     }
 
     public ngOnInit(): void {
+        this.fixLeafletBug();
         this.setId();
     }
 
     public ngOnDestroy(): void {
-        this.organisationSub.unsubscribe();
+        this.subscriptions.map((sub: Subscription) => sub.unsubscribe())
     }
 
     private setLastChangeDate() {
@@ -57,8 +69,8 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
     }
 
     private setRelCount() {
-        this.relCount.Active = this.organisation.Rels.Rel.filter(x => x.Status === 'Active').length;
-        this.relCount.Inactive = this.organisation.Rels.Rel.filter(x => x.Status === 'Inactive').length;
+        this.relCount.Active = this.organisation.Rels ? this.organisation.Rels.Rel.filter(x => x.Status === 'Active').length : 0;
+        this.relCount.Inactive = this.organisation.Rels ? this.organisation.Rels.Rel.filter(x => x.Status === 'Inactive').length : 0;
         this.relCount.total = this.relCount.Active + this.relCount.Inactive;
         this.relCount.view = this.relCount[this.organisation.Status as keyof ISingleOrgStatusCount];
     }
@@ -71,18 +83,52 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
     }
 
     private setOrganisation() {
-        this.organisationObs = this.orgService.getOrganisation(this.id);
-        this.organisationSub = this.organisationObs.subscribe((res: ISingleOrgResponse) => {
+        this.organisation$ = this.orgService.getOrganisation(this.id);
+        const sub: Subscription = this.organisation$.subscribe((res: ISingleOrgResponse) => {
             this.organisation = res.Organisation;
+            console.log(this.organisation.Name);
             this.setLastChangeDate();
             this.setRoleCount();
             this.setRelCount();
-            this.setMap();
+            this.getPostcodeData();
         });
+        this.subscriptions.push(sub);
     }
 
     private setMap() {
-        this.map = L.map('map', { zoomSnap: 0.1, zoomControl: false }).setView([50.794257, -1.066010], this.zoom);
+        if (!this.map) {
+            this.map = L.map('map', { zoomSnap: 0.1, zoomControl: false });
+        }
+        this.map.setView(this.coords.centre, this.zoom);
         this.tiles = L.tileLayer(this.urlTemplate, this.tileLayerOptions).addTo(this.map);
+        const marker: L.Marker = L.marker(this.coords.marker).addTo(this.map);
+    }
+
+    private getPostcodeData(): void {
+        this.postcodeData$ = this.locationService.getPostcodeData(this.organisation.GeoLoc.Location.PostCode);
+        const sub: Subscription = this.postcodeData$.subscribe((res) => {
+            this.postcodeData = res.result;
+            this.coords.centre = [this.postcodeData.latitude, this.postcodeData.longitude];
+            this.coords.marker = [this.postcodeData.latitude, this.postcodeData.longitude];
+            this.setMap();
+        });
+        this.subscriptions.push(sub);
+    }
+
+    private fixLeafletBug() {
+        const iconRetinaUrl = 'assets/marker-icon-2x.png';
+        const iconUrl = 'assets/marker-icon.png';
+        const shadowUrl = 'assets/marker-shadow.png';
+        const iconDefault = icon({
+            iconRetinaUrl,
+            iconUrl,
+            shadowUrl,
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            tooltipAnchor: [16, -28],
+            shadowSize: [41, 41],
+        });
+        L.Marker.prototype.options.icon = iconDefault;
     }
 }

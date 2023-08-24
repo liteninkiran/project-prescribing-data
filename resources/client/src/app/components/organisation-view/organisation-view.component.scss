@@ -22,15 +22,15 @@ td:nth-child(1) {
 .card-container {
     display: flex;
 
-    mat-card {
+    .card {
         width: 100%;
     }
 
-    mat-card:nth-child(1) {  
+    .card:nth-child(1) {  
         margin-right: 10px;
     }
 
-    mat-card:nth-child(2) {  
+    .card:nth-child(2) {  
         margin-left: 10px;
     }
 

@@ -47,11 +47,6 @@ export class OrganisationService {
         return this.http.get<any>(`${url}`);
     }
 
-    public getPostcode(lat: number, long: number): Observable<any> {
-        const url: string = `https://api.postcodes.io/postcodes?lon=${long}&lat=${lat}`;
-        return this.http.get<any>(`${url}`);
-    }
-
     public getOrganisation(orgId: string): Observable<ISingleOrgResponse> {
         const url: string = `https://directory.spineservices.nhs.uk/ORD/2-0-0/organisations/${orgId}`;
         return this.http.get<ISingleOrgResponse>(`${url}`);
