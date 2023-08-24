@@ -73,12 +73,16 @@
 
                     <!-- Card Title -->
                     <mat-card-title>
-                        {{ organisation.GeoLoc.Location.AddrLn1 | titlecase }}, {{ organisation.GeoLoc.Location.AddrLn2 | titlecase }}, {{ organisation.GeoLoc.Location.Town | titlecase }}, {{ organisation.GeoLoc.Location.County }}, {{ organisation.GeoLoc.Location.PostCode }}
+                        <span *ngIf="organisation.GeoLoc.Location.AddrLn1">{{ organisation.GeoLoc.Location.AddrLn1 | titlecase }}, </span>
+                        <span *ngIf="organisation.GeoLoc.Location.AddrLn2">{{ organisation.GeoLoc.Location.AddrLn2 | titlecase }}, </span>
+                        <span *ngIf="organisation.GeoLoc.Location.Town">{{ organisation.GeoLoc.Location.Town | titlecase }}, </span>
+                        <span *ngIf="organisation.GeoLoc.Location.County">{{ organisation.GeoLoc.Location.County }}, </span>
+                        <span *ngIf="organisation.GeoLoc.Location.PostCode">{{ organisation.GeoLoc.Location.PostCode }}</span>
                     </mat-card-title>
 
                     <!-- Card Subtitle -->
                     <mat-card-subtitle>
-                        Practice locations are approximate, based on postcode.
+                        Practice locations are approximate (based on postcode)
                     </mat-card-subtitle>
 
                 </mat-card-header>
@@ -111,7 +115,12 @@
 
                     <!-- Panel Description -->
                     <mat-panel-description>
-                        {{ organisation.OrgId.extension }} | {{ organisation.Name | titlecase }}, {{ organisation.GeoLoc.Location.AddrLn1 | titlecase }}, {{ organisation.GeoLoc.Location.AddrLn2 | titlecase }}, {{ organisation.GeoLoc.Location.Town | titlecase }}, {{ organisation.GeoLoc.Location.County }}, {{ organisation.GeoLoc.Location.PostCode }}
+                        {{ organisation.OrgId.extension }} | {{ organisation.Name | titlecase }},&nbsp;
+                        <span *ngIf="organisation.GeoLoc.Location.AddrLn1">{{ organisation.GeoLoc.Location.AddrLn1 | titlecase }},&nbsp;</span>
+                        <span *ngIf="organisation.GeoLoc.Location.AddrLn2">{{ organisation.GeoLoc.Location.AddrLn2 | titlecase }},&nbsp;</span>
+                        <span *ngIf="organisation.GeoLoc.Location.Town">{{ organisation.GeoLoc.Location.Town | titlecase }},&nbsp;</span>
+                        <span *ngIf="organisation.GeoLoc.Location.County">{{ organisation.GeoLoc.Location.County }},&nbsp;</span>
+                        <span *ngIf="organisation.GeoLoc.Location.PostCode">{{ organisation.GeoLoc.Location.PostCode }}</span>
                     </mat-panel-description>
 
                 </mat-expansion-panel-header>

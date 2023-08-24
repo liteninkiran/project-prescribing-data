@@ -7,6 +7,11 @@ import { LocationService } from 'src/app/services/location/location.service';
 import { icon } from 'leaflet';
 import * as L from 'leaflet';
 
+export interface ICoords {
+    centre: L.LatLngExpression,
+    marker: L.LatLngExpression,
+}
+
 @Component({
     selector: 'app-organisation-view',
     templateUrl: './organisation-view.component.html',
@@ -29,10 +34,8 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
         attribution: '...',
     };
     private zoom = 12;
-    private coords: {
-        centre: L.LatLngExpression,
-        marker: L.LatLngExpression,
-    } = { } as any;
+    private coords: ICoords = {} as any;
+    private marker!: L.Marker;
 
     // RxJS
     private organisation$: Observable<ISingleOrgResponse> = new Observable();
@@ -101,7 +104,10 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
         }
         this.map.setView(this.coords.centre, this.zoom);
         this.tiles = L.tileLayer(this.urlTemplate, this.tileLayerOptions).addTo(this.map);
-        const marker: L.Marker = L.marker(this.coords.marker).addTo(this.map);
+        if (this.marker) {
+            this.map.removeLayer(this.marker);
+        }
+        this.marker = L.marker(this.coords.marker).addTo(this.map);
     }
 
     private getPostcodeData(): void {
