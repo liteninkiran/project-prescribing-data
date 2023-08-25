@@ -66,11 +66,6 @@ export class RoleComponent implements OnInit, OnDestroy, AfterViewInit {
         this.dataSource.filter = filterValue.trim().toLowerCase();
     }
 
-    public getValue(role: IRole, column: string): any {
-        const val: any = (role as any)[column];
-        return typeof val === 'boolean' ? (val ? String.fromCharCode(10003) : String.fromCharCode(10005) ) : val;
-    }
-
     private setSort(): void {
         if (this.dataSource) {
             this.dataSource.sort = this.sort;

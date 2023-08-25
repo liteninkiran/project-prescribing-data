@@ -50,6 +50,7 @@ import { MapComponent } from './components/map/map.component';
 import { Map2Component } from './components/map-2/map-2.component';
 import { LeafletMapComponent } from './components/samples/leaflet-map/leaflet-map.component';
 import { RoleComponent } from './components/role/role.component';
+import { GetValuePipe } from './pipes/get-value.pipe';
 
 @NgModule({
     declarations: [
@@ -70,6 +71,7 @@ import { RoleComponent } from './components/role/role.component';
         // Pipes
         ArrayConcatPipe,
         ArrayConcatContactPipe,
+        GetValuePipe,
     ],
     imports: [
         BrowserAnimationsModule,
