@@ -1,0 +1,34 @@
+<div class="container">
+
+    <!-- Page Heading -->
+    <h1>Roles<span *ngIf="!data">...</span></h1>
+
+    <!-- Data Loading... (Spinner) -->
+    <div *ngIf="!data">
+        <mat-spinner></mat-spinner>
+    </div>
+
+    <!-- Data Loaded -->
+    <div *ngIf="data">
+
+        <div *ngIf="data.Roles.length > 0">
+
+            <!-- Data Table -->
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+
+                <!-- Column Definitions -->
+                <ng-container [matColumnDef]="item.columnId" *ngFor="let item of columnConfig">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ item.columnName }}</th>
+                    <td mat-cell *matCellDef="let organisation">{{ organisation[item.columnId] }}</td>
+                </ng-container>
+
+                <!-- Header Row -->
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+
+                <!-- Data Rows -->
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </div>
+
+    </div>
+</div>

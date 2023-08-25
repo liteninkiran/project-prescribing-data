@@ -49,6 +49,7 @@ import { D3MapComponent } from './components/samples/d3-map/d3-map.component';
 import { MapComponent } from './components/map/map.component';
 import { Map2Component } from './components/map-2/map-2.component';
 import { LeafletMapComponent } from './components/samples/leaflet-map/leaflet-map.component';
+import { RoleComponent } from './components/role/role.component';
 
 @NgModule({
     declarations: [
@@ -64,6 +65,7 @@ import { LeafletMapComponent } from './components/samples/leaflet-map/leaflet-ma
         MapComponent,
         Map2Component,
         LeafletMapComponent,
+        RoleComponent,
 
         // Pipes
         ArrayConcatPipe,
