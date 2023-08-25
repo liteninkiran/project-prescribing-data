@@ -27,6 +27,8 @@ export interface IRole {
     code: string;
     displayName: string;
     primaryRole: string;
+    isPrimaryRole?: boolean;
+    RowNum?: number;
 };
 
 export interface IRoleConfig {

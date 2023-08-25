@@ -8,6 +8,7 @@ import { TableSortComponent } from './components/samples/table-sort/table-sort.c
 import { TableSortPaginateFilterComponent } from './components/samples/table-sort-paginate-filter/table-sort-paginate-filter.component';
 import { D3MapComponent } from './components/samples/d3-map/d3-map.component';
 import { LeafletMapComponent } from './components/samples/leaflet-map/leaflet-map.component';
+import { RoleComponent } from './components/role/role.component';
 
 const routes: Routes = [
     {
@@ -17,6 +18,10 @@ const routes: Routes = [
     {
         path: 'organisations',
         component: OrganisationComponent,
+    },
+    {
+        path: 'roles',
+        component: RoleComponent,
     },
     {
         path: 'organisations/:id',
