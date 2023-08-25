@@ -2,45 +2,10 @@ table {
     margin-bottom: 50px;
 }
 
-// Won't work without { encapsulation: ViewEncapsulation.None }
-.long-list {
-    min-height: 500px;
-}
-
-#column-list {
-    width: 100% !important;
-}
-
 mat-spinner {
     margin-left: auto;
     margin-right: auto;
     margin-top: 100px;
-}
-
-mat-panel-description {
-    mat-icon {
-        margin-right: 10px;
-    }
-}
-
-mat-form-field {
-    margin-bottom: 15px;
-    margin-right: 20px;
-    height: 78px;
-}
-
-.flex-container-1 {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-}
-
-.flex-container-2 {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-}
-
-button {
-    margin-bottom: 40px;
 }
 
 .mat-mdc-row .mat-mdc-cell {
@@ -53,29 +18,7 @@ button {
     border-color: currentColor;
 }
 
-.setting {
-    margin-left: 5px;
-    margin-right: 5px;
-}
-
-mat-panel-description.mat-expansion-panel-header-description {
-    flex-grow: 4;
-}
-
-.expansion-panel {
-    margin-bottom: 10px;
-}
-
-.column-option-list {
-    ul {
-        list-style-type: none;
-    }
-}
-
-.url-container {
-    margin-top: 20px;
-}
-
-.expansion-panel-column mat-checkbox {
-    display: block;
+.mat-mdc-form-field {
+    font-size: 14px;
+    width: 100%;
 }

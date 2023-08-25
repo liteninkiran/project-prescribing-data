@@ -13,13 +13,18 @@
 
         <div *ngIf="data.Roles.length > 0">
 
+            <mat-form-field>
+                <mat-label>Filter</mat-label>
+                <input matInput (keyup)="applyFilter($event)" placeholder="e.g. Local Authority" #input>
+            </mat-form-field>
+
             <!-- Data Table -->
             <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
 
                 <!-- Column Definitions -->
                 <ng-container [matColumnDef]="item.columnId" *ngFor="let item of columnConfig">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ item.columnName }}</th>
-                    <td mat-cell *matCellDef="let organisation">{{ organisation[item.columnId] }}</td>
+                    <td mat-cell *matCellDef="let role">{{ getValue(role, item.columnId) }}</td>
                 </ng-container>
 
                 <!-- Header Row -->

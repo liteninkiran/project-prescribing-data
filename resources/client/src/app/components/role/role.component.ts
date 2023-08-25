@@ -61,6 +61,16 @@ export class RoleComponent implements OnInit, OnDestroy, AfterViewInit {
         this.displayedColumns = this.columnConfig.filter((d) => d.visible).map((d) => d.columnId);
     }
 
+    public applyFilter(event: Event) {
+        const filterValue = (event.target as HTMLInputElement).value;
+        this.dataSource.filter = filterValue.trim().toLowerCase();
+    }
+
+    public getValue(role: IRole, column: string): any {
+        const val: any = (role as any)[column];
+        return typeof val === 'boolean' ? (val ? String.fromCharCode(10003) : String.fromCharCode(10005) ) : val;
+    }
+
     private setSort(): void {
         if (this.dataSource) {
             this.dataSource.sort = this.sort;
@@ -72,13 +82,18 @@ export class RoleComponent implements OnInit, OnDestroy, AfterViewInit {
         this.data = null;
         this.data$ = this.orgService.getRoles();
         const sub: Subscription = this.data$.subscribe((res: IRoles) => {
-                let i = 1;
-                this.data = res;
-                this.data.Roles.map((o: IRole) => o.RowNum = i++);
-                this.dataSource = new MatTableDataSource(this.data.Roles);
-                setTimeout(() => this.setSort(), 0);
-            }
-        );
+            let i = 1;
+            this.data = res;
+            this.data.Roles.map((r: IRole) => {
+                r.RowNum = i++;
+                r.isPrimaryRole = r.primaryRole === 'true';
+            });
+            this.dataSource = new MatTableDataSource(this.data.Roles);
+            this.dataSource.filterPredicate = (data: IRole, filter: string) => 
+                data.id.trim().toLowerCase().includes(filter) ||
+                data.displayName.trim().toLowerCase().includes(filter);
+            setTimeout(() => this.setSort(), 0);
+        });
         this.subscriptions.push(sub);
     }
 
@@ -92,7 +107,8 @@ export class RoleComponent implements OnInit, OnDestroy, AfterViewInit {
             { columnId: 'id', columnName: 'ID', visible: true },
             { columnId: 'code', columnName: 'Code', visible: true },
             { columnId: 'displayName', columnName: 'Name', visible: true },
-            { columnId: 'primaryRole', columnName: 'Primary Role', visible: true },
+            { columnId: 'primaryRole', columnName: 'Primary Role', visible: false },
+            { columnId: 'isPrimaryRole', columnName: 'Primary Role', visible: true },
         ];
     }
 }
