@@ -15,7 +15,6 @@ import { MatSort } from '@angular/material/sort';
     templateUrl: './role.component.html',
     styleUrls: ['./role.component.scss'],
     providers: [OrganisationService],
-    encapsulation: ViewEncapsulation.None,
 })
 export class RoleComponent implements OnInit, OnDestroy, AfterViewInit {
     @ViewChild(MatSort) sort!: MatSort;
