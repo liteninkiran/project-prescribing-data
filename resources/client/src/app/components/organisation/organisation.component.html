@@ -11,45 +11,6 @@
     <!-- Data Loaded -->
     <div *ngIf="data">
 
-        <!-- Column Options -->
-        <div class="expansion-panel expansion-panel-column">
-            <mat-accordion>
-                <mat-expansion-panel>
-
-                    <!-- Panel Header -->
-                    <mat-expansion-panel-header>
-
-                        <!-- Panel Title -->
-                        <mat-panel-title>
-                            Column Options
-                        </mat-panel-title>
-
-                        <!-- Panel Description -->
-                        <mat-panel-description>
-
-                            <!-- Settings Icon -->
-                            <mat-icon>list</mat-icon>
-
-                            Select columns to display on the table
-
-                        </mat-panel-description>
-
-                    </mat-expansion-panel-header>
-
-                    <!-- Column Visibility Drop-Down List -->
-                    <section class="example-section" [formGroup]="columnForm">
-                        <div class="flex-container-1">
-                            <mat-checkbox [formControlName]="item.columnId" *ngFor="let item of columnConfig" [value]="item.columnId" (change)="onCheckboxSelectionChange($event)">
-                                {{ item.columnName }}
-                            </mat-checkbox>
-                        </div>
-                    </section>
-
-                </mat-expansion-panel>
-
-            </mat-accordion>
-        </div>
-
         <!-- Filter Options -->
         <div class="expansion-panel">
             <mat-accordion>
@@ -297,6 +258,45 @@
                         </mat-error>
 
                     </form>
+
+                </mat-expansion-panel>
+
+            </mat-accordion>
+        </div>
+
+        <!-- Column Options -->
+        <div class="expansion-panel expansion-panel-column">
+            <mat-accordion>
+                <mat-expansion-panel>
+
+                    <!-- Panel Header -->
+                    <mat-expansion-panel-header>
+
+                        <!-- Panel Title -->
+                        <mat-panel-title>
+                            Column Options
+                        </mat-panel-title>
+
+                        <!-- Panel Description -->
+                        <mat-panel-description>
+
+                            <!-- Settings Icon -->
+                            <mat-icon>list</mat-icon>
+
+                            Select columns to display on the table
+
+                        </mat-panel-description>
+
+                    </mat-expansion-panel-header>
+
+                    <!-- Column Visibility Drop-Down List -->
+                    <section class="example-section" [formGroup]="columnForm">
+                        <div class="flex-container-1">
+                            <mat-checkbox [formControlName]="item.columnId" *ngFor="let item of columnConfig" [value]="item.columnId" (change)="onCheckboxSelectionChange($event)">
+                                {{ item.columnName }}
+                            </mat-checkbox>
+                        </div>
+                    </section>
 
                 </mat-expansion-panel>
 
