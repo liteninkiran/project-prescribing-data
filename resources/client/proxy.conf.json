@@ -1,0 +1,10 @@
+{
+    "/api": {
+        "target": "https://directory.spineservices.nhs.uk/ORD/2-0-0/",
+        "secure": true,
+        "changeOrigin": true,
+        "pathRewrite": {
+            "/api": ""
+        }
+    }
+}

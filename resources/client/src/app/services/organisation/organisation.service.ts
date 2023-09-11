@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IOrganisations, ISingleOrgResponse } from 'src/app/interfaces/organisation.interfaces';
@@ -21,7 +21,7 @@ export class OrganisationService {
         name: string | null = null,
     ): Observable<IOrganisations> {
 
-        const baseUrl: string = 'https://directory.spineservices.nhs.uk/ORD/2-0-0/organisations';
+        const baseUrl: string = '/api/organisations';
         let url: string = `${baseUrl}?`;
         const rolesStr = roles?.join('%2C');
         const postcodeStr = postcode?.replace(' ', '%20');
@@ -39,17 +39,17 @@ export class OrganisationService {
         urlObj.baseUrl = baseUrl;
         urlObj.url = url;
 
-        return this.http.get<IOrganisations>(`${url}`);
+        return this.http.get<IOrganisations>(url);
     }
 
     public getRoles(): Observable<any> {
-        const url: string = 'https://directory.spineservices.nhs.uk/ORD/2-0-0/roles';
-        return this.http.get<any>(`${url}`);
+        const url: string = '/api/roles';
+        return this.http.get<any>(url);
     }
 
     public getOrganisation(orgId: string): Observable<ISingleOrgResponse> {
-        const url: string = `https://directory.spineservices.nhs.uk/ORD/2-0-0/organisations/${orgId}`;
-        return this.http.get<ISingleOrgResponse>(`${url}`);
+        const url: string = `/api/organisations/${orgId}`;
+        return this.http.get<ISingleOrgResponse>(url);
     }
 }
 
