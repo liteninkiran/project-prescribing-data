@@ -2,6 +2,7 @@
 
     <!-- Page Heading -->
     <h1>Organisations<span *ngIf="!data">...</span></h1>
+    <h3 *ngIf="data">Showing {{ data.Organisations.length | number }} record(s)</h3>
 
     <!-- Data Loading... (Spinner) -->
     <div *ngIf="!data">
@@ -297,47 +298,6 @@
                             </mat-checkbox>
                         </div>
                     </section>
-
-                </mat-expansion-panel>
-
-            </mat-accordion>
-        </div>
-
-        <!-- URL -->
-        <div class="expansion-panel">
-            <mat-accordion>
-                <mat-expansion-panel>
-
-                    <!-- Panel Header -->
-                    <mat-expansion-panel-header>
-
-                        <!-- Panel Title -->
-                        <mat-panel-title>
-                            Show API Parameters
-                        </mat-panel-title>
-
-                        <!-- Panel Description -->
-                        <mat-panel-description>
-
-                            <mat-icon>cloud</mat-icon>
-
-                            Records Returned: {{ data.Organisations.length | number }}
-
-                        </mat-panel-description>
-
-                    </mat-expansion-panel-header>
-
-                    <div class="url-container">
-
-                        <h3>Parameters</h3>
-                        <p *ngFor="let item of urlObj.url.substr(urlObj.baseUrl.length + 1).split('&')">
-                            {{ item.replaceAll('%2C', ', ').replace('=', ': ') }}
-                        </p>
-
-                        <h3>Full API</h3>
-                        <a [href]="urlObj.url" target="_blank">{{ urlObj.url }}</a>
-
-                    </div>
 
                 </mat-expansion-panel>
 

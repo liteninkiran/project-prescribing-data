@@ -48,10 +48,6 @@ export class OrganisationComponent implements OnInit, OnDestroy, AfterViewInit {
     public postcodes: any | null = null;
     public subscriptions: Subscription[] = [];
     public userLocation!: GeolocationPosition;
-    public urlObj: IUrlObject = {
-        url: '',
-        baseUrl: '',
-    };
 
     // Filter form
     public filterForm!: FormGroup;
@@ -159,7 +155,6 @@ export class OrganisationComponent implements OnInit, OnDestroy, AfterViewInit {
         this.data = null;
         const roles = this.filterForm.value.primaryRoles.concat(this.filterForm.value.nonPrimaryRoles);
         this.data$ = this.orgService.getOrganisations(
-            this.urlObj,
             this.filterForm.value.limit,
             this.filterForm.value.offset,
             this.filterForm.value.status,

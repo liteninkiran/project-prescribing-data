@@ -1,7 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IOrganisations, ISingleOrgResponse } from 'src/app/interfaces/organisation.interfaces';
+
+const apiUrl: string = '/nhs_api';
 
 @Injectable({
     providedIn: 'root'
@@ -11,7 +13,6 @@ export class OrganisationService {
     constructor(private http: HttpClient) { }
 
     public getOrganisations(
-        urlObj: { url: string; baseUrl: string; },
         limit: number = 10,
         offset: number = 0,
         status: string | null = null,
@@ -21,7 +22,7 @@ export class OrganisationService {
         name: string | null = null,
     ): Observable<IOrganisations> {
 
-        const baseUrl: string = 'https://directory.spineservices.nhs.uk/ORD/2-0-0/organisations';
+        const baseUrl: string = `${apiUrl}/organisations`;
         let url: string = `${baseUrl}?`;
         const rolesStr = roles?.join('%2C');
         const postcodeStr = postcode?.replace(' ', '%20');
@@ -36,20 +37,17 @@ export class OrganisationService {
         url += name           ? `Name=${nameStr}&`                  : '';
         url = url.slice(0, -1);
 
-        urlObj.baseUrl = baseUrl;
-        urlObj.url = url;
-
-        return this.http.get<IOrganisations>(`${url}`);
+        return this.http.get<IOrganisations>(url);
     }
 
     public getRoles(): Observable<any> {
-        const url: string = 'https://directory.spineservices.nhs.uk/ORD/2-0-0/roles';
-        return this.http.get<any>(`${url}`);
+        const url: string =`${apiUrl}/roles`;
+        return this.http.get<any>(url);
     }
 
     public getOrganisation(orgId: string): Observable<ISingleOrgResponse> {
-        const url: string = `https://directory.spineservices.nhs.uk/ORD/2-0-0/organisations/${orgId}`;
-        return this.http.get<ISingleOrgResponse>(`${url}`);
+        const url: string = `${apiUrl}/organisations/${orgId}`;
+        return this.http.get<ISingleOrgResponse>(url);
     }
 }
 
