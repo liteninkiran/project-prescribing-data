@@ -2,6 +2,7 @@
 
     <!-- Page Heading -->
     <h1>Organisations<span *ngIf="!data">...</span></h1>
+    <h3 *ngIf="data">Showing {{ data.Organisations.length | number }} record(s)</h3>
 
     <!-- Data Loading... (Spinner) -->
     <div *ngIf="!data">
