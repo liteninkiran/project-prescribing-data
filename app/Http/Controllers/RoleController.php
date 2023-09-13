@@ -5,15 +5,24 @@ namespace App\Http\Controllers;
 use App\Models\Role;
 use App\Http\Requests\StoreRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
+use App\Services\Role\RoleService;
 
 class RoleController extends Controller
 {
+    protected $roleService;
+
+    public function __construct(
+        RoleService $roleService
+    ) {
+        $this->roleService = $roleService;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return Role::all();
     }
 
     /**
@@ -62,5 +71,10 @@ class RoleController extends Controller
     public function destroy(Role $role)
     {
         //
+    }
+
+    public function storeFromApi(): int
+    {
+        return $this->roleService->storeFromApi();
     }
 }
