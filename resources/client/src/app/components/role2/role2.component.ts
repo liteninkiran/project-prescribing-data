@@ -13,7 +13,6 @@ import { Organisation2Service } from 'src/app/services/organisation/organisation
 export class Role2Component implements OnInit, OnDestroy {
     public dataSource!: MatTableDataSource<any>;
     public roles$: Observable<IRole[]> = new Observable();
-    public displayedColumns: string[] = [];
     public columnConfig: IMatTableColumnConfig[] = [];
     public subscriptions: Subscription[] = [];
 
@@ -24,7 +23,6 @@ export class Role2Component implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this.columnConfig = this.columnConfigData();
-        this.displayedColumns = this.columnConfig.filter((config) => config.visible).map((config) => config.columnId);
         this.roles$ = this.orgService.getRoles().pipe(
             map((roles: IRole[]) => {
                 return roles.map((role: IRole): IRole => {

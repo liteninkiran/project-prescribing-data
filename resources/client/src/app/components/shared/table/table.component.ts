@@ -10,11 +10,11 @@ import { IMatTableColumnConfig } from 'src/app/interfaces/shared.interface';
 })
 export class TableComponent implements OnInit {
     @Input() public dataSource!: MatTableDataSource<any>;
-    @Input() public displayedColumns: Array<string> = [];
     @Input() public columnConfig: IMatTableColumnConfig[] = [];
 
+    public displayedColumns: Array<string> = [];
+
     public ngOnInit(): void {
-
+        this.displayedColumns = this.columnConfig.filter((config) => config.visible).map((config) => config.columnId);
     }
-
 }
