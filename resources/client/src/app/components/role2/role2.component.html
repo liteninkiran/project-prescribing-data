@@ -1,4 +1,7 @@
 <app-table
     [dataSource]="dataSource"
     [columnConfig]="columnConfig"
+    [showCount]="true"
+    title="Roles"
+    (sortData)="sort($event)"
 ></app-table>

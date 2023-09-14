@@ -1,5 +1,17 @@
 <div class="container">
 
+    <!-- Page Heading -->
+    <div class="row">
+        <div class="col">
+            <div *ngIf="title">
+                <h1>{{ title }}<span *ngIf="!dataSource">...</span></h1>
+            </div>
+        </div>
+        <div class="col col-right">
+            <h3 *ngIf="dataSource && showCount">{{ dataSource.data.length }} record{{ dataSource.data.length === 1 ? '' : 's' }} returned</h3>
+        </div>
+    </div>
+
     <!-- Data Loading... (Spinner) -->
     <div *ngIf="!dataSource">
         <mat-spinner></mat-spinner>
@@ -9,7 +21,7 @@
     <div *ngIf="dataSource">
 
         <!-- Data Table -->
-        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort (matSortChange)="sortChange($event)">
 
             <!-- Column Definitions -->
             <ng-container [matColumnDef]="item.columnId" *ngFor="let item of columnConfig">

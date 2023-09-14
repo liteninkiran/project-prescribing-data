@@ -25,6 +25,8 @@ class RoleFactory extends Factory
             'code' => $nextId,
             'display_name' => $this->faker->company,
             'primary_role' => $this->faker->numberBetween($min = 1, $max = 1000) > 500,
+            'created_at' => $this->faker->dateTimeBetween($startDate = '-3 years', $endDate = 'now'),
+            'updated_at' => $this->faker->dateTimeBetween($startDate = '-3 years', $endDate = 'now'),
         ];
     }
 }

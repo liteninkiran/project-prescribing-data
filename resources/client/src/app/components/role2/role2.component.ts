@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Observable, Subscription, map } from 'rxjs';
 import { IRole } from 'src/app/interfaces/organisation2.interfaces';
@@ -43,6 +44,10 @@ export class Role2Component implements OnInit, OnDestroy {
 
     public ngOnDestroy(): void {
         this.subscriptions.map((sub: Subscription) => sub.unsubscribe())
+    }
+
+    public sort(matSort: MatSort) {
+        this.dataSource.sort = matSort;
     }
 
     private columnConfigData(): IMatTableColumnConfig[] {
