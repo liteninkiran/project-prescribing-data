@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { IMatTableColumnConfig } from 'src/app/interfaces/shared.interface';
@@ -14,9 +15,11 @@ export class TableComponent implements OnInit {
     @Input() public title: string | null = null;
     @Input() public showCount: boolean = true;
 
-    @Output() sortData = new EventEmitter<MatSort>();
+    @Output() paginatorOutput = new EventEmitter<MatPaginator>();
+    @Output() sortOutput = new EventEmitter<MatSort>();
 
-    @ViewChild(MatSort, { static: false }) sort!: MatSort;
+    @ViewChild(MatPaginator) paginator!: MatPaginator;
+    @ViewChild(MatSort) sort!: MatSort;
 
     public displayedColumns: Array<string> = [];
 
@@ -24,7 +27,11 @@ export class TableComponent implements OnInit {
         this.displayedColumns = this.columnConfig.filter((config) => config.visible).map((config) => config.columnId);
     }
 
+    public ngAfterViewChecked(): void {
+        this.paginatorOutput.emit(this.paginator);
+    }
+
     public sortChange(event: Sort) {
-        this.sortData.emit(this.sort);
+        this.sortOutput.emit(this.sort);
     }
 }

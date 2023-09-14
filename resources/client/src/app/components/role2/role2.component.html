@@ -3,5 +3,6 @@
     [columnConfig]="columnConfig"
     [showCount]="true"
     title="Roles"
-    (sortData)="sort($event)"
+    (sortOutput)="sortOutput($event)"
+    (paginatorOutput)="paginatorOutput($event)"
 ></app-table>

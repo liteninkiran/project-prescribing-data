@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Observable, Subscription, map } from 'rxjs';
@@ -46,8 +47,14 @@ export class Role2Component implements OnInit, OnDestroy {
         this.subscriptions.map((sub: Subscription) => sub.unsubscribe())
     }
 
-    public sort(matSort: MatSort) {
+    public sortOutput(matSort: MatSort) {
         this.dataSource.sort = matSort;
+    }
+
+    public paginatorOutput(matPaginator: MatPaginator) {
+        if (this.dataSource && !this.dataSource.paginator && matPaginator) {
+            this.dataSource.paginator = matPaginator;
+        }
     }
 
     private columnConfigData(): IMatTableColumnConfig[] {
