@@ -6,6 +6,7 @@ use App\Models\Role;
 use App\Http\Requests\StoreRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
 use App\Services\Role\RoleService;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class RoleController extends Controller
 {
@@ -20,9 +21,15 @@ class RoleController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): LengthAwarePaginator
     {
-        return Role::paginate(request()->pageSize);
+        return $this->roleService->getPaginatedRoles(
+            request()->input('filter', null),
+            request()->input('sortCol', 'id'),
+            request()->input('sortOrder', 'asc'),
+            request()->input('pageNumber', 2),
+            request()->input('pageSize', 5),
+        );
     }
 
     /**
