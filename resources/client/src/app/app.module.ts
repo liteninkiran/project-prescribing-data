@@ -54,6 +54,7 @@ import { GetValuePipe } from './pipes/get-value.pipe';
 import { Role2Component } from './components/role2/role2.component';
 import { TableComponent } from './components/shared/table/table.component';
 import { DateAgoPipe } from './pipes/date-ago.pipe';
+import { TableAsyncComponent } from './components/samples/table-async/table-async.component';
 
 @NgModule({
     declarations: [
@@ -78,6 +79,7 @@ import { DateAgoPipe } from './pipes/date-ago.pipe';
         ArrayConcatContactPipe,
         GetValuePipe,
         DateAgoPipe,
+        TableAsyncComponent,
     ],
     imports: [
         BrowserAnimationsModule,
