@@ -29,3 +29,9 @@ export interface IPagedListLinks {
     label: string;
     url: string;
 };
+
+export interface IColumnConfig {
+    columnId: string;
+    columnName: string;
+    visible: boolean;
+};
