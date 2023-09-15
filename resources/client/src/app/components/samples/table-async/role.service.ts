@@ -10,9 +10,11 @@ export class RoleService {
 
     constructor(private http: HttpClient) {}
 
-    public findRoles(sortOrder = 'asc', pageNumber = 0, pageSize = 3): Observable<IRole[]> {
+    public findRoles(filter: string, sortCol = 'id', sortOrder = 'asc', pageNumber = 0, pageSize = 3): Observable<IRole[]> {
         const options = {
             params: new HttpParams()
+                .set('filter', filter)
+                .set('sortCol', sortCol)
                 .set('sortOrder', sortOrder)
                 .set('pageNumber', pageNumber.toString())
                 .set('pageSize', pageSize.toString())

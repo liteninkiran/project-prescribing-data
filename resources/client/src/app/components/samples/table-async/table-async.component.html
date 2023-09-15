@@ -8,48 +8,65 @@
     <!-- Sub Heading -->
     <h3>Table with asynchronous data source</h3>
 
+    <!-- Filters -->
+    <div class="filters">
+
+        <!-- Display Name -->
+        <mat-form-field>
+            <input matInput placeholder="Search Roles" #displayName>
+        </mat-form-field>
+
+    </div>
+
     <div>
 
         <div class="spinner-container" *ngIf="dataSource.loading$ | async">
             <mat-spinner></mat-spinner>
         </div>
 
-        <mat-table class="roles-table mat-elevation-z8" [dataSource]="dataSource">
+        <mat-table
+            class="roles-table mat-elevation-z8"
+            [dataSource]="dataSource"
+            matSort
+            matSortActive="display_name"
+            matSortDirection="asc"
+            matSortDisableClear
+        >
 
             <ng-container matColumnDef="id">
-                <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
-                <mat-cell *matCellDef="let role">{{role.id}}</mat-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
+                <mat-cell *matCellDef="let role">{{ role.id }}</mat-cell>
             </ng-container>
         
             <ng-container matColumnDef="_id">
-                <mat-header-cell *matHeaderCellDef>Internal ID</mat-header-cell>
-                <mat-cell *matCellDef="let role">{{role._id}}</mat-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Internal ID</mat-header-cell>
+                <mat-cell *matCellDef="let role">{{ role._id }}</mat-cell>
         
             </ng-container>
         
             <ng-container matColumnDef="code">
-                <mat-header-cell *matHeaderCellDef>Code</mat-header-cell>
-                <mat-cell *matCellDef="let role">{{role.code}}</mat-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Code</mat-header-cell>
+                <mat-cell *matCellDef="let role">{{ role.code }}</mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="display_name">
-                <mat-header-cell *matHeaderCellDef>Display Name</mat-header-cell>
-                <mat-cell *matCellDef="let role">{{role.display_name}}</mat-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Display Name</mat-header-cell>
+                <mat-cell *matCellDef="let role">{{ role.display_name }}</mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="primary_role">
-                <mat-header-cell *matHeaderCellDef>Primary Role</mat-header-cell>
-                <mat-cell *matCellDef="let role">{{role.primary_role}}</mat-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Primary Role</mat-header-cell>
+                <mat-cell *matCellDef="let role">{{ role.primary_role }}</mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="created_at">
-                <mat-header-cell *matHeaderCellDef>Created At</mat-header-cell>
-                <mat-cell *matCellDef="let role">{{role.created_at}}</mat-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Created At</mat-header-cell>
+                <mat-cell *matCellDef="let role">{{ role.created_at }}</mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="updated_at">
-                <mat-header-cell *matHeaderCellDef>Updated At</mat-header-cell>
-                <mat-cell *matCellDef="let role">{{role.updated_at}}</mat-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Updated At</mat-header-cell>
+                <mat-cell *matCellDef="let role">{{ role.updated_at }}</mat-cell>
             </ng-container>
 
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

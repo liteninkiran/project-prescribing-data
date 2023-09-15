@@ -1,8 +1,9 @@
-import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { RoleService } from './role.service';
 import { RoleDataSource } from './role.data-source';
 import { MatPaginator } from '@angular/material/paginator';
-import { tap } from 'rxjs';
+import { debounceTime, distinctUntilChanged, fromEvent, merge, tap } from 'rxjs';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
     selector: 'app-table-async',
@@ -12,7 +13,9 @@ import { tap } from 'rxjs';
 })
 export class TableAsyncComponent implements OnInit, AfterViewInit {
 
-    @ViewChild(MatPaginator) paginator!: MatPaginator;
+    @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
+    @ViewChild(MatSort, { static: true }) sort!: MatSort;
+    @ViewChild('displayName', { static: true }) displayName!: ElementRef;
 
     public get length(): number {
         return this.roleService.pager?.total;
@@ -38,11 +41,22 @@ export class TableAsyncComponent implements OnInit, AfterViewInit {
 
     public ngOnInit(): void {
         this.dataSource = new RoleDataSource(this.roleService);
-        this.dataSource.loadRoles('asc', 0, this.intialPageSize);
+        this.dataSource.loadRoles('', 'display_name', 'asc', 0, this.intialPageSize);
     }
 
     public ngAfterViewInit() {
-        this.paginator.page
+        this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+        fromEvent(this.displayName.nativeElement, 'input')
+            .pipe(
+                debounceTime(500),
+                distinctUntilChanged(),
+                tap(() => {
+                    this.paginator.pageIndex = 0;
+                    this.loadRolesPage();
+                })
+            )
+            .subscribe();
+        merge(this.sort.sortChange, this.paginator.page)
             .pipe(
                 tap(() => this.loadRolesPage())
             )
@@ -54,6 +68,12 @@ export class TableAsyncComponent implements OnInit, AfterViewInit {
     }
 
     private loadRolesPage() {
-        this.dataSource.loadRoles('asc', this.paginator.pageIndex, this.paginator.pageSize);
+        this.dataSource.loadRoles(
+            this.displayName.nativeElement.value,
+            this.sort.active,
+            this.sort.direction,
+            this.paginator.pageIndex,
+            this.paginator.pageSize
+        );
     }
 }

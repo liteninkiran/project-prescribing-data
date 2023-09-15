@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use App\Models\Role;
 use App\Http\Requests\StoreRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
@@ -23,13 +24,17 @@ class RoleController extends Controller
      */
     public function index(): LengthAwarePaginator
     {
-        return $this->roleService->getPaginatedRoles(
+        // DB::enableQueryLog();
+        $pager = $this->roleService->getPaginatedRoles(
             request()->input('filter', null),
             request()->input('sortCol', 'id'),
             request()->input('sortOrder', 'asc'),
             request()->input('pageNumber', 2),
             request()->input('pageSize', 5),
         );
+        // $query = DB::getQueryLog();
+        // info($query);
+        return $pager;
     }
 
     /**

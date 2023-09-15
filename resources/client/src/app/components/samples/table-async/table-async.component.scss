@@ -21,3 +21,9 @@ mat-paginator {
 mat-row {
     cursor: pointer;
 }
+
+.filters {
+    mat-form-field {
+        width: 100%;
+    }
+}
