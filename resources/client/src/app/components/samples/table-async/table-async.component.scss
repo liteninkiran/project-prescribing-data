@@ -24,6 +24,12 @@ mat-row {
 
 .filters {
     mat-form-field {
-        width: 100%;
+        width: 48%;
+        margin-left: 10px;
+        margin-right: 10px;
     }
+}
+
+.mat-column-display_name {
+    flex: 0 0 50%;
 }

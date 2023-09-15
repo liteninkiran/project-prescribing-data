@@ -28,10 +28,8 @@ export class TableAsyncComponent implements OnInit, AfterViewInit {
         'code',
         'display_name',
         'primary_role',
-        'created_at',
-        'updated_at',
     ];
-    public intialPageSize = 10;
+    public intialPageSize = 8;
 
     constructor(
         private roleService: RoleService,

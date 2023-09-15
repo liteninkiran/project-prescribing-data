@@ -11,9 +11,14 @@
     <!-- Filters -->
     <div class="filters">
 
+        <!-- Internal ID -->
+        <mat-form-field>
+            <input matInput placeholder="Search Internal ID" #_id>
+        </mat-form-field>
+
         <!-- Display Name -->
         <mat-form-field>
-            <input matInput placeholder="Search Roles" #displayName>
+            <input matInput placeholder="Search Display Name" #displayName>
         </mat-form-field>
 
     </div>
@@ -59,22 +64,12 @@
                 <mat-cell *matCellDef="let role">{{ role.primary_role }}</mat-cell>
             </ng-container>
 
-            <ng-container matColumnDef="created_at">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Created At</mat-header-cell>
-                <mat-cell *matCellDef="let role">{{ role.created_at }}</mat-cell>
-            </ng-container>
-
-            <ng-container matColumnDef="updated_at">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Updated At</mat-header-cell>
-                <mat-cell *matCellDef="let role">{{ role.updated_at }}</mat-cell>
-            </ng-container>
-
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns" (click)="onRowClicked(row)"></mat-row>
         
         </mat-table>
 
-        <mat-paginator [length]="length" [pageSize]="intialPageSize" [pageSizeOptions]="[3, 5, 10]"></mat-paginator>
+        <mat-paginator [length]="length" [pageSize]="intialPageSize" [pageSizeOptions]="[5, 8, 10, 20, 50, 100]"></mat-paginator>
 
     </div>
 
