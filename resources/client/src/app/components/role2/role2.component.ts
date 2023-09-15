@@ -12,16 +12,7 @@ import { RoleService } from './role.service';
 })
 export class Role2Component implements OnInit {
     public dataSource!: RoleDataSource;
-    public columnConfig: IMatTableColumnConfig[] = [
-        { columnId: 'id', columnName: 'ID', visible: true },
-        { columnId: '_id', columnName: 'Internal ID', visible: true },
-        { columnId: 'code', columnName: 'Code', visible: true },
-        { columnId: 'display_name', columnName: 'Display Name', visible: true },
-        { columnId: 'primary_role', columnName: 'Primary Role', visible: true },
-        { columnId: 'created_at', columnName: 'Created At', visible: false },
-        { columnId: 'updated_at', columnName: 'Updated At', visible: false },
-    ];
-    public subscriptions: Subscription[] = [];
+    public columnConfig: IMatTableColumnConfig[] = [];
 
     constructor(
         readonly roleService: RoleService,
@@ -39,8 +30,8 @@ export class Role2Component implements OnInit {
             { columnId: 'code', columnName: 'Code', visible: true },
             { columnId: 'display_name', columnName: 'Name', visible: true },
             { columnId: 'primary_role', columnName: 'Primary Role', visible: true },
-            { columnId: 'created_at', columnName: 'Created At', visible: true },
-            { columnId: 'updated_at', columnName: 'Updated At', visible: true },
+            { columnId: 'created_at', columnName: 'Created At', visible: false },
+            { columnId: 'updated_at', columnName: 'Updated At', visible: false },
         ];
     }
 }

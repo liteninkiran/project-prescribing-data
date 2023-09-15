@@ -10,20 +10,12 @@ mat-spinner {
     margin-right: auto;
 }
 
-mat-row {
+.mat-mdc-row .mat-mdc-cell {
     cursor: pointer;
 }
 
-.filters {
-    mat-form-field {
-        width: 48%;
-        margin-left: 10px;
-        margin-right: 10px;
-    }
-}
-
-.mat-column-display_name {
-    flex: 0 0 50%;
+.mat-mdc-row:hover .mat-mdc-cell {
+    background-color: rgb(247, 247, 247);
 }
 
 .table {

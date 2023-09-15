@@ -11,8 +11,9 @@
 
         <div class="table mat-elevation-z8">
 
-            <mat-table
+            <table
                 [dataSource]="dataSource"
+                mat-table
                 matSort
                 matSortActive="display_name"
                 matSortDirection="asc"
@@ -20,14 +21,17 @@
             >
                 <!-- Column Definitions -->
                 <ng-container [matColumnDef]="item.columnId" *ngFor="let item of columnConfig">
-                    <mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header>{{ item.columnName }}</mat-header-cell>
-                    <mat-cell  mat-cell *matCellDef="let cell">{{ cell[item.columnId] | FormatValue }}</mat-cell >
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ item.columnName }}</th>
+                    <td mat-cell *matCellDef="let cell">{{ cell[item.columnId] | FormatValue }}</td >
                 </ng-container>
  
-                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                <mat-row *matRowDef="let row; columns: displayedColumns" (click)="onRowClicked(row)"></mat-row>
+                <!-- Header Row -->
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+
+                <!-- Data Rows -->
+                <tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="onRowClicked(row)"></tr>
             
-            </mat-table>
+            </table>
 
             <mat-paginator
                 [length]="length"
