@@ -89,7 +89,6 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
         this.organisation$ = this.orgService.getOrganisation(this.id);
         const sub: Subscription = this.organisation$.subscribe((res: ISingleOrgResponse) => {
             this.organisation = res.Organisation;
-            console.log(this.organisation.Name);
             this.setLastChangeDate();
             this.setRoleCount();
             this.setRelCount();

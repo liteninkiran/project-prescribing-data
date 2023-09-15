@@ -9,7 +9,6 @@ export class RoleService {
     constructor(private http: HttpClient) {}
 
     public findRoles(sortOrder = 'asc', pageNumber = 0, pageSize = 3): Observable<IRole[]> {
-        console.log('Find roles');
         const options = {
             params: new HttpParams()
                 .set('sortOrder', sortOrder)

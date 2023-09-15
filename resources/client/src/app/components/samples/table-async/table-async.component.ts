@@ -32,7 +32,6 @@ export class TableAsyncComponent implements OnInit, AfterViewInit {
     }
 
     public ngOnInit(): void {
-        console.log('On Init');
         this.dataSource = new RoleDataSource(this.roleService);
         this.dataSource.loadRoles('asc', 0, 3);
     }
@@ -46,7 +45,7 @@ export class TableAsyncComponent implements OnInit, AfterViewInit {
     }
 
     public onRowClicked(row: any) {
-        console.log('Row clicked: ', row);
+        console.log(row);
     }
 
     private loadRolesPage() {
