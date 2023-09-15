@@ -55,6 +55,7 @@ import { Role2Component } from './components/role2/role2.component';
 import { TableComponent } from './components/shared/table/table.component';
 import { DateAgoPipe } from './pipes/date-ago.pipe';
 import { TableAsyncComponent } from './components/samples/table-async/table-async.component';
+import { FiltersComponent } from './components/role2/filters/filters.component';
 
 @NgModule({
     declarations: [
@@ -80,6 +81,7 @@ import { TableAsyncComponent } from './components/samples/table-async/table-asyn
         FormatValuePipe,
         DateAgoPipe,
         TableAsyncComponent,
+        FiltersComponent,
     ],
     imports: [
         BrowserAnimationsModule,
