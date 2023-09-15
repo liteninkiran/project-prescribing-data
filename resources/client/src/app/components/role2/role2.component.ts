@@ -3,7 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Observable, Subscription, map } from 'rxjs';
-import { IRole } from 'src/app/interfaces/organisation2.interfaces';
+import { IPagedList, IRole } from 'src/app/interfaces/organisation2.interfaces';
 import { IMatTableColumnConfig } from 'src/app/interfaces/shared.interface';
 import { Organisation2Service } from 'src/app/services/organisation/organisation2.service';
 
@@ -26,8 +26,8 @@ export class Role2Component implements OnInit, OnDestroy {
     public ngOnInit(): void {
         this.columnConfig = this.columnConfigData();
         this.roles$ = this.orgService.getRoles().pipe(
-            map((roles: IRole[]) => {
-                return roles.map((role: IRole): IRole => {
+            map((pager: IPagedList) => {
+                return pager.data.map((role: IRole): IRole => {
                     return {
                         ...role,
                         primary_role: !!role.primary_role,

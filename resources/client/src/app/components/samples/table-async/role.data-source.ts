@@ -13,15 +13,18 @@ export class RoleDataSource implements DataSource<IRole> {
     constructor(private roleService: RoleService) {}
 
     public connect(collectionViewer: CollectionViewer): Observable<IRole[]> {
+        console.log('Connect');
         return this.roleSubject.asObservable();
     }
 
     public disconnect(collectionViewer: CollectionViewer): void {
+        console.log('Disconnect');
         this.roleSubject.complete();
         this.loadingSubject.complete();
     }
 
     public loadRoles(sortDirection = 'asc', pageIndex = 0, pageSize = 3): void {
+        console.log('Load roles');
         this.loadingSubject.next(true);
         this.roleService
             .findRoles(sortDirection, pageIndex, pageSize).pipe(

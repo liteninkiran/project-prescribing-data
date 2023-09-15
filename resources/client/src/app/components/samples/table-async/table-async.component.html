@@ -8,13 +8,13 @@
     <!-- Sub Heading -->
     <h3>Table with asynchronous data source</h3>
 
-    <div class="role">
+    <div>
 
         <div class="spinner-container" *ngIf="dataSource.loading$ | async">
             <mat-spinner></mat-spinner>
         </div>
 
-        <mat-table class="roles-table mat-elevation-z8" [dataSource]="dataSource" *ngIf="!(dataSource.loading$ | async)">
+        <mat-table class="roles-table mat-elevation-z8" [dataSource]="dataSource">
 
             <ng-container matColumnDef="id">
                 <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
