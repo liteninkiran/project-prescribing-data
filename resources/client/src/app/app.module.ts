@@ -50,7 +50,7 @@ import { MapComponent } from './components/map/map.component';
 import { Map2Component } from './components/map-2/map-2.component';
 import { LeafletMapComponent } from './components/samples/leaflet-map/leaflet-map.component';
 import { RoleComponent } from './components/role/role.component';
-import { GetValuePipe } from './pipes/get-value.pipe';
+import { FormatValuePipe } from './pipes/format-value.pipe';
 import { Role2Component } from './components/role2/role2.component';
 import { TableComponent } from './components/shared/table/table.component';
 import { DateAgoPipe } from './pipes/date-ago.pipe';
@@ -77,7 +77,7 @@ import { TableAsyncComponent } from './components/samples/table-async/table-asyn
         // Pipes
         ArrayConcatPipe,
         ArrayConcatContactPipe,
-        GetValuePipe,
+        FormatValuePipe,
         DateAgoPipe,
         TableAsyncComponent,
     ],

@@ -24,7 +24,7 @@
                 <!-- Column Definitions -->
                 <ng-container [matColumnDef]="item.columnId" *ngFor="let item of columnConfig">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ item.columnName }}</th>
-                    <td mat-cell *matCellDef="let role">{{ role | GetValue : item.columnId }}</td>
+                    <td mat-cell *matCellDef="let role">{{ role[item.columnId] | FormatValue }}</td>
                 </ng-container>
 
                 <!-- Header Row -->

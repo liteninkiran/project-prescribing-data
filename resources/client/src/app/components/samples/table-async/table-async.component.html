@@ -41,7 +41,7 @@
                 <!-- Column Definitions -->
                 <ng-container [matColumnDef]="item.columnId" *ngFor="let item of columnConfig">
                     <mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header>{{ item.columnName }}</mat-header-cell>
-                    <mat-cell  mat-cell *matCellDef="let row">{{ row[item.columnId] }}</mat-cell >
+                    <mat-cell  mat-cell *matCellDef="let cell">{{ cell[item.columnId] | FormatValue }}</mat-cell >
                 </ng-container>
  
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

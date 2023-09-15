@@ -29,7 +29,8 @@ export class TableAsyncComponent implements OnInit, AfterViewInit {
         { columnId: 'code', columnName: 'Code', visible: true },
         { columnId: 'display_name', columnName: 'Display Name', visible: true },
         { columnId: 'primary_role', columnName: 'Primary Role', visible: true },
-
+        { columnId: 'created_at', columnName: 'Created At', visible: false },
+        { columnId: 'updated_at', columnName: 'Updated At', visible: false },
     ];
     public displayedColumns: string[] = [];
     public pageSizeOptions = [5, 10, 20, 50, 100];
@@ -45,7 +46,6 @@ export class TableAsyncComponent implements OnInit, AfterViewInit {
         this.displayedColumns = this.columnConfig
             .filter((config: IColumnConfig) => config.visible)
             .map((config: IColumnConfig) => config.columnId);
-            console.log(this.displayedColumns);
         this.dataSource = new RoleDataSource(this.roleService);
         this.dataSource.loadRoles('', 'display_name', 'asc', 0, this.intialPageSize);
     }

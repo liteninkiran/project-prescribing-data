@@ -22,7 +22,14 @@ export class RoleService {
         return this.http.get<IPagedList>('/api/roles', options).pipe(
             map((res: IPagedList) => {
                 this.pager = res;
-                return res.data;
+                return res.data.map((role: IRole): IRole => {
+                    return {
+                        ...role,
+                        primary_role: !!role.primary_role,
+                        created_at: new Date(role.created_at),
+                        updated_at: new Date(role.updated_at),
+                    };
+                });
             })
         );
     }
