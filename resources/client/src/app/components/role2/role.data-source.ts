@@ -21,10 +21,10 @@ export class RoleDataSource implements DataSource<IRole> {
         this.loadingSubject.complete();
     }
 
-    public loadRoles(filter: string, sortCol = 'id', sortOrder = 'asc', pageNumber = 0, pageSize = 3): void {
+    public loadData(filter: string, sortCol = 'id', sortOrder = 'asc', pageNumber = 0, pageSize = 3): void {
         this.loadingSubject.next(true);
         this.roleService
-            .findRoles(filter, sortCol, sortOrder, pageNumber, pageSize).pipe(
+            .loadData(filter, sortCol, sortOrder, pageNumber, pageSize).pipe(
                 catchError(() => of([])),
                 finalize(() => this.loadingSubject.next(false))
             )

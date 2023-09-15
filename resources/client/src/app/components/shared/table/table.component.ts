@@ -14,8 +14,8 @@ export class TableComponent implements OnInit {
     @Input() public service!: any;
     @Input() public dataSource!: any;
     @Input() public columnConfig: IColumnConfig[] = [];
-    @Input() public showCount: boolean = true;
     @Input() public defaultSortCol: string = 'id';
+    @Input() public title: string = 'Title';
 
     @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort!: MatSort;
@@ -34,14 +34,14 @@ export class TableComponent implements OnInit {
         this.displayedColumns = this.columnConfig
             .filter((config: IColumnConfig) => config.visible)
             .map((config: IColumnConfig) => config.columnId);
-        this.dataSource.loadRoles('', this.defaultSortCol, 'asc', 0, this.intialPageSize);
+        this.dataSource.loadData('', this.defaultSortCol, 'asc', 0, this.intialPageSize);
     }
 
     public ngAfterViewInit() {
         this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
         merge(this.sort.sortChange, this.paginator.page)
             .pipe(
-                tap(() => this.loadRolesPage())
+                tap(() => this.loadData())
             )
             .subscribe();
     }
@@ -50,8 +50,8 @@ export class TableComponent implements OnInit {
         console.log(row);
     }
 
-    private loadRolesPage() {
-        this.dataSource.loadRoles(
+    private loadData() {
+        this.dataSource.loadData(
             '',
             this.sort.active,
             this.sort.direction,

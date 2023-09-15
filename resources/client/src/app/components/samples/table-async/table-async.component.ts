@@ -47,7 +47,7 @@ export class TableAsyncComponent implements OnInit, AfterViewInit {
             .filter((config: IMatTableColumnConfig) => config.visible)
             .map((config: IMatTableColumnConfig) => config.columnId);
         this.dataSource = new RoleDataSource(this.roleService);
-        this.dataSource.loadRoles('', 'display_name', 'asc', 0, this.intialPageSize);
+        this.dataSource.loadData('', 'display_name', 'asc', 0, this.intialPageSize);
     }
 
     public ngAfterViewInit() {
@@ -58,13 +58,13 @@ export class TableAsyncComponent implements OnInit, AfterViewInit {
                 distinctUntilChanged(),
                 tap(() => {
                     this.paginator.pageIndex = 0;
-                    this.loadRolesPage();
+                    this.loadData();
                 })
             )
             .subscribe();
         merge(this.sort.sortChange, this.paginator.page)
             .pipe(
-                tap(() => this.loadRolesPage())
+                tap(() => this.loadData())
             )
             .subscribe();
     }
@@ -73,8 +73,8 @@ export class TableAsyncComponent implements OnInit, AfterViewInit {
         console.log(row);
     }
 
-    private loadRolesPage() {
-        this.dataSource.loadRoles(
+    private loadData() {
+        this.dataSource.loadData(
             this.displayName.nativeElement.value,
             this.sort.active,
             this.sort.direction,
