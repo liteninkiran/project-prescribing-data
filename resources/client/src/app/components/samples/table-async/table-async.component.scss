@@ -10,14 +10,6 @@ mat-spinner {
     margin-right: auto;
 }
 
-mat-table {
-    margin-bottom: 20px;
-}
-
-mat-paginator {
-    margin-bottom: 20px;
-}
-
 mat-row {
     cursor: pointer;
 }
@@ -32,4 +24,8 @@ mat-row {
 
 .mat-column-display_name {
     flex: 0 0 50%;
+}
+
+.table {
+    margin-bottom: 50px;
 }

@@ -29,7 +29,8 @@ export class TableAsyncComponent implements OnInit, AfterViewInit {
         'display_name',
         'primary_role',
     ];
-    public intialPageSize = 8;
+    public pageSizeOptions = [5, 10, 20, 50, 100];
+    public intialPageSize = this.pageSizeOptions[1];
 
     constructor(
         private roleService: RoleService,
