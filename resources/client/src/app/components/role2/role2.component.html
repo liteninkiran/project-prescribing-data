@@ -1,11 +1,15 @@
-<app-role-filters>
-    
-</app-role-filters>
+<!-- Heading -->
+<h1>Roles</h1>
 
+<!-- Filters -->
+<div class="filters">
+    <app-role-filters></app-role-filters>
+</div>
+
+<!-- Data -->
 <app-table
     [dataSource]="dataSource"
     [columnConfig]="columnConfig"
     [service]="roleService"
-    title="Roles"
     defaultSortCol="display_name"
 ></app-table>

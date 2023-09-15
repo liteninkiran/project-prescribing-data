@@ -15,7 +15,7 @@ export class TableComponent implements OnInit {
     @Input() public dataSource!: any;
     @Input() public columnConfig: IColumnConfig[] = [];
     @Input() public defaultSortCol: string = 'id';
-    @Input() public title: string = 'Title';
+    @Input() public title!: string;
 
     @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort!: MatSort;
