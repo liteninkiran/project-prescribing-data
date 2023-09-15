@@ -1,60 +1,35 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { Observable, Subscription, map } from 'rxjs';
-import { IPagedList, IRole } from 'src/app/interfaces/organisation2.interfaces';
+import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { IMatTableColumnConfig } from 'src/app/interfaces/shared.interface';
-import { Organisation2Service } from 'src/app/services/organisation/organisation2.service';
+import { RoleDataSource } from './role.data-source';
+import { RoleService } from './role.service';
 
 @Component({
     selector: 'app-role2',
     templateUrl: './role2.component.html',
     styleUrls: ['./role2.component.scss'],
+    providers: [RoleService],
 })
-export class Role2Component implements OnInit, OnDestroy {
-    public dataSource!: MatTableDataSource<any>;
-    public roles$: Observable<IRole[]> = new Observable();
-    public columnConfig: IMatTableColumnConfig[] = [];
+export class Role2Component implements OnInit {
+    public dataSource!: RoleDataSource;
+    public columnConfig: IMatTableColumnConfig[] = [
+        { columnId: 'id', columnName: 'ID', visible: true },
+        { columnId: '_id', columnName: 'Internal ID', visible: true },
+        { columnId: 'code', columnName: 'Code', visible: true },
+        { columnId: 'display_name', columnName: 'Display Name', visible: true },
+        { columnId: 'primary_role', columnName: 'Primary Role', visible: true },
+        { columnId: 'created_at', columnName: 'Created At', visible: false },
+        { columnId: 'updated_at', columnName: 'Updated At', visible: false },
+    ];
     public subscriptions: Subscription[] = [];
 
     constructor(
-        private orgService: Organisation2Service,
-    ) {
-    }
+        readonly roleService: RoleService,
+    ) { }
 
     public ngOnInit(): void {
+        this.dataSource = new RoleDataSource(this.roleService);
         this.columnConfig = this.columnConfigData();
-        this.roles$ = this.orgService.getRoles().pipe(
-            map((pager: IPagedList) => {
-                return pager.data.map((role: IRole): IRole => {
-                    return {
-                        ...role,
-                        primary_role: !!role.primary_role,
-                        created_at: new Date(role.created_at),
-                        updated_at: new Date(role.updated_at),
-                    };
-                });
-            })
-        );
-        const sub: Subscription = this.roles$.subscribe((data) => {
-            this.dataSource = new MatTableDataSource(data);
-        });
-        this.subscriptions.push(sub);
-    }
-
-    public ngOnDestroy(): void {
-        this.subscriptions.map((sub: Subscription) => sub.unsubscribe())
-    }
-
-    public sortOutput(matSort: MatSort) {
-        this.dataSource.sort = matSort;
-    }
-
-    public paginatorOutput(matPaginator: MatPaginator) {
-        if (this.dataSource && !this.dataSource.paginator && matPaginator) {
-            this.dataSource.paginator = matPaginator;
-        }
     }
 
     private columnConfigData(): IMatTableColumnConfig[] {

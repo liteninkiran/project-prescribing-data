@@ -2,7 +2,7 @@
     [dataSource]="dataSource"
     [columnConfig]="columnConfig"
     [showCount]="true"
+    [service]="roleService"
     title="Roles"
-    (sortOutput)="sortOutput($event)"
-    (paginatorOutput)="paginatorOutput($event)"
+    defaultSortCol="display_name"
 ></app-table>

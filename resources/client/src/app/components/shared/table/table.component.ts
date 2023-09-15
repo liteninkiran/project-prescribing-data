@@ -1,8 +1,8 @@
-import { Component, Input, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSort, Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { IMatTableColumnConfig } from 'src/app/interfaces/shared.interface';
+import { MatSort } from '@angular/material/sort';
+import { IColumnConfig } from 'src/app/interfaces/organisation.interfaces';
+import { merge, tap } from 'rxjs';
 
 @Component({
     selector: 'app-table',
@@ -10,28 +10,53 @@ import { IMatTableColumnConfig } from 'src/app/interfaces/shared.interface';
     styleUrls: ['./table.component.scss'],
 })
 export class TableComponent implements OnInit {
-    @Input() public dataSource!: MatTableDataSource<any>;
-    @Input() public columnConfig: IMatTableColumnConfig[] = [];
-    @Input() public title: string | null = null;
+
+    @Input() public service!: any;
+    @Input() public dataSource!: any;
+    @Input() public columnConfig: IColumnConfig[] = [];
     @Input() public showCount: boolean = true;
+    @Input() public defaultSortCol: string = 'id';
 
-    @Output() paginatorOutput = new EventEmitter<MatPaginator>();
-    @Output() sortOutput = new EventEmitter<MatSort>();
+    @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
+    @ViewChild(MatSort, { static: true }) sort!: MatSort;
 
-    @ViewChild(MatPaginator) paginator!: MatPaginator;
-    @ViewChild(MatSort) sort!: MatSort;
+    public get length(): number {
+        return this.service.pager?.total;
+    }
 
-    public displayedColumns: Array<string> = [];
+    public displayedColumns: string[] = [];
+    public pageSizeOptions = [5, 10, 20, 50, 100];
+    public intialPageSize = this.pageSizeOptions[1];
+
+    constructor() { }
 
     public ngOnInit(): void {
-        this.displayedColumns = this.columnConfig.filter((config) => config.visible).map((config) => config.columnId);
+        this.displayedColumns = this.columnConfig
+            .filter((config: IColumnConfig) => config.visible)
+            .map((config: IColumnConfig) => config.columnId);
+        this.dataSource.loadRoles('', this.defaultSortCol, 'asc', 0, this.intialPageSize);
     }
 
-    public ngAfterViewChecked(): void {
-        this.paginatorOutput.emit(this.paginator);
+    public ngAfterViewInit() {
+        this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+        merge(this.sort.sortChange, this.paginator.page)
+            .pipe(
+                tap(() => this.loadRolesPage())
+            )
+            .subscribe();
     }
 
-    public sortChange(event: Sort) {
-        this.sortOutput.emit(this.sort);
+    public onRowClicked(row: any) {
+        console.log(row);
+    }
+
+    private loadRolesPage() {
+        this.dataSource.loadRoles(
+            '',
+            this.sort.active,
+            this.sort.direction,
+            this.paginator.pageIndex,
+            this.paginator.pageSize
+        );
     }
 }

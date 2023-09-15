@@ -4,7 +4,7 @@ import { RoleDataSource } from './role.data-source';
 import { MatPaginator } from '@angular/material/paginator';
 import { debounceTime, distinctUntilChanged, fromEvent, merge, tap } from 'rxjs';
 import { MatSort } from '@angular/material/sort';
-import { IColumnConfig } from 'src/app/interfaces/organisation2.interfaces';
+import { IMatTableColumnConfig } from 'src/app/interfaces/shared.interface';
 
 @Component({
     selector: 'app-table-async',
@@ -23,7 +23,7 @@ export class TableAsyncComponent implements OnInit, AfterViewInit {
     }
 
     public dataSource!: RoleDataSource;
-    public columnConfig: IColumnConfig[] = [
+    public columnConfig: IMatTableColumnConfig[] = [
         { columnId: 'id', columnName: 'ID', visible: true },
         { columnId: '_id', columnName: 'Internal ID', visible: true },
         { columnId: 'code', columnName: 'Code', visible: true },
@@ -44,8 +44,8 @@ export class TableAsyncComponent implements OnInit, AfterViewInit {
 
     public ngOnInit(): void {
         this.displayedColumns = this.columnConfig
-            .filter((config: IColumnConfig) => config.visible)
-            .map((config: IColumnConfig) => config.columnId);
+            .filter((config: IMatTableColumnConfig) => config.visible)
+            .map((config: IMatTableColumnConfig) => config.columnId);
         this.dataSource = new RoleDataSource(this.roleService);
         this.dataSource.loadRoles('', 'display_name', 'asc', 0, this.intialPageSize);
     }

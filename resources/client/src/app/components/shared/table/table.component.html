@@ -1,50 +1,42 @@
 <div class="container">
 
-    <!-- Page Heading -->
-    <div class="row">
-        <div class="col">
-            <div *ngIf="title">
-                <h1>{{ title }}<span *ngIf="!dataSource">...</span></h1>
-            </div>
+    <!-- Heading -->
+    <h1>Async Table</h1>
+
+    <div>
+
+        <div class="spinner-container" *ngIf="dataSource.loading$ | async">
+            <mat-spinner></mat-spinner>
         </div>
-        <div class="col col-right">
-            <h3 *ngIf="dataSource && showCount">{{ dataSource.data.length }} record{{ dataSource.data.length === 1 ? '' : 's' }} returned</h3>
+
+        <div class="table mat-elevation-z8">
+
+            <mat-table
+                [dataSource]="dataSource"
+                matSort
+                matSortActive="display_name"
+                matSortDirection="asc"
+                matSortDisableClear
+            >
+                <!-- Column Definitions -->
+                <ng-container [matColumnDef]="item.columnId" *ngFor="let item of columnConfig">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header>{{ item.columnName }}</mat-header-cell>
+                    <mat-cell  mat-cell *matCellDef="let cell">{{ cell[item.columnId] | FormatValue }}</mat-cell >
+                </ng-container>
+ 
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns" (click)="onRowClicked(row)"></mat-row>
+            
+            </mat-table>
+
+            <mat-paginator
+                [length]="length"
+                [pageSize]="intialPageSize"
+                [pageSizeOptions]="pageSizeOptions"
+            ></mat-paginator>
+
         </div>
-    </div>
-
-    <!-- Data Loading... (Spinner) -->
-    <div *ngIf="!dataSource">
-        <mat-spinner></mat-spinner>
-    </div>
-
-    <!-- Data Loaded -->
-    <div *ngIf="dataSource">
-
-        <!-- Data Table -->
-        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort (matSortChange)="sortChange($event)">
-
-            <!-- Column Definitions -->
-            <ng-container [matColumnDef]="item.columnId" *ngFor="let item of columnConfig">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ item.columnName }}</th>
-                <td mat-cell *matCellDef="let cell">{{ cell[item.columnId] | FormatValue }}</td>
-            </ng-container>
-
-            <!-- Header Row -->
-            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-
-            <!-- Data Rows -->
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-            <!-- No Data Row -->
-            <tr class="mat-row" *matNoDataRow>
-                <td class="mat-cell" [attr.colspan]="displayedColumns.length" class="no-data">
-                    NO DATA
-                </td>
-            </tr>
-
-        </table>
-
-        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select Page"></mat-paginator>
 
     </div>
+
 </div>
