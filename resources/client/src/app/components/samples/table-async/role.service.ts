@@ -1,10 +1,12 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { IRole } from 'src/app/interfaces/organisation2.interfaces';
+import { IPagedList, IRole } from 'src/app/interfaces/organisation2.interfaces';
 
 @Injectable()
 export class RoleService {
+
+    public pager!: IPagedList;
 
     constructor(private http: HttpClient) {}
 
@@ -15,8 +17,11 @@ export class RoleService {
                 .set('pageNumber', pageNumber.toString())
                 .set('pageSize', pageSize.toString())
         }
-        return this.http.get<IRole[]>('/api/roles', options).pipe(
-            map((res: any) => res['data'])
+        return this.http.get<IPagedList>('/api/roles', options).pipe(
+            map((res: IPagedList) => {
+                this.pager = res;
+                return res.data;
+            })
         );
     }
 }

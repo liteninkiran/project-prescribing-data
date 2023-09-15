@@ -14,6 +14,10 @@ export class TableAsyncComponent implements OnInit, AfterViewInit {
 
     @ViewChild(MatPaginator) paginator!: MatPaginator;
 
+    public get length(): number {
+        return this.roleService.pager?.total;
+    }
+
     public dataSource!: RoleDataSource;
     public displayedColumns = [
         'id',
@@ -24,6 +28,7 @@ export class TableAsyncComponent implements OnInit, AfterViewInit {
         'created_at',
         'updated_at',
     ];
+    public intialPageSize = 10;
 
     constructor(
         private roleService: RoleService,
@@ -33,7 +38,7 @@ export class TableAsyncComponent implements OnInit, AfterViewInit {
 
     public ngOnInit(): void {
         this.dataSource = new RoleDataSource(this.roleService);
-        this.dataSource.loadRoles('asc', 0, 3);
+        this.dataSource.loadRoles('asc', 0, this.intialPageSize);
     }
 
     public ngAfterViewInit() {

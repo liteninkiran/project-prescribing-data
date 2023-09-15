@@ -41,7 +41,7 @@ class RoleService
         if ($sortCol !== 'id') {
             $query->orderBy('id', 'asc');
         }
-        return $query->paginate($pageSize, ['*'], 'pageNumber', $pageNumber);
+        return $query->paginate($pageSize, ['*'], 'pageNumber', $pageNumber + 1);
     }
 
     private function createRoles(array $roles): int {
