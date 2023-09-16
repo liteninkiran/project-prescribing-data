@@ -56,6 +56,7 @@ import { TableComponent } from './components/shared/table/table.component';
 import { DateAgoPipe } from './pipes/date-ago.pipe';
 import { TableAsyncComponent } from './components/samples/table-async/table-async.component';
 import { FiltersComponent } from './components/role2/filters/filters.component';
+import { ArrayFilterPipe } from './pipes/array-filter.pipe';
 
 @NgModule({
     declarations: [
@@ -78,6 +79,7 @@ import { FiltersComponent } from './components/role2/filters/filters.component';
         // Pipes
         ArrayConcatPipe,
         ArrayConcatContactPipe,
+        ArrayFilterPipe,
         FormatValuePipe,
         DateAgoPipe,
         TableAsyncComponent,

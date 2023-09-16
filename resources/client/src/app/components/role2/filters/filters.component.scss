@@ -6,3 +6,10 @@ button {
     margin-top: 10px;
     display: block;
 }
+
+mat-panel-description {
+    flex-grow: 4;
+    mat-icon {
+        margin-right: 10px;
+    }
+}
