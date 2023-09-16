@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { debounceTime, distinctUntilChanged, tap } from 'rxjs';
 import { IValidControl } from 'src/app/interfaces/organisation.interfaces';
 
 @Component({
@@ -8,10 +9,15 @@ import { IValidControl } from 'src/app/interfaces/organisation.interfaces';
     styleUrls: ['./filters.component.scss'],
 })
 export class FiltersComponent {
+
+    @Output() public filtersChanged = new EventEmitter<Array<any>>();
+  
     public filterForm!: FormGroup;
     public _idInput: FormControl = new FormControl();
     public roleNameInput: FormControl = new FormControl();
     public primaryRoleInput: FormControl = new FormControl();
+    public filterText: string = '';
+    public filterValues: Array<any> = [];
 
     constructor() { }
 
@@ -19,28 +25,18 @@ export class FiltersComponent {
         this.setFilterForm();
     }
 
-    public onSubmitForm(): void {
-        const allValues: Array<any> = Object.values(this.filterForm.value);
-        const nonNullValues: Array<any> = allValues.filter((val) => val !== null);
-        console.log(this.filterForm.value);
-    }
-
-    public filterFunction(t: any): boolean {
-        return t.value !== null;
-    }
-
-    private setFilterForm() {
+    private setFilterForm(): void {
         this.setFilterInputs();
         this.setFilterFormGroup();
     }
 
-    private setFilterInputs() {
+    private setFilterInputs(): void {
         this._idInput = new FormControl(null);
         this.roleNameInput = new FormControl(null);
         this.primaryRoleInput = new FormControl(null);
     }
 
-    private setFilterFormGroup() {
+    private setFilterFormGroup(): void {
         const requireOneControl = () => {
             return (formGroup: any) => {
                 const err = { atLeastOneRequired: 'Please apply one or more filters' };
@@ -59,5 +55,20 @@ export class FiltersComponent {
             'roleName': this.roleNameInput,
             'primaryRole': this.primaryRoleInput,
         }, requireOneControl());
+
+        this.filterForm.valueChanges.pipe(
+            debounceTime(500),
+            distinctUntilChanged(),
+            tap((value: any) => {
+                this.calculateFilter(value);
+                this.filtersChanged.emit(this.filterValues);
+            })
+        ).subscribe();
+    }
+
+    private calculateFilter(value: any): void {
+        this.filterValues = Object.values(value).filter((val) => val !== null);
+        const suffix = this.filterValues.length === 1 ? '' : 's';
+        this.filterText = this.filterValues.length === 0 ? '' : this.filterValues.length + ' Filter' + suffix + ' Applied';
     }
 }

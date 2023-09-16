@@ -70,7 +70,7 @@ export class TableAsyncComponent implements OnInit, AfterViewInit {
     }
 
     public onRowClicked(row: any) {
-        console.log(row);
+        //console.log(row);
     }
 
     private loadData() {

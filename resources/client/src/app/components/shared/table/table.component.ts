@@ -47,7 +47,7 @@ export class TableComponent implements OnInit {
     }
 
     public onRowClicked(row: any) {
-        console.log(row);
+        //console.log(row);
     }
 
     private loadData() {

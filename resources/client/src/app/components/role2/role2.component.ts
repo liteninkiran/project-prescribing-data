@@ -23,6 +23,10 @@ export class Role2Component implements OnInit {
         this.columnConfig = this.columnConfigData();
     }
 
+    public filtersChanged(filters: Array<any>) {
+        console.log(filters);
+    }
+
     private columnConfigData(): IMatTableColumnConfig[] {
         return [
             { columnId: 'id', columnName: 'ID', visible: false },

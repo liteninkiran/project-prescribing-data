@@ -3,7 +3,7 @@
 
 <!-- Filters -->
 <div class="filters">
-    <app-role-filters></app-role-filters>
+    <app-role-filters (filtersChanged)="filtersChanged($event)"></app-role-filters>
 </div>
 
 <!-- Data -->

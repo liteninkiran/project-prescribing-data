@@ -17,24 +17,8 @@
                     <mat-icon>filter_alt</mat-icon>
 
                     <!-- Filters Applied -->
-                    <span *ngIf="((filterForm.value | keyvalue) | arrayFilter : filterFunction).length > 0">
-                        {{ ((filterForm.value | keyvalue) | arrayFilter : filterFunction).length }}
-                        Filter{{ ((filterForm.value | keyvalue) | arrayFilter : filterFunction).length > 1 ? 's' : '' }} Applied
-                    </span>
-
-                    <!-- Internal ID -->
-                    <span *ngIf="_idInput.value">
-                        &nbsp;| Internal ID Contains: <strong>{{ _idInput.value }}</strong>
-                    </span>
-
-                    <!-- Role Name -->
-                    <span *ngIf="roleNameInput.value">
-                        &nbsp;| Role Name Contains: <strong>{{ roleNameInput.value }}</strong>
-                    </span>
-
-                    <!-- Role Type -->
-                    <span *ngIf="primaryRoleInput.value">
-                        &nbsp;| Role Type: <strong>{{ primaryRoleInput.value ? 'Primary Roles' : 'Non-Primary Roles' }}</strong>
+                    <span *ngIf="filterText">
+                        {{ filterText }}
                     </span>
 
                 </mat-panel-description>
@@ -42,7 +26,7 @@
             </mat-expansion-panel-header>
 
             <!-- Filters -->
-            <form #dataOptionsForm="ngForm" (ngSubmit)="onSubmitForm()">
+            <form #dataOptionsForm="ngForm">
 
                 <!-- Internal ID -->
                 <mat-form-field>
@@ -64,20 +48,10 @@
 
                 <!-- Primary Role -->
                 <mat-radio-group [formControl]="primaryRoleInput">
-                    <mat-radio-button [value]="true">Primary Roles</mat-radio-button>
-                    <mat-radio-button [value]="false">Non-Primary Roles</mat-radio-button>
+                    <mat-radio-button value="true">Primary Roles</mat-radio-button>
+                    <mat-radio-button value="false">Non-Primary Roles</mat-radio-button>
                     <mat-radio-button [value]="null">Both</mat-radio-button>
                 </mat-radio-group>
-
-                <!--  Submit Button -->
-                <button mat-raised-button color="primary" [disabled]="filterForm.invalid">
-                    Refresh Data
-                </button>
-
-                <!-- Error Messages -->
-                <mat-error *ngIf="filterForm.hasError('atLeastOneRequired')">
-                    {{ filterForm.errors?.['atLeastOneRequired'] }}
-                </mat-error>
 
             </form>
 
