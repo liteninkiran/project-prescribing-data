@@ -1,7 +1,7 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IOrganisations, ISingleOrgResponse } from 'src/app/interfaces/organisation.interfaces';
+import { IOrganisations, IRoles, ISingleOrgResponse } from 'src/app/interfaces/organisation.interfaces';
 
 const apiUrl: string = '/nhs_api';
 
@@ -40,9 +40,9 @@ export class OrganisationService {
         return this.http.get<IOrganisations>(url);
     }
 
-    public getRoles(): Observable<any> {
-        const url: string =`${apiUrl}/roles`;
-        return this.http.get<any>(url);
+    public getRoles(): Observable<IRoles> {
+        const url: string = `${apiUrl}/roles`;
+        return this.http.get<IRoles>(url);
     }
 
     public getOrganisation(orgId: string): Observable<ISingleOrgResponse> {

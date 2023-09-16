@@ -4,11 +4,13 @@ import { OrganisationComponent } from './components/organisation/organisation.co
 import { HomeComponent } from './components/home/home.component';
 import { OrganisationViewComponent } from './components/organisation-view/organisation-view.component';
 import { SamplesComponent } from './components/samples/samples/samples.component';
+import { TableAsyncComponent } from './components/samples/table-async/table-async.component';
 import { TableSortComponent } from './components/samples/table-sort/table-sort.component';
 import { TableSortPaginateFilterComponent } from './components/samples/table-sort-paginate-filter/table-sort-paginate-filter.component';
 import { D3MapComponent } from './components/samples/d3-map/d3-map.component';
 import { LeafletMapComponent } from './components/samples/leaflet-map/leaflet-map.component';
 import { RoleComponent } from './components/role/role.component';
+import { Role2Component } from './components/role2/role2.component';
 
 const routes: Routes = [
     {
@@ -24,12 +26,20 @@ const routes: Routes = [
         component: RoleComponent,
     },
     {
+        path: 'roles2',
+        component: Role2Component,
+    },
+    {
         path: 'organisations/:id',
         component: OrganisationViewComponent,
     },
     {
         path: 'samples',
         component: SamplesComponent,
+    },
+    {
+        path: 'samples/async-table',
+        component: TableAsyncComponent,
     },
     {
         path: 'samples/table-sort',

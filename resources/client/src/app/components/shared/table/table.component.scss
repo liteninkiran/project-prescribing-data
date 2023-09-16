@@ -1,0 +1,23 @@
+.spinner-container {
+    height: 360px;
+    width: 80%;
+    margin-top: 70px;
+    position: fixed;
+}
+
+mat-spinner {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.mat-mdc-row .mat-mdc-cell {
+    cursor: pointer;
+}
+
+.mat-mdc-row:hover .mat-mdc-cell {
+    background-color: rgb(247, 247, 247);
+}
+
+.table {
+    margin-bottom: 50px;
+}

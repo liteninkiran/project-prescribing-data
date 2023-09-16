@@ -1,92 +1,103 @@
-<div class="container">
+<!-- Heading -->
+<h1>Sample Components</h1>
 
-    <!-- Heading -->
-    <h1>Sample Components</h1>
+<!-- Grid -->
+<mat-grid-list [cols]="2" rowHeight="350px">
 
-    <!-- Grid -->
-    <mat-grid-list [cols]="2" rowHeight="350px">
+    <!-- Async Table -->
+    <mat-grid-tile>
 
-        <!-- Table Sort -->
-        <mat-grid-tile>
+        <mat-card>
 
-            <mat-card>
+            <!-- Heading -->
+            <h2 routerLink="/samples/async-table">Async Table</h2>
 
-                <!-- Heading -->
-                <h2 routerLink="/samples/table-sort">Table Sort</h2>
+            <!-- Blurb -->
+            <p>Data table with asynchronous data source.</p>
 
-                <!-- Blurb -->
-                <p>Data table with sorting.</p>
+        </mat-card>
 
-            </mat-card>
+    </mat-grid-tile>
 
-        </mat-grid-tile>
+    <!-- Table Sort -->
+    <mat-grid-tile>
 
-        <!-- Table Sort/Paginate/Filter -->
-        <mat-grid-tile>
+        <mat-card>
 
-            <mat-card>
+            <!-- Heading -->
+            <h2 routerLink="/samples/table-sort">Table Sort</h2>
 
-                <!-- Heading -->
-                <h2 routerLink="/samples/table-sort-paginate-filter">Table Sort/Paginate/Filter</h2>
+            <!-- Blurb -->
+            <p>Data table with sorting.</p>
 
-                <!-- Blurb -->
-                <p>Data table with sorting, pagination, and filtering.</p>
+        </mat-card>
 
-                <!-- External Links -->
-                <p>Check out these external links (opens in new tab):</p>
+    </mat-grid-tile>
 
-                <ul>
-                    <li><a href="https://material.angular.io/components/table/examples#table-overview" target="_blank">Angular Material - Table Sort/Paginate/Filter</a></li>
-                </ul>
+    <!-- Table Sort/Paginate/Filter -->
+    <mat-grid-tile>
 
-            </mat-card>
+        <mat-card>
 
-        </mat-grid-tile>
+            <!-- Heading -->
+            <h2 routerLink="/samples/table-sort-paginate-filter">Table Sort/Paginate/Filter</h2>
 
-        <!-- D3 Map -->
-        <mat-grid-tile>
+            <!-- Blurb -->
+            <p>Data table with sorting, pagination, and filtering.</p>
 
-            <mat-card>
+            <!-- External Links -->
+            <p>Check out these external links (opens in new tab):</p>
 
-                <!-- Heading -->
-                <h2 routerLink="/samples/d3-map">D3 Map</h2>
+            <ul>
+                <li><a href="https://material.angular.io/components/table/examples#table-overview" target="_blank">Angular Material - Table Sort/Paginate/Filter</a></li>
+            </ul>
 
-                <!-- Blurb -->
-                <p>D3 map.</p>
+        </mat-card>
 
-                <!-- External Links -->
-                <p>Check out these external links (opens in new tab):</p>
+    </mat-grid-tile>
 
-                <ul>
-                    <li><a href="https://d3js.org/" target="_blank">D3</a></li>
-                </ul>
+    <!-- D3 Map -->
+    <mat-grid-tile>
 
-            </mat-card>
+        <mat-card>
 
-        </mat-grid-tile>
+            <!-- Heading -->
+            <h2 routerLink="/samples/d3-map">D3 Map</h2>
 
-        <!-- Leaflet Map -->
-        <mat-grid-tile>
+            <!-- Blurb -->
+            <p>D3 map.</p>
 
-            <mat-card>
+            <!-- External Links -->
+            <p>Check out these external links (opens in new tab):</p>
 
-                <!-- Heading -->
-                <h2 routerLink="/samples/leaflet-map">Leaflet Map</h2>
+            <ul>
+                <li><a href="https://d3js.org/" target="_blank">D3</a></li>
+            </ul>
 
-                <!-- Blurb -->
-                <p>Leaflet map.</p>
+        </mat-card>
 
-                <!-- External Links -->
-                <p>Check out these external links (opens in new tab):</p>
+    </mat-grid-tile>
 
-                <ul>
-                    <li><a href="https://leafletjs.com/" target="_blank">Leaflet JS</a></li>
-                </ul>
+    <!-- Leaflet Map -->
+    <mat-grid-tile>
 
-            </mat-card>
+        <mat-card>
 
-        </mat-grid-tile>
+            <!-- Heading -->
+            <h2 routerLink="/samples/leaflet-map">Leaflet Map</h2>
 
-    </mat-grid-list>
+            <!-- Blurb -->
+            <p>Leaflet map.</p>
 
-</div>
+            <!-- External Links -->
+            <p>Check out these external links (opens in new tab):</p>
+
+            <ul>
+                <li><a href="https://leafletjs.com/" target="_blank">Leaflet JS</a></li>
+            </ul>
+
+        </mat-card>
+
+    </mat-grid-tile>
+
+</mat-grid-list>
