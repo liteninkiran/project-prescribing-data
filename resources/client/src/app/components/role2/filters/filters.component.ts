@@ -2,6 +2,8 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs';
 import { IValidControl } from 'src/app/interfaces/organisation.interfaces';
+import { IRoleFilterFormGroup, IRoleFilters } from 'src/app/interfaces/organisation2.interfaces';
+import { IFilterConfig } from 'src/app/interfaces/shared.interface';
 
 @Component({
     selector: 'app-role-filters',
@@ -10,14 +12,14 @@ import { IValidControl } from 'src/app/interfaces/organisation.interfaces';
 })
 export class FiltersComponent {
 
-    @Output() public filtersChanged = new EventEmitter<Array<any>>();
+    @Output() public filtersChanged = new EventEmitter<any>();
   
     public filterForm!: FormGroup;
     public _idInput: FormControl = new FormControl();
     public roleNameInput: FormControl = new FormControl();
     public primaryRoleInput: FormControl = new FormControl();
+    public filters: IFilterConfig[] = [];
     public filterText: string = '';
-    public filterValues: Array<any> = [];
 
     constructor() { }
 
@@ -50,25 +52,32 @@ export class FiltersComponent {
             }
         }
 
-        this.filterForm = new FormGroup({
+        const formGroup: IRoleFilterFormGroup = {
             '_id': this._idInput,
             'roleName': this.roleNameInput,
             'primaryRole': this.primaryRoleInput,
-        }, requireOneControl());
+        }
+
+        this.filterForm = new FormGroup(formGroup, requireOneControl());
 
         this.filterForm.valueChanges.pipe(
             debounceTime(500),
             distinctUntilChanged(),
-            tap((value: any) => {
+            tap((value: IRoleFilters) => {
                 this.calculateFilter(value);
-                this.filtersChanged.emit(this.filterValues);
+                this.filtersChanged.emit(value);
             })
         ).subscribe();
     }
 
-    private calculateFilter(value: any): void {
-        this.filterValues = Object.values(value).filter((val) => val !== null);
-        const suffix = this.filterValues.length === 1 ? '' : 's';
-        this.filterText = this.filterValues.length === 0 ? '' : this.filterValues.length + ' Filter' + suffix + ' Applied';
+    private calculateFilter(value: IRoleFilters): void {
+        this.filters = [];
+        Object.keys(value).map((key) => {
+            if (value[key as keyof IRoleFilters]) {
+                this.filters.push({ field: key, value: value[key as keyof IRoleFilters]});
+            }
+        });
+        const suffix = this.filters.length === 1 ? '' : 's';
+        this.filterText = this.filters.length === 0 ? '' : this.filters.length + ' Filter' + suffix + ' Applied';
     }
 }

@@ -19,7 +19,7 @@ class RoleService
     /**
      * getPaginatedRoles
      *
-     * @param string $filter
+     * @param string[] $filters
      * @param string $sortCol
      * @param string $sortOrder
      * @param int $pageNumber
@@ -27,20 +27,25 @@ class RoleService
      * @return LengthAwarePaginator
      */
     public function getPaginatedRoles(
-        string $filter = null,
+        array $filters = [],
         string $sortCol = 'id',
         string $sortOrder = 'asc',
         int $pageNumber = 0,
         int $pageSize = 5
     ): LengthAwarePaginator {
+        // Initialise query
         $query = Role::query();
-        if ($filter) {
-            $query->where('display_name', 'LIKE', '%' . $filter . '%');
-        }
+
+        // Add filters
+        if ($filters['primaryRole']) { $query->where('primary_role', $filters['primaryRole'] === 'false' ? 0 : 1); }
+        if ($filters['roleName']) { $query->where('display_name', 'LIKE', '%' . $filters['roleName'] . '%'); }
+        if ($filters['_id']) { $query->where('_id', 'LIKE', '%' . $filters['_id'] . '%'); }
+
+        // Add order by clause
         $query->orderBy($sortCol, $sortOrder);
-        if ($sortCol !== 'id') {
-            $query->orderBy('id', 'asc');
-        }
+        if ($sortCol !== 'id') { $query->orderBy('id', 'asc'); }
+
+        // Paginate & return
         return $query->paginate($pageSize, ['*'], 'pageNumber', $pageNumber + 1);
     }
 

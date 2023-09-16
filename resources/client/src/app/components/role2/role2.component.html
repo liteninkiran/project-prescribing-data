@@ -3,7 +3,7 @@
 
 <!-- Filters -->
 <div class="filters">
-    <app-role-filters (filtersChanged)="filtersChanged($event)"></app-role-filters>
+    <app-role-filters (filtersChanged)="updateFilters($event)"></app-role-filters>
 </div>
 
 <!-- Data -->
@@ -11,5 +11,8 @@
     [dataSource]="dataSource"
     [columnConfig]="columnConfig"
     [service]="roleService"
+    [filters]="filters"
+    [reload]="reload"
+    (reloaded)="reloaded"
     defaultSortCol="display_name"
 ></app-table>

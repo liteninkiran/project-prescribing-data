@@ -3,3 +3,8 @@ export interface IMatTableColumnConfig {
     columnName: string;
     visible: boolean;
 };
+
+export interface IFilterConfig {
+    field: string;
+    value: any;
+};

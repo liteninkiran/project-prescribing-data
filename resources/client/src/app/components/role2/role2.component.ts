@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
 import { IMatTableColumnConfig } from 'src/app/interfaces/shared.interface';
 import { RoleDataSource } from './role.data-source';
 import { RoleService } from './role.service';
+import { IRoleFilters } from 'src/app/interfaces/organisation2.interfaces';
 
 @Component({
     selector: 'app-role2',
@@ -11,6 +11,8 @@ import { RoleService } from './role.service';
     providers: [RoleService],
 })
 export class Role2Component implements OnInit {
+    public filters: IRoleFilters = {} as IRoleFilters;
+    public reload: boolean = false;
     public dataSource!: RoleDataSource;
     public columnConfig: IMatTableColumnConfig[] = [];
 
@@ -23,8 +25,13 @@ export class Role2Component implements OnInit {
         this.columnConfig = this.columnConfigData();
     }
 
-    public filtersChanged(filters: Array<any>) {
-        console.log(filters);
+    public updateFilters(filters: any): void {
+        this.filters = filters;
+        this.reload = true;
+    }
+
+    public reloaded(reload: boolean): void {
+        this.reload = reload;
     }
 
     private columnConfigData(): IMatTableColumnConfig[] {

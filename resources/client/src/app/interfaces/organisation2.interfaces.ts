@@ -1,3 +1,5 @@
+import { FormControl } from "@angular/forms";
+
 export interface IRole {
     id: number;
     _id: string;
@@ -28,4 +30,16 @@ export interface IPagedListLinks {
     active: boolean;
     label: string;
     url: string;
+};
+
+export interface IRoleFilters {
+    primaryRole: string;
+    roleName: string;
+    _id: string;
+};
+
+export interface IRoleFilterFormGroup {
+    primaryRole: FormControl<any>;
+    roleName: FormControl<any>;
+    _id: FormControl<any>;
 };

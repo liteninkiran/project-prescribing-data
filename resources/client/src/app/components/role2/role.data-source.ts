@@ -1,6 +1,6 @@
 import { CollectionViewer, DataSource } from '@angular/cdk/collections';
 import { BehaviorSubject, Observable, catchError, finalize, of } from 'rxjs';
-import { IRole } from 'src/app/interfaces/organisation2.interfaces';
+import { IRole, IRoleFilters } from 'src/app/interfaces/organisation2.interfaces';
 import { RoleService } from './role.service';
 
 export class RoleDataSource implements DataSource<IRole> {
@@ -21,10 +21,10 @@ export class RoleDataSource implements DataSource<IRole> {
         this.loadingSubject.complete();
     }
 
-    public loadData(filter: string, sortCol = 'id', sortOrder = 'asc', pageNumber = 0, pageSize = 3): void {
+    public loadData(filters: IRoleFilters, sortCol = 'id', sortOrder = 'asc', pageNumber = 0, pageSize = 3): void {
         this.loadingSubject.next(true);
         this.roleService
-            .loadData(filter, sortCol, sortOrder, pageNumber, pageSize).pipe(
+            .loadData(filters, sortCol, sortOrder, pageNumber, pageSize).pipe(
                 catchError(() => of([])),
                 finalize(() => this.loadingSubject.next(false))
             )
