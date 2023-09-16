@@ -49,13 +49,12 @@ import { D3MapComponent } from './components/samples/d3-map/d3-map.component';
 import { MapComponent } from './components/map/map.component';
 import { Map2Component } from './components/map-2/map-2.component';
 import { LeafletMapComponent } from './components/samples/leaflet-map/leaflet-map.component';
-import { RoleComponent } from './components/role/role.component';
 import { FormatValuePipe } from './pipes/format-value.pipe';
-import { Role2Component } from './components/role2/role2.component';
+import { RoleComponent } from './components/role/role.component';
 import { TableComponent } from './components/shared/table/table.component';
 import { DateAgoPipe } from './pipes/date-ago.pipe';
 import { TableAsyncComponent } from './components/samples/table-async/table-async.component';
-import { FiltersComponent } from './components/role2/filters/filters.component';
+import { FiltersComponent } from './components/role/filters/filters.component';
 import { ArrayFilterPipe } from './pipes/array-filter.pipe';
 
 @NgModule({
@@ -73,7 +72,6 @@ import { ArrayFilterPipe } from './pipes/array-filter.pipe';
         Map2Component,
         LeafletMapComponent,
         RoleComponent,
-        Role2Component,
         TableComponent,
 
         // Pipes
