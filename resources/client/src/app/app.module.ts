@@ -33,6 +33,8 @@ import { DialogOverviewComponent } from './components/samples/dialog/example-1/d
 import { Dialog2Component } from './components/samples/dialog/example-2/dialog-2.component';
 import { DialogContentComponent } from './components/samples/dialog/example-2/dialog-content/dialog-content.component';
 import { DialogComponent } from './components/samples/dialog/dialog.component';
+import { Dialog3Component } from './components/samples/dialog/example-3/dialog-3.component';
+import { DialogDataComponent } from './components/samples/dialog/example-3/dialog-data/dialog-data.component';
 
 @NgModule({
     declarations: [
@@ -55,6 +57,8 @@ import { DialogComponent } from './components/samples/dialog/dialog.component';
         DialogOverviewComponent,
         Dialog2Component,
         DialogContentComponent,
+        Dialog3Component,
+        DialogDataComponent,
         DialogComponent,
     ],
     imports: [
