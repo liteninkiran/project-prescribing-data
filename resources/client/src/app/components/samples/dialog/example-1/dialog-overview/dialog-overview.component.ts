@@ -5,7 +5,7 @@ import { DialogData } from '../dialog-1.component';
 @Component({
     selector: 'app-dialog-overview',
     templateUrl: './dialog-overview.component.html',
-    styleUrls: ['./dialog-overview.component.scss']
+    styles: []
 })
 export class DialogOverviewComponent {
 
