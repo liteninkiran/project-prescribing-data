@@ -24,19 +24,19 @@ class RoleController extends Controller
      */
     public function index(): LengthAwarePaginator
     {
-        DB::enableQueryLog();
+        // DB::enableQueryLog();
         $pager = $this->roleService->getPaginatedRoles([
-                'primaryRole' => request()->input('primaryRole', null),
-                'roleName' => request()->input('roleName', null),
+                'primary_role' => request()->input('primary_role', null),
+                'display_name' => request()->input('display_name', null),
                 '_id' => request()->input('_id', null),
             ],
             request()->input('sortCol', 'id'),
             request()->input('sortOrder', 'asc'),
-            request()->input('pageNumber', 2),
-            request()->input('pageSize', 5),
+            request()->input('pageNumber', 0),
+            request()->input('pageSize', 10),
         );
-        $query = DB::getQueryLog();
-        info($query);
+        // $query = DB::getQueryLog();
+        // info($query);
         return $pager;
     }
 
