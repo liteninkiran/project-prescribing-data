@@ -38,6 +38,7 @@ import { DialogDataComponent } from './components/samples/dialog/example-3/dialo
 import { Dialog4Component } from './components/samples/dialog/example-4/dialog-4.component';
 import { DialogMenuComponent } from './components/samples/dialog/example-4/dialog-menu/dialog-menu.component';
 import { DialogMenu2Component } from './components/samples/dialog/example-4/dialog-menu-2/dialog-menu-2.component';
+import { MatMenuChkComponent } from './components/samples/dialog/mat-menu-chk/mat-menu-chk.component';
 
 @NgModule({
     declarations: [
@@ -45,17 +46,19 @@ import { DialogMenu2Component } from './components/samples/dialog/example-4/dial
         HomeComponent,
         OrganisationComponent,
         OrganisationViewComponent,
+        RoleComponent,
+        TableComponent,
+        FiltersComponent,
+
+        // Sample Components
         SamplesComponent,
+        TableAsyncComponent,
         TableSortComponent,
         TableSortPaginateFilterComponent,
         D3MapComponent,
         MapComponent,
         Map2Component,
         LeafletMapComponent,
-        RoleComponent,
-        TableComponent,
-        TableAsyncComponent,
-        FiltersComponent,
         Dialog1Component,
         DialogOverviewComponent,
         Dialog2Component,
@@ -66,6 +69,7 @@ import { DialogMenu2Component } from './components/samples/dialog/example-4/dial
         DialogMenuComponent,
         DialogMenu2Component,
         DialogComponent,
+        MatMenuChkComponent,
     ],
     imports: [
         // Built-in Modules

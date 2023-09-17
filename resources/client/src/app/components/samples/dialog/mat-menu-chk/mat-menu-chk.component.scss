@@ -1,0 +1,10 @@
+.mat-menu-panel {
+    background: lightgray;
+    margin-top: .3rem;
+
+    .mat-menu-content {
+        display: flex;
+        flex-direction: column;
+        padding: 0.5rem 1rem;
+    }
+}
