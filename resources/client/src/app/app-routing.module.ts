@@ -21,7 +21,7 @@ const routes: Routes = [
         component: OrganisationComponent,
     },
     {
-        path: 'roles2',
+        path: 'roles',
         component: RoleComponent,
     },
     {

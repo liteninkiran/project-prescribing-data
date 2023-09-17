@@ -19,6 +19,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
     @Input() public title!: string;
     @Input() public filters: IRoleFilters = {} as IRoleFilters;
     @Input() public reload: boolean = false;
+    @Input() public showMenu: boolean = false;
 
     @Output() public reloaded: EventEmitter<boolean> = new EventEmitter<boolean>();
 

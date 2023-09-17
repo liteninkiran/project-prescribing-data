@@ -7,7 +7,7 @@
         <mat-spinner></mat-spinner>
     </div>
 
-    <div class="button-container">
+    <div class="button-container" *ngIf="showMenu">
         <button mat-raised-button (click)="onShowHideClick()" class="button">
             <mat-icon>menu</mat-icon>
         </button>
