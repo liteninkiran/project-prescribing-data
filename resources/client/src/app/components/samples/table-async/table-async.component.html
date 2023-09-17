@@ -8,51 +8,16 @@
 
 <!-- Filters -->
 <div class="filters">
-
-    <!-- Internal ID -->
-    <mat-form-field>
-        <input matInput placeholder="Search Internal ID" #_id>
-    </mat-form-field>
-
-    <!-- Display Name -->
-    <mat-form-field>
-        <input matInput placeholder="Search Display Name" #displayName>
-    </mat-form-field>
-
+    <app-role-filters (filtersChanged)="updateFilters($event)"></app-role-filters>
 </div>
 
-<div>
-
-    <div class="spinner-container" *ngIf="dataSource.loading$ | async">
-        <mat-spinner></mat-spinner>
-    </div>
-
-    <div class="table mat-elevation-z8">
-
-        <mat-table
-            [dataSource]="dataSource"
-            matSort
-            matSortActive="display_name"
-            matSortDirection="asc"
-            matSortDisableClear
-        >
-            <!-- Column Definitions -->
-            <ng-container [matColumnDef]="item.columnId" *ngFor="let item of columnConfig">
-                <mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header>{{ item.columnName }}</mat-header-cell>
-                <mat-cell  mat-cell *matCellDef="let cell">{{ cell[item.columnId] | FormatValue }}</mat-cell >
-            </ng-container>
-
-            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns" (click)="onRowClicked(row)"></mat-row>
-        
-        </mat-table>
-
-        <mat-paginator
-            [length]="length"
-            [pageSize]="intialPageSize"
-            [pageSizeOptions]="pageSizeOptions"
-        ></mat-paginator>
-
-    </div>
-
-</div>
+<!-- Data -->
+<app-table
+    [dataSource]="dataSource"
+    [columnConfig]="columnConfig"
+    [service]="roleService"
+    [filters]="filters"
+    [reload]="reload"
+    (reloaded)="reloaded"
+    defaultSortCol="display_name"
+></app-table>

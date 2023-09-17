@@ -19,6 +19,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
     @Input() public title!: string;
     @Input() public filters: IRoleFilters = {} as IRoleFilters;
     @Input() public reload: boolean = false;
+    @Input() public showMenu: boolean = false;
 
     @Output() public reloaded: EventEmitter<boolean> = new EventEmitter<boolean>();
 
@@ -36,9 +37,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
     constructor() { }
 
     public ngOnInit(): void {
-        this.displayedColumns = this.columnConfig
-            .filter((config: IColumnConfig) => config.visible)
-            .map((config: IColumnConfig) => config.columnId);
+        this.updateDisplayedColumns();
         this.dataSource.loadData(this.filters, this.defaultSortCol, 'asc', 0, this.intialPageSize);
     }
 
@@ -62,6 +61,10 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
         //console.log(row);
     }
 
+    public onShowHideClick(): void {
+        console.log(this.columnConfig);
+    }
+
     private loadData(): void {
         this.dataSource.loadData(
             this.filters,
@@ -70,5 +73,11 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
             this.paginator.pageIndex,
             this.paginator.pageSize
         );
+    }
+
+    private updateDisplayedColumns(): void {
+        this.displayedColumns = this.columnConfig
+            .filter((config: IColumnConfig) => config.visible)
+            .map((config: IColumnConfig) => config.columnId);
     }
 }

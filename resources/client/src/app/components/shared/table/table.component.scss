@@ -21,3 +21,13 @@ mat-spinner {
 .table {
     margin-bottom: 50px;
 }
+
+.button-container {
+    padding-bottom: 16px;
+    mat-icon {
+        font-size: 20pt;
+        height: auto;
+        width: auto;
+        margin: 0;
+    }
+}

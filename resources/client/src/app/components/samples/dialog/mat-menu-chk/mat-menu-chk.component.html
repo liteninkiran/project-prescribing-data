@@ -1,0 +1,22 @@
+<h3>MatMenu with Checkboxes</h3>
+<button
+    #matMenuTrigger
+    mat-raised-button
+    color="primary"
+    [matMenuTriggerFor]="menu"
+    (menuOpened)="onMenuOpened()"
+    (menuClosed)="onMenuClosed()"
+>{{triggerButtonText}}</button>
+
+<mat-menu #menu="matMenu">
+    <mat-checkbox
+        #menuItems
+        *ngFor="let item of premiumAutomobilesList; let i = index;"
+        [(ngModel)]="item.activated"
+        (click)="$event.stopPropagation()"
+        (change)="onVehicleSelect()"
+        (keydown)="onMenuKeyDown($event, i)"
+    >{{item.title }}</mat-checkbox>
+</mat-menu>
+
+<p>{{ formattedSelectedVehicles }}</p>

@@ -10,7 +10,7 @@ import { TableSortPaginateFilterComponent } from './components/samples/table-sor
 import { D3MapComponent } from './components/samples/d3-map/d3-map.component';
 import { LeafletMapComponent } from './components/samples/leaflet-map/leaflet-map.component';
 import { RoleComponent } from './components/role/role.component';
-import { Role2Component } from './components/role2/role2.component';
+import { DialogComponent } from './components/samples/dialog/dialog.component';
 
 const routes: Routes = [
     {
@@ -24,10 +24,6 @@ const routes: Routes = [
     {
         path: 'roles',
         component: RoleComponent,
-    },
-    {
-        path: 'roles2',
-        component: Role2Component,
     },
     {
         path: 'organisations/:id',
@@ -56,6 +52,10 @@ const routes: Routes = [
     {
         path: 'samples/leaflet-map',
         component: LeafletMapComponent,
+    },
+    {
+        path: 'samples/dialog',
+        component: DialogComponent,
     },
     {
         path: '**',
