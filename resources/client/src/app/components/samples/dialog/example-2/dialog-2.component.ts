@@ -4,8 +4,13 @@ import { DialogContentComponent } from './dialog-content/dialog-content.componen
 
 @Component({
     selector: 'app-dialog-2',
-    templateUrl: './dialog-2.component.html',
-    styleUrls: ['./dialog-2.component.scss'],
+    template: `
+        <h3>Dialog with header, scrollable content and actions</h3>
+
+        <button mat-raised-button (click)="openDialog()">
+            Open Dialog
+        </button>`,
+    styles: [],
 })
 export class Dialog2Component {
     constructor(public dialog: MatDialog) { }

@@ -8,8 +8,13 @@ export interface DialogData {
 
 @Component({
     selector: 'app-dialog-3',
-    templateUrl: './dialog-3.component.html',
-    styleUrls: ['./dialog-3.component.scss'],
+    template: `
+        <h3>Injecting data when opening a dialog</h3>
+
+        <button mat-raised-button (click)="openDialog()">
+            Open dialog
+        </button>`,
+    styles: [],
 })
 export class Dialog3Component {
     constructor(public dialog: MatDialog) { }
