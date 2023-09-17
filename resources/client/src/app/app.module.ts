@@ -39,6 +39,8 @@ import { Dialog4Component } from './components/samples/dialog/example-4/dialog-4
 import { DialogMenuComponent } from './components/samples/dialog/example-4/dialog-menu/dialog-menu.component';
 import { DialogMenu2Component } from './components/samples/dialog/example-4/dialog-menu-2/dialog-menu-2.component';
 import { MatMenuChkComponent } from './components/samples/dialog/mat-menu-chk/mat-menu-chk.component';
+import { DialogFormComponent } from './components/samples/dialog/example-5/dialog-form/dialog-form.component';
+import { Dialog5Component } from './components/samples/dialog/example-5/dialog-5.component';
 
 @NgModule({
     declarations: [
@@ -68,6 +70,8 @@ import { MatMenuChkComponent } from './components/samples/dialog/mat-menu-chk/ma
         Dialog4Component,
         DialogMenuComponent,
         DialogMenu2Component,
+        Dialog5Component,
+        DialogFormComponent,
         DialogComponent,
         MatMenuChkComponent,
     ],
