@@ -28,6 +28,11 @@ import { RoleComponent } from './components/role/role.component';
 import { TableComponent } from './components/shared/table/table.component';
 import { TableAsyncComponent } from './components/samples/table-async/table-async.component';
 import { FiltersComponent } from './components/role/filters/filters.component';
+import { Dialog1Component } from './components/samples/dialog/example-1/dialog-1.component';
+import { DialogOverviewComponent } from './components/samples/dialog/example-1/dialog-overview/dialog-overview.component';
+import { Dialog2Component } from './components/samples/dialog/example-2/dialog-2.component';
+import { DialogContentComponent } from './components/samples/dialog/example-2/dialog-content/dialog-content.component';
+import { DialogComponent } from './components/samples/dialog/dialog.component';
 
 @NgModule({
     declarations: [
@@ -46,6 +51,11 @@ import { FiltersComponent } from './components/role/filters/filters.component';
         TableComponent,
         TableAsyncComponent,
         FiltersComponent,
+        Dialog1Component,
+        DialogOverviewComponent,
+        Dialog2Component,
+        DialogContentComponent,
+        DialogComponent,
     ],
     imports: [
         // Built-in Modules
