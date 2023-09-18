@@ -39,4 +39,9 @@ export class RoleService {
             })
         );
     }
+
+    public loadDataFromApi(): Observable<any> {
+        const url = '/api/roles/store_from_api';
+        return this.http.post(url, {});
+    }
 }
