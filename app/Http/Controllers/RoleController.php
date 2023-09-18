@@ -7,16 +7,22 @@ use App\Models\Role;
 use App\Http\Requests\StoreRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
 use App\Services\Role\RoleService;
+use App\Services\Role\RolePager;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 
 class RoleController extends Controller
 {
     protected $roleService;
+    protected $rolePager;
 
     public function __construct(
-        RoleService $roleService
+        RoleService $roleService,
+        RolePager $rolePager,
     ) {
         $this->roleService = $roleService;
+        $this->rolePager = $rolePager;
     }
 
     /**
@@ -24,19 +30,19 @@ class RoleController extends Controller
      */
     public function index(): LengthAwarePaginator
     {
-        DB::enableQueryLog();
-        $pager = $this->roleService->getPaginatedRoles([
-                'primaryRole' => request()->input('primaryRole', null),
-                'roleName' => request()->input('roleName', null),
+        // DB::enableQueryLog();
+        $pager = $this->rolePager->getPaginatedRoles([
+                'primary_role' => request()->input('primary_role', null),
+                'display_name' => request()->input('display_name', null),
                 '_id' => request()->input('_id', null),
             ],
             request()->input('sortCol', 'id'),
             request()->input('sortOrder', 'asc'),
-            request()->input('pageNumber', 2),
-            request()->input('pageSize', 5),
+            request()->input('pageNumber', 0),
+            request()->input('pageSize', 10),
         );
-        $query = DB::getQueryLog();
-        info($query);
+        // $query = DB::getQueryLog();
+        // info($query);
         return $pager;
     }
 
@@ -88,8 +94,9 @@ class RoleController extends Controller
         //
     }
 
-    public function storeFromApi(): int
+    public function storeFromApi(): JsonResponse
     {
-        return $this->roleService->storeFromApi();
+        $response = $this->roleService->storeFromApi();
+        return response()->json($response);
     }
 }

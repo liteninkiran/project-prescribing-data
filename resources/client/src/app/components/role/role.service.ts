@@ -19,8 +19,8 @@ export class RoleService {
             .set('pageSize', pageSize.toString());
 
         // Add filter parameters
-        if (filters.primaryRole) { params = params.append('primaryRole', filters.primaryRole); }
-        if (filters.roleName) { params = params.append('roleName', filters.roleName); }
+        if (filters.primaryRole) { params = params.append('primary_role', filters.primaryRole); }
+        if (filters.roleName) { params = params.append('display_name', filters.roleName); }
         if (filters._id) { params = params.append('_id', filters._id); }
 
         const url = '/api/roles';
@@ -38,5 +38,10 @@ export class RoleService {
                 return res.data.map(callBack);
             })
         );
+    }
+
+    public loadDataFromApi(): Observable<any> {
+        const url = '/api/roles/store_from_api';
+        return this.http.post(url, {});
     }
 }

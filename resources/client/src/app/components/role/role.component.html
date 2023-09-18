@@ -1,5 +1,22 @@
 <!-- Heading -->
-<h1>Roles</h1>
+<div class="heading">
+
+    <!-- Heading -->
+    <div>
+        <h1>Roles</h1>
+    </div>
+
+    <!-- Refresh Data From API -->
+    <div class="button-container">
+        <app-button
+            buttonText="Refresh Data From API"
+            colour="primary"
+            icon="sync"
+            [loaded]="apiLoaded"
+            (clickEvent)="refreshDataFromApi()"
+        ></app-button>
+    </div>
+</div>
 
 <!-- Filters -->
 <div class="filters">

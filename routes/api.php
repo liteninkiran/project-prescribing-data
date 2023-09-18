@@ -19,5 +19,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('roles/store_from_api', [RoleController::class, 'storeFromApi']);
+Route::post('roles/store_from_api', [RoleController::class, 'storeFromApi']);
 Route::resource('roles', RoleController::class);
