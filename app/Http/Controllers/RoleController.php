@@ -9,6 +9,8 @@ use App\Http\Requests\UpdateRoleRequest;
 use App\Services\Role\RoleService;
 use App\Services\Role\RolePager;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 
 class RoleController extends Controller
 {
@@ -92,8 +94,9 @@ class RoleController extends Controller
         //
     }
 
-    public function storeFromApi(): void
+    public function storeFromApi(): JsonResponse
     {
-        $this->roleService->storeFromApi();
+        $response = $this->roleService->storeFromApi();
+        return response()->json($response);
     }
 }
