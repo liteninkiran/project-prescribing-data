@@ -38,6 +38,7 @@ export class RoleComponent implements OnInit {
     }
 
     public refreshDataFromApi(): void {
+        this.apiLoaded = false;
         this.roleService
             .loadDataFromApi()
             .subscribe((res: any) => this.showSnackBar(res));
