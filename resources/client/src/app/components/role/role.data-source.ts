@@ -21,7 +21,7 @@ export class RoleDataSource implements DataSource<IRole> {
         this.loadingSubject.complete();
     }
 
-    public loadData(filters: IRoleFilters, sortCol = 'id', sortOrder = 'asc', pageNumber = 0, pageSize = 3): void {
+    public loadData(filters: IRoleFilters, sortCol = 'display_name', sortOrder = 'asc', pageNumber = 0, pageSize = 10): void {
         this.loadingSubject.next(true);
         this.roleService
             .loadData(filters, sortCol, sortOrder, pageNumber, pageSize).pipe(

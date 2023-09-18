@@ -69,5 +69,6 @@ export class RoleComponent implements OnInit {
             .afterDismissed()
             .subscribe(() => this._snackBar.open(message.updated, action, config));
         this.apiLoaded = true;
+        this.dataSource.loadData(this.filters);
     }
 }

@@ -10,7 +10,7 @@ export class RoleService {
 
     constructor(private http: HttpClient) {}
 
-    public loadData(filters: IRoleFilters, sortCol = 'id', sortOrder = 'asc', pageNumber = 0, pageSize = 3): Observable<IRole[]> {
+    public loadData(filters: IRoleFilters, sortCol = 'display_name', sortOrder = 'asc', pageNumber = 0, pageSize = 10): Observable<IRole[]> {
         // Create required parameters
         let params = new HttpParams()
             .set('sortCol', sortCol)

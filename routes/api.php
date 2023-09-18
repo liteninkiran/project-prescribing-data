@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\OrganisationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,3 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('roles/store_from_api', [RoleController::class, 'storeFromApi']);
 Route::resource('roles', RoleController::class);
+
+Route::get('organisations/store_from_api/{roleId}', [OrganisationController::class, 'storeFromApi']);
+Route::get('organisations/test/{id}', [OrganisationController::class, 'test']);
+Route::resource('organisations', OrganisationController::class);

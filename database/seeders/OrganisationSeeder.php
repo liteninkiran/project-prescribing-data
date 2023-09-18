@@ -4,19 +4,18 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Role;
-use Faker\Generator;
+use App\Models\Organisation;
 
-class RoleSeeder extends Seeder
+class OrganisationSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        $numRows = 100; // rand(100, 300);
-        for ($i = 1; $i <= $numRows; $i++) {
-            Role::factory()->create();
+        $numRows = rand(500, 9999);
+        for ($i = 0; $i <= $numRows; $i++) {
+            Organisation::factory()->create();
         }
     }
 }

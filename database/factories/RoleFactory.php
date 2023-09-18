@@ -23,7 +23,7 @@ class RoleFactory extends Factory
         return [
             '_id' => 'RO' . $nextId,
             'code' => $nextId,
-            'display_name' => $this->faker->company,
+            'display_name' => $this->faker->unique()->word,
             'primary_role' => $this->faker->numberBetween($min = 1, $max = 1000) > 500,
             'created_at' => $this->faker->dateTimeBetween($startDate = '-3 years', $endDate = 'now'),
             'updated_at' => $this->faker->dateTimeBetween($startDate = '-3 years', $endDate = 'now'),

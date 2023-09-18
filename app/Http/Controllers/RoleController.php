@@ -14,8 +14,8 @@ use Illuminate\Http\JsonResponse;
 
 class RoleController extends Controller
 {
-    protected $roleService;
-    protected $rolePager;
+    private $roleService;
+    private $rolePager;
 
     public function __construct(
         RoleService $roleService,
