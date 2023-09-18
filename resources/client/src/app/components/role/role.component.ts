@@ -16,6 +16,7 @@ export class RoleComponent implements OnInit {
     public reload: boolean = false;
     public dataSource!: RoleDataSource;
     public columnConfig: IMatTableColumnConfig[] = [];
+    public apiLoaded = false;
 
     constructor(
         readonly roleService: RoleService,
@@ -66,5 +67,6 @@ export class RoleComponent implements OnInit {
         snackBarRef
             .afterDismissed()
             .subscribe(() => this._snackBar.open(message.updated, action, config));
+        this.apiLoaded = true;
     }
 }

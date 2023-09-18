@@ -1,0 +1,4 @@
+<button mat-raised-button [color]="colour" [class.spinner]="loading && !loaded" [disabled]="loading && !loaded" (click)="onClick()">
+    <mat-icon>{{ icon }}</mat-icon>
+    {{ buttonText }}
+</button>

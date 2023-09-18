@@ -41,6 +41,7 @@ import { DialogMenu2Component } from './components/samples/dialog/example-4/dial
 import { MatMenuChkComponent } from './components/samples/dialog/mat-menu-chk/mat-menu-chk.component';
 import { DialogFormComponent } from './components/samples/dialog/example-5/dialog-form/dialog-form.component';
 import { Dialog5Component } from './components/samples/dialog/example-5/dialog-5.component';
+import { ButtonComponent } from './components/shared/button/button.component';
 
 @NgModule({
     declarations: [
@@ -74,6 +75,7 @@ import { Dialog5Component } from './components/samples/dialog/example-5/dialog-5
         DialogFormComponent,
         DialogComponent,
         MatMenuChkComponent,
+        ButtonComponent,
     ],
     imports: [
         // Built-in Modules
