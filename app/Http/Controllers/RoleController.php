@@ -92,8 +92,8 @@ class RoleController extends Controller
         //
     }
 
-    public function storeFromApi(): int
+    public function storeFromApi(): void
     {
-        return $this->roleService->storeFromApi();
+        $this->roleService->storeFromApi();
     }
 }

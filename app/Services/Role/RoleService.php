@@ -10,14 +10,13 @@ class RoleService
     /**
      * storeFromApi
      *
-     * @return int
+     * @return void
      */
-    public function storeFromApi(): int
+    public function storeFromApi(): void
     {
         $url = 'https://directory.spineservices.nhs.uk/ORD/2-0-0/roles';
         $response = Http::get($url);
-        $counter = $this->createRoles($response['Roles']);
-        return $counter;
+        $this->createRoles($response['Roles']);
     }
 
     /**
@@ -39,19 +38,23 @@ class RoleService
      * createRole
      *
      * @param mixed $role
-     * @return int
+     * @return void
      */
-    private function createRole($role): int
+    private function createRole($role): void
     {
-        $r = Role::where('code', $role->code)->first();
-        if (is_null($r)) {
-            Role::create([
-                '_id' => $role->id,
-                'code' => $role->code,
-                'display_name' => $role->displayName,
-                'primary_role' => $role->primaryRole === 'true',
-            ]);
+        $attributes = [
+            '_id' => $role->id,
+            'code' => $role->code,
+        ];
+        $values = [
+            'display_name' => $role->displayName,
+            'primary_role' => $role->primaryRole === 'true' ? 1 : 0,
+        ];
+        $roleModel = Role::firstOrNew($attributes, $values);
+        if(isset($roleModel->id)) {
+            $roleModel->display_name = $values['display_name'];
+            $roleModel->primary_role = $values['primary_role'];
         }
-        return is_null($r) ? 1 : 0;
+        $roleModel->save();
     }
 }

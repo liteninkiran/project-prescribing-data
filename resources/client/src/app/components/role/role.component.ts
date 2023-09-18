@@ -41,8 +41,8 @@ export class RoleComponent implements OnInit {
             { columnId: 'code', columnName: 'Code', visible: false },
             { columnId: 'display_name', columnName: 'Name', visible: true },
             { columnId: 'primary_role', columnName: 'Primary Role', visible: true },
-            { columnId: 'created_at', columnName: 'Created At', visible: false },
-            { columnId: 'updated_at', columnName: 'Updated At', visible: false },
+            { columnId: 'created_at', columnName: 'Created At', visible: true },
+            { columnId: 'updated_at', columnName: 'Updated At', visible: true },
         ];
     }
 }
