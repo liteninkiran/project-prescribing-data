@@ -7,16 +7,20 @@ use App\Models\Role;
 use App\Http\Requests\StoreRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
 use App\Services\Role\RoleService;
+use App\Services\Role\RolePager;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class RoleController extends Controller
 {
     protected $roleService;
+    protected $rolePager;
 
     public function __construct(
-        RoleService $roleService
+        RoleService $roleService,
+        RolePager $rolePager,
     ) {
         $this->roleService = $roleService;
+        $this->rolePager = $rolePager;
     }
 
     /**
@@ -25,7 +29,7 @@ class RoleController extends Controller
     public function index(): LengthAwarePaginator
     {
         // DB::enableQueryLog();
-        $pager = $this->roleService->getPaginatedRoles([
+        $pager = $this->rolePager->getPaginatedRoles([
                 'primary_role' => request()->input('primary_role', null),
                 'display_name' => request()->input('display_name', null),
                 '_id' => request()->input('_id', null),
