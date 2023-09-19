@@ -25,7 +25,6 @@ import { MapComponent } from './components/map/map.component';
 import { Map2Component } from './components/map-2/map-2.component';
 import { LeafletMapComponent } from './components/samples/leaflet-map/leaflet-map.component';
 import { RoleComponent } from './components/role/role.component';
-import { TableComponent } from './components/shared/table/table.component';
 import { TableAsyncComponent } from './components/samples/table-async/table-async.component';
 import { FiltersComponent } from './components/role/filters/filters.component';
 import { Dialog1Component } from './components/samples/dialog/example-1/dialog-1.component';
@@ -41,8 +40,8 @@ import { DialogMenu2Component } from './components/samples/dialog/example-4/dial
 import { MatMenuChkComponent } from './components/samples/dialog/mat-menu-chk/mat-menu-chk.component';
 import { DialogFormComponent } from './components/samples/dialog/example-5/dialog-form/dialog-form.component';
 import { Dialog5Component } from './components/samples/dialog/example-5/dialog-5.component';
-import { ButtonComponent } from './components/shared/button/button.component';
 import { AsyncFiltersComponent } from './components/samples/table-async/filters/filters.component';
+import { SharedModule } from './components/shared/shared.module';
 
 @NgModule({
     declarations: [
@@ -51,7 +50,6 @@ import { AsyncFiltersComponent } from './components/samples/table-async/filters/
         OrganisationComponent,
         OrganisationViewComponent,
         RoleComponent,
-        TableComponent,
         FiltersComponent,
 
         // Sample Components
@@ -76,7 +74,6 @@ import { AsyncFiltersComponent } from './components/samples/table-async/filters/
         DialogFormComponent,
         DialogComponent,
         MatMenuChkComponent,
-        ButtonComponent,
         AsyncFiltersComponent,
     ],
     imports: [
@@ -93,6 +90,9 @@ import { AsyncFiltersComponent } from './components/samples/table-async/filters/
         PipeModule,
         NgxJsonViewerModule,
         LeafletModule,
+
+        // Feature Modules
+        SharedModule,
     ],
     providers: [],
     bootstrap: [
