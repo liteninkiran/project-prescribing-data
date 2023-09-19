@@ -10,7 +10,7 @@ import { IFilterConfig } from 'src/app/interfaces/shared.interface';
     templateUrl: './filters.component.html',
     styleUrls: ['./filters.component.scss'],
 })
-export class FiltersComponent {
+export class RoleFiltersComponent {
 
     @Output() public filtersChanged = new EventEmitter<any>();
   
