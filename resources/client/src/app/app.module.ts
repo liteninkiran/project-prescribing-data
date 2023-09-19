@@ -11,15 +11,15 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { MaterialModule } from './modules/material.module';
 import { PipeModule } from './modules/pipe.module';
 import { AppRoutingModule } from './app-routing.module';
+import { SharedModule } from './components/shared/shared.module';
+import { SamplesModule } from './components/samples/samples.module';
+import { RoleModule } from './components/role/role.module';
 
 // Components
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { OrganisationComponent } from './components/organisation/organisation.component';
 import { OrganisationViewComponent } from './components/organisation-view/organisation-view.component';
-import { SharedModule } from './components/shared/shared.module';
-import { SamplesModule } from './components/samples/samples.module';
-import { RoleModule } from './components/role/role.module';
 
 @NgModule({
     declarations: [
@@ -36,15 +36,17 @@ import { RoleModule } from './components/role/role.module';
         FormsModule,
         ReactiveFormsModule,
 
-        // Custom Modules
+        // Routing Modules
         AppRoutingModule,
+
+        // Shared Modules
         MaterialModule,
         PipeModule,
         NgxJsonViewerModule,
         LeafletModule,
+        SharedModule,
 
         // Feature Modules
-        SharedModule,
         SamplesModule,
         RoleModule,
     ],
