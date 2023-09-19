@@ -32,7 +32,7 @@ class OrganisationService
 
         // Loop through the URLs (max limit is 1,000)
         do {
-            $rows = $this->storeData($role->_id);
+            $rows = $this->storeData($role);
         } while ($rows === $this->limit);
 
         // Return summary
@@ -45,12 +45,12 @@ class OrganisationService
     /**
      * storeData
      *
-     * @param string $roleId
+     * @param Role $role
      * @return int
      */
-    private function storeData(string $roleId): int
+    private function storeData(Role $role): int
     {
-        $url = $this->getUrl($roleId);
+        $url = $this->getUrl($role);
         $response = Http::accept('application/json')->get($url);
         $jsonResponse = $response->json();
         $organisations = $jsonResponse['Organisations'];
@@ -199,13 +199,14 @@ class OrganisationService
     /**
      * getUrl
      *
-     * @param string $roleId
+     * @param Role $role
      * @return string
      */
-    private function getUrl(string $roleId): string
+    private function getUrl(Role $role): string
     {
+        $roleKey = $role->primary_role ? 'PrimaryRoleId' : 'NonPrimaryRoleId';
         $url  = 'https://directory.spineservices.nhs.uk/ORD/2-0-0/organisations';
-        $url .= '?PrimaryRoleId=' . $roleId;
+        $url .= '?' . $roleKey . '=' . $role->_id;
         $url .= '&Limit=' . $this->limit;
         $url .= $this->offset > 1 ? '&Offset=' . $this->offset : '';
         return $url;
