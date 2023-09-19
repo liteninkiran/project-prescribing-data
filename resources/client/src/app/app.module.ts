@@ -17,10 +17,9 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { OrganisationComponent } from './components/organisation/organisation.component';
 import { OrganisationViewComponent } from './components/organisation-view/organisation-view.component';
-import { RoleComponent } from './components/role/role.component';
-import { RoleFiltersComponent } from './components/role/filters/filters.component';
 import { SharedModule } from './components/shared/shared.module';
 import { SamplesModule } from './components/samples/samples.module';
+import { RoleModule } from './components/role/role.module';
 
 @NgModule({
     declarations: [
@@ -28,8 +27,6 @@ import { SamplesModule } from './components/samples/samples.module';
         HomeComponent,
         OrganisationComponent,
         OrganisationViewComponent,
-        RoleComponent,
-        RoleFiltersComponent,
     ],
     imports: [
         // Built-in Modules
@@ -49,6 +46,7 @@ import { SamplesModule } from './components/samples/samples.module';
         // Feature Modules
         SharedModule,
         SamplesModule,
+        RoleModule,
     ],
     providers: [],
     bootstrap: [
