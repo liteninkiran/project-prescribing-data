@@ -42,6 +42,7 @@ import { MatMenuChkComponent } from './components/samples/dialog/mat-menu-chk/ma
 import { DialogFormComponent } from './components/samples/dialog/example-5/dialog-form/dialog-form.component';
 import { Dialog5Component } from './components/samples/dialog/example-5/dialog-5.component';
 import { ButtonComponent } from './components/shared/button/button.component';
+import { AsyncFiltersComponent } from './components/samples/table-async/filters/filters.component';
 
 @NgModule({
     declarations: [
@@ -76,6 +77,7 @@ import { ButtonComponent } from './components/shared/button/button.component';
         DialogComponent,
         MatMenuChkComponent,
         ButtonComponent,
+        AsyncFiltersComponent,
     ],
     imports: [
         // Built-in Modules
