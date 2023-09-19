@@ -24,5 +24,4 @@ Route::post('roles/store_from_api', [RoleController::class, 'storeFromApi']);
 Route::resource('roles', RoleController::class);
 
 Route::get('organisations/store_from_api/{roleId}', [OrganisationController::class, 'storeFromApi']);
-Route::get('organisations/test/{id}', [OrganisationController::class, 'test']);
 Route::resource('organisations', OrganisationController::class);

@@ -6,16 +6,20 @@ use App\Models\Organisation;
 use App\Http\Requests\StoreOrganisationRequest;
 use App\Http\Requests\UpdateOrganisationRequest;
 use App\Services\Organisation\OrganisationService;
+use App\Services\Organisation\OrganisationPager;
 use Illuminate\Http\JsonResponse;
 
 class OrganisationController extends Controller
 {
     private $organisationService;
+    private $organisationPager;
 
     public function __construct(
         OrganisationService $organisationService,
+        OrganisationPager $organisationPager,
     ) {
         $this->organisationService = $organisationService;
+        $this->organisationPager = $organisationPager;
     }
 
     /**
@@ -23,7 +27,17 @@ class OrganisationController extends Controller
      */
     public function index()
     {
-        //
+        // DB::enableQueryLog();
+        $pager = $this->organisationPager->getPaginatedOrganisations(
+            [],
+            request()->input('sortCol', 'id'),
+            request()->input('sortOrder', 'asc'),
+            request()->input('pageNumber', 0),
+            request()->input('pageSize', 10),
+        );
+        // $query = DB::getQueryLog();
+        // info($query);
+        return $pager;
     }
 
     /**
