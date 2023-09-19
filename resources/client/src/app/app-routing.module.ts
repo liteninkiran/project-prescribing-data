@@ -11,6 +11,7 @@ import { D3MapComponent } from './components/samples/d3-map/d3-map.component';
 import { LeafletMapComponent } from './components/samples/leaflet-map/leaflet-map.component';
 import { RoleComponent } from './components/role/role.component';
 import { DialogComponent } from './components/samples/dialog/dialog.component';
+import { Organisation2Component } from './components/organisation2/organisation2.component';
 
 const routes: Routes = [
     {
@@ -20,6 +21,10 @@ const routes: Routes = [
     {
         path: 'organisations',
         component: OrganisationComponent,
+    },
+    {
+        path: 'organisations2',
+        component: Organisation2Component,
     },
     {
         path: 'roles',

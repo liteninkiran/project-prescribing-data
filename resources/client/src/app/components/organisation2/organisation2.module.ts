@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RoleComponent } from './role.component';
-import { RoleFiltersComponent } from './filters/filters.component';
 import { MaterialModule } from 'src/app/modules/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
+import { Organisation2Component } from './organisation2.component';
+import { OrganisationFiltersComponent } from './filters/filters.component';
 
 @NgModule({
     declarations: [
-        RoleComponent,
-        RoleFiltersComponent,
+        Organisation2Component,
+        OrganisationFiltersComponent,
     ],
     imports: [
         CommonModule,
@@ -19,8 +19,8 @@ import { SharedModule } from '../shared/shared.module';
         SharedModule,
     ],
     exports: [
-        RoleComponent,
-        RoleFiltersComponent,
+        Organisation2Component,
+        OrganisationFiltersComponent,
     ],
 })
-export class RoleModule { }
+export class Organisation2Module { }

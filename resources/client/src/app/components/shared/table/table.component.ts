@@ -3,7 +3,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { IColumnConfig } from 'src/app/interfaces/organisation.interfaces';
 import { merge, tap } from 'rxjs';
-import { IRoleFilters } from 'src/app/interfaces/organisation2.interfaces';
 
 @Component({
     selector: 'app-table',
@@ -17,7 +16,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
     @Input() public columnConfig: IColumnConfig[] = [];
     @Input() public defaultSortCol: string = 'id';
     @Input() public title!: string;
-    @Input() public filters: IRoleFilters = {} as IRoleFilters;
+    @Input() public filters: any;
     @Input() public reload: boolean = false;
     @Input() public showMenu: boolean = false;
 

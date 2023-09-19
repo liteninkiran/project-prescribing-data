@@ -13,7 +13,7 @@
             [dataSource]="dataSource"
             mat-table
             matSort
-            matSortActive="display_name"
+            [matSortActive]="defaultSortCol"
             matSortDirection="asc"
             matSortDisableClear
         >

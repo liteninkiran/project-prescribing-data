@@ -20,6 +20,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { OrganisationComponent } from './components/organisation/organisation.component';
 import { OrganisationViewComponent } from './components/organisation-view/organisation-view.component';
+import { Organisation2Module } from './components/organisation2/organisation2.module';
 
 @NgModule({
     declarations: [
@@ -49,6 +50,7 @@ import { OrganisationViewComponent } from './components/organisation-view/organi
         // Feature Modules
         SamplesModule,
         RoleModule,
+        Organisation2Module,
     ],
     providers: [],
     bootstrap: [

@@ -1,0 +1,26 @@
+<!-- Heading -->
+<div class="heading">
+
+    <!-- Heading -->
+    <div>
+        <h1>Organisation</h1>
+    </div>
+
+</div>
+
+<!-- Filters -->
+<div class="filters">
+    <app-organisation-filters (filtersChanged)="updateFilters($event)"></app-organisation-filters>
+</div>
+
+<!-- Data -->
+<app-table
+    [dataSource]="dataSource"
+    [columnConfig]="columnConfig"
+    [service]="orgService"
+    [filters]="filters"
+    [showMenu]="false"
+    [reload]="reload"
+    (reloaded)="reloaded"
+    defaultSortCol="name"
+></app-table>

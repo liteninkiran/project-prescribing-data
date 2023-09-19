@@ -1,0 +1,16 @@
+.filters {
+    margin-bottom: 20px;
+}
+
+.heading {
+    display: flex;
+
+    div {
+        flex: 1;
+    }
+
+    .button-container {
+        align-self: center;
+        text-align: right;
+    }
+}
