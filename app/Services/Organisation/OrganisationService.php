@@ -9,8 +9,8 @@ use Illuminate\Support\Facades\Schema;
 
 class OrganisationService
 {
-    private $limit = 1;
-    private $offset = 10;
+    private $limit = 1000;
+    private $offset = 0;
     private $created = 0;
     private $updated = 0;
     private $keyCols = [
@@ -25,15 +25,38 @@ class OrganisationService
      */
     public function storeFromApi(string $roleId): array
     {
+        // Get actual role from DB
         $role = Role::where('_id', $roleId)->firstOrFail();
-        $url = $this->getUrl($role);
-        $response = Http::accept('application/json')->get($url);
-        $organisations = $response->json()['Organisations'];
-        $this->createOrUpdateOrganisations($organisations);
+
+        set_time_limit(240);
+
+        // Loop through the URLs (max limit is 1,000)
+        do {
+            $rows = $this->storeData($role->_id);
+        } while ($rows === $this->limit);
+
+        // Return summary
         return [
             'created' => $this->created,
             'updated' => $this->updated,
         ];
+    }
+    
+    /**
+     * storeData
+     *
+     * @param string $roleId
+     * @return int
+     */
+    private function storeData(string $roleId): int
+    {
+        $url = $this->getUrl($roleId);
+        $response = Http::accept('application/json')->get($url);
+        $jsonResponse = $response->json();
+        $organisations = $jsonResponse['Organisations'];
+        $this->createOrUpdateOrganisations($organisations);
+        $this->offset += $this->limit;
+        return count($organisations);
     }
 
     /**
@@ -48,7 +71,7 @@ class OrganisationService
             $this->createOrUpdateOrganisation($organisation);
         }
     }
-    
+
     /**
      * createOrUpdateOrganisation
      *
@@ -63,7 +86,7 @@ class OrganisationService
         $model = Organisation::firstOrNew($attributes, $values);
         $this->updateModel($model, $values);
     }
-    
+
     /**
      * convertToCamelCase
      *
@@ -94,7 +117,7 @@ class OrganisationService
         }
         return $attributes;
     }
-    
+
     /**
      * getColumns
      *
@@ -125,7 +148,7 @@ class OrganisationService
         // Return the remaining columns
         return $columns;
     }
-    
+
     /**
      * getAttributeValues
      *
@@ -150,7 +173,7 @@ class OrganisationService
         // Return the associative array
         return $values;
     }
-    
+
     /**
      * updateModel
      *
@@ -172,19 +195,19 @@ class OrganisationService
             $this->updated ++;
         }
     }
-    
+
     /**
      * getUrl
      *
-     * @param Role $role
+     * @param string $roleId
      * @return string
      */
-    private function getUrl(Role $role): string
+    private function getUrl(string $roleId): string
     {
         $url  = 'https://directory.spineservices.nhs.uk/ORD/2-0-0/organisations';
-        $url .= '?PrimaryRoleId=' . $role->_id;
+        $url .= '?PrimaryRoleId=' . $roleId;
         $url .= '&Limit=' . $this->limit;
-        $url .= '&Offset=' . $this->offset;
+        $url .= $this->offset > 1 ? '&Offset=' . $this->offset : '';
         return $url;
     }
 }
