@@ -13,3 +13,8 @@ mat-panel-description {
         margin-right: 10px;
     }
 }
+
+.filter-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}

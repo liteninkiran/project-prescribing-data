@@ -28,14 +28,35 @@
             <!-- Filters -->
             <form #dataOptionsForm="ngForm">
 
-                <!-- Name -->
-                <mat-form-field>
-                    <mat-label>Name</mat-label>
-                    <input matInput [formControl]="nameInput" placeholder="e.g. ...">
-                    <button *ngIf="nameInput.value" matSuffix mat-icon-button aria-label="Clear" (click)="nameInput.setValue(null)" tabindex="-1">
-                        <mat-icon>close</mat-icon>
-                    </button>
-                </mat-form-field>
+                <div class="filter-container">
+
+                    <!-- Name -->
+                    <mat-form-field>
+                        <mat-label>Name</mat-label>
+                        <input matInput [formControl]="nameInput" placeholder="e.g. Medical Practice">
+                        <button *ngIf="nameInput.value" matSuffix mat-icon-button aria-label="Clear" (click)="nameInput.setValue(null)" tabindex="-1">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </mat-form-field>
+
+                    <!-- Primary Role -->
+<!-- 
+                    <mat-form-field>
+                        <mat-label>Primary Role</mat-label>
+                        <mat-select [formControl]="primaryRoleInput" placeholder="Select role(s)" multiple
+                            panelClass="long-list">
+                            <mat-option *ngFor="let role of roles.primaryRoles?.Roles" [value]="role.id">
+                                {{ role.displayName }}
+                            </mat-option>
+                        </mat-select>
+                        <button *ngIf="primaryRoleInput.value.length > 0" matSuffix mat-icon-button
+                            aria-label="Clear" (click)="primaryRoleInput.setValue([])">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </mat-form-field>
+ -->
+                </div>
+
 
             </form>
 

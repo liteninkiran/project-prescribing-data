@@ -15,6 +15,7 @@ export class OrganisationFiltersComponent {
   
     public filterForm!: FormGroup;
     public nameInput: FormControl = new FormControl();
+    public primaryRoleInput: FormControl = new FormControl(['']); // Must be array because multiple=true
     public filters: IFilterConfig[] = [];
     public filterText: string = '';
 
