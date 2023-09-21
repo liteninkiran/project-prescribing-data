@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RoleComponent } from './role.component';
 import { RoleFiltersComponent } from './filters/filters.component';
 import { MaterialModule } from 'src/app/modules/material.module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
@@ -14,7 +14,6 @@ import { SharedModule } from '../shared/shared.module';
     imports: [
         CommonModule,
         MaterialModule,
-        FormsModule,
         ReactiveFormsModule,
         SharedModule,
     ],
