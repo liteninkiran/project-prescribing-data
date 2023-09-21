@@ -1,41 +1,7 @@
-<mat-sidenav-container fullscreen>
+<!-- Navbar -->
+<app-navbar></app-navbar>
 
-    <mat-toolbar color="primary">
-
-        <!-- Home -->
-        <a mat-button routerLink="/">
-            <mat-icon fontIcon="home"></mat-icon>
-            Home
-        </a>
-
-        <!-- Organisations -->
-        <a mat-button routerLink="/organisations-api">
-            <mat-icon fontIcon="factory"></mat-icon>
-            Organisations
-        </a>
-
-        <!-- Organisations 2 -->
-        <a mat-button routerLink="/organisations">
-            <mat-icon fontIcon="factory"></mat-icon>
-            Organisations 2
-        </a>
-
-        <!-- Roles -->
-        <a mat-button routerLink="/roles">
-            <mat-icon fontIcon="roller_skating"></mat-icon>
-            Roles
-        </a>
-
-        <!-- Sample Components -->
-        <a mat-button routerLink="/samples">
-            <mat-icon fontIcon="electrical_services"></mat-icon>
-            Sample Components
-        </a>
-
-    </mat-toolbar>
-
-    <div class="container">
-        <router-outlet></router-outlet>
-    </div>
-
-</mat-sidenav-container>
+<!-- Content -->
+<div class="container">
+    <router-outlet></router-outlet>
+</div>
