@@ -28,7 +28,7 @@ class OrganisationPager
     public function getPaginatedOrganisations(array $filters = [], string $sortCol = 'id', string $sortOrder = 'asc', int $pageNumber = 0, int $pageSize = 5): LengthAwarePaginator
     {
         // Initialise query
-        $this->query = Organisation::query();
+        $this->query = Organisation::with('primaryRole');
 
         // Add filters and order by clause
         $this->addFilters($filters)

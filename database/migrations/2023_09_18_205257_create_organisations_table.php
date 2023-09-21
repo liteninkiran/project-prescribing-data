@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Models\Role;
 
 return new class extends Migration
 {
@@ -19,8 +20,7 @@ return new class extends Migration
             $table->string('org_record_class');
             $table->string('post_code');
             $table->date('last_change_date');
-            $table->string('primary_role_id', 10);
-            $table->string('primary_role_description');
+            $table->foreignIdFor(Role::class, 'primary_role_id')->constrained('roles');
             $table->text('org_link');
             $table->timestamps();
         });

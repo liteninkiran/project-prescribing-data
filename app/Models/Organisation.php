@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Organisation extends Model
 {
@@ -17,8 +18,11 @@ class Organisation extends Model
         'post_code',
         'last_change_date',
         'primary_role_id',
-        'primary_role_description',
         'org_link',
     ];
 
+    public function primaryRole(): BelongsTo
+    {
+        return $this->belongsTo(Role::class, 'primary_role_id', 'id');
+    }
 }

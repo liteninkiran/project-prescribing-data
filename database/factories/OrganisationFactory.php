@@ -25,8 +25,7 @@ class OrganisationFactory extends Factory
             'org_record_class' => 'RC1',
             'post_code' => $this->faker->postcode,
             'last_change_date' => $this->faker->date($format = 'Y-m-d', $max = 'now'),
-            'primary_role_id' => $role->_id,
-            'primary_role_description' => $role->display_name,
+            'primary_role_id' => $role->id,
             'org_link' => $this->faker->url,
         ];
     }

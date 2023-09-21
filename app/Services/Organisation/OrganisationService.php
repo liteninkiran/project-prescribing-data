@@ -3,19 +3,34 @@
 namespace App\Services\Organisation;
 
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Schema;
 use App\Models\Role;
 use App\Models\Organisation;
-use Illuminate\Support\Facades\Schema;
 
 class OrganisationService
 {
-    private $limit = 1000;
-    private $offset = 0;
-    private $created = 0;
-    private $updated = 0;
-    private $keyCols = [
+    /** @var array $keyCols Columns used to uniquely identify a record */
+    private array $keyCols = [
         'org_id' => 'OrgId',
     ];
+
+    /** @var int $limit Specify limit for API call. Max is 1,000. */
+    private int $limit = 1000;
+
+    /** @var Role $role Do not touch*/
+    private Role $role;
+
+    /** @var int $totalRows Do not touch. */
+    private int $totalRows = 0;
+
+    /** @var int $offset Do not touch. */
+    private int $offset = 0;
+
+    /** @var int $created Do not touch. */
+    private int $created = 0;
+
+    /** @var int $updated Do not touch. */
+    private int $updated = 0;
 
     /**
      * storeFromApi
@@ -25,15 +40,14 @@ class OrganisationService
      */
     public function storeFromApi(string $roleId): array
     {
-        // Get actual role from DB
-        $role = Role::where('_id', $roleId)->firstOrFail();
+        // Set $role using model from DB
+        $this->setRole($roleId);
 
-        set_time_limit(240);
+        // Set timeout (not using queue yet)
+        $this->setTimeout(300);
 
-        // Loop through the URLs (max limit is 1,000)
-        do {
-            $rows = $this->storeData($role);
-        } while ($rows === $this->limit);
+        // Loop through the URLs (max row limit is 1,000)
+        $this->looper();
 
         // Return summary
         return [
@@ -41,16 +55,51 @@ class OrganisationService
             'updated' => $this->updated,
         ];
     }
-    
+
+    /**
+     * looper
+     * 
+     * @return void
+     */
+    public function looper(): void
+    {
+        do {
+            $rows = $this->storeData();
+            $this->totalRows += $rows;
+            info($this->totalRows);
+        } while ($rows === $this->limit);
+    }
+
+    /**
+     * setRole
+     * 
+     * @param string $roleId
+     * @return void
+     */
+    public function setRole(string $roleId): void
+    {
+        $this->role = Role::where('_id', $roleId)->firstOrFail();
+    }
+
+    /**
+     * setTimeout
+     * 
+     * @param int $timeout
+     * @return void
+     */
+    public function setTimeout(int $timeout = 0): void
+    {
+        set_time_limit($timeout);
+    }
+
     /**
      * storeData
      *
-     * @param Role $role
      * @return int
      */
-    private function storeData(Role $role): int
+    private function storeData(): int
     {
-        $url = $this->getUrl($role);
+        $url = $this->getUrl();
         $response = Http::accept('application/json')->get($url);
         $jsonResponse = $response->json();
         $organisations = $jsonResponse['Organisations'];
@@ -83,6 +132,7 @@ class OrganisationService
         $attributes = $this->getAttributes($organisation);
         $columns = $this->getColumns();
         $values = $this->getAttributeValues($organisation, $columns);
+        $values['primary_role_id'] = $this->role->id;
         $model = Organisation::firstOrNew($attributes, $values);
         $this->updateModel($model, $values);
     }
@@ -199,16 +249,15 @@ class OrganisationService
     /**
      * getUrl
      *
-     * @param Role $role
      * @return string
      */
-    private function getUrl(Role $role): string
+    private function getUrl(): string
     {
-        $roleKey = $role->primary_role ? 'PrimaryRoleId' : 'NonPrimaryRoleId';
+        $roleKey = $this->role->primary_role ? 'PrimaryRoleId' : 'NonPrimaryRoleId';
         $url  = 'https://directory.spineservices.nhs.uk/ORD/2-0-0/organisations';
-        $url .= '?' . $roleKey . '=' . $role->_id;
+        $url .= '?' . $roleKey . '=' . $this->role->_id;
         $url .= '&Limit=' . $this->limit;
-        $url .= $this->offset > 1 ? '&Offset=' . $this->offset : '';
+        $url .= $this->offset > 0 ? '&Offset=' . $this->offset : '';
         return $url;
     }
 }

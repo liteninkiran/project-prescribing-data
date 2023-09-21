@@ -25,6 +25,7 @@ export class OrganisationService {
         const options = { params: params }
         const callBack = (organisation: any) => ({
             ...organisation,
+            primary_role_description: organisation.primary_role.display_name,
             created_at: new Date(organisation.created_at),
             updated_at: new Date(organisation.updated_at),
         });
