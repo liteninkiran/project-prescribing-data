@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 // Modules
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
@@ -34,7 +34,6 @@ import { Organisation2Module } from './components/organisation2/organisation2.mo
         BrowserAnimationsModule,
         BrowserModule,
         HttpClientModule,
-        FormsModule,
         ReactiveFormsModule,
 
         // Routing Modules

@@ -25,6 +25,7 @@ import { AsyncFiltersComponent } from './table-async/filters/filters.component';
 import { TableAsyncComponent } from './table-async/table-async.component';
 import { SharedModule } from '../shared/shared.module';
 import { SamplesComponent } from './samples/samples.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
     declarations: [
@@ -57,6 +58,7 @@ import { SamplesComponent } from './samples/samples.component';
         ReactiveFormsModule,
         MaterialModule,
         SharedModule,
+        RouterModule,
     ],
     exports: [
         SamplesComponent,
