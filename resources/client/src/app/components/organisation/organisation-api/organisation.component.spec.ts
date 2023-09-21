@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { OrganisationComponent } from './organisation.component';
+import { OrganisationApiComponent } from './organisation.component';
 
 describe('OrganisationComponent', () => {
-    let component: OrganisationComponent;
-    let fixture: ComponentFixture<OrganisationComponent>;
+    let component: OrganisationApiComponent;
+    let fixture: ComponentFixture<OrganisationApiComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [OrganisationComponent],
+            declarations: [OrganisationApiComponent],
         }).compileComponents();
 
-        fixture = TestBed.createComponent(OrganisationComponent);
+        fixture = TestBed.createComponent(OrganisationApiComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

@@ -1,6 +1,6 @@
 import { CollectionViewer, DataSource } from '@angular/cdk/collections';
 import { BehaviorSubject, Observable, catchError, finalize, of } from 'rxjs';
-import { OrganisationService } from './organisation2.service';
+import { OrganisationService } from './organisation.service';
 
 export class OrganisationDataSource implements DataSource<any> {
 

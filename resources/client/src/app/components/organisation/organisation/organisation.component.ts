@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
 import { IMatTableColumnConfig } from 'src/app/interfaces/shared.interface';
-import { OrganisationDataSource } from './organisation2.data-source';
-import { OrganisationService } from './organisation2.service';
+import { OrganisationDataSource } from './organisation.data-source';
+import { OrganisationService } from './organisation.service';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 
 @Component({
-    selector: 'app-organisation2',
-    templateUrl: './organisation2.component.html',
-    styleUrls: ['./organisation2.component.scss'],
+    selector: 'app-organisation',
+    templateUrl: './organisation.component.html',
+    styleUrls: ['./organisation.component.scss'],
     providers: [OrganisationService],
 })
-export class Organisation2Component {
+export class OrganisationComponent {
     public filters: any = { name: null }
     public reload: boolean = false;
     public dataSource!: OrganisationDataSource;

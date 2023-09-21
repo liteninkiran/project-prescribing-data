@@ -25,4 +25,11 @@ class Organisation extends Model
     {
         return $this->belongsTo(Role::class, 'primary_role_id', 'id');
     }
+
+    public function scopePrimaryRolesIn($query, array $roleIds)
+    {
+        return $query->whereHas('primaryRole', function($q) use ($roleIds) {
+            $q->whereIn('_id', $roleIds);
+        });
+    }
 }

@@ -5,6 +5,7 @@ namespace App\Services\Organisation;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Query\Builder;
 use App\Models\Organisation;
+use App\Models\Role;
 
 class OrganisationPager
 {    
@@ -27,15 +28,28 @@ class OrganisationPager
      */
     public function getPaginatedOrganisations(array $filters = [], string $sortCol = 'id', string $sortOrder = 'asc', int $pageNumber = 0, int $pageSize = 5): LengthAwarePaginator
     {
-        // Initialise query
-        $this->query = Organisation::with('primaryRole');
-
-        // Add filters and order by clause
-        $this->addFilters($filters)
+        $this->initialiseQuery()
+            ->addFilters($filters)
             ->addOrderBy($sortCol, $sortOrder);
+
+        // $this->query->primaryRolesIn([
+        //     'RO103',
+        //     'RO105',
+        // ]);
 
         // Paginate & return
         return $this->query->paginate($pageSize, ['*'], 'pageNumber', $pageNumber + 1);
+    }
+
+    /**
+     * initialiseQuery
+     *
+     * @return self
+     */
+    private function initialiseQuery(): self
+    {
+        $this->query = Organisation::with('primaryRole:id,display_name');
+        return $this;
     }
 
     /**

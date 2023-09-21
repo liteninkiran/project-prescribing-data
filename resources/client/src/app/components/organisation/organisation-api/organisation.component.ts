@@ -25,13 +25,13 @@ import { MatSort } from '@angular/material/sort';
 import { LocationService } from 'src/app/services/location/location.service';
 
 @Component({
-    selector: 'app-organisation',
+    selector: 'app-organisation-api',
     templateUrl: './organisation.component.html',
     styleUrls: ['./organisation.component.scss'],
     providers: [OrganisationService],
     encapsulation: ViewEncapsulation.None,
 })
-export class OrganisationComponent implements OnInit, OnDestroy, AfterViewInit {
+export class OrganisationApiComponent implements OnInit, OnDestroy, AfterViewInit {
     @ViewChild(MatSort) sort!: MatSort;
 
     // Data
