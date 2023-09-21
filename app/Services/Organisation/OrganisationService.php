@@ -66,7 +66,6 @@ class OrganisationService
         do {
             $rows = $this->storeData();
             $this->totalRows += $rows;
-            info($this->totalRows);
         } while ($rows === $this->limit);
     }
 
