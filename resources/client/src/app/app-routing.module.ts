@@ -15,7 +15,7 @@ import { RoleComponent } from './components/role/role/container/role.component';
 
 const routes: Routes = [
     {
-        path: '',
+        path: 'home',
         component: HomeComponent,
     },
     {
@@ -64,7 +64,7 @@ const routes: Routes = [
     },
     {
         path: '**',
-        redirectTo: '/',
+        redirectTo: 'home',
     },
 ];
 

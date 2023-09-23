@@ -15,13 +15,13 @@ import { OrganisationModule } from './components/organisation/organisation.modul
 // Components
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
-import { NavbarComponent } from './components/navbar/navbar.component';
+import { NavbarLinksComponent } from './components/navbar/navbar-links.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         HomeComponent,
-        NavbarComponent,
+        NavbarLinksComponent,
     ],
     imports: [
         // Built-in Modules

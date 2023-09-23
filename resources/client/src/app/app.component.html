@@ -1,7 +1,41 @@
-<!-- Navbar -->
-<app-navbar></app-navbar>
+<mat-sidenav-container fullscreen>
 
-<!-- Content -->
-<div class="container">
-    <router-outlet></router-outlet>
-</div>
+    <!-- Vertical Side-Nav Menu -->
+    <mat-sidenav #start (click)="start.close()" autoFocus="false" mode="push">
+
+        <mat-nav-list>
+
+            <app-navbar-links></app-navbar-links>
+
+        </mat-nav-list>
+
+    </mat-sidenav>
+
+    <!-- Horizontal Toolbar -->
+    <mat-toolbar color="primary">
+
+        <!-- Container -->
+        <div class="toolbar-tools">
+
+            <!-- Burger Menu Icon -->
+            <button mat-icon-button (click)="start.open('mouse')">
+                <mat-icon>menu</mat-icon>
+            </button>
+
+            <!-- Empty Space -->
+            <div class="filler"></div>
+
+        </div>
+
+    </mat-toolbar>
+
+<!--
+    <messages></messages>
+    <loading></loading>
+-->
+
+    <div class="container">
+        <router-outlet></router-outlet>
+    </div>
+
+</mat-sidenav-container>
