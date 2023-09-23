@@ -1,5 +1,5 @@
 mat-form-field {
-    width: 100%;
+    width: 95%;
 }
 
 button {
@@ -17,4 +17,9 @@ mat-panel-description {
 .filter-container {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
+}
+
+// Won't work without { encapsulation: ViewEncapsulation.None }
+.long-list {
+    min-height: 500px;
 }

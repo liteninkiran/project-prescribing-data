@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable, debounceTime, distinctUntilChanged, tap } from 'rxjs';
 import { IValidControl } from 'src/app/interfaces/organisation.interfaces';
@@ -10,6 +10,7 @@ import { OrganisationStore } from 'src/app/services/organisation/organisation.st
     selector: 'app-organisation-filters',
     templateUrl: './filters.component.html',
     styleUrls: ['./filters.component.scss'],
+    encapsulation: ViewEncapsulation.None,
 })
 export class OrganisationFiltersComponent {
 

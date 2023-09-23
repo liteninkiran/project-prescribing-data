@@ -4,12 +4,14 @@
 
 .heading {
     display: flex;
+    margin-bottom: 20px;
 
     div {
         flex: 1;
 
         h1 {
             margin-top: 0;
+            margin-bottom: 0;
         }
     }
 
