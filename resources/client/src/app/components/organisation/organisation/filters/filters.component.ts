@@ -1,8 +1,10 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, tap } from 'rxjs';
+import { Observable, debounceTime, distinctUntilChanged, tap } from 'rxjs';
 import { IValidControl } from 'src/app/interfaces/organisation.interfaces';
+import { IRole } from 'src/app/interfaces/organisation2.interfaces';
 import { IFilterConfig } from 'src/app/interfaces/shared.interface';
+import { Organisation2Service } from 'src/app/services/organisation/organisation2.service';
 
 @Component({
     selector: 'app-organisation-filters',
@@ -13,16 +15,34 @@ export class OrganisationFiltersComponent {
 
     @Output() public filtersChanged = new EventEmitter<any>();
   
+    // Form
     public filterForm!: FormGroup;
+
+    // Form Controls
     public nameInput: FormControl = new FormControl();
     public primaryRoleInput: FormControl = new FormControl(['']); // Must be array because multiple=true
+    public nonPrimaryRoleInput: FormControl = new FormControl(['']); // Must be array because multiple=true
+
+    // Config
     public filters: IFilterConfig[] = [];
     public filterText: string = '';
 
-    constructor() { }
+    // Data
+    public primaryRoles$!: Observable<IRole[]>;
+    public nonPrimaryRoles$!: Observable<IRole[]>;
+
+    constructor(
+        private orgService: Organisation2Service,
+    ) { }
 
     public ngOnInit(): void {
         this.setFilterForm();
+        this.loadData();
+    }
+
+    private loadData(): void {
+        this.primaryRoles$ = this.orgService.getRolesListByType(true);
+        this.nonPrimaryRoles$ = this.orgService.getRolesListByType(false);
     }
 
     private setFilterForm(): void {
@@ -58,6 +78,7 @@ export class OrganisationFiltersComponent {
             tap((value: any) => {
                 this.calculateFilter(value);
                 this.filtersChanged.emit(value);
+                console.log('Value', value);
             })
         ).subscribe();
     }
@@ -71,5 +92,6 @@ export class OrganisationFiltersComponent {
         });
         const suffix = this.filters.length === 1 ? '' : 's';
         this.filterText = this.filters.length === 0 ? '' : this.filters.length + ' Filter' + suffix + ' Applied';
+        console.log('Filters', this.filters);
     }
 }

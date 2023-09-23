@@ -8,11 +8,11 @@ use Illuminate\Support\Collection;
 class RoleList
 {    
     /**
-     * getRolesList
+     * allRoles
      *
      * @return Collection
      */
-    public function getRolesList(): Collection
+    public function allRoles(): Collection
     {
         return Role::query()
             ->select(['id', 'display_name', 'primary_role'])
