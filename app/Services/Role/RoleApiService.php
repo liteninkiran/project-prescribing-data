@@ -5,7 +5,7 @@ namespace App\Services\Role;
 use Illuminate\Support\Facades\Http;
 use App\Models\Role;
 
-class RoleService
+class RoleApiService
 {
     private $created = 0;
     private $updated = 0;

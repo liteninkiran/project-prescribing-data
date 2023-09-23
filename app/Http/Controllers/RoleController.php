@@ -6,7 +6,7 @@ use DB;
 use App\Models\Role;
 use App\Http\Requests\StoreRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
-use App\Services\Role\RoleService;
+use App\Services\Role\RoleApiService;
 use App\Services\Role\RolePager;
 use App\Services\Role\RoleList;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -16,16 +16,16 @@ use Illuminate\Support\Collection;
 
 class RoleController extends Controller
 {
-    private $roleService;
+    private $roleApiService;
     private $rolePager;
     private $roleList;
 
     public function __construct(
-        RoleService $roleService,
+        RoleApiService $roleApiService,
         RolePager $rolePager,
         RoleList $roleList,
     ) {
-        $this->roleService = $roleService;
+        $this->roleApiService = $roleApiService;
         $this->rolePager = $rolePager;
         $this->roleList = $roleList;
     }
@@ -101,7 +101,7 @@ class RoleController extends Controller
 
     public function storeFromApi(): JsonResponse
     {
-        $response = $this->roleService->storeFromApi();
+        $response = $this->roleApiService->storeFromApi();
         return response()->json($response);
     }
 
