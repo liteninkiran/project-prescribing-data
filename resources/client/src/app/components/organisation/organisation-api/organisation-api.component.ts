@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, AfterViewInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
-import { OrganisationService } from 'src/app/services/organisation/organisation.service';
+import { OrganisationApiService } from 'src/app/services/organisation/organisation-api.service';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {
@@ -26,9 +26,9 @@ import { LocationService } from 'src/app/services/location/location.service';
 
 @Component({
     selector: 'app-organisation-api',
-    templateUrl: './organisation.component.html',
-    styleUrls: ['./organisation.component.scss'],
-    providers: [OrganisationService],
+    templateUrl: './organisation-api.component.html',
+    styleUrls: ['./organisation-api.component.scss'],
+    providers: [OrganisationApiService],
     encapsulation: ViewEncapsulation.None,
 })
 export class OrganisationApiComponent implements OnInit, OnDestroy, AfterViewInit {
@@ -81,7 +81,7 @@ export class OrganisationApiComponent implements OnInit, OnDestroy, AfterViewIni
     };
 
     constructor(
-        private orgService: OrganisationService,
+        private orgApiService: OrganisationApiService,
         private locationService: LocationService,
         private _snackBar: MatSnackBar,
         private fb: FormBuilder,
@@ -154,7 +154,7 @@ export class OrganisationApiComponent implements OnInit, OnDestroy, AfterViewIni
         this.dataSource = new MatTableDataSource<IOrganisation>();
         this.data = null;
         const roles = this.filterForm.value.primaryRoles.concat(this.filterForm.value.nonPrimaryRoles);
-        this.data$ = this.orgService.getOrganisations(
+        this.data$ = this.orgApiService.getOrganisations(
             this.filterForm.value.limit,
             this.filterForm.value.offset,
             this.filterForm.value.status,
@@ -184,7 +184,7 @@ export class OrganisationApiComponent implements OnInit, OnDestroy, AfterViewIni
     }
 
     private setRolesData(): void {
-        this.roles$ = this.orgService.getRoles();
+        this.roles$ = this.orgApiService.getRoles();
         const sub: Subscription = this.roles$.subscribe((d: IRoles) => {
             const transformData = (roles: IRole[], isPrimary: string) => {
                 roles = roles.filter((role: IRole) => role.primaryRole === isPrimary);

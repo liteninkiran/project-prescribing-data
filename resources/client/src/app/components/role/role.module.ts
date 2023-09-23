@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RoleComponent } from './role.component';
-import { RoleFiltersComponent } from './filters/filters.component';
+import { RoleFiltersComponent } from './role/filters/filters.component';
 import { MaterialModule } from 'src/app/modules/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
+import { RoleComponent } from './role/container/role.component';
 
 @NgModule({
     declarations: [

@@ -4,7 +4,7 @@ import { Observable, debounceTime, distinctUntilChanged, tap } from 'rxjs';
 import { IValidControl } from 'src/app/interfaces/organisation.interfaces';
 import { IRole } from 'src/app/interfaces/organisation2.interfaces';
 import { IFilterConfig } from 'src/app/interfaces/shared.interface';
-import { Organisation2Service } from 'src/app/services/organisation/organisation2.service';
+import { OrganisationStore } from 'src/app/services/organisation/organisation.store';
 
 @Component({
     selector: 'app-organisation-filters',
@@ -32,7 +32,7 @@ export class OrganisationFiltersComponent {
     public nonPrimaryRoles$!: Observable<IRole[]>;
 
     constructor(
-        private orgService: Organisation2Service,
+        private orgStore: OrganisationStore,
     ) { }
 
     public ngOnInit(): void {
@@ -41,8 +41,8 @@ export class OrganisationFiltersComponent {
     }
 
     private loadData(): void {
-        this.primaryRoles$ = this.orgService.getRolesListByType(true);
-        this.nonPrimaryRoles$ = this.orgService.getRolesListByType(false);
+        this.primaryRoles$ = this.orgStore.getRolesListByType(true);
+        this.nonPrimaryRoles$ = this.orgStore.getRolesListByType(false);
     }
 
     private setFilterForm(): void {

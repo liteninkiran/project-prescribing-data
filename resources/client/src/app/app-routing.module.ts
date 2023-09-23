@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { OrganisationApiComponent } from './components/organisation/organisation-api/organisation.component';
+import { OrganisationApiComponent } from './components/organisation/organisation-api/organisation-api.component';
 import { HomeComponent } from './components/home/home.component';
 import { OrganisationViewComponent } from './components/organisation/organisation-view/organisation-view.component';
 import { SamplesComponent } from './components/samples/samples/samples.component';
@@ -9,9 +9,9 @@ import { TableSortComponent } from './components/samples/table-sort/table-sort.c
 import { TableSortPaginateFilterComponent } from './components/samples/table-sort-paginate-filter/table-sort-paginate-filter.component';
 import { D3MapComponent } from './components/samples/d3-map/d3-map.component';
 import { LeafletMapComponent } from './components/samples/leaflet-map/leaflet-map.component';
-import { RoleComponent } from './components/role/role.component';
 import { DialogComponent } from './components/samples/dialog/dialog.component';
-import { OrganisationComponent } from './components/organisation/organisation/organisation.component';
+import { OrganisationComponent } from './components/organisation/organisation/container/organisation.component';
+import { RoleComponent } from './components/role/role/container/role.component';
 
 const routes: Routes = [
     {

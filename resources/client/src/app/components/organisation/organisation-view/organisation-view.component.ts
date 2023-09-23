@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { ISingleOrg, ISingleOrgResponse, ISingleOrgStatusCount } from 'src/app/interfaces/organisation.interfaces';
-import { OrganisationService } from 'src/app/services/organisation/organisation.service';
+import { OrganisationApiService } from 'src/app/services/organisation/organisation-api.service';
 import { LocationService } from 'src/app/services/location/location.service';
 import { icon } from 'leaflet';
 import * as L from 'leaflet';
@@ -44,7 +44,7 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
 
     constructor(
         private route: ActivatedRoute,
-        private orgService: OrganisationService,
+        private orgApiService: OrganisationApiService,
         private locationService: LocationService,
     ) {
 
@@ -86,7 +86,7 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
     }
 
     private setOrganisation() {
-        this.organisation$ = this.orgService.getOrganisation(this.id);
+        this.organisation$ = this.orgApiService.getOrganisation(this.id);
         const sub: Subscription = this.organisation$.subscribe((res: ISingleOrgResponse) => {
             this.organisation = res.Organisation;
             this.setLastChangeDate();

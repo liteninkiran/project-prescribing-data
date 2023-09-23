@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { OrganisationApiComponent } from './organisation.component';
+import { OrganisationApiComponent } from './organisation-api.component';
 
 describe('OrganisationComponent', () => {
     let component: OrganisationApiComponent;

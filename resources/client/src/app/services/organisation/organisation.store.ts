@@ -7,7 +7,7 @@ import { IPagedList } from 'src/app/interfaces/organisation2.interfaces';
 @Injectable({
     providedIn: 'root'
 })
-export class Organisation2Service {
+export class OrganisationStore {
     private subject = new BehaviorSubject<IRole[]>([]);
 
     roles$ : Observable<IRole[]> = this.subject.asObservable();

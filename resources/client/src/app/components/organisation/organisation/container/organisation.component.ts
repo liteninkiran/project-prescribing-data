@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IMatTableColumnConfig } from 'src/app/interfaces/shared.interface';
-import { OrganisationDataSource } from './organisation.data-source';
-import { OrganisationService } from './organisation.service';
+import { OrganisationDataSource } from './../organisation.data-source';
+import { OrganisationService } from '../../../../services/organisation/organisation.service';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 
 @Component({

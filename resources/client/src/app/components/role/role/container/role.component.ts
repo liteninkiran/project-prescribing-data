@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IMatTableColumnConfig } from 'src/app/interfaces/shared.interface';
-import { RoleDataSource } from './role.data-source';
-import { RoleService } from './role.service';
+import { RoleDataSource } from '../role.data-source';
+import { RoleService } from '../../../../services/organisation/role.service';
 import { IRoleFilters } from 'src/app/interfaces/organisation2.interfaces';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 

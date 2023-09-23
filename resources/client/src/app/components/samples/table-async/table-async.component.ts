@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { IRoleFilters } from 'src/app/interfaces/organisation2.interfaces';
 import { IMatTableColumnConfig } from 'src/app/interfaces/shared.interface';
-import { RoleService } from '../../role/role.service';
-import { RoleDataSource } from '../../role/role.data-source';
+import { RoleService } from '../../../services/organisation/role.service';
+import { RoleDataSource } from '../../role/role/role.data-source';
 
 @Component({
     selector: 'app-table-async',
