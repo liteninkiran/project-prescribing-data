@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable, debounceTime, distinctUntilChanged, tap } from 'rxjs';
-import { IOrganisationFilterFormGroup } from 'src/app/interfaces/organisation.interface';
+import { IOrganisationFilterFormGroup, IOrganisationFilters } from 'src/app/interfaces/organisation.interface';
 import { IRole } from 'src/app/interfaces/role.interface';
 import { IFilterConfig } from 'src/app/interfaces/shared.interface';
 import { OrganisationStore } from 'src/app/services/organisation/organisation.store';
@@ -21,11 +21,11 @@ export class OrganisationFiltersComponent {
 
     // Form Controls
     public nameInput: FormControl = new FormControl()
-    public primaryRoleInput: FormControl = new FormControl(['']); // Must be array because multiple=true
-    public nonPrimaryRoleInput: FormControl = new FormControl(['']); // Must be array because multiple=true
+    public primaryRoleInput: FormControl<number[] | null> = new FormControl(null);
+    public nonPrimaryRoleInput: FormControl<number[] | null> = new FormControl(null);
 
     // Config
-    // public filters: IFilterConfig[] = [];
+    public filters: IFilterConfig[] = [];
     public filterText: string = '';
 
     // Data
@@ -52,9 +52,9 @@ export class OrganisationFiltersComponent {
 
     private setFilterFormGroup(): void {
         const formGroup: IOrganisationFilterFormGroup = {
-            'name': this.nameInput,
-            'primaryRoles': this.primaryRoleInput,
-            'nonPrimaryRoles': this.nonPrimaryRoleInput,
+            name: this.nameInput,
+            primaryRoles: this.primaryRoleInput,
+            nonPrimaryRoles: this.nonPrimaryRoleInput,
         }
 
         this.filterForm = new FormGroup(formGroup);
@@ -62,24 +62,22 @@ export class OrganisationFiltersComponent {
         this.filterForm.valueChanges.pipe(
             debounceTime(500),
             distinctUntilChanged(),
-            tap((value: any) => {
+            tap((value: IOrganisationFilters) => {
                 this.calculateFilter(value);
                 this.filtersChanged.emit(value);
-                // console.log('Value', value);
+                console.log('Value', value);
             })
         ).subscribe();
     }
 
-    private calculateFilter(value: any): void {
-        // this.filters = [];
-        // Object.keys(value).map((key) => {
-        //     if (value[key]) {
-        //         this.filters.push({ field: key, value: value[key]});
-        //     }
-        // });
-        // const suffix = this.filters.length === 1 ? '' : 's';
-        // this.filterText = this.filters.length === 0 ? '' : this.filters.length + ' Filter' + suffix + ' Applied';
-        // console.log('Filters', this.filters);
-        //console.log(this.filterForm.value); //.filter((x: any) => !!x));
+    private calculateFilter(value: IOrganisationFilters): void {
+        this.filters = [];
+        Object.keys(value).map((key) => {
+            if (value[key as keyof IOrganisationFilters]) {
+                this.filters.push({ field: key, value: value[key as keyof IOrganisationFilters]});
+            }
+        });
+        const suffix = this.filters.length === 1 ? '' : 's';
+        this.filterText = this.filters.length === 0 ? '' : this.filters.length + ' Filter' + suffix + ' Applied';
     }
 }

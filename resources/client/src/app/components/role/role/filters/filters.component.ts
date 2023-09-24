@@ -39,9 +39,9 @@ export class RoleFiltersComponent {
 
     private setFilterFormGroup(): void {
         const formGroup: IRoleFilterFormGroup = {
-            '_id': this._idInput,
-            'roleName': this.roleNameInput,
-            'primaryRole': this.primaryRoleInput,
+            _id: this._idInput,
+            roleName: this.roleNameInput,
+            primaryRole: this.primaryRoleInput,
         }
 
         this.filterForm = new FormGroup(formGroup);

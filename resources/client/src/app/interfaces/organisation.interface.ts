@@ -18,8 +18,8 @@ export interface IOrganisation {
 
 export interface IOrganisationFilters {
     name: string;
-    primarRoles: number[];
-    nonPrimarRoles: number[];
+    primaryRoles: number[] | null;
+    nonPrimaryRoles: number[] | null;
 };
 
 export interface IOrganisationFilterFormGroup {

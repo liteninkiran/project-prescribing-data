@@ -53,14 +53,14 @@
                             placeholder="Select role(s)"
                             multiple panelClass="long-list"
                         >
-                            <mat-option *ngFor="let role of (primaryRoles$ | async)" [value]="role._id">
+                            <mat-option *ngFor="let role of (primaryRoles$ | async)" [value]="role.id">
                                 {{ role.display_name }}
                             </mat-option>
                         </mat-select>
 
                         <!-- Clear Contents -->
                         <button
-                            *ngIf="primaryRoleInput.value.length > 0"
+                            *ngIf="primaryRoleInput.value?.length || 0 > 0"
                             matSuffix
                             mat-icon-button
                             aria-label="Clear"
@@ -85,14 +85,14 @@
                             placeholder="Select role(s)"
                             multiple panelClass="long-list"
                         >
-                            <mat-option *ngFor="let role of (nonPrimaryRoles$ | async)" [value]="role._id">
+                            <mat-option *ngFor="let role of (nonPrimaryRoles$ | async)" [value]="role.id">
                                 {{ role.display_name }}
                             </mat-option>
                         </mat-select>
 
                         <!-- Clear Contents -->
                         <button
-                            *ngIf="nonPrimaryRoleInput.value.length > 0"
+                            *ngIf="nonPrimaryRoleInput.value?.length || 0 > 0"
                             matSuffix
                             mat-icon-button
                             aria-label="Clear"

@@ -10,19 +10,21 @@ import { IPagedList } from 'src/app/interfaces/shared.interface';
 export class OrganisationStore {
     private subject = new BehaviorSubject<IRole[]>([]);
 
-    roles$ : Observable<IRole[]> = this.subject.asObservable();
+    public roles$ : Observable<IRole[]> = this.subject.asObservable();
+
+    private baseUrl = '/api/roles';
 
     constructor(private http: HttpClient) {
         this.getRolesList();
     }
 
     public getRoles(): Observable<IPagedList> {
-        const url: string = '/api/roles';
+        const url: string = this.baseUrl;
         return this.http.get<IPagedList>(url);
     }
 
     private getRolesList(): void {
-        const url = '/api/roles/rolesList';
+        const url = `${this.baseUrl}/rolesList`;
         const loadCourses$ = this.http
             .get<IRole[]>(url)
             .pipe(
