@@ -18,8 +18,3 @@ mat-panel-description {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
 }
-
-// Won't work without { encapsulation: ViewEncapsulation.None }
-.long-list {
-    min-height: 500px;
-}

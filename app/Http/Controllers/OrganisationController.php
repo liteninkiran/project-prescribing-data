@@ -33,6 +33,7 @@ class OrganisationController extends Controller
                 'name' => request()->input('name', null),
                 'primary_roles' => request()->input('primary_roles', null),
                 'non_primary_roles' => request()->input('non_primary_roles', null),
+                'postcode' => request()->input('postcode', null),
             ],
             request()->input('sortCol', 'id'),
             request()->input('sortOrder', 'asc'),

@@ -61,6 +61,9 @@ class OrganisationPager
         if ($filters['primary_roles']) {
             $this->query->primaryRolesInRaw($filters['primary_roles']);
         }
+        if ($filters['postcode']) {
+            $this->query->where('post_code', 'LIKE', '%' . $filters['postcode'] . '%');
+        }
         return $this;
     }
 

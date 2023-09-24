@@ -49,6 +49,7 @@
 
                         <!-- Primary Role List -->
                         <mat-select
+                            #primaryRoleSelect
                             [formControl]="primaryRoleInput"
                             placeholder="Select role(s)"
                             multiple panelClass="long-list"
@@ -64,7 +65,7 @@
                             matSuffix
                             mat-icon-button
                             aria-label="Clear"
-                            (click)="primaryRoleInput.setValue([])"
+                            (click)="primaryRoleInput.setValue(null)"
                         >
                             <mat-icon>close</mat-icon>
                         </button>
@@ -72,7 +73,7 @@
                     </mat-form-field>
 
                     <!-- Non Primary Role -->
-                    <mat-form-field>
+                    <mat-form-field *ngIf="false">
 
                         <!-- Label -->
                         <mat-label>
@@ -81,6 +82,7 @@
 
                         <!-- Non Primary Role List -->
                         <mat-select
+                            #nonPrimaryRoleSelect
                             [formControl]="nonPrimaryRoleInput"
                             placeholder="Select role(s)"
                             multiple panelClass="long-list"
@@ -96,12 +98,28 @@
                             matSuffix
                             mat-icon-button
                             aria-label="Clear"
-                            (click)="nonPrimaryRoleInput.setValue([])"
+                            (click)="nonPrimaryRoleInput.setValue(null)"
                         >
                             <mat-icon>close</mat-icon>
                         </button>
 
                     </mat-form-field>
+
+                    <!-- Postcode -->
+                    <mat-form-field>
+                        <mat-label>Postcode</mat-label>
+                        <input matInput [formControl]="postcodeInput" placeholder="e.g. DA14" (input)="onPostcodeInput()">
+                        <button *ngIf="postcodeInput.value" matSuffix mat-icon-button aria-label="Clear" (click)="postcodeInput.setValue(null)" tabindex="-1">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </mat-form-field>
+
+                    <!-- Org ID -->
+
+                    <!-- Last Change Date -->
+
+                    <!-- Status -->
+
 
                 </div>
 

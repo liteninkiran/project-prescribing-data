@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable, debounceTime, distinctUntilChanged, tap } from 'rxjs';
 import { IOrganisationFilterFormGroup, IOrganisationFilters } from 'src/app/interfaces/organisation.interface';
@@ -10,19 +10,19 @@ import { OrganisationStore } from 'src/app/services/organisation/organisation.st
     selector: 'app-organisation-filters',
     templateUrl: './filters.component.html',
     styleUrls: ['./filters.component.scss'],
-    encapsulation: ViewEncapsulation.None,
 })
 export class OrganisationFiltersComponent {
 
-    @Output() public filtersChanged = new EventEmitter<any>();
+    @Output() public filtersChanged = new EventEmitter<IOrganisationFilters>();
 
     // Form
     public filterForm!: FormGroup;
 
     // Form Controls
-    public nameInput: FormControl = new FormControl()
+    public nameInput: FormControl<string | null> = new FormControl(null)
     public primaryRoleInput: FormControl<number[] | null> = new FormControl(null);
     public nonPrimaryRoleInput: FormControl<number[] | null> = new FormControl({ value: null, disabled: true });
+    public postcodeInput: FormControl<string | null> = new FormControl(null);
 
     // Config
     public filters: IFilterConfig[] = [];
@@ -41,6 +41,12 @@ export class OrganisationFiltersComponent {
         this.loadData();
     }
 
+    public onPostcodeInput(): void {
+        if (this.postcodeInput.value) {
+            this.postcodeInput.setValue(this.postcodeInput.value.toUpperCase());
+        }
+    }
+
     private loadData(): void {
         this.primaryRoles$ = this.orgStore.getRolesListByType(true);
         this.nonPrimaryRoles$ = this.orgStore.getRolesListByType(false);
@@ -55,6 +61,7 @@ export class OrganisationFiltersComponent {
             name: this.nameInput,
             primaryRoles: this.primaryRoleInput,
             nonPrimaryRoles: this.nonPrimaryRoleInput,
+            postcode: this.postcodeInput,
         }
 
         this.filterForm = new FormGroup(formGroup);

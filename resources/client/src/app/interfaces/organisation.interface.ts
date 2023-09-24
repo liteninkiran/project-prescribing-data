@@ -20,10 +20,12 @@ export interface IOrganisationFilters {
     name: string;
     primaryRoles: number[] | null;
     nonPrimaryRoles: number[] | null;
+    postcode: string;
 };
 
 export interface IOrganisationFilterFormGroup {
     name: FormControl<any>;
     primaryRoles: FormControl<any>;
     nonPrimaryRoles: FormControl<any>;
+    postcode: FormControl<any>;
 };
