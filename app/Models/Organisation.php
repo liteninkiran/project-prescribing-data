@@ -22,16 +22,27 @@ class Organisation extends Model
         'org_link',
     ];
 
+    
+    /****************** RELATIONSHIPS ******************/
+
+    /**
+     * primaryRole
+     *
+     * @return BelongsTo
+     */
     public function primaryRole(): BelongsTo
     {
         return $this->belongsTo(Role::class, 'primary_role_id', 'id');
     }
-    
+
+
+    /******************    SCOPES    *******************/
+
     /**
      * scopePrimaryRolesIn
      *
-     * @param  Builder $query
-     * @param  string[] $roleIds
+     * @param Builder $query
+     * @param string[] $roleIds
      * @return Builder
      */
     public function scopePrimaryRolesIn(Builder $query, array $roleIds): Builder
@@ -44,8 +55,8 @@ class Organisation extends Model
     /**
      * scopePrimaryRolesInRaw
      *
-     * @param  Builder $query
-     * @param  int[] $roleIds
+     * @param Builder $query
+     * @param int[] $roleIds
      * @return Builder
      */
     public function scopePrimaryRolesInRaw(Builder $query, array $roleIds): Builder
@@ -53,5 +64,29 @@ class Organisation extends Model
         return $query->whereHas('primaryRole', function($q) use ($roleIds) {
             $q->whereIntegerInRaw('id', $roleIds);
         });
+    }
+    
+    /**
+     * scopeNameLike
+     *
+     * @param Builder $query
+     * @param string $name
+     * @return Builder
+     */
+    public function scopeNameLike(Builder $query, string $name): Builder
+    {
+        return $query->where('name', 'LIKE', '%' . $name . '%');
+    }
+    
+    /**
+     * scopePostcodeLike
+     *
+     * @param Builder $query
+     * @param string $postcode
+     * @return Builder
+     */
+    public function scopePostcodeLike(Builder $query, string $postcode): Builder
+    {
+        return $query->where('post_code', 'LIKE', '%' . $postcode . '%');
     }
 }

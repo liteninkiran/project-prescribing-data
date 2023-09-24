@@ -55,15 +55,9 @@ class OrganisationPager
      */
     private function addFilters(array $filters): self
     {
-        if ($filters['name']) {
-            $this->query->where('name', 'LIKE', '%' . $filters['name'] . '%');
-        }
-        if ($filters['primary_roles']) {
-            $this->query->primaryRolesInRaw($filters['primary_roles']);
-        }
-        if ($filters['postcode']) {
-            $this->query->where('post_code', 'LIKE', '%' . $filters['postcode'] . '%');
-        }
+        if ($filters['name']) { $this->query->nameLike($filters['name']); }
+        if ($filters['primary_roles']) { $this->query->primaryRolesInRaw($filters['primary_roles']); }
+        if ($filters['postcode']) { $this->query->postcodeLike($filters['postcode']); }
         return $this;
     }
 
