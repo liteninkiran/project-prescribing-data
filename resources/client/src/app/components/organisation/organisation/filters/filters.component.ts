@@ -22,7 +22,7 @@ export class OrganisationFiltersComponent {
     // Form Controls
     public nameInput: FormControl = new FormControl()
     public primaryRoleInput: FormControl<number[] | null> = new FormControl(null);
-    public nonPrimaryRoleInput: FormControl<number[] | null> = new FormControl(null);
+    public nonPrimaryRoleInput: FormControl<number[] | null> = new FormControl({ value: null, disabled: true });
 
     // Config
     public filters: IFilterConfig[] = [];
@@ -65,7 +65,6 @@ export class OrganisationFiltersComponent {
             tap((value: IOrganisationFilters) => {
                 this.calculateFilter(value);
                 this.filtersChanged.emit(value);
-                console.log('Value', value);
             })
         ).subscribe();
     }

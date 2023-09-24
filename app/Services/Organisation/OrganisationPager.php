@@ -3,7 +3,7 @@
 namespace App\Services\Organisation;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Builder;
 use App\Models\Organisation;
 use App\Models\Role;
 
@@ -32,11 +32,6 @@ class OrganisationPager
             ->addFilters($filters)
             ->addOrderBy($sortCol, $sortOrder);
 
-        // $this->query->primaryRolesIn([
-        //     'RO103',
-        //     'RO105',
-        // ]);
-
         // Paginate & return
         return $this->query->paginate($pageSize, ['*'], 'pageNumber', $pageNumber + 1);
     }
@@ -60,29 +55,11 @@ class OrganisationPager
      */
     private function addFilters(array $filters): self
     {
-        if ($filters) {
-            foreach ($filters as $key => $value) {
-                $operator = 'LIKE';
-                $compare = '%' . $value . '%';
-                $this->addFilter($value, $key, $operator, $compare);
-            }
+        if ($filters['name']) {
+            $this->query->where('name', 'LIKE', '%' . $filters['name'] . '%');
         }
-        return $this;
-    }
-
-    /**
-     * addFilter
-     *
-     * @param string|null $filter
-     * @param string $field
-     * @param string $operator
-     * @param mixed $compare
-     * @return self
-     */
-    private function addFilter(string | null $filter, string $field, string $operator, mixed $compare): self
-    {
-        if ($filter) {
-            $this->query->where($field, $operator, $compare);
+        if ($filters['primary_roles']) {
+            $this->query->primaryRolesInRaw($filters['primary_roles']);
         }
         return $this;
     }

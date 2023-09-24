@@ -40,7 +40,7 @@ export class RoleComponent implements OnInit {
 
     private columnConfigData(): IMatTableColumnConfig[] {
         return [
-            { columnId: 'id', columnName: 'ID', visible: false },
+            { columnId: 'id', columnName: 'ID', visible: true },
             { columnId: '_id', columnName: 'Internal ID', visible: true },
             { columnId: 'code', columnName: 'Code', visible: false },
             { columnId: 'display_name', columnName: 'Name', visible: true },

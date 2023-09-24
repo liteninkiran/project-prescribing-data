@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Builder;
 
 class Organisation extends Model
 {
@@ -25,11 +26,32 @@ class Organisation extends Model
     {
         return $this->belongsTo(Role::class, 'primary_role_id', 'id');
     }
-
-    public function scopePrimaryRolesIn($query, array $roleIds)
+    
+    /**
+     * scopePrimaryRolesIn
+     *
+     * @param  Builder $query
+     * @param  string[] $roleIds
+     * @return Builder
+     */
+    public function scopePrimaryRolesIn(Builder $query, array $roleIds): Builder
     {
         return $query->whereHas('primaryRole', function($q) use ($roleIds) {
             $q->whereIn('_id', $roleIds);
+        });
+    }
+    
+    /**
+     * scopePrimaryRolesInRaw
+     *
+     * @param  Builder $query
+     * @param  int[] $roleIds
+     * @return Builder
+     */
+    public function scopePrimaryRolesInRaw(Builder $query, array $roleIds): Builder
+    {
+        return $query->whereHas('primaryRole', function($q) use ($roleIds) {
+            $q->whereIntegerInRaw('id', $roleIds);
         });
     }
 }

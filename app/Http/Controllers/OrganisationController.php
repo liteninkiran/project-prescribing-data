@@ -29,7 +29,11 @@ class OrganisationController extends Controller
     {
         // DB::enableQueryLog();
         $pager = $this->organisationPager->getPaginatedOrganisations(
-            [],
+            [
+                'name' => request()->input('name', null),
+                'primary_roles' => request()->input('primary_roles', null),
+                'non_primary_roles' => request()->input('non_primary_roles', null),
+            ],
             request()->input('sortCol', 'id'),
             request()->input('sortOrder', 'asc'),
             request()->input('pageNumber', 0),
