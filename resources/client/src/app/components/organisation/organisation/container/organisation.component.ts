@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IMatTableColumnConfig } from 'src/app/interfaces/shared.interface';
 import { OrganisationDataSource } from './../organisation.data-source';
 import { OrganisationService } from '../../../../services/organisation/organisation.service';
-import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { IOrganisationFilters } from 'src/app/interfaces/organisation.interface';
 
 @Component({
     selector: 'app-organisation',
@@ -10,16 +10,14 @@ import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
     styleUrls: ['./organisation.component.scss'],
     providers: [OrganisationService],
 })
-export class OrganisationComponent {
-    public filters: any = { name: null }
-    public reload: boolean = false;
+export class OrganisationComponent implements OnInit {
+    public filters: IOrganisationFilters = {} as IOrganisationFilters;
     public dataSource!: OrganisationDataSource;
     public columnConfig: IMatTableColumnConfig[] = [];
     public apiLoaded = false;
 
     constructor(
         readonly orgService: OrganisationService,
-        private _snackBar: MatSnackBar,
     ) { }
 
     public ngOnInit(): void {
@@ -29,11 +27,6 @@ export class OrganisationComponent {
 
     public updateFilters(filters: any): void {
         this.filters = filters;
-        this.reload = true;
-    }
-
-    public reloaded(reload: boolean): void {
-        this.reload = reload;
     }
 
     private columnConfigData(): IMatTableColumnConfig[] {
@@ -52,21 +45,4 @@ export class OrganisationComponent {
             { columnId: 'updated_at', columnName: 'Updated At', visible: false },
         ];
     }
-
-    private showSnackBar(res: any) {
-        const config = new MatSnackBarConfig();
-        config.duration = 2000;
-        const message = {
-            created: 'Created: ' + res.created + ' record(s)',
-            updated: 'Updated: ' + res.updated + ' record(s)',
-        }
-        const action = 'X';
-        const snackBarRef = this._snackBar.open(message.created, action, config);
-        snackBarRef
-            .afterDismissed()
-            .subscribe(() => this._snackBar.open(message.updated, action, config));
-        this.apiLoaded = true;
-        this.dataSource.loadData(this.filters);
-    }
-
 }

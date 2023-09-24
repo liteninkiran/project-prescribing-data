@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from "@angular/core";
-import { ISingleOrgContact } from "../interfaces/organisation.interfaces";
+import { ISingleOrgContact } from "../interfaces/organisation-api.interface";
 
 @Pipe({ name: 'ArrayConcatContact' })
 export class ArrayConcatContactPipe implements PipeTransform {

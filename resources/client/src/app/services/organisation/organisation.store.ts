@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, catchError, map, tap, throwError } from 'rxjs';
-import { IRole } from 'src/app/interfaces/organisation2.interfaces';
-import { IPagedList } from 'src/app/interfaces/organisation2.interfaces';
+import { IRole } from 'src/app/interfaces/role.interface';
+import { IPagedList } from 'src/app/interfaces/shared.interface';
 
 @Injectable({
     providedIn: 'root'

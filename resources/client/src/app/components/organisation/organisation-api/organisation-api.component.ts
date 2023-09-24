@@ -19,7 +19,7 @@ import {
     IStatusConfig,
     IUrlObject,
     IValidControl,
-} from 'src/app/interfaces/organisation.interfaces';
+} from 'src/app/interfaces/organisation-api.interface';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { LocationService } from 'src/app/services/location/location.service';

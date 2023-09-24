@@ -138,7 +138,7 @@ export class Map2Component implements OnInit {
         });
 
         this.map.on('moveend', (e: L.LeafletEvent) => {
-            console.log(this.map.getCenter());
+            //console.log(this.map.getCenter());
         });
     }
 

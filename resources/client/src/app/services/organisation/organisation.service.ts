@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { IPagedList } from 'src/app/interfaces/organisation2.interfaces';
+import { IPagedList } from 'src/app/interfaces/shared.interface';
 
 @Injectable()
 export class OrganisationService {
@@ -20,6 +20,8 @@ export class OrganisationService {
 
         // Add filter parameters
         if (filters.name) { params = params.append('name', filters.name); }
+
+        console.log(filters);
 
         const url = '/api/organisations';
         const options = { params: params }

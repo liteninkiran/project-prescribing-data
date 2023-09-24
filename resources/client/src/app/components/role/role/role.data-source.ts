@@ -1,7 +1,7 @@
 import { CollectionViewer, DataSource } from '@angular/cdk/collections';
 import { BehaviorSubject, Observable, catchError, finalize, of } from 'rxjs';
-import { IRole, IRoleFilters } from 'src/app/interfaces/organisation2.interfaces';
-import { RoleService } from '../../../services/organisation/role.service';
+import { IRole, IRoleFilters } from 'src/app/interfaces/role.interface';
+import { RoleService } from '../../../services/role/role.service';
 
 export class RoleDataSource implements DataSource<IRole> {
 

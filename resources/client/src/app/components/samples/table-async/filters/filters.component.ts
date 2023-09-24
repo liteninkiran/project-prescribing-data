@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs';
-import { IValidControl } from 'src/app/interfaces/organisation.interfaces';
-import { IRoleFilterFormGroup, IRoleFilters } from 'src/app/interfaces/organisation2.interfaces';
+import { IValidControl } from 'src/app/interfaces/organisation-api.interface';
+import { IRoleFilterFormGroup, IRoleFilters } from 'src/app/interfaces/role.interface';
 import { IFilterConfig } from 'src/app/interfaces/shared.interface';
 
 @Component({

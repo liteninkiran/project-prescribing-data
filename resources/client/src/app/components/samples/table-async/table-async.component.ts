@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { IRoleFilters } from 'src/app/interfaces/organisation2.interfaces';
+import { IRoleFilters } from 'src/app/interfaces/role.interface';
 import { IMatTableColumnConfig } from 'src/app/interfaces/shared.interface';
-import { RoleService } from '../../../services/organisation/role.service';
+import { RoleService } from '../../../services/role/role.service';
 import { RoleDataSource } from '../../role/role/role.data-source';
 
 @Component({
@@ -12,7 +12,6 @@ import { RoleDataSource } from '../../role/role/role.data-source';
 })
 export class TableAsyncComponent implements OnInit {
     public filters: IRoleFilters = {} as IRoleFilters;
-    public reload: boolean = false;
     public dataSource!: RoleDataSource;
     public columnConfig: IMatTableColumnConfig[] = [];
 
@@ -27,11 +26,6 @@ export class TableAsyncComponent implements OnInit {
 
     public updateFilters(filters: any): void {
         this.filters = filters;
-        this.reload = true;
-    }
-
-    public reloaded(reload: boolean): void {
-        this.reload = reload;
     }
 
     private columnConfigData(): IMatTableColumnConfig[] {

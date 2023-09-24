@@ -1,7 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { IPagedList, IRole, IRoleFilters } from 'src/app/interfaces/organisation2.interfaces';
+import { IRole, IRoleFilters } from 'src/app/interfaces/role.interface';
+import { IPagedList } from 'src/app/interfaces/shared.interface';
 
 @Injectable()
 export class RoleService {

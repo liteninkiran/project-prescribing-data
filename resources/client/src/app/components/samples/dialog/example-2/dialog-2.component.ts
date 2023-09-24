@@ -19,7 +19,7 @@ export class Dialog2Component {
         const dialogRef = this.dialog.open(DialogContentComponent);
 
         dialogRef.afterClosed().subscribe(result => {
-            console.log(`Dialog result: ${result}`);
+            //console.log(`Dialog result: ${result}`);
         });
     }
 }

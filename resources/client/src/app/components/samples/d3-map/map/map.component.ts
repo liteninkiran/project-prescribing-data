@@ -91,7 +91,7 @@ export class MapComponent implements OnInit, OnDestroy {
             .attr('class', 'country')
             .attr('d', this.path)
             .on('mouseenter', (event: MouseEvent, data: any) => {
-                console.log(this.countries);
+                //console.log(this.countries);
                 // this.countries.features
                 //     .selectAll('path')
                 //     .classed('faded', true);

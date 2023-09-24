@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { IMatTableColumnConfig } from 'src/app/interfaces/shared.interface';
 import { RoleDataSource } from '../role.data-source';
-import { RoleService } from '../../../../services/organisation/role.service';
-import { IRoleFilters } from 'src/app/interfaces/organisation2.interfaces';
+import { RoleService } from '../../../../services/role/role.service';
+import { IRoleFilters } from 'src/app/interfaces/role.interface';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 
 @Component({
@@ -13,7 +13,6 @@ import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 })
 export class RoleComponent implements OnInit {
     public filters: IRoleFilters = {} as IRoleFilters;
-    public reload: boolean = false;
     public dataSource!: RoleDataSource;
     public columnConfig: IMatTableColumnConfig[] = [];
     public apiLoaded = false;
@@ -30,11 +29,6 @@ export class RoleComponent implements OnInit {
 
     public updateFilters(filters: any): void {
         this.filters = filters;
-        this.reload = true;
-    }
-
-    public reloaded(reload: boolean): void {
-        this.reload = reload;
     }
 
     public refreshDataFromApi(): void {

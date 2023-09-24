@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IOrganisations, IRoles, ISingleOrgResponse } from 'src/app/interfaces/organisation.interfaces';
+import { IOrganisations, IRoles, ISingleOrgResponse } from 'src/app/interfaces/organisation-api.interface';
 
 const apiUrl: string = '/nhs_api';
 
