@@ -1,0 +1,41 @@
+.filters {
+    margin-bottom: 20px;
+}
+
+.heading {
+    display: flex;
+    margin-bottom: 20px;
+
+    div {
+        flex: 1;
+
+        h1 {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+    }
+
+    .button-container {
+        text-align: right;
+    }
+}
+
+@keyframes spinner {
+    to {transform: rotate(360deg);}
+}
+   
+.spinner:before {
+    content: '';
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin-top: -10px;
+    margin-left: -10px;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    border-top-color: #000000;
+    animation: spinner .8s linear infinite;
+}

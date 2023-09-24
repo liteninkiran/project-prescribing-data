@@ -1,21 +1,26 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { OrganisationComponent } from './components/organisation/organisation.component';
+import { OrganisationApiComponent } from './components/organisation/organisation-api/organisation-api.component';
 import { HomeComponent } from './components/home/home.component';
-import { OrganisationViewComponent } from './components/organisation-view/organisation-view.component';
+import { OrganisationViewComponent } from './components/organisation/organisation-view/organisation-view.component';
 import { SamplesComponent } from './components/samples/samples/samples.component';
 import { TableAsyncComponent } from './components/samples/table-async/table-async.component';
 import { TableSortComponent } from './components/samples/table-sort/table-sort.component';
 import { TableSortPaginateFilterComponent } from './components/samples/table-sort-paginate-filter/table-sort-paginate-filter.component';
 import { D3MapComponent } from './components/samples/d3-map/d3-map.component';
 import { LeafletMapComponent } from './components/samples/leaflet-map/leaflet-map.component';
-import { RoleComponent } from './components/role/role.component';
 import { DialogComponent } from './components/samples/dialog/dialog.component';
+import { OrganisationComponent } from './components/organisation/organisation/container/organisation.component';
+import { RoleComponent } from './components/role/role/container/role.component';
 
 const routes: Routes = [
     {
-        path: '',
+        path: 'home',
         component: HomeComponent,
+    },
+    {
+        path: 'organisations-api',
+        component: OrganisationApiComponent,
     },
     {
         path: 'organisations',
@@ -59,7 +64,7 @@ const routes: Routes = [
     },
     {
         path: '**',
-        redirectTo: '/',
+        redirectTo: 'home',
     },
 ];
 

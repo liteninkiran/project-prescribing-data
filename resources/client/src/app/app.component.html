@@ -1,32 +1,34 @@
 <mat-sidenav-container fullscreen>
 
+    <!-- Vertical Side-Nav Menu -->
+    <mat-sidenav #start (click)="start.close()" autoFocus="false" mode="push">
+        <mat-nav-list>
+            <app-navbar-links></app-navbar-links>
+        </mat-nav-list>
+    </mat-sidenav>
+
+    <!-- Horizontal Toolbar -->
     <mat-toolbar color="primary">
 
-        <!-- Home -->
-        <a mat-button routerLink="/">
-            <mat-icon fontIcon="home"></mat-icon>
-            Home
-        </a>
+        <!-- Container -->
+        <div class="toolbar-tools">
 
-        <!-- Organisations -->
-        <a mat-button routerLink="/organisations">
-            <mat-icon fontIcon="factory"></mat-icon>
-            Organisations
-        </a>
+            <!-- Burger Menu Icon -->
+            <button mat-icon-button (click)="start.open('mouse')">
+                <mat-icon>menu</mat-icon>
+            </button>
 
-        <!-- Roles -->
-        <a mat-button routerLink="/roles">
-            <mat-icon fontIcon="roller_skating"></mat-icon>
-            Roles
-        </a>
+            <!-- Empty Space -->
+            <div class="filler"></div>
 
-        <!-- Sample Components -->
-        <a mat-button routerLink="/samples">
-            <mat-icon fontIcon="electrical_services"></mat-icon>
-            Sample Components
-        </a>
+        </div>
 
     </mat-toolbar>
+
+<!--
+    <messages></messages>
+    <loading></loading>
+-->
 
     <div class="container">
         <router-outlet></router-outlet>

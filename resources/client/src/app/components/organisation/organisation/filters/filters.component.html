@@ -1,0 +1,115 @@
+<div class="expansion-panel">
+    <mat-accordion>
+        <mat-expansion-panel>
+
+            <!-- Panel Header -->
+            <mat-expansion-panel-header>
+
+                <!-- Panel Title -->
+                <mat-panel-title>
+                    Filter Options
+                </mat-panel-title>
+
+                <!-- Panel Description -->
+                <mat-panel-description>
+
+                    <!-- Settings Icon -->
+                    <mat-icon>filter_alt</mat-icon>
+
+                    <!-- Filters Applied -->
+                    <span *ngIf="filterText">
+                        {{ filterText }}
+                    </span>
+
+                </mat-panel-description>
+
+            </mat-expansion-panel-header>
+
+            <!-- Filters -->
+            <form>
+
+                <div class="filter-container">
+
+                    <!-- Name -->
+                    <mat-form-field>
+                        <mat-label>Name</mat-label>
+                        <input matInput [formControl]="nameInput" placeholder="e.g. Medical Practice">
+                        <button *ngIf="nameInput.value" matSuffix mat-icon-button aria-label="Clear" (click)="nameInput.setValue(null)" tabindex="-1">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </mat-form-field>
+
+                    <!-- Primary Role -->
+                    <mat-form-field>
+
+                        <!-- Label -->
+                        <mat-label>
+                            Primary Role
+                        </mat-label>
+
+                        <!-- Primary Role List -->
+                        <mat-select
+                            [formControl]="primaryRoleInput"
+                            placeholder="Select role(s)"
+                            multiple panelClass="long-list"
+                        >
+                            <mat-option *ngFor="let role of (primaryRoles$ | async)" [value]="role.id">
+                                {{ role.display_name }}
+                            </mat-option>
+                        </mat-select>
+
+                        <!-- Clear Contents -->
+                        <button
+                            *ngIf="primaryRoleInput.value?.length || 0 > 0"
+                            matSuffix
+                            mat-icon-button
+                            aria-label="Clear"
+                            (click)="primaryRoleInput.setValue([])"
+                        >
+                            <mat-icon>close</mat-icon>
+                        </button>
+
+                    </mat-form-field>
+
+                    <!-- Non Primary Role -->
+                    <mat-form-field>
+
+                        <!-- Label -->
+                        <mat-label>
+                            Non Primary Role
+                        </mat-label>
+
+                        <!-- Non Primary Role List -->
+                        <mat-select
+                            [formControl]="nonPrimaryRoleInput"
+                            placeholder="Select role(s)"
+                            multiple panelClass="long-list"
+                        >
+                            <mat-option *ngFor="let role of (nonPrimaryRoles$ | async)" [value]="role.id">
+                                {{ role.display_name }}
+                            </mat-option>
+                        </mat-select>
+
+                        <!-- Clear Contents -->
+                        <button
+                            *ngIf="nonPrimaryRoleInput.value?.length || 0 > 0"
+                            matSuffix
+                            mat-icon-button
+                            aria-label="Clear"
+                            (click)="nonPrimaryRoleInput.setValue([])"
+                        >
+                            <mat-icon>close</mat-icon>
+                        </button>
+
+                    </mat-form-field>
+
+                </div>
+
+
+            </form>
+
+        </mat-expansion-panel>
+
+    </mat-accordion>
+
+</div>

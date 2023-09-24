@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('_id', 10)->unique();
             $table->integer('code')->unique();
-            $table->string('display_name');
+            $table->string('display_name')->unique();
             $table->boolean('primary_role');
             $table->timestamps();
         });

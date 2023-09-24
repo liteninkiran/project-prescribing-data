@@ -73,7 +73,7 @@
                     "options": {
                         "browserTarget": "app:build",
                         "proxyConfig": "./proxy.conf.json",
-                        "port": 4201
+                        "port": 4200
                     },
                     "configurations": {
                         "production": {

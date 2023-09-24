@@ -18,6 +18,6 @@ export class Dialog5Component {
     openForm() {
         openFormDialog(this.dialog)
             .pipe(filter(val => !!val))
-            .subscribe(val => console.log('Form data:', val));
+            .subscribe(val => {}); // console.log('Form data:', val));
     }
 }

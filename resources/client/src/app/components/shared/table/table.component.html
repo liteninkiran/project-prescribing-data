@@ -13,7 +13,7 @@
             [dataSource]="dataSource"
             mat-table
             matSort
-            matSortActive="display_name"
+            [matSortActive]="defaultSortCol"
             matSortDirection="asc"
             matSortDisableClear
         >
@@ -56,6 +56,7 @@
             [length]="length"
             [pageSize]="intialPageSize"
             [pageSizeOptions]="pageSizeOptions"
+            [showFirstLastButtons]="true"
         ></mat-paginator>
 
     </div>

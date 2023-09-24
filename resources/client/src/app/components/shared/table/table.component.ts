@@ -1,9 +1,8 @@
-import { Component, Input, OnInit, AfterViewInit, OnChanges, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit, OnChanges, ViewChild, SimpleChanges, SimpleChange } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { IColumnConfig } from 'src/app/interfaces/organisation.interfaces';
+import { IColumnConfig } from 'src/app/interfaces/organisation-api.interface';
 import { merge, tap } from 'rxjs';
-import { IRoleFilters } from 'src/app/interfaces/organisation2.interfaces';
 
 @Component({
     selector: 'app-table',
@@ -17,11 +16,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
     @Input() public columnConfig: IColumnConfig[] = [];
     @Input() public defaultSortCol: string = 'id';
     @Input() public title!: string;
-    @Input() public filters: IRoleFilters = {} as IRoleFilters;
-    @Input() public reload: boolean = false;
+    @Input() public filters: any;
     @Input() public showMenu: boolean = false;
-
-    @Output() public reloaded: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort!: MatSort;
@@ -50,10 +46,12 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
             .subscribe();
     }
 
-    public ngOnChanges(): void {
-        if (this.reload) {
-            this.loadData();
-            this.reloaded.emit(true);
+    public ngOnChanges(changes: SimpleChanges): void {
+        if (changes['filters']) {
+            const filtersChange: SimpleChange = changes['filters'];
+            if (!filtersChange.firstChange) {
+                this.loadData();
+            }
         }
     }
 
@@ -62,7 +60,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
     }
 
     public onShowHideClick(): void {
-        console.log(this.columnConfig);
+        //console.log(this.columnConfig);
     }
 
     private loadData(): void {

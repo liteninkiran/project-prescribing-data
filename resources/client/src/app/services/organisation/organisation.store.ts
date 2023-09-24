@@ -1,0 +1,41 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable, catchError, map, tap, throwError } from 'rxjs';
+import { IRole } from 'src/app/interfaces/role.interface';
+import { IPagedList } from 'src/app/interfaces/shared.interface';
+
+@Injectable({
+    providedIn: 'root'
+})
+export class OrganisationStore {
+    private subject = new BehaviorSubject<IRole[]>([]);
+
+    public roles$ : Observable<IRole[]> = this.subject.asObservable();
+
+    private baseUrl = '/api/roles';
+
+    constructor(private http: HttpClient) {
+        this.getRolesList();
+    }
+
+    public getRoles(): Observable<IPagedList> {
+        const url: string = this.baseUrl;
+        return this.http.get<IPagedList>(url);
+    }
+
+    private getRolesList(): void {
+        const url = `${this.baseUrl}/rolesList`;
+        const loadCourses$ = this.http
+            .get<IRole[]>(url)
+            .pipe(
+                map((roles: IRole[]) => roles.map((role: IRole) => ({ ...role, primary_role: !!role.primary_role }))),
+                catchError(err => throwError(() => err)),
+                tap(roles => this.subject.next(roles))
+            );
+        loadCourses$.subscribe();
+    }
+
+    public getRolesListByType(primary: boolean): Observable<IRole[]> {
+        return this.roles$.pipe(map(roles => roles.filter(role => role.primary_role === (primary === true))));
+    }
+}
