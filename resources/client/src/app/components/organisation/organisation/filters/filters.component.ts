@@ -19,7 +19,7 @@ export class OrganisationFiltersComponent {
     public filterForm!: FormGroup;
 
     // Form Controls
-    public organisationIdInput    : FormControl<string   | null> = new FormControl(null)
+    public organisationIdInput: FormControl<string   | null> = new FormControl(null)
     public nameInput          : FormControl<string   | null> = new FormControl(null)
     public postcodeInput      : FormControl<string   | null> = new FormControl(null);
     public primaryRoleInput   : FormControl<number[] | null> = new FormControl(null);
@@ -33,7 +33,7 @@ export class OrganisationFiltersComponent {
     public maxDate: Date = new Date();
     public status: IOrganisationStatus[] = [];
 
-    // Data
+    // Role Data
     public primaryRoles$!: Observable<IRole[]>;
     public nonPrimaryRoles$!: Observable<IRole[]>;
 
