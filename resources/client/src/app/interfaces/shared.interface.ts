@@ -34,6 +34,6 @@ export interface IPagedListLinks {
 export interface ICheckboxMenuItem {
     label: string;
     value: string | number;
-    name: string;
+    formControlName: string;
     checked: boolean;
 }

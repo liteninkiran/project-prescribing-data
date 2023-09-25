@@ -13,6 +13,6 @@
         #menuItems
         (click)="$event.stopPropagation()"
         *ngFor="let item of items; let i = index;"
-        [formControlName]="item.name"
+        [formControlName]="item.formControlName"
     >{{ item.label }}</mat-checkbox>
 </mat-menu>

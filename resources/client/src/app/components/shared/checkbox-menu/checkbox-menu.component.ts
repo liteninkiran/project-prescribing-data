@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ICheckboxMenuItem } from 'src/app/interfaces/shared.interface';
 
@@ -29,7 +29,7 @@ export class CheckboxMenuComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.mappedItems = this.items.map(item => [item.name, item.checked]);
+        this.mappedItems = this.items.map(item => [item.formControlName, item.checked]);
         this.entries = Object.fromEntries(this.mappedItems);
         this.form = this.fb.group(this.entries);
         this.form.valueChanges.subscribe(value => this.selectionChanged.emit(value));

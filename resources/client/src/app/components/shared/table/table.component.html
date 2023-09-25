@@ -27,9 +27,14 @@
             <!-- Custom Header Row Definition 2 -->
             <ng-container matColumnDef="custom-header-row-2" *ngIf="showMenu">
                 <th mat-header-cell *matHeaderCellDef [style.text-align]="'right'" [attr.colspan]="1">
-                    <button mat-raised-button (click)="onShowHideClick()" class="button">
-                        <mat-icon>menu</mat-icon>
-                    </button>
+                    <app-checkbox-menu
+                        [items]="menuItems"
+                        colour="primary"
+                        icon="menu"
+                        xPosition="before"
+                        yPosition="above"
+                        (selectionChanged)="onMenuClick($event)"
+                    ></app-checkbox-menu>
                 </th>
             </ng-container>
 
