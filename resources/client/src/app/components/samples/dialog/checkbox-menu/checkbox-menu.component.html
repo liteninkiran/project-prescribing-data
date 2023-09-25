@@ -1,0 +1,14 @@
+<h3>Re-Usable Checkbox Menu</h3>
+
+<app-checkbox-menu
+    [items]="items"
+    colour="primary"
+    icon="menu"
+    xPosition="before"
+    yPosition="above"
+    (selectionChanged)="formValue($event)"
+></app-checkbox-menu>
+
+<div>
+    <pre>{{ selections | json }}</pre>
+</div>

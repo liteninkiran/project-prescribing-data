@@ -12,7 +12,7 @@ import { IFilterConfig } from 'src/app/interfaces/shared.interface';
 export class RoleFiltersComponent {
 
     @Output() public filtersChanged = new EventEmitter<any>();
-  
+
     public filterForm!: FormGroup;
     public _idInput: FormControl = new FormControl();
     public roleNameInput: FormControl = new FormControl();

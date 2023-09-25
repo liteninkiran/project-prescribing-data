@@ -1,0 +1,18 @@
+<button
+    #matMenuTrigger
+    mat-raised-button
+    [color]="colour"
+    [matMenuTriggerFor]="menu"
+>
+    <mat-icon *ngIf="icon">{{ icon }}</mat-icon>
+    <span *ngIf="title">{{ title }}</span>
+</button>
+
+<mat-menu #menu="matMenu" [formGroup]="form" [yPosition]="yPosition" [xPosition]="xPosition" (closed)="onClose()">
+    <mat-checkbox
+        #menuItems
+        (click)="$event.stopPropagation()"
+        *ngFor="let item of items; let i = index;"
+        [formControlName]="item.formControlName"
+    >{{ item.label }}</mat-checkbox>
+</mat-menu>

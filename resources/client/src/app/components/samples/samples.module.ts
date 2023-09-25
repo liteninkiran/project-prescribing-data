@@ -26,6 +26,7 @@ import { TableAsyncComponent } from './table-async/table-async.component';
 import { SharedModule } from '../shared/shared.module';
 import { SamplesComponent } from './samples/samples.component';
 import { RouterModule } from '@angular/router';
+import { CheckboxMenuComponent } from './dialog/checkbox-menu/checkbox-menu.component';
 
 @NgModule({
     declarations: [
@@ -51,6 +52,7 @@ import { RouterModule } from '@angular/router';
         TableSortComponent,
         TableAsyncComponent,
         AsyncFiltersComponent,
+        CheckboxMenuComponent,
     ],
     imports: [
         CommonModule,
@@ -83,6 +85,7 @@ import { RouterModule } from '@angular/router';
         TableSortComponent,
         TableAsyncComponent,
         AsyncFiltersComponent,
+        CheckboxMenuComponent,
     ],
 })
 export class SamplesModule { }

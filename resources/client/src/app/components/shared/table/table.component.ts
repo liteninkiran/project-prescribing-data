@@ -3,6 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { IColumnConfig } from 'src/app/interfaces/organisation-api.interface';
 import { merge, tap } from 'rxjs';
+import { ICheckboxMenuItem } from 'src/app/interfaces/shared.interface';
 
 @Component({
     selector: 'app-table',
@@ -29,11 +30,13 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
     public displayedColumns: string[] = [];
     public pageSizeOptions = [5, 10, 20, 50, 100];
     public intialPageSize = this.pageSizeOptions[1];
+    public menuItems: ICheckboxMenuItem[] = [];
 
     constructor() { }
 
     public ngOnInit(): void {
         this.updateDisplayedColumns();
+        this.setMenuItems();
         this.dataSource.loadData(this.filters, this.defaultSortCol, 'asc', 0, this.intialPageSize);
     }
 
@@ -59,8 +62,10 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
         //console.log(row);
     }
 
-    public onShowHideClick(): void {
-        //console.log(this.columnConfig);
+    public onMenuClick(formValue: any): void {
+        this.updateColumnConfig(formValue);
+        this.updateMenuItems();
+        this.updateDisplayedColumns();
     }
 
     private loadData(): void {
@@ -77,5 +82,27 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
         this.displayedColumns = this.columnConfig
             .filter((config: IColumnConfig) => config.visible)
             .map((config: IColumnConfig) => config.columnId);
+    }
+
+    private setMenuItems(): void {
+        this.menuItems = this.columnConfig.map(config => ({
+            checked: config.visible,
+            formControlName: config.columnId,
+            label: config.columnName,
+            value: config.columnId,
+        }));
+    }
+
+    private updateMenuItems(): void {
+        this.menuItems.map(item => {
+            const config: IColumnConfig = this.columnConfig.find(config => config.columnId === item.value) as IColumnConfig;
+            item.checked = config.visible;
+        });
+    }
+
+    private updateColumnConfig(formValue: any): void {
+        this.columnConfig.map(config => {
+            config.visible = formValue[config.columnId];
+        });
     }
 }

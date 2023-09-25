@@ -8,13 +8,13 @@
 
     <!-- Refresh Data From API -->
     <div class="button-container">
-        <app-button
+        <app-async-button
             buttonText="Refresh Data From API"
             colour="primary"
             icon="sync"
             [loaded]="apiLoaded"
             (clickEvent)="refreshDataFromApi()"
-        ></app-button>
+        ></app-async-button>
     </div>
 </div>
 
@@ -29,6 +29,6 @@
     [columnConfig]="columnConfig"
     [service]="roleService"
     [filters]="filters"
-    [showMenu]="false"
+    [showMenu]="true"
     defaultSortCol="display_name"
 ></app-table>

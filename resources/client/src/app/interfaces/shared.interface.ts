@@ -30,3 +30,10 @@ export interface IPagedListLinks {
     label: string;
     url: string;
 };
+
+export interface ICheckboxMenuItem {
+    label: string;
+    value: string | number;
+    formControlName: string;
+    checked: boolean;
+}

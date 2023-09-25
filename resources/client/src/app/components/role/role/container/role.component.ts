@@ -40,13 +40,13 @@ export class RoleComponent implements OnInit {
 
     private columnConfigData(): IMatTableColumnConfig[] {
         return [
-            { columnId: 'id', columnName: 'ID', visible: true },
+            // { columnId: 'id', columnName: 'ID', visible: true },
             { columnId: '_id', columnName: 'Internal ID', visible: true },
             { columnId: 'code', columnName: 'Code', visible: false },
             { columnId: 'display_name', columnName: 'Name', visible: true },
             { columnId: 'primary_role', columnName: 'Primary Role', visible: true },
-            { columnId: 'created_at', columnName: 'Created At', visible: true },
-            { columnId: 'updated_at', columnName: 'Updated At', visible: true },
+            { columnId: 'created_at', columnName: 'Created At', visible: false },
+            { columnId: 'updated_at', columnName: 'Updated At', visible: false },
         ];
     }
 
