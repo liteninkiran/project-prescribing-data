@@ -9,6 +9,11 @@ import { ICheckboxMenuItem } from 'src/app/interfaces/shared.interface';
 })
 export class CheckboxMenuComponent implements OnInit {
     @Input() public items: ICheckboxMenuItem[] = [];
+    @Input() public colour: '' | 'primary' | 'accent' | 'warn' = '';
+    @Input() public icon = '';
+    @Input() public title = '';
+    @Input() public xPosition: 'after' | 'before' = 'after';
+    @Input() public yPosition: 'above' | 'below' = 'above';
 
     @Output() public selectionChanged = new EventEmitter<any>();
 

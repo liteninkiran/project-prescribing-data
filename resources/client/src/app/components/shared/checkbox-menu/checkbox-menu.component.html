@@ -1,11 +1,14 @@
 <button
     #matMenuTrigger
     mat-raised-button
-    color="primary"
+    [color]="colour"
     [matMenuTriggerFor]="menu"
->Open Menu</button>
+>
+    <mat-icon *ngIf="icon">{{ icon }}</mat-icon>
+    <span *ngIf="title">{{ title }}</span>
+</button>
 
-<mat-menu #menu="matMenu" [formGroup]="form">
+<mat-menu #menu="matMenu" [formGroup]="form" [yPosition]="yPosition" [xPosition]="xPosition">
     <mat-checkbox
         #menuItems
         (click)="$event.stopPropagation()"
