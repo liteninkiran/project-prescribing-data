@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Observable, debounceTime, distinctUntilChanged, tap } from 'rxjs';
-import { IOrganisationFilterFormGroup, IOrganisationFilters } from 'src/app/interfaces/organisation.interface';
+import { IOrganisationFilterFormGroup, IOrganisationFilters, IOrganisationStatus } from 'src/app/interfaces/organisation.interface';
 import { IRole } from 'src/app/interfaces/role.interface';
 import { IFilterConfig } from 'src/app/interfaces/shared.interface';
 import { OrganisationStore } from 'src/app/services/organisation/organisation.store';
@@ -25,11 +25,13 @@ export class OrganisationFiltersComponent {
     public primaryRoleInput   : FormControl<number[] | null> = new FormControl(null);
     public nonPrimaryRoleInput: FormControl<number[] | null> = new FormControl({ value: null, disabled: true });
     public lastChangeDateInput: FormControl<Date     | null> = new FormControl(null);
+    public statusInput        : FormControl<string   | null> = new FormControl('active');
 
     // Config
     public filters: IFilterConfig[] = [];
     public filterText: string = '';
     public maxDate: Date = new Date();
+    public status: IOrganisationStatus[] = [];
 
     // Data
     public primaryRoles$!: Observable<IRole[]>;
@@ -40,8 +42,10 @@ export class OrganisationFiltersComponent {
     ) { }
 
     public ngOnInit(): void {
+        this.setStatusData();
         this.setFilterForm();
         this.loadData();
+        this.calculateFilter(this.filterForm.value);
     }
 
     public onPostcodeInput(event: Event): void {
@@ -75,6 +79,7 @@ export class OrganisationFiltersComponent {
             primaryRoles: this.primaryRoleInput,
             nonPrimaryRoles: this.nonPrimaryRoleInput,
             lastChangeDate: this.lastChangeDateInput,
+            status: this.statusInput,
         }
 
         this.filterForm = new FormGroup(formGroup);
@@ -98,5 +103,16 @@ export class OrganisationFiltersComponent {
         });
         const suffix = this.filters.length === 1 ? '' : 's';
         this.filterText = this.filters.length === 0 ? '' : this.filters.length + ' Filter' + suffix + ' Applied';
+    }
+
+    private setStatusData(): void {
+        this.status = this.statusData();
+    }
+
+    private statusData(): IOrganisationStatus[] {
+        return [
+            { id: 'active', displayName: 'Active' },
+            { id: 'inactive', displayName: 'Inactive' },
+        ];
     }
 }

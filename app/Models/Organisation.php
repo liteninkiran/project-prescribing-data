@@ -101,9 +101,28 @@ class Organisation extends Model
             $q->whereIntegerInRaw('id', $roleIds);
         });
     }
-
+    
+    /**
+     * scopeLastChangeDateAfter
+     *
+     * @param Builder $query
+     * @param string $date
+     * @return Builder
+     */
     public function scopeLastChangeDateAfter(Builder $query, string $date): Builder
     {
         return $query->where('last_change_date', '>=', $date);
+    }
+    
+    /**
+     * scopeStatus
+     *
+     * @param Builder $query
+     * @param string $status
+     * @return Builder
+     */
+    public function scopeStatus(Builder $query, string $status): Builder
+    {
+        return $query->where('status', '=', $status);
     }
 }

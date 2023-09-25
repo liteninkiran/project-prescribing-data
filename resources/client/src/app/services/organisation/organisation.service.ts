@@ -51,6 +51,7 @@ export class OrganisationService {
         if (filters.primaryRoles) { filters.primaryRoles.map((role) => params = params.append('primary_roles[]', role.toString())); }
         if (filters.nonPrimaryRoles) { filters.nonPrimaryRoles.map((role) => params = params.append('non_primary_roles[]', role.toString())); }
         if (filters.lastChangeDate) { params = params.append('last_change_date', moment(filters.lastChangeDate).format('YYYY-MM-DD')); }
+        if (filters.status) { params = params.append('status', filters.status); }
         return params;
     }
 }

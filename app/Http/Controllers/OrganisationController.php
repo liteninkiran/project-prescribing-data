@@ -35,6 +35,7 @@ class OrganisationController extends Controller
             'primary_roles'     => request()->input('primary_roles', null),
             'non_primary_roles' => request()->input('non_primary_roles', null),
             'last_change_date'  => request()->input('last_change_date', null),
+            'status'            => request()->input('status', null),
         ];
         $pager = $this->organisationPager->getPaginatedOrganisations(
             $filters,

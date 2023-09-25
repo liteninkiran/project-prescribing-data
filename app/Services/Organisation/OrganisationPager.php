@@ -60,6 +60,7 @@ class OrganisationPager
         if ($filters['postcode']) { $this->query->postcodeLike($filters['postcode']); }
         if ($filters['primary_roles']) { $this->query->primaryRolesInRaw($filters['primary_roles']); }
         if ($filters['last_change_date']) { $this->query->lastChangeDateAfter($filters['last_change_date']); }
+        if ($filters['status']) { $this->query->status($filters['status']); }
         return $this;
     }
 

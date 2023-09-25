@@ -135,10 +135,21 @@
                     </mat-form-field>
 
                     <!-- Status -->
-
+                    <mat-form-field>
+                        <mat-label>Status</mat-label>
+                        <mat-select [formControl]="statusInput" placeholder="Select a status">
+                            <mat-option [value]="null"></mat-option>
+                            <mat-option *ngFor="let s of status" [value]="s.id">
+                                {{ s.displayName }}
+                            </mat-option>
+                        </mat-select>
+                        <button *ngIf="statusInput.value" matSuffix mat-icon-button aria-label="Clear"
+                            (click)="statusInput.setValue(null)">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </mat-form-field>
 
                 </div>
-
 
             </form>
 

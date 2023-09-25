@@ -23,6 +23,7 @@ export class OrganisationComponent implements OnInit {
     public ngOnInit(): void {
         this.dataSource = new OrganisationDataSource(this.orgService);
         this.columnConfig = this.columnConfigData();
+        this.filters.status = 'active';
     }
 
     public updateFilters(filters: any): void {
