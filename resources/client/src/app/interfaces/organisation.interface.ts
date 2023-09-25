@@ -24,8 +24,8 @@ export interface IOrganisationFilters {
 };
 
 export interface IOrganisationFilterFormGroup {
-    name: FormControl<any>;
-    primaryRoles: FormControl<any>;
-    nonPrimaryRoles: FormControl<any>;
-    postcode: FormControl<any>;
+    name: FormControl<string | null>;
+    primaryRoles: FormControl<number[] | null>;
+    nonPrimaryRoles: FormControl<number[] | null>;
+    postcode: FormControl<string | null>;
 };
