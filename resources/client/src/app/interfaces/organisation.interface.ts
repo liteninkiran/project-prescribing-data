@@ -22,6 +22,7 @@ export interface IOrganisationFilters {
     postcode: string;
     primaryRoles: number[] | null;
     nonPrimaryRoles: number[] | null;
+    lastChangeDate: Date | null;
 };
 
 export interface IOrganisationFilterFormGroup {
@@ -30,4 +31,5 @@ export interface IOrganisationFilterFormGroup {
     postcode: FormControl<string | null>;
     primaryRoles: FormControl<number[] | null>;
     nonPrimaryRoles: FormControl<number[] | null>;
+    lastChangeDate: FormControl<Date | null>;
 };

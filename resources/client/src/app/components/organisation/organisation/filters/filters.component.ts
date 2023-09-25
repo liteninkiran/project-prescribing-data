@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, debounceTime, distinctUntilChanged, tap } from 'rxjs';
 import { IOrganisationFilterFormGroup, IOrganisationFilters } from 'src/app/interfaces/organisation.interface';
 import { IRole } from 'src/app/interfaces/role.interface';
@@ -24,10 +24,12 @@ export class OrganisationFiltersComponent {
     public postcodeInput      : FormControl<string   | null> = new FormControl(null);
     public primaryRoleInput   : FormControl<number[] | null> = new FormControl(null);
     public nonPrimaryRoleInput: FormControl<number[] | null> = new FormControl({ value: null, disabled: true });
+    public lastChangeDateInput: FormControl<Date     | null> = new FormControl(null);
 
     // Config
     public filters: IFilterConfig[] = [];
     public filterText: string = '';
+    public maxDate: Date = new Date();
 
     // Data
     public primaryRoles$!: Observable<IRole[]>;
@@ -72,6 +74,7 @@ export class OrganisationFiltersComponent {
             postcode: this.postcodeInput,
             primaryRoles: this.primaryRoleInput,
             nonPrimaryRoles: this.nonPrimaryRoleInput,
+            lastChangeDate: this.lastChangeDateInput,
         }
 
         this.filterForm = new FormGroup(formGroup);

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { IOrganisationFilters } from 'src/app/interfaces/organisation.interface';
 import { IPagedList } from 'src/app/interfaces/shared.interface';
+import * as moment from 'moment';
 
 @Injectable()
 export class OrganisationService {
@@ -49,6 +50,7 @@ export class OrganisationService {
         if (filters.postcode) { params = params.append('postcode', filters.postcode); }
         if (filters.primaryRoles) { filters.primaryRoles.map((role) => params = params.append('primary_roles[]', role.toString())); }
         if (filters.nonPrimaryRoles) { filters.nonPrimaryRoles.map((role) => params = params.append('non_primary_roles[]', role.toString())); }
+        if (filters.lastChangeDate) { params = params.append('last_change_date', moment(filters.lastChangeDate).format('YYYY-MM-DD')); }
         return params;
     }
 }

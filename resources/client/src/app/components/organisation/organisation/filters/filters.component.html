@@ -30,7 +30,7 @@
 
                 <div class="filter-container">
 
-                    <!-- Internal ID -->
+                    <!-- Org ID -->
                     <mat-form-field>
                         <mat-label>Internal ID</mat-label>
                         <input matInput [formControl]="internalIdInput" placeholder="e.g. Y00082" (input)="onInternalIdInput($event)">
@@ -123,9 +123,16 @@
 
                     </mat-form-field>
 
-                    <!-- Org ID -->
-
                     <!-- Last Change Date -->
+                    <mat-form-field>
+                        <mat-label>Last Changed After</mat-label>
+                        <input matInput [matDatepicker]="picker" [formControl]="lastChangeDateInput" [max]="maxDate">
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                        <button *ngIf="lastChangeDateInput.value" matSuffix mat-icon-button aria-label="Clear" (click)="lastChangeDateInput.setValue(null)">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </mat-form-field>
 
                     <!-- Status -->
 
