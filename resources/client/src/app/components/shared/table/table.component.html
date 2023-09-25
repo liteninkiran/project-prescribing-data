@@ -17,16 +17,9 @@
             matSortDirection="asc"
             matSortDisableClear
         >
-            <!-- Custom Header Row Definition 1 -->
-            <ng-container matColumnDef="custom-header-row-1" *ngIf="showMenu">
-                <th mat-header-cell *matHeaderCellDef [style.text-align]="'left'" [attr.colspan]="displayedColumns.length - 1">
-                    Menu
-                </th>
-            </ng-container>
-
-            <!-- Custom Header Row Definition 2 -->
-            <ng-container matColumnDef="custom-header-row-2" *ngIf="showMenu">
-                <th mat-header-cell *matHeaderCellDef [style.text-align]="'right'" [attr.colspan]="1">
+            <!-- Custom Header Row Definition -->
+            <ng-container matColumnDef="custom-header-row" *ngIf="showMenu">
+                <th mat-header-cell *matHeaderCellDef [style.text-align]="'right'" [attr.colspan]="displayedColumns.length">
                     <app-checkbox-menu
                         [items]="menuItems"
                         colour="primary"
@@ -40,7 +33,7 @@
 
             <!-- Custom Header Row -->
             <ng-container *ngIf="showMenu">
-                <tr mat-header-row *matHeaderRowDef="['custom-header-row-1', 'custom-header-row-2']; sticky: true"></tr>
+                <tr mat-header-row *matHeaderRowDef="['custom-header-row']; sticky: true"></tr>
             </ng-container>
 
             <!-- Column Definitions -->

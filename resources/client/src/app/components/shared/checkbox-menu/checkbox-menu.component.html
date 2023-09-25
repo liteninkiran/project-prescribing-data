@@ -8,7 +8,7 @@
     <span *ngIf="title">{{ title }}</span>
 </button>
 
-<mat-menu #menu="matMenu" [formGroup]="form" [yPosition]="yPosition" [xPosition]="xPosition">
+<mat-menu #menu="matMenu" [formGroup]="form" [yPosition]="yPosition" [xPosition]="xPosition" (closed)="onClose()">
     <mat-checkbox
         #menuItems
         (click)="$event.stopPropagation()"
