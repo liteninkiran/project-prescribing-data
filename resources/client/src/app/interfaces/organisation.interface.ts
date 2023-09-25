@@ -17,7 +17,7 @@ export interface IOrganisation {
 };
 
 export interface IOrganisationFilters {
-    internalId: string | null;
+    organisationId: string | null;
     name: string | null;
     postcode: string | null;
     primaryRoles: number[] | null;
@@ -27,7 +27,7 @@ export interface IOrganisationFilters {
 };
 
 export interface IOrganisationFilterFormGroup {
-    internalId: FormControl<string | null>;
+    organisationId: FormControl<string | null>;
     name: FormControl<string | null>;
     postcode: FormControl<string | null>;
     primaryRoles: FormControl<number[] | null>;

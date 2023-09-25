@@ -32,16 +32,16 @@
 
                     <!-- Org ID -->
                     <mat-form-field>
-                        <mat-label>Internal ID</mat-label>
-                        <input matInput [formControl]="internalIdInput" placeholder="e.g. Y00082" (input)="onInternalIdInput($event)">
-                        <button *ngIf="internalIdInput.value" matSuffix mat-icon-button aria-label="Clear" (click)="internalIdInput.setValue(null)" tabindex="-1">
+                        <mat-label>Organisation ID</mat-label>
+                        <input matInput [formControl]="organisationIdInput" placeholder="e.g. Y00082" (input)="onorganisationIdInput($event)">
+                        <button *ngIf="organisationIdInput.value" matSuffix mat-icon-button aria-label="Clear" (click)="organisationIdInput.setValue(null)" tabindex="-1">
                             <mat-icon>close</mat-icon>
                         </button>
                     </mat-form-field>
 
                     <!-- Name -->
                     <mat-form-field>
-                        <mat-label>Name</mat-label>
+                        <mat-label>Organisation Name</mat-label>
                         <input matInput [formControl]="nameInput" placeholder="e.g. Medical Practice">
                         <button *ngIf="nameInput.value" matSuffix mat-icon-button aria-label="Clear" (click)="nameInput.setValue(null)" tabindex="-1">
                             <mat-icon>close</mat-icon>

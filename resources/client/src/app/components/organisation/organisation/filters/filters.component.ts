@@ -19,7 +19,7 @@ export class OrganisationFiltersComponent {
     public filterForm!: FormGroup;
 
     // Form Controls
-    public internalIdInput    : FormControl<string   | null> = new FormControl(null)
+    public organisationIdInput    : FormControl<string   | null> = new FormControl(null)
     public nameInput          : FormControl<string   | null> = new FormControl(null)
     public postcodeInput      : FormControl<string   | null> = new FormControl(null);
     public primaryRoleInput   : FormControl<number[] | null> = new FormControl(null);
@@ -52,8 +52,8 @@ export class OrganisationFiltersComponent {
         this.changeToUpperCase(this.postcodeInput);
     }
 
-    public onInternalIdInput(event: Event): void {
-        this.changeToUpperCase(this.internalIdInput);
+    public onorganisationIdInput(event: Event): void {
+        this.changeToUpperCase(this.organisationIdInput);
     }
 
     private changeToUpperCase(input: any) {
@@ -73,7 +73,7 @@ export class OrganisationFiltersComponent {
 
     private setFilterFormGroup(): void {
         const formGroup: IOrganisationFilterFormGroup = {
-            internalId: this.internalIdInput,
+            organisationId: this.organisationIdInput,
             name: this.nameInput,
             postcode: this.postcodeInput,
             primaryRoles: this.primaryRoleInput,

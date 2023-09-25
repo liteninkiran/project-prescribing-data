@@ -45,7 +45,7 @@ export class OrganisationService {
     }
 
     private addFilters(filters: IOrganisationFilters, params: HttpParams): HttpParams {
-        if (filters.internalId) { params = params.append('org_id', filters.internalId); }
+        if (filters.organisationId) { params = params.append('org_id', filters.organisationId); }
         if (filters.name) { params = params.append('name', filters.name); }
         if (filters.postcode) { params = params.append('postcode', filters.postcode); }
         if (filters.primaryRoles) { filters.primaryRoles.map((role) => params = params.append('primary_roles[]', role.toString())); }
