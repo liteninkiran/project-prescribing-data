@@ -17,15 +17,17 @@ export interface IOrganisation {
 };
 
 export interface IOrganisationFilters {
+    internalId: string;
     name: string;
+    postcode: string;
     primaryRoles: number[] | null;
     nonPrimaryRoles: number[] | null;
-    postcode: string;
 };
 
 export interface IOrganisationFilterFormGroup {
+    internalId: FormControl<string | null>;
     name: FormControl<string | null>;
+    postcode: FormControl<string | null>;
     primaryRoles: FormControl<number[] | null>;
     nonPrimaryRoles: FormControl<number[] | null>;
-    postcode: FormControl<string | null>;
 };

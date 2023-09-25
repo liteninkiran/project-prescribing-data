@@ -39,6 +39,42 @@ class Organisation extends Model
     /******************    SCOPES    *******************/
 
     /**
+     * scopeOrgIdLike
+     *
+     * @param Builder $query
+     * @param string $orgId
+     * @return Builder
+     */
+    public function scopeOrgIdLike(Builder $query, string $orgId): Builder
+    {
+        return $query->where('org_id', 'LIKE', '%' . $orgId . '%');
+    }
+
+    /**
+     * scopeNameLike
+     *
+     * @param Builder $query
+     * @param string $name
+     * @return Builder
+     */
+    public function scopeNameLike(Builder $query, string $name): Builder
+    {
+        return $query->where('name', 'LIKE', '%' . $name . '%');
+    }
+    
+    /**
+     * scopePostcodeLike
+     *
+     * @param Builder $query
+     * @param string $postcode
+     * @return Builder
+     */
+    public function scopePostcodeLike(Builder $query, string $postcode): Builder
+    {
+        return $query->where('post_code', 'LIKE', '%' . $postcode . '%');
+    }
+
+    /**
      * scopePrimaryRolesIn
      *
      * @param Builder $query
@@ -64,29 +100,5 @@ class Organisation extends Model
         return $query->whereHas('primaryRole', function($q) use ($roleIds) {
             $q->whereIntegerInRaw('id', $roleIds);
         });
-    }
-    
-    /**
-     * scopeNameLike
-     *
-     * @param Builder $query
-     * @param string $name
-     * @return Builder
-     */
-    public function scopeNameLike(Builder $query, string $name): Builder
-    {
-        return $query->where('name', 'LIKE', '%' . $name . '%');
-    }
-    
-    /**
-     * scopePostcodeLike
-     *
-     * @param Builder $query
-     * @param string $postcode
-     * @return Builder
-     */
-    public function scopePostcodeLike(Builder $query, string $postcode): Builder
-    {
-        return $query->where('post_code', 'LIKE', '%' . $postcode . '%');
     }
 }

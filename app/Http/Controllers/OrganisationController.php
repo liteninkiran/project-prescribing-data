@@ -27,11 +27,13 @@ class OrganisationController extends Controller
      */
     public function index()
     {
+        // \DB::enableQueryLog();
         $filters = [
+            'org_id'            => request()->input('org_id', null),
             'name'              => request()->input('name', null),
+            'postcode'          => request()->input('postcode', null),
             'primary_roles'     => request()->input('primary_roles', null),
             'non_primary_roles' => request()->input('non_primary_roles', null),
-            'postcode'          => request()->input('postcode', null),
         ];
         $pager = $this->organisationPager->getPaginatedOrganisations(
             $filters,
@@ -40,6 +42,8 @@ class OrganisationController extends Controller
             request()->input('pageNumber', 0),
             request()->input('pageSize', 10),
         );
+        // $query = \DB::getQueryLog();
+        // info($query);
         return $pager;
     }
 

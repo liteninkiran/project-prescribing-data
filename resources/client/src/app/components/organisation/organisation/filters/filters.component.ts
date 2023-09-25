@@ -19,10 +19,11 @@ export class OrganisationFiltersComponent {
     public filterForm!: FormGroup;
 
     // Form Controls
-    public nameInput: FormControl<string | null> = new FormControl(null)
-    public primaryRoleInput: FormControl<number[] | null> = new FormControl(null);
+    public internalIdInput    : FormControl<string   | null> = new FormControl(null)
+    public nameInput          : FormControl<string   | null> = new FormControl(null)
+    public postcodeInput      : FormControl<string   | null> = new FormControl(null);
+    public primaryRoleInput   : FormControl<number[] | null> = new FormControl(null);
     public nonPrimaryRoleInput: FormControl<number[] | null> = new FormControl({ value: null, disabled: true });
-    public postcodeInput: FormControl<string | null> = new FormControl(null);
 
     // Config
     public filters: IFilterConfig[] = [];
@@ -41,9 +42,17 @@ export class OrganisationFiltersComponent {
         this.loadData();
     }
 
-    public onPostcodeInput(): void {
-        if (this.postcodeInput.value) {
-            this.postcodeInput.setValue(this.postcodeInput.value.toUpperCase());
+    public onPostcodeInput(event: Event): void {
+        this.changeToUpperCase(this.postcodeInput);
+    }
+
+    public onInternalIdInput(event: Event): void {
+        this.changeToUpperCase(this.internalIdInput);
+    }
+
+    private changeToUpperCase(input: any) {
+        if (input.value) {
+            input.setValue(input.value.toUpperCase());
         }
     }
 
@@ -58,10 +67,11 @@ export class OrganisationFiltersComponent {
 
     private setFilterFormGroup(): void {
         const formGroup: IOrganisationFilterFormGroup = {
+            internalId: this.internalIdInput,
             name: this.nameInput,
+            postcode: this.postcodeInput,
             primaryRoles: this.primaryRoleInput,
             nonPrimaryRoles: this.nonPrimaryRoleInput,
-            postcode: this.postcodeInput,
         }
 
         this.filterForm = new FormGroup(formGroup);

@@ -30,11 +30,29 @@
 
                 <div class="filter-container">
 
+                    <!-- Internal ID -->
+                    <mat-form-field>
+                        <mat-label>Internal ID</mat-label>
+                        <input matInput [formControl]="internalIdInput" placeholder="e.g. Y00082" (input)="onInternalIdInput($event)">
+                        <button *ngIf="internalIdInput.value" matSuffix mat-icon-button aria-label="Clear" (click)="internalIdInput.setValue(null)" tabindex="-1">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </mat-form-field>
+
                     <!-- Name -->
                     <mat-form-field>
                         <mat-label>Name</mat-label>
                         <input matInput [formControl]="nameInput" placeholder="e.g. Medical Practice">
                         <button *ngIf="nameInput.value" matSuffix mat-icon-button aria-label="Clear" (click)="nameInput.setValue(null)" tabindex="-1">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </mat-form-field>
+
+                    <!-- Postcode -->
+                    <mat-form-field>
+                        <mat-label>Postcode</mat-label>
+                        <input matInput [formControl]="postcodeInput" placeholder="e.g. DA14" (input)="onPostcodeInput($event)">
+                        <button *ngIf="postcodeInput.value" matSuffix mat-icon-button aria-label="Clear" (click)="postcodeInput.setValue(null)" tabindex="-1">
                             <mat-icon>close</mat-icon>
                         </button>
                     </mat-form-field>
@@ -103,15 +121,6 @@
                             <mat-icon>close</mat-icon>
                         </button>
 
-                    </mat-form-field>
-
-                    <!-- Postcode -->
-                    <mat-form-field>
-                        <mat-label>Postcode</mat-label>
-                        <input matInput [formControl]="postcodeInput" placeholder="e.g. DA14" (input)="onPostcodeInput()">
-                        <button *ngIf="postcodeInput.value" matSuffix mat-icon-button aria-label="Clear" (click)="postcodeInput.setValue(null)" tabindex="-1">
-                            <mat-icon>close</mat-icon>
-                        </button>
                     </mat-form-field>
 
                     <!-- Org ID -->

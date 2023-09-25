@@ -44,10 +44,11 @@ export class OrganisationService {
     }
 
     private addFilters(filters: IOrganisationFilters, params: HttpParams): HttpParams {
+        if (filters.internalId) { params = params.append('org_id', filters.internalId); }
         if (filters.name) { params = params.append('name', filters.name); }
+        if (filters.postcode) { params = params.append('postcode', filters.postcode); }
         if (filters.primaryRoles) { filters.primaryRoles.map((role) => params = params.append('primary_roles[]', role.toString())); }
         if (filters.nonPrimaryRoles) { filters.nonPrimaryRoles.map((role) => params = params.append('non_primary_roles[]', role.toString())); }
-        if (filters.postcode) { params = params.append('postcode', filters.postcode); }
         return params;
     }
 }
