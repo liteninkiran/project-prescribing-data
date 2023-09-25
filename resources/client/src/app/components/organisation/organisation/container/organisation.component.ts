@@ -37,7 +37,7 @@ export class OrganisationComponent implements OnInit {
             { columnId: 'name', columnName: 'Organisation Name', visible: true },
             { columnId: 'post_code', columnName: 'Postcode', visible: true },
             { columnId: 'primary_role_id', columnName: 'Primary Role ID', visible: false },
-            { columnId: 'primary_role_description', columnName: 'Primary Role Description', visible: true },
+            { columnId: 'primary_role_description', columnName: 'Primary Role', visible: true },
             { columnId: 'status', columnName: 'Status', visible: true },
             { columnId: 'org_record_class', columnName: 'Record Class', visible: false },
             { columnId: 'last_change_date', columnName: 'Last Change Date', visible: false },

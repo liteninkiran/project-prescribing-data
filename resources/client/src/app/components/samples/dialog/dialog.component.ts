@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
         <app-dialog-3></app-dialog-3><hr>
         <app-dialog-4></app-dialog-4><hr>
         <app-dialog-5></app-dialog-5><hr>
-        <app-mat-menu-chk></app-mat-menu-chk>`,
+        <sample-checkbox-menu></sample-checkbox-menu>`,
     styles: [],
 })
 export class DialogComponent {

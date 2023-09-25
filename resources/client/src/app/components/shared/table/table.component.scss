@@ -1,7 +1,7 @@
 .spinner-container {
     height: 360px;
     width: 80%;
-    margin-top: 70px;
+    margin-top: 150px;
     position: fixed;
 }
 
@@ -22,12 +22,8 @@ mat-spinner {
     margin-bottom: 50px;
 }
 
-.button-container {
-    padding-bottom: 16px;
+th {
     mat-icon {
-        font-size: 20pt;
-        height: auto;
-        width: auto;
         margin: 0;
     }
 }

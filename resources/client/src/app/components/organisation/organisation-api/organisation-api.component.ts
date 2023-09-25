@@ -17,7 +17,6 @@ import {
     IRoles,
     IStatus,
     IStatusConfig,
-    IUrlObject,
     IValidControl,
 } from 'src/app/interfaces/organisation-api.interface';
 import { MatTableDataSource } from '@angular/material/table';
@@ -296,6 +295,7 @@ export class OrganisationApiComponent implements OnInit, OnDestroy, AfterViewIni
 
     private setColumnFormGroup(): void {
         this.columnForm = this.fb.group(this.columnFormControls);
+        console.log(this.columnForm);
     }
 
     private numInputConfigData(type: string): INumInputConfig {

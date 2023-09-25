@@ -30,3 +30,9 @@ export interface IPagedListLinks {
     label: string;
     url: string;
 };
+
+export interface ICheckboxMenuItem {
+    value: string;
+    title: string;
+    activated: boolean;
+}
