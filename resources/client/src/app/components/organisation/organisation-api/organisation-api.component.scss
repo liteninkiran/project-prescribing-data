@@ -2,11 +2,6 @@ table {
     margin-bottom: 50px;
 }
 
-// Won't work without { encapsulation: ViewEncapsulation.None }
-.long-list {
-    min-height: 500px;
-}
-
 #column-list {
     width: 100% !important;
 }

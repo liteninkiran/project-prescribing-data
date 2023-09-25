@@ -2,11 +2,6 @@ mat-form-field {
     width: 95%;
 }
 
-button {
-    margin-top: 10px;
-    display: block;
-}
-
 mat-panel-description {
     flex-grow: 4;
     mat-icon {
@@ -17,9 +12,4 @@ mat-panel-description {
 .filter-container {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-}
-
-// Won't work without { encapsulation: ViewEncapsulation.None }
-.long-list {
-    min-height: 500px;
 }

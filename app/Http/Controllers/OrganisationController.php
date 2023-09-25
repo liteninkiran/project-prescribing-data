@@ -27,19 +27,24 @@ class OrganisationController extends Controller
      */
     public function index()
     {
-        // DB::enableQueryLog();
+        // \DB::enableQueryLog();
+        $filters = [
+            'org_id'            => request()->input('org_id', null),
+            'name'              => request()->input('name', null),
+            'postcode'          => request()->input('postcode', null),
+            'primary_roles'     => request()->input('primary_roles', null),
+            'non_primary_roles' => request()->input('non_primary_roles', null),
+            'last_change_date'  => request()->input('last_change_date', null),
+            'status'            => request()->input('status', null),
+        ];
         $pager = $this->organisationPager->getPaginatedOrganisations(
-            [
-                'name' => request()->input('name', null),
-                'primary_roles' => request()->input('primary_roles', null),
-                'non_primary_roles' => request()->input('non_primary_roles', null),
-            ],
+            $filters,
             request()->input('sortCol', 'id'),
             request()->input('sortOrder', 'asc'),
             request()->input('pageNumber', 0),
             request()->input('pageSize', 10),
         );
-        // $query = DB::getQueryLog();
+        // $query = \DB::getQueryLog();
         // info($query);
         return $pager;
     }
@@ -97,10 +102,4 @@ class OrganisationController extends Controller
         $response = $this->organisationService->storeFromApi($roleId);
         return response()->json($response);
     }
-
-    public function test($id): JsonResponse
-    {
-        return response()->json(['test' => $id]);
-    }
-
 }

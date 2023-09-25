@@ -17,13 +17,26 @@ export interface IOrganisation {
 };
 
 export interface IOrganisationFilters {
-    name: string;
+    organisationId: string | null;
+    name: string | null;
+    postcode: string | null;
     primaryRoles: number[] | null;
     nonPrimaryRoles: number[] | null;
+    lastChangeDate: Date | null;
+    status: string | null;
 };
 
 export interface IOrganisationFilterFormGroup {
-    name: FormControl<any>;
-    primaryRoles: FormControl<any>;
-    nonPrimaryRoles: FormControl<any>;
+    organisationId: FormControl<string | null>;
+    name: FormControl<string | null>;
+    postcode: FormControl<string | null>;
+    primaryRoles: FormControl<number[] | null>;
+    nonPrimaryRoles: FormControl<number[] | null>;
+    lastChangeDate: FormControl<Date | null>;
+    status: FormControl<string | null>;
+};
+
+export interface IOrganisationStatus {
+    id: string;
+    displayName: string;
 };

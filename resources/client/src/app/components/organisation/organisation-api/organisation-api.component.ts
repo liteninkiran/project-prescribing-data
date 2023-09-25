@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, AfterViewInit, ViewEncapsulation, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { OrganisationApiService } from 'src/app/services/organisation/organisation-api.service';
@@ -29,7 +29,6 @@ import { LocationService } from 'src/app/services/location/location.service';
     templateUrl: './organisation-api.component.html',
     styleUrls: ['./organisation-api.component.scss'],
     providers: [OrganisationApiService],
-    encapsulation: ViewEncapsulation.None,
 })
 export class OrganisationApiComponent implements OnInit, OnDestroy, AfterViewInit {
     @ViewChild(MatSort) sort!: MatSort;
