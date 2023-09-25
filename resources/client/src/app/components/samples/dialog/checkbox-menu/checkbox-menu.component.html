@@ -1,3 +1,7 @@
-<h3>MatMenu with Checkboxes</h3>
+<h3>Re-Usable Checkbox Menu</h3>
 
-<app-checkbox-menu></app-checkbox-menu>
+<app-checkbox-menu [items]="items" (selectionChanged)="formValue($event)"></app-checkbox-menu>
+
+<div>
+    <pre>{{ selections | json }}</pre>
+</div>

@@ -32,7 +32,8 @@ export interface IPagedListLinks {
 };
 
 export interface ICheckboxMenuItem {
-    value: string;
-    title: string;
-    activated: boolean;
+    label: string;
+    value: string | number;
+    name: string;
+    checked: boolean;
 }

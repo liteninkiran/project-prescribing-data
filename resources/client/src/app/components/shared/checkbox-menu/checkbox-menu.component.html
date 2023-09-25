@@ -1,1 +1,15 @@
-<p>Check Box Menu Component</p>
+<button
+    #matMenuTrigger
+    mat-raised-button
+    color="primary"
+    [matMenuTriggerFor]="menu"
+>Open Menu</button>
+
+<mat-menu #menu="matMenu" [formGroup]="form">
+    <mat-checkbox
+        #menuItems
+        (click)="$event.stopPropagation()"
+        *ngFor="let item of items; let i = index;"
+        [formControlName]="item.name"
+    >{{ item.label }}</mat-checkbox>
+</mat-menu>
