@@ -32,11 +32,11 @@ export class OrganisationComponent implements OnInit {
 
     private columnConfigData(): IMatTableColumnConfig[] {
         return [
-            { columnId: 'id', columnName: 'ID', visible: false },
+            // { columnId: 'id', columnName: 'ID', visible: false },
             { columnId: 'org_id', columnName: 'Organisation ID', visible: true },
             { columnId: 'name', columnName: 'Organisation Name', visible: true },
             { columnId: 'post_code', columnName: 'Postcode', visible: true },
-            { columnId: 'primary_role_id', columnName: 'Primary Role ID', visible: false },
+            // { columnId: 'primary_role_id', columnName: 'Primary Role ID', visible: false },
             { columnId: 'primary_role_description', columnName: 'Primary Role', visible: true },
             { columnId: 'status', columnName: 'Status', visible: true },
             { columnId: 'org_record_class', columnName: 'Record Class', visible: false },
