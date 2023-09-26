@@ -61,16 +61,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
-        if (changes['filters']) {
-            const filtersChange: SimpleChange = changes['filters'];
-            if (!filtersChange.firstChange) {
-                this.loadData();
-            }
-        }
-
-        if (changes['reloadData']) {
-            this.loadData();
-        }
+        this.reloadDataOnInputChange(changes, 'filters');
+        this.reloadDataOnInputChange(changes, 'reloadData');
     }
 
     public onRowClicked(row: any): void {
@@ -126,5 +118,14 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
         this.columnConfig.map(config => {
             config.visible = formValue[config.columnId];
         });
+    }
+
+    private reloadDataOnInputChange(changes: SimpleChanges, inputName: string) {
+        const filtersChange: SimpleChange = changes[inputName];
+        if (filtersChange) {
+            if (!filtersChange.firstChange) {
+                this.loadData();
+            }
+        }
     }
 }

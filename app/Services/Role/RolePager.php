@@ -38,15 +38,23 @@ class RolePager
      */
     public function getPaginatedRoles(array $filters = [], string $sortCol = 'id', string $sortOrder = 'asc', int $pageNumber = 0, int $pageSize = 5): LengthAwarePaginator
     {
-        // Initialise query
-        $this->query = Role::query();
-
-        // Add filters and order by clause
-        $this->addFilters($filters)
+        $this->initialiseQuery()
+            ->addFilters($filters)
             ->addOrderBy($sortCol, $sortOrder);
 
         // Paginate & return
         return $this->query->paginate($pageSize, $this->columns, 'pageNumber', $pageNumber + 1);
+    }
+
+    /**
+     * initialiseQuery
+     *
+     * @return self
+     */
+    private function initialiseQuery(): self
+    {
+        $this->query = Role::withCount('organisations');
+        return $this;
     }
 
     /**
