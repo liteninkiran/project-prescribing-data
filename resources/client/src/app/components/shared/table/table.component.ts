@@ -18,13 +18,14 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
     @Input() public defaultSortCol: string = 'id';
     @Input() public title!: string;
     @Input() public filters: any;
-    @Input() public showMenu: boolean = false;
+    @Input() public showMenu: boolean = true;
     @Input() public actionButtonConfig: IAsyncButtonInputConfig = {
         buttonText: 'Button',
         colour: '',
         icon: 'sync',
         loaded: true,
         hide: false,
+        hideRow: '',
     }
 
     @Output() public actionButtonClick = new EventEmitter<void>();

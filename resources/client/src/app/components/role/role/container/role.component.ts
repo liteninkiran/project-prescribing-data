@@ -21,6 +21,7 @@ export class RoleComponent implements OnInit {
         colour: 'primary',
         icon: 'sync',
         loaded: true,
+        hideRow: 'primary_role',
     }
 
     constructor(

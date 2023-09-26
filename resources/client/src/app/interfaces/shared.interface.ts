@@ -44,4 +44,5 @@ export interface IAsyncButtonInputConfig {
     icon: string;
     loaded: boolean;
     hide?: boolean;
+    hideRow: string;
 }
