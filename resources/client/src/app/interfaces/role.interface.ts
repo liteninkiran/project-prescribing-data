@@ -6,6 +6,7 @@ export interface IRole {
     code: string;
     display_name: string;
     primary_role: boolean;
+    org_last_updated: Date | null;
     created_at: Date;
     updated_at: Date;
 };
