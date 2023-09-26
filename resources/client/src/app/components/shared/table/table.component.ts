@@ -1,9 +1,9 @@
-import { Component, Input, OnInit, AfterViewInit, OnChanges, ViewChild, SimpleChanges, SimpleChange } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit, OnChanges, ViewChild, SimpleChanges, SimpleChange, Output, EventEmitter } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { IColumnConfig } from 'src/app/interfaces/organisation-api.interface';
 import { merge, tap } from 'rxjs';
-import { ICheckboxMenuItem } from 'src/app/interfaces/shared.interface';
+import { IAsyncButtonInputConfig, ICheckboxMenuItem } from 'src/app/interfaces/shared.interface';
 
 @Component({
     selector: 'app-table',
@@ -19,6 +19,15 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
     @Input() public title!: string;
     @Input() public filters: any;
     @Input() public showMenu: boolean = false;
+    @Input() public actionButtonConfig: IAsyncButtonInputConfig = {
+        buttonText: 'Button',
+        colour: '',
+        icon: 'sync',
+        loaded: true,
+        hide: false,
+    }
+
+    @Output() public actionButtonClick = new EventEmitter<void>();
 
     @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort!: MatSort;
@@ -31,6 +40,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
     public pageSizeOptions = [5, 10, 20, 50, 100];
     public intialPageSize = this.pageSizeOptions[1];
     public menuItems: ICheckboxMenuItem[] = [];
+    public apiLoaded = true;
 
     constructor() { }
 
@@ -68,6 +78,10 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
         this.updateDisplayedColumns();
     }
 
+    public onActionClick(): void {
+        this.actionButtonClick.emit();
+    }
+
     private loadData(): void {
         this.dataSource.loadData(
             this.filters,
@@ -82,6 +96,9 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
         this.displayedColumns = this.columnConfig
             .filter((config: IColumnConfig) => config.visible)
             .map((config: IColumnConfig) => config.columnId);
+        if (!this.actionButtonConfig.hide) {
+            this.displayedColumns.push('actions');
+        }
     }
 
     private setMenuItems(): void {

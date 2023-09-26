@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IMatTableColumnConfig } from 'src/app/interfaces/shared.interface';
+import { IAsyncButtonInputConfig, IMatTableColumnConfig } from 'src/app/interfaces/shared.interface';
 import { RoleDataSource } from '../role.data-source';
 import { RoleService } from '../../../../services/role/role.service';
 import { IRoleFilters } from 'src/app/interfaces/role.interface';
@@ -16,6 +16,12 @@ export class RoleComponent implements OnInit {
     public dataSource!: RoleDataSource;
     public columnConfig: IMatTableColumnConfig[] = [];
     public apiLoaded = false;
+    public actionButtonConfig: IAsyncButtonInputConfig = {
+        buttonText: '',
+        colour: 'primary',
+        icon: 'sync',
+        loaded: true,
+    }
 
     constructor(
         readonly roleService: RoleService,
@@ -36,6 +42,10 @@ export class RoleComponent implements OnInit {
         this.roleService
             .loadDataFromApi()
             .subscribe((res: any) => this.showSnackBar(res));
+    }
+
+    public onActionButtonClick(): void {
+        alert('Update Organisations');
     }
 
     private columnConfigData(): IMatTableColumnConfig[] {

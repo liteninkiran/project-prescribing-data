@@ -17,3 +17,11 @@
     border-top-color: #000000;
     animation: spinner .8s linear infinite;
 }
+
+button>mat-icon {
+    margin-right: 0;
+}
+
+.button-text {
+    margin-left: 10px;
+}

@@ -30,6 +30,10 @@ export class OrganisationComponent implements OnInit {
         this.filters = filters;
     }
 
+    public onActionButtonClick(): void {
+        alert('Update Organisations');
+    }
+
     private columnConfigData(): IMatTableColumnConfig[] {
         return [
             // { columnId: 'id', columnName: 'ID', visible: false },

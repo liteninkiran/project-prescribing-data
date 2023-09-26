@@ -295,7 +295,7 @@ export class OrganisationApiComponent implements OnInit, OnDestroy, AfterViewIni
 
     private setColumnFormGroup(): void {
         this.columnForm = this.fb.group(this.columnFormControls);
-        console.log(this.columnForm);
+        //console.log(this.columnForm);
     }
 
     private numInputConfigData(type: string): INumInputConfig {

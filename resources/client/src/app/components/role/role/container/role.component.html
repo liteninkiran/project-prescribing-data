@@ -29,6 +29,7 @@
     [columnConfig]="columnConfig"
     [service]="roleService"
     [filters]="filters"
-    [showMenu]="true"
+    [actionButtonConfig]="actionButtonConfig"
     defaultSortCol="display_name"
+    (actionButtonClick)="onActionButtonClick()"
 ></app-table>
