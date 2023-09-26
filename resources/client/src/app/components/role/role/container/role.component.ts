@@ -57,17 +57,7 @@ export class RoleComponent implements OnInit {
         this.orgService
             .loadDataFromApi(_id)
             .subscribe(() => {
-                if (this.sort && this.paginator) {
-                    this.dataSource.loadData(
-                        this.filters,
-                        this.sort.active,
-                        this.sort.direction,
-                        this.paginator.pageIndex,
-                        this.paginator.pageSize
-                    );
-                } else {
-                    this.dataSource.loadData(this.filters);
-                }
+                this.loadData();
                 this.actionButtonConfig.loaded = true;
             });
     }
@@ -106,6 +96,20 @@ export class RoleComponent implements OnInit {
             .afterDismissed()
             .subscribe(() => this._snackBar.open(message.updated, action, config));
         this.apiLoaded = true;
-        this.dataSource.loadData(this.filters);
+        this.loadData();
+    }
+
+    private loadData(): void {
+        if (this.sort && this.paginator) {
+            this.dataSource.loadData(
+                this.filters,
+                this.sort.active,
+                this.sort.direction,
+                this.paginator.pageIndex,
+                this.paginator.pageSize
+            );
+        } else {
+            this.dataSource.loadData(this.filters);
+        }
     }
 }
