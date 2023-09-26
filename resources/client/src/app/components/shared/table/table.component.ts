@@ -28,7 +28,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
         hideRow: '',
     }
 
-    @Output() public actionButtonClick = new EventEmitter<void>();
+    @Output() public actionButtonClick = new EventEmitter<number>();
 
     @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort!: MatSort;
@@ -78,8 +78,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
         this.updateDisplayedColumns();
     }
 
-    public onActionClick(): void {
-        this.actionButtonClick.emit();
+    public onActionClick(id: number): void {
+        this.actionButtonClick.emit(id);
     }
 
     private loadData(): void {

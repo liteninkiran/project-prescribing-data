@@ -30,4 +30,9 @@ export class RoleDataSource implements DataSource<IRole> {
             )
             .subscribe(role => this.roleSubject.next(role));
     }
+
+    public getInternalId(id: number): string {
+        const role: IRole = this.roleSubject.value.find((role) => role.id === id) as IRole;
+        return role._id;
+    }
 }

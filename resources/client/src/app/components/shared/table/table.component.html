@@ -52,7 +52,7 @@
                         [colour]="actionButtonConfig.colour"
                         [icon]="actionButtonConfig.icon"
                         [loaded]="actionButtonConfig.loaded"
-                        (clickEvent)="onActionClick()"
+                        (clickEvent)="onActionClick(row.id)"
                     ></app-async-button>
                 </td>
             </ng-container>

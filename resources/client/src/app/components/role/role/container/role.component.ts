@@ -4,12 +4,13 @@ import { RoleDataSource } from '../role.data-source';
 import { RoleService } from '../../../../services/role/role.service';
 import { IRoleFilters } from 'src/app/interfaces/role.interface';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { OrganisationService } from 'src/app/services/organisation/organisation.service';
 
 @Component({
     selector: 'app-role',
     templateUrl: './role.component.html',
     styleUrls: ['./role.component.scss'],
-    providers: [RoleService],
+    providers: [RoleService, OrganisationService],
 })
 export class RoleComponent implements OnInit {
     public filters: IRoleFilters = {} as IRoleFilters;
@@ -26,6 +27,7 @@ export class RoleComponent implements OnInit {
 
     constructor(
         readonly roleService: RoleService,
+        readonly orgService: OrganisationService,
         private _snackBar: MatSnackBar,
     ) { }
 
@@ -45,8 +47,15 @@ export class RoleComponent implements OnInit {
             .subscribe((res: any) => this.showSnackBar(res));
     }
 
-    public onActionButtonClick(): void {
-        alert('Update Organisations');
+    public onActionButtonClick(id: number): void {
+        const _id: string = this.dataSource.getInternalId(id);
+        this.actionButtonConfig.loaded = false;
+        this.orgService
+            .loadDataFromApi(_id)
+            .subscribe(() => {
+                this.dataSource.loadData(this.filters);
+                this.actionButtonConfig.loaded = true;
+            });
     }
 
     private columnConfigData(): IMatTableColumnConfig[] {

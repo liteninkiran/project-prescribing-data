@@ -19,7 +19,7 @@ export class OrganisationComponent implements OnInit {
         colour: 'primary',
         icon: 'visibility',
         loaded: true,
-        //hide: true,
+        hide: true,
         hideRow: 'primary_role',
     }
 
@@ -37,8 +37,8 @@ export class OrganisationComponent implements OnInit {
         this.filters = filters;
     }
 
-    public onActionButtonClick(): void {
-        alert('Update Organisations');
+    public onActionButtonClick(id: number): void {
+        alert(id);
     }
 
     private columnConfigData(): IMatTableColumnConfig[] {
