@@ -42,6 +42,21 @@
                 <td mat-cell *matCellDef="let cell">{{ cell[item.columnId] | FormatValue }}</td >
             </ng-container>
 
+            <!-- Action Button -->
+            <ng-container matColumnDef="actions" *ngIf="!actionButtonConfig.hide">
+                <th mat-header-cell *matHeaderCellDef>Actions</th>
+                <td mat-cell *matCellDef="let row">
+                    <app-async-button
+                        *ngIf="!actionButtonConfig.hideRow || row[actionButtonConfig.hideRow]"
+                        [buttonText]="actionButtonConfig.buttonText"
+                        [colour]="actionButtonConfig.colour"
+                        [icon]="actionButtonConfig.icon"
+                        [loaded]="actionButtonConfig.loaded"
+                        (clickEvent)="onActionClick(row.id)"
+                    ></app-async-button>
+                </td>
+            </ng-container>
+
             <!-- Header Row -->
             <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
 

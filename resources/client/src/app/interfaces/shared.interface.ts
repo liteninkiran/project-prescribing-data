@@ -37,3 +37,12 @@ export interface ICheckboxMenuItem {
     formControlName: string;
     checked: boolean;
 }
+
+export interface IAsyncButtonInputConfig {
+    buttonText: string;
+    colour: '' | 'primary' | 'accent' | 'warn';
+    icon: string;
+    loaded: boolean;
+    hide?: boolean;
+    hideRow: string;
+}

@@ -36,6 +36,11 @@ export class OrganisationService {
         );
     }
 
+    public loadDataFromApi(roleId: string = 'RO190'): Observable<any> {
+        const url = `/api/organisations/store_from_api/${roleId}`;
+        return this.http.post(url, {});
+    }
+
     private getParams(sortCol: string, sortOrder: string, pageNumber: number, pageSize: number): HttpParams {
         return new HttpParams()
             .set('sortCol', sortCol)

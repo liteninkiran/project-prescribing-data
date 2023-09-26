@@ -14,6 +14,17 @@ class RolePager
      * @var Builder
      */
     private $query;
+
+    private $columns = [
+        'roles.id',
+        'roles._id',
+        'roles.code',
+        'roles.display_name',
+        'roles.primary_role',
+        'roles.org_last_updated',
+        'roles.created_at',
+        'roles.updated_at',
+    ];
     
     /**
      * getPaginatedRoles
@@ -35,7 +46,7 @@ class RolePager
             ->addOrderBy($sortCol, $sortOrder);
 
         // Paginate & return
-        return $this->query->paginate($pageSize, ['*'], 'pageNumber', $pageNumber + 1);
+        return $this->query->paginate($pageSize, $this->columns, 'pageNumber', $pageNumber + 1);
     }
 
     /**

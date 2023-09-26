@@ -1,9 +1,9 @@
-import { Component, Input, OnInit, AfterViewInit, OnChanges, ViewChild, SimpleChanges, SimpleChange } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit, OnChanges, ViewChild, SimpleChanges, SimpleChange, Output, EventEmitter } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { IColumnConfig } from 'src/app/interfaces/organisation-api.interface';
 import { merge, tap } from 'rxjs';
-import { ICheckboxMenuItem } from 'src/app/interfaces/shared.interface';
+import { IAsyncButtonInputConfig, ICheckboxMenuItem } from 'src/app/interfaces/shared.interface';
 
 @Component({
     selector: 'app-table',
@@ -18,7 +18,19 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
     @Input() public defaultSortCol: string = 'id';
     @Input() public title!: string;
     @Input() public filters: any;
-    @Input() public showMenu: boolean = false;
+    @Input() public showMenu: boolean = true;
+    @Input() public actionButtonConfig: IAsyncButtonInputConfig = {
+        buttonText: 'Button',
+        colour: '',
+        icon: 'sync',
+        loaded: true,
+        hide: false,
+        hideRow: '',
+    }
+
+    @Output() public actionButtonClick = new EventEmitter<number>();
+    @Output() public paginatorOutput = new EventEmitter<MatPaginator>();
+    @Output() public sortOutput = new EventEmitter<MatSort>();
 
     @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort!: MatSort;
@@ -44,7 +56,11 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
         this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
         merge(this.sort.sortChange, this.paginator.page)
             .pipe(
-                tap(() => this.loadData())
+                tap(() => {
+                    this.loadData();
+                    this.sortOutput.emit(this.sort);
+                    this.paginatorOutput.emit(this.paginator);
+                })
             )
             .subscribe();
     }
@@ -68,6 +84,10 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
         this.updateDisplayedColumns();
     }
 
+    public onActionClick(id: number): void {
+        this.actionButtonClick.emit(id);
+    }
+
     private loadData(): void {
         this.dataSource.loadData(
             this.filters,
@@ -82,6 +102,9 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
         this.displayedColumns = this.columnConfig
             .filter((config: IColumnConfig) => config.visible)
             .map((config: IColumnConfig) => config.columnId);
+        if (!this.actionButtonConfig.hide) {
+            this.displayedColumns.push('actions');
+        }
     }
 
     private setMenuItems(): void {

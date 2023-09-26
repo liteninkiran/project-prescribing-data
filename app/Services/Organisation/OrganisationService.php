@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Schema;
 use App\Models\Role;
 use App\Models\Organisation;
+use Carbon\Carbon;
 
 class OrganisationService
 {
@@ -48,6 +49,9 @@ class OrganisationService
 
         // Loop through the URLs (max row limit is 1,000)
         $this->looper();
+
+        $this->role->org_last_updated = Carbon::now()->timezone('Europe/London');;
+        $this->role->save();
 
         // Return summary
         return [

@@ -29,6 +29,7 @@ export class RoleService {
         const callBack = (role: IRole) => ({
             ...role,
             primary_role: !!role.primary_role,
+            org_last_updated: role.org_last_updated ? new Date(role.org_last_updated) : null,
             created_at: new Date(role.created_at),
             updated_at: new Date(role.updated_at),
         });
