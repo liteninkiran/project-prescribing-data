@@ -41,7 +41,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
     public pageSizeOptions = [5, 10, 20, 50, 100];
     public intialPageSize = this.pageSizeOptions[1];
     public menuItems: ICheckboxMenuItem[] = [];
-    public apiLoaded = true;
 
     constructor() { }
 

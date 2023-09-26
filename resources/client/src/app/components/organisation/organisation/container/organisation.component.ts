@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IMatTableColumnConfig } from 'src/app/interfaces/shared.interface';
+import { IAsyncButtonInputConfig, IMatTableColumnConfig } from 'src/app/interfaces/shared.interface';
 import { OrganisationDataSource } from './../organisation.data-source';
 import { OrganisationService } from '../../../../services/organisation/organisation.service';
 import { IOrganisationFilters } from 'src/app/interfaces/organisation.interface';
@@ -14,7 +14,14 @@ export class OrganisationComponent implements OnInit {
     public filters: IOrganisationFilters = {} as IOrganisationFilters;
     public dataSource!: OrganisationDataSource;
     public columnConfig: IMatTableColumnConfig[] = [];
-    public apiLoaded = false;
+    public actionButtonConfig: IAsyncButtonInputConfig = {
+        buttonText: '',
+        colour: 'primary',
+        icon: 'visibility',
+        loaded: true,
+        //hide: true,
+        hideRow: 'primary_role',
+    }
 
     constructor(
         readonly orgService: OrganisationService,

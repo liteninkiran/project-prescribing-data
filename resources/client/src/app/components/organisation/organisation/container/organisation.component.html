@@ -20,6 +20,6 @@
     [service]="orgService"
     [filters]="filters"
     defaultSortCol="name"
-    actionButtonText="Org Action"
+    [actionButtonConfig]="actionButtonConfig"
     (actionButtonClick)="onActionButtonClick()"
 ></app-table>
