@@ -29,9 +29,8 @@
     [columnConfig]="columnConfig"
     [service]="roleService"
     [filters]="filters"
-    [actionButtonConfig]="actionButtonConfig"
+    [reloadData]="reloadData"
     defaultSortCol="display_name"
+    [actionButtonConfig]="actionButtonConfig"
     (actionButtonClick)="onActionButtonClick($event)"
-    (paginatorOutput)="onPaginate($event)"
-    (sortOutput)="onSort($event)"
 ></app-table>
