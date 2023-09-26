@@ -5,6 +5,8 @@ import { RoleService } from '../../../../services/role/role.service';
 import { IRoleFilters } from 'src/app/interfaces/role.interface';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { OrganisationService } from 'src/app/services/organisation/organisation.service';
+import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
     selector: 'app-role',
@@ -24,6 +26,8 @@ export class RoleComponent implements OnInit {
         loaded: true,
         hideRow: 'primary_role',
     }
+    public paginator!: MatPaginator;
+    public sort!: MatSort;
 
     constructor(
         readonly roleService: RoleService,
@@ -53,9 +57,27 @@ export class RoleComponent implements OnInit {
         this.orgService
             .loadDataFromApi(_id)
             .subscribe(() => {
-                this.dataSource.loadData(this.filters);
+                if (this.sort && this.paginator) {
+                    this.dataSource.loadData(
+                        this.filters,
+                        this.sort.active,
+                        this.sort.direction,
+                        this.paginator.pageIndex,
+                        this.paginator.pageSize
+                    );
+                } else {
+                    this.dataSource.loadData(this.filters);
+                }
                 this.actionButtonConfig.loaded = true;
             });
+    }
+
+    public onSort(sort: MatSort): void {
+        this.sort = sort;
+    }
+
+    public onPaginate(paginator: MatPaginator): void {
+        this.paginator = paginator;
     }
 
     private columnConfigData(): IMatTableColumnConfig[] {

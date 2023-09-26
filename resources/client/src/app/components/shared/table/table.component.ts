@@ -29,6 +29,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
     }
 
     @Output() public actionButtonClick = new EventEmitter<number>();
+    @Output() public paginatorOutput = new EventEmitter<MatPaginator>();
+    @Output() public sortOutput = new EventEmitter<MatSort>();
 
     @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort!: MatSort;
@@ -54,7 +56,11 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
         this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
         merge(this.sort.sortChange, this.paginator.page)
             .pipe(
-                tap(() => this.loadData())
+                tap(() => {
+                    this.loadData();
+                    this.sortOutput.emit(this.sort);
+                    this.paginatorOutput.emit(this.paginator);
+                })
             )
             .subscribe();
     }
