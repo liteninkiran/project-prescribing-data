@@ -32,9 +32,9 @@ return new class extends Migration
             $table->string ('date_of_introduction'           )->nullable();
             $table->integer('eastings'                       )->nullable();
             $table->string ('european_electoral_region'      )->nullable();
-            $table->decimal('latitude', 9, 6                 )->nullable();
+            $table->double ('latitude', 9, 6                 )->nullable();
             $table->string ('lau2_code'                      )->nullable();
-            $table->decimal('longitude', 9, 6                )->nullable();
+            $table->double ('longitude', 9, 6                )->nullable();
             $table->string ('lsoa'                           )->nullable();
             $table->string ('lsoa_code'                      )->nullable();
             $table->string ('msoa'                           )->nullable();

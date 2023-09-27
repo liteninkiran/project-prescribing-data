@@ -2,65 +2,60 @@
 
 namespace App\Http\Controllers;
 
+// Illuminate
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Http\JsonResponse;
+
+// Models
 use App\Models\Postcode;
+
+// Requests
 use App\Http\Requests\StorePostcodeRequest;
 use App\Http\Requests\UpdatePostcodeRequest;
 
+// Services
+use App\Services\Postcode\PostcodeService;
+
 class PostcodeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StorePostcodeRequest $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Postcode $postcode)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Postcode $postcode)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdatePostcodeRequest $request, Postcode $postcode)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Postcode $postcode)
     {
         //
+    }
+
+    public function storeFromApi(PostcodeService $postcodeService): JsonResponse
+    {
+        $response = $postcodeService->storeFromApi(request()->input('postcodes', []));
+        return response()->json($response);
     }
 }

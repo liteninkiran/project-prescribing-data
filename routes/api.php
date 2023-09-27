@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\OrganisationController;
+use App\Http\Controllers\PostcodeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,3 +27,6 @@ Route::resource('roles', RoleController::class);
 
 Route::post('organisations/store_from_api/{roleId}', [OrganisationController::class, 'storeFromApi']);
 Route::resource('organisations', OrganisationController::class);
+
+Route::get('postcodes/store_from_api', [PostcodeController::class, 'storeFromApi']);
+Route::resource('postcodes', PostcodeController::class);
