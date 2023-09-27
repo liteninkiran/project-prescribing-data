@@ -35,6 +35,16 @@ class Organisation extends Model
         return $this->belongsTo(Role::class, 'primary_role_id', 'id');
     }
 
+    /**
+     * postcode
+     *
+     * @return BelongsTo
+     */
+    public function postcode(): BelongsTo
+    {
+        return $this->belongsTo(Postcode::class, 'postcode_id', 'id');
+    }
+
 
     /******************    SCOPES    *******************/
 

@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Schema;
 use App\Models\Role;
 use App\Models\Organisation;
+use App\Models\Postcode;
 use Carbon\Carbon;
 
 class OrganisationService
@@ -50,7 +51,7 @@ class OrganisationService
         // Loop through the URLs (max row limit is 1,000)
         $this->looper();
 
-        $this->role->org_last_updated = Carbon::now()->timezone('Europe/London');;
+        $this->role->org_last_updated = Carbon::now()->timezone('Europe/London');
         $this->role->save();
 
         // Return summary
@@ -135,6 +136,8 @@ class OrganisationService
         $attributes = $this->getAttributes($organisation);
         $columns = $this->getColumns();
         $values = $this->getAttributeValues($organisation, $columns);
+        $postcode = Postcode::where('postcode', $values['post_code'])->first();
+        $values['postcode_id'] = $postcode ? $postcode->id : null;
         $values['primary_role_id'] = $this->role->id;
         $model = Organisation::firstOrNew($attributes, $values);
         $this->updateModel($model, $values);
@@ -217,7 +220,9 @@ class OrganisationService
         // Populate array with values from org array
         foreach ($values as $key => &$value) {
             $arrayKey = $this->convertToCamelCase($key);
-            $value = $organisation[$arrayKey];
+            if (array_key_exists($arrayKey, $organisation)) {
+                $value = $organisation[$arrayKey];
+            }
         }
 
         // This is needed because the loop passed $value ByRef
