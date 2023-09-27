@@ -58,4 +58,16 @@ class PostcodeController extends Controller
         $response = $postcodeService->storeFromApi(request()->input('postcodes', []));
         return response()->json($response);
     }
+
+    public function storeFromApiAutoCreate(PostcodeService $postcodeService): JsonResponse
+    {
+        $response = $postcodeService->storeFromApiAutoCreate();
+        return response()->json($response);
+    }
+
+    public function storeFromApiAutoUpdate(PostcodeService $postcodeService): JsonResponse
+    {
+        $response = $postcodeService->storeFromApiAutoUpdate();
+        return response()->json($response);
+    }
 }

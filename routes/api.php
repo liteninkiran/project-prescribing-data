@@ -29,4 +29,6 @@ Route::post('organisations/store_from_api/{roleId}', [OrganisationController::cl
 Route::resource('organisations', OrganisationController::class);
 
 Route::get('postcodes/store_from_api', [PostcodeController::class, 'storeFromApi']);
+Route::get('postcodes/store_from_api_auto_create', [PostcodeController::class, 'storeFromApiAutoCreate']);
+Route::get('postcodes/store_from_api_auto_update', [PostcodeController::class, 'storeFromApiAutoUpdate']);
 Route::resource('postcodes', PostcodeController::class);

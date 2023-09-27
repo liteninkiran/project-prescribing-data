@@ -3,12 +3,12 @@
 namespace App\Services\Postcode;
 
 // Illuminate
+use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\DB;
 
 // Models
-use App\Models\Role;
 use App\Models\Organisation;
 use App\Models\Postcode;
 
@@ -20,13 +20,13 @@ class PostcodeService
     ];
 
     /** @var int $limit Specify limit for API call. Max is 100. */
-    private int $limit = 2;
+    private int $limit = 100;
 
     /** @var string $url Do not touch. */
     private string $url = 'api.postcodes.io/postcodes';
 
-    /** @var array $postcodeChuncks Array of this input postcode arrays, chuncked by $limit. Do not touch*/
-    private array $postcodeChuncks;
+    /** @var array $postcodeChunks Array of this input postcode arrays, chunked by $limit. Do not touch*/
+    private array $postcodeChunks;
 
     /** @var array|null $postcodeData Response data from API call. Do not touch*/
     private array|null $postcodeData;
@@ -51,14 +51,14 @@ class PostcodeService
      */
     public function storeFromApi(array $postcodes): array
     {
-        // Store chuncked postcodes
-        $this->postcodeChuncks = array_chunk($postcodes, $this->limit);
+        // Store chunked postcodes
+        $this->setPostcodeChunks($postcodes);
 
         // Store database columns
         $this->setColumns();
 
-        // Loop through the chuncks
-        $this->chunckLoop();
+        // Loop through the chunks
+        $this->chunkLoop();
 
         // Return summary
         return [
@@ -66,15 +66,85 @@ class PostcodeService
             'updated' => $this->updated,
         ];
     }
+
+    /**
+     * storeFromApiAutoCreate
+     * 
+     * @return array
+     */
+    public function storeFromApiAutoCreate(): array
+    {
+        // Find postcodes to create
+        $postcodes = $this->getMissingPostcodes();
+
+        // Store chunked postcodes
+        $this->setPostcodeChunks($postcodes);
+
+        // Store database columns
+        $this->setColumns();
+
+        // Set timeout (not using queue yet)
+        $this->setTimeout(300);
+
+        // Loop through the chunks
+        $this->chunkLoop();
+
+        // Return summary
+        return [
+            'created' => $this->created,
+            'updated' => $this->updated,
+        ];
+    }
+
+    /**
+     * storeFromApiAutoUpdate
+     * 
+     * @return array
+     */
+    public function storeFromApiAutoUpdate(): array
+    {
+        // Find postcodes to create
+        $postcodes = $this->getExistingPostcodes();
+
+        // Store chunked postcodes
+        $this->setPostcodeChunks($postcodes);
+
+        // Store database columns
+        $this->setColumns();
+
+        // Set timeout (not using queue yet)
+        $this->setTimeout(300);
+
+        // Loop through the chunks
+        $this->chunkLoop();
+
+        // Return summary
+        return [
+            'created' => $this->created,
+            'updated' => $this->updated,
+        ];
+    }
+
+    /**
+     * setPostcodeChunks
+     *
+     * @param array $postcodes
+     * @return self
+     */
+    private function setPostcodeChunks(array $postcodes): self
+    {
+        $this->postcodeChunks = array_chunk($postcodes, $this->limit);
+        return $this;
+    }
     
     /**
-     * chunckLoop
+     * chunkLoop
      *
      * @return void
      */
-    private function chunckLoop(): void
+    private function chunkLoop(): void
     {
-        foreach ($this->postcodeChuncks as $postcodes) {
+        foreach ($this->postcodeChunks as $postcodes) {
             // Make POST request
             $response = Http::acceptJson()->post($this->url, ['postcodes' => $postcodes]);
 
@@ -88,7 +158,18 @@ class PostcodeService
             $this->storeData($results);
         }
     }
-    
+
+    /**
+     * setTimeout
+     * 
+     * @param int $timeout
+     * @return void
+     */
+    public function setTimeout(int $timeout = 0): void
+    {
+        set_time_limit($timeout);
+    }
+
     /**
      * storeData
      *
@@ -248,5 +329,53 @@ class PostcodeService
         if ($model->wasChanged()) {
             $this->updated ++;
         }
+    }
+    
+    /**
+     * getMissingPostcodes
+     *
+     * @return array
+     */
+    private function getMissingPostcodes(): array
+    {
+        $organisations = Organisation::query()
+            ->select('organisations.post_code')
+            ->whereNotExists(function(Builder $query) {
+                $query->select('p.id')
+                    ->from('postcodes AS p')
+                    ->whereColumn('p.postcode', 'organisations.post_code');
+            })
+            ->where('organisations.post_code', '<>', '')
+            ->orderBy('organisations.post_code')
+            ->distinct()
+            ->get();
+
+        return $organisations
+                ->pluck('post_code')
+                ->toArray();
+    }
+
+    /**
+     * getExistingPostcodes
+     *
+     * @return array
+     */
+    private function getExistingPostcodes(): array
+    {
+        $organisations = Organisation::query()
+            ->select('organisations.post_code')
+            ->whereExists(function(Builder $query) {
+                $query->select('p.id')
+                    ->from('postcodes AS p')
+                    ->whereColumn('p.postcode', 'organisations.post_code');
+            })
+            ->where('organisations.post_code', '<>', '')
+            ->orderBy('organisations.post_code')
+            ->distinct()
+            ->get();
+
+        return $organisations
+                ->pluck('post_code')
+                ->toArray();
     }
 }
