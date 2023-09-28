@@ -2,12 +2,17 @@
 
 namespace App\Services\Organisation;
 
-use Illuminate\Support\Facades\DB;
+// Illuminate
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Eloquent\Builder;
+
+// Models
 use App\Models\Role;
 use App\Models\Organisation;
 use App\Models\Postcode;
+
+// Carbon
 use Carbon\Carbon;
 
 class OrganisationApiService
@@ -52,8 +57,8 @@ class OrganisationApiService
         // Loop through the URLs (max row limit is 1,000)
         $this->looper();
 
-        $this->role->org_last_updated = Carbon::now()->timezone('Europe/London');
-        $this->role->save();
+        // Update org_last_updated field
+        $this->updateOrgLastUpdated();
 
         // Return summary
         return [
@@ -61,15 +66,53 @@ class OrganisationApiService
             'updated' => $this->updated,
         ];
     }
-    
+
     /**
      * updatePostcodeId
      *
+     * @param string|null $roleId
      * @return array
      */
-    public function updatePostcodeId(): array
+    public function updatePostcodeId(string|null $roleId = null): array
     {
-        $selectColumns = [
+        $this->setRole($roleId);
+        $this->updated = $this->upsertData();
+
+        return [
+            'updated' =>  $this->updated,
+        ];
+    }
+
+    /**
+     * upsertData
+     * 
+     * The upsert() function uses "ON DUPLICATE KEY UPDATE". From the MySql docs, it states:
+     *     With ON DUPLICATE KEY UPDATE, the affected-rows value per row is 1 if the 
+     *     row is inserted as a new row, 2 if an existing row is updated, and 0 if 
+     *     an existing row is set to its current values.
+     *
+     * @return int
+     */
+    private function upsertData(): int {
+        $data = $this->getQueryForUpsert()->get()->toArray();
+        $chunkedData = array_chunk($data, 1000);
+        $uniqueFields = ['org_id'];
+        $updateFields = ['postcode_id'];
+        $result = 0;
+        foreach ($chunkedData as $data) {
+            $result += Organisation::upsert($data, $uniqueFields, $updateFields);
+        }
+        return $result / 2;
+    }
+
+    /**
+     * getColumnNameArrayForUpsert
+     *
+     * @return array
+     */
+    private function getColumnNameArrayForUpsert(): array
+    {
+        return [
             'organisations.name',
             'organisations.org_id',
             'organisations.status',
@@ -80,32 +123,27 @@ class OrganisationApiService
             'organisations.primary_role_id',
             'organisations.org_link',
         ];
-        $organisations = Organisation::query()
+    }
+    
+    /**
+     * getQueryForUpsert
+     *
+     * @return Builder
+     */
+    private function getQueryForUpsert(): Builder
+    {
+        $selectColumns = $this->getColumnNameArrayForUpsert();
+
+        $query = Organisation::query()
             ->select($selectColumns)
             ->join('postcodes', 'postcodes.postcode', '=', 'organisations.post_code')
-            ->whereNull('postcode_id')
-            ->take(100) // TODO... chunk into sensible sizes
-            ->get();
+            ->whereNull('postcode_id');
 
-        $data = $organisations->toArray();
-        $uniqueFields = ['org_id'];
-        $updateFields = ['postcode_id'];
+        if ($this->role) {
+            $query->where('primary_role_id', $this->role->id);
+        }
 
-        DB::enableQueryLog();
-
-        $result = Organisation::upsert($data, $uniqueFields, $updateFields);
-
-        // The upsert() function uses "on duplicate key update". From the MySql docs, it states:
-        //      With ON DUPLICATE KEY UPDATE, the affected-rows value per row is 1 if the 
-        //      row is inserted as a new row, 2 if an existing row is updated, and 0 if 
-        //      an existing row is set to its current values. Uncomment code below to check.
-
-        // $query = DB::getQueryLog(); info($query[0]['query']);
-
-        // Since we expect only updates to occur, we can divide the result by 2.
-        return [
-            'updated' => $result / 2,
-        ];
+        return $query;
     }
 
     /**
@@ -113,7 +151,7 @@ class OrganisationApiService
      * 
      * @return void
      */
-    public function looper(): void
+    private function looper(): void
     {
         do {
             $rows = $this->storeData();
@@ -124,12 +162,14 @@ class OrganisationApiService
     /**
      * setRole
      * 
-     * @param string $roleId
+     * @param string|null $roleId
      * @return void
      */
-    public function setRole(string $roleId): void
+    private function setRole(string|null $roleId): void
     {
-        $this->role = Role::where('_id', $roleId)->firstOrFail();
+        if ($roleId) {
+            $this->role = Role::where('_id', $roleId)->firstOrFail();
+        }
     }
 
     /**
@@ -138,7 +178,7 @@ class OrganisationApiService
      * @param int $timeout
      * @return void
      */
-    public function setTimeout(int $timeout = 0): void
+    private function setTimeout(int $timeout = 0): void
     {
         set_time_limit($timeout);
     }
@@ -325,5 +365,18 @@ class OrganisationApiService
     {
         $postcode = Postcode::where('postcode', $search)->first();
         return $postcode ? $postcode->id : null;
+    }
+    
+    /**
+     * updateOrgLastUpdated
+     *
+     * @return void
+     */
+    private function updateOrgLastUpdated(): void
+    {
+        if ($this->role) {
+            $this->role->org_last_updated = Carbon::now()->timezone('Europe/London');
+            $this->role->save();
+        }
     }
 }

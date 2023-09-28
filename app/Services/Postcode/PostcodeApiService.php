@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Schema;
 // Models
 use App\Models\Organisation;
 use App\Models\Postcode;
+use App\Models\Role;
 
 class PostcodeApiService
 {
@@ -33,6 +34,9 @@ class PostcodeApiService
 
     /** @var array $tableColumns Field names from postcodes table. Do not touch*/
     private array $tableColumns;
+
+    /** @var Role|null $role Do not touch*/
+    private Role|null $role;
 
     /** @var int $totalRows counter Do not touch. */
     private int $totalRows = 0;
@@ -70,10 +74,14 @@ class PostcodeApiService
     /**
      * storeFromApiAutoCreate
      * 
+     * @param string|null $roleId
      * @return array
      */
-    public function storeFromApiAutoCreate(): array
+    public function storeFromApiAutoCreate(string|null $roleId = null): array
     {
+        // Set $role using model from DB
+        $this->setRole($roleId);
+
         // Find postcodes to create
         $postcodes = $this->getMissingPostcodes();
 
@@ -156,6 +164,21 @@ class PostcodeApiService
 
             // Store in local DB
             $this->storeData($results);
+        }
+    }
+
+    /**
+     * setRole
+     * 
+     * @param string|null $roleId
+     * @return void
+     */
+    private function setRole(string|null $roleId): void
+    {
+        if ($roleId) {
+            $this->role = Role::where('_id', $roleId)->firstOrFail();
+        } else {
+            $this->role = null;
         }
     }
 
@@ -338,7 +361,7 @@ class PostcodeApiService
      */
     private function getMissingPostcodes(): array
     {
-        $organisations = Organisation::query()
+        $orgQuery = Organisation::query()
             ->select('organisations.post_code')
             ->whereNotExists(function(Builder $query) {
                 $query->select('p.id')
@@ -347,10 +370,14 @@ class PostcodeApiService
             })
             ->where('organisations.post_code', '<>', '')
             ->orderBy('organisations.post_code')
-            ->distinct()
-            ->get();
+            ->distinct();
 
-        return $organisations
+        if ($this->role) {
+            $orgQuery->where('primary_role_id', $this->role->id);
+        }
+
+        return $orgQuery
+                ->get()
                 ->pluck('post_code')
                 ->toArray();
     }

@@ -23,13 +23,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('roles/store_from_api', [RoleController::class, 'storeFromApi']);
 Route::get('roles/rolesList', [RoleController::class, 'allRoles']);
-Route::resource('roles', RoleController::class);
+Route::get('roles', [RoleController::class, 'index']);
 
-Route::get('organisations/update_postcode', [OrganisationController::class, 'updatePostcode']);
+Route::post('organisations/update_postcode', [OrganisationController::class, 'updatePostcode']);
 Route::post('organisations/store_from_api/{roleId}', [OrganisationController::class, 'storeFromApi']);
-Route::resource('organisations', OrganisationController::class);
+Route::get('organisations', [OrganisationController::class, 'index']);
 
 Route::post('postcodes/store_from_api', [PostcodeController::class, 'storeFromApi']);
 Route::post('postcodes/store_from_api_auto_create', [PostcodeController::class, 'storeFromApiAutoCreate']);
 Route::post('postcodes/store_from_api_auto_update', [PostcodeController::class, 'storeFromApiAutoUpdate']);
-Route::resource('postcodes', PostcodeController::class);
+Route::get('postcodes', [PostcodeController::class, 'index']);

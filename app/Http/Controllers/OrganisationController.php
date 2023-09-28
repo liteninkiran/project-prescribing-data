@@ -55,14 +55,14 @@ class OrganisationController extends Controller
     public function storeFromApi(OrganisationApiService $organisationApiService, PostcodeApiService $postcodeApiService, string $roleId): JsonResponse
     {
         $response['organisations'] = $organisationApiService->storeFromApi($roleId);
-        $response['postcodes'] = $postcodeApiService->storeFromApiAutoCreate();
-        $response['org_postcodes'] = $organisationApiService->updatePostcodeId();
+        $response['postcodes'] = $postcodeApiService->storeFromApiAutoCreate($roleId);
+        $response['org_postcodes'] = $organisationApiService->updatePostcodeId($roleId);
         return response()->json($response);
     }
 
     public function updatePostcode(OrganisationApiService $organisationApiService): JsonResponse
     {
-        $response = $organisationApiService->updatePostcodeId();
+        $response = $organisationApiService->updatePostcodeId(request()->input('roleId', null));
         return response()->json($response);
     }
 }
