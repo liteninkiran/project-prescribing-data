@@ -29,12 +29,15 @@ export class RoleFiltersComponent {
     private setFilterForm(): void {
         this.setFilterInputs();
         this.setFilterFormGroup();
+        // Hacky
+        this.calculateFilter(this.filterForm.value);
+        this.filtersChanged.emit(this.filterForm.value);
     }
 
     private setFilterInputs(): void {
         this._idInput = new FormControl(null);
         this.roleNameInput = new FormControl(null);
-        this.primaryRoleInput = new FormControl(null);
+        this.primaryRoleInput = new FormControl('true');
     }
 
     private setFilterFormGroup(): void {
