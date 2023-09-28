@@ -9,13 +9,10 @@ use Illuminate\Http\JsonResponse;
 // Models
 use App\Models\Organisation;
 
-// Requests
-use App\Http\Requests\StoreOrganisationRequest;
-use App\Http\Requests\UpdateOrganisationRequest;
-
 // Services
-use App\Services\Organisation\OrganisationService;
+use App\Services\Organisation\OrganisationApiService;
 use App\Services\Organisation\OrganisationPager;
+use App\Services\Postcode\PostcodeApiService;
 
 class OrganisationController extends Controller
 {
@@ -47,46 +44,25 @@ class OrganisationController extends Controller
         return $pager;
     }
 
-    public function create()
-    {
-        //
-    }
-
-    public function store(StoreOrganisationRequest $request)
-    {
-        //
-    }
-
-    public function show(Organisation $organisation)
-    {
-        //
-    }
-
-    public function edit(Organisation $organisation)
-    {
-        //
-    }
-
-    public function update(UpdateOrganisationRequest $request, Organisation $organisation)
-    {
-        //
-    }
-
-    public function destroy(Organisation $organisation)
-    {
-        //
-    }
-    
     /**
      * storeFromApi
      *
-     * @param OrganisationService $organisationService
+     * @param OrganisationApiService $organisationApiService
+     * @param PostcodeApiService $postcodeApiService
      * @param string $roleId
      * @return JsonResponse
      */
-    public function storeFromApi(OrganisationService $organisationService, string $roleId): JsonResponse
+    public function storeFromApi(OrganisationApiService $organisationApiService, PostcodeApiService $postcodeApiService, string $roleId): JsonResponse
     {
-        $response = $organisationService->storeFromApi($roleId);
+        $response['organisations'] = $organisationApiService->storeFromApi($roleId);
+        $response['postcodes'] = $postcodeApiService->storeFromApiAutoCreate();
+        $response['org_postcodes'] = $organisationApiService->updatePostcodeId();
+        return response()->json($response);
+    }
+
+    public function updatePostcode(OrganisationApiService $organisationApiService): JsonResponse
+    {
+        $response = $organisationApiService->updatePostcodeId();
         return response()->json($response);
     }
 }

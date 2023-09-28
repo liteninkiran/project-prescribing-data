@@ -17,6 +17,7 @@ class Organisation extends Model
         'status',
         'org_record_class',
         'post_code',
+        'postcode_id',
         'last_change_date',
         'primary_role_id',
         'org_link',

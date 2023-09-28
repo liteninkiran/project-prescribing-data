@@ -14,41 +14,11 @@ use App\Http\Requests\StorePostcodeRequest;
 use App\Http\Requests\UpdatePostcodeRequest;
 
 // Services
-use App\Services\Postcode\PostcodeService;
+use App\Services\Postcode\PostcodeApiService;
 
 class PostcodeController extends Controller
 {
     public function index()
-    {
-        //
-    }
-
-    public function create()
-    {
-        //
-    }
-
-    public function store(StorePostcodeRequest $request)
-    {
-        //
-    }
-
-    public function show(Postcode $postcode)
-    {
-        //
-    }
-
-    public function edit(Postcode $postcode)
-    {
-        //
-    }
-
-    public function update(UpdatePostcodeRequest $request, Postcode $postcode)
-    {
-        //
-    }
-
-    public function destroy(Postcode $postcode)
     {
         //
     }
@@ -59,13 +29,13 @@ class PostcodeController extends Controller
         return response()->json($response);
     }
 
-    public function storeFromApiAutoCreate(PostcodeService $postcodeService): JsonResponse
+    public function storeFromApiAutoCreate(PostcodeApiService $postcodeService): JsonResponse
     {
         $response = $postcodeService->storeFromApiAutoCreate();
         return response()->json($response);
     }
 
-    public function storeFromApiAutoUpdate(PostcodeService $postcodeService): JsonResponse
+    public function storeFromApiAutoUpdate(PostcodeApiService $postcodeService): JsonResponse
     {
         $response = $postcodeService->storeFromApiAutoUpdate();
         return response()->json($response);

@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Schema;
 use App\Models\Organisation;
 use App\Models\Postcode;
 
-class PostcodeService
+class PostcodeApiService
 {
     /** @var array $keyCols Columns used to uniquely identify a record */
     private array $keyCols = [

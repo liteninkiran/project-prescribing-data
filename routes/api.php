@@ -25,10 +25,11 @@ Route::post('roles/store_from_api', [RoleController::class, 'storeFromApi']);
 Route::get('roles/rolesList', [RoleController::class, 'allRoles']);
 Route::resource('roles', RoleController::class);
 
+Route::get('organisations/update_postcode', [OrganisationController::class, 'updatePostcode']);
 Route::post('organisations/store_from_api/{roleId}', [OrganisationController::class, 'storeFromApi']);
 Route::resource('organisations', OrganisationController::class);
 
-Route::get('postcodes/store_from_api', [PostcodeController::class, 'storeFromApi']);
-Route::get('postcodes/store_from_api_auto_create', [PostcodeController::class, 'storeFromApiAutoCreate']);
-Route::get('postcodes/store_from_api_auto_update', [PostcodeController::class, 'storeFromApiAutoUpdate']);
+Route::post('postcodes/store_from_api', [PostcodeController::class, 'storeFromApi']);
+Route::post('postcodes/store_from_api_auto_create', [PostcodeController::class, 'storeFromApiAutoCreate']);
+Route::post('postcodes/store_from_api_auto_update', [PostcodeController::class, 'storeFromApiAutoUpdate']);
 Route::resource('postcodes', PostcodeController::class);

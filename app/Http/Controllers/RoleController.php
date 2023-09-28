@@ -44,36 +44,6 @@ class RoleController extends Controller
         );
         return $pager;
     }
-
-    public function create()
-    {
-        //
-    }
-
-    public function store(StoreRoleRequest $request)
-    {
-        //
-    }
-
-    public function show(Role $role)
-    {
-        //
-    }
-
-    public function edit(Role $role)
-    {
-        //
-    }
-
-    public function update(UpdateRoleRequest $request, Role $role)
-    {
-        //
-    }
-
-    public function destroy(Role $role)
-    {
-        //
-    }
     
     /**
      * storeFromApi

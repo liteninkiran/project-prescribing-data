@@ -2,6 +2,7 @@
 
 namespace App\Services\Organisation;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Schema;
 use App\Models\Role;
@@ -9,7 +10,7 @@ use App\Models\Organisation;
 use App\Models\Postcode;
 use Carbon\Carbon;
 
-class OrganisationService
+class OrganisationApiService
 {
     /** @var array $keyCols Columns used to uniquely identify a record */
     private array $keyCols = [
@@ -58,6 +59,52 @@ class OrganisationService
         return [
             'created' => $this->created,
             'updated' => $this->updated,
+        ];
+    }
+    
+    /**
+     * updatePostcodeId
+     *
+     * @return array
+     */
+    public function updatePostcodeId(): array
+    {
+        $selectColumns = [
+            'organisations.name',
+            'organisations.org_id',
+            'organisations.status',
+            'organisations.org_record_class',
+            'organisations.post_code',
+            'postcodes.id AS postcode_id',
+            'organisations.last_change_date',
+            'organisations.primary_role_id',
+            'organisations.org_link',
+        ];
+        $organisations = Organisation::query()
+            ->select($selectColumns)
+            ->join('postcodes', 'postcodes.postcode', '=', 'organisations.post_code')
+            ->whereNull('postcode_id')
+            ->take(100) // TODO... chunk into sensible sizes
+            ->get();
+
+        $data = $organisations->toArray();
+        $uniqueFields = ['org_id'];
+        $updateFields = ['postcode_id'];
+
+        DB::enableQueryLog();
+
+        $result = Organisation::upsert($data, $uniqueFields, $updateFields);
+
+        // The upsert() function uses "on duplicate key update". From the MySql docs, it states:
+        //      With ON DUPLICATE KEY UPDATE, the affected-rows value per row is 1 if the 
+        //      row is inserted as a new row, 2 if an existing row is updated, and 0 if 
+        //      an existing row is set to its current values. Uncomment code below to check.
+
+        // $query = DB::getQueryLog(); info($query[0]['query']);
+
+        // Since we expect only updates to occur, we can divide the result by 2.
+        return [
+            'updated' => $result / 2,
         ];
     }
 
@@ -136,8 +183,7 @@ class OrganisationService
         $attributes = $this->getAttributes($organisation);
         $columns = $this->getColumns();
         $values = $this->getAttributeValues($organisation, $columns);
-        $postcode = Postcode::where('postcode', $values['post_code'])->first();
-        $values['postcode_id'] = $postcode ? $postcode->id : null;
+        $values['postcode_id'] = $this->getPostcodeId($values['post_code']);
         $values['primary_role_id'] = $this->role->id;
         $model = Organisation::firstOrNew($attributes, $values);
         $this->updateModel($model, $values);
@@ -267,5 +313,17 @@ class OrganisationService
         $url .= '&Limit=' . $this->limit;
         $url .= $this->offset > 0 ? '&Offset=' . $this->offset : '';
         return $url;
+    }
+    
+    /**
+     * getPostcodeId
+     *
+     * @param string $search
+     * @return int|null
+     */
+    private function getPostcodeId(string $search): int | null
+    {
+        $postcode = Postcode::where('postcode', $search)->first();
+        return $postcode ? $postcode->id : null;
     }
 }
