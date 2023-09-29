@@ -43,7 +43,20 @@ class OrganisationPager
      */
     private function initialiseQuery(): self
     {
-        $this->query = Organisation::with('primaryRole:id,display_name');
+        $selectColumns = [
+            'name',
+            'org_id',
+            'status',
+            'org_record_class',
+            'post_code',
+            'postcode_id',
+            'last_change_date',
+            'primary_role_id',
+            'org_link',
+        ];
+        $this->query = Organisation::select($selectColumns)
+            ->with('primaryRole:id,display_name')
+            ->with('postcode:id,latitude,longitude');
         return $this;
     }
 
