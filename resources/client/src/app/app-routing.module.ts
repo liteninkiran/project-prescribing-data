@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
+import { OrganisationMapComponent } from './components/organisation/organisation-map/organisation-map.component';
 import { OrganisationViewComponent } from './components/organisation/organisation-view/organisation-view.component';
 import { SamplesComponent } from './components/samples/samples/samples.component';
 import { TableAsyncComponent } from './components/samples/table-async/table-async.component';
@@ -20,6 +21,10 @@ const routes: Routes = [
     {
         path: 'organisations',
         component: OrganisationComponent,
+    },
+    {
+        path: 'organisations-map',
+        component: OrganisationMapComponent,
     },
     {
         path: 'roles',

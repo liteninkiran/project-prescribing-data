@@ -36,7 +36,31 @@ export class OrganisationService {
         );
     }
 
-    public loadDataFromApi(roleId: string = 'RO190'): Observable<any> {
+    public loadMapData(filters: IOrganisationFilters, sortCol = 'name', sortOrder = 'asc', pageNumber = 0, pageSize = 10): Observable<any[]> {
+        // Create required parameters
+        let params: HttpParams = this.getParams(sortCol, sortOrder, pageNumber, pageSize);
+
+        // Add filter parameters
+        params = this.addFilters(filters, params);
+
+        const url = '/api/organisations';
+        const options = { params: params }
+        const callBack = (organisation: any) => ({
+            ...organisation,
+            primary_role_description: organisation.primary_role.display_name,
+            created_at: new Date(organisation.created_at),
+            updated_at: new Date(organisation.updated_at),
+        });
+
+        return this.http.get<IPagedList>(url, options).pipe(
+            map((res: IPagedList) => {
+                this.pager = res;
+                return res.data.map(callBack);
+            })
+        );
+    }
+
+    public loadDataFromApi(roleId: string): Observable<any> {
         const url = `/api/organisations/store_from_api/${roleId}`;
         return this.http.post(url, {});
     }
