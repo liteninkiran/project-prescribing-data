@@ -42,10 +42,11 @@ export class OrganisationFiltersComponent {
     ) { }
 
     public ngOnInit(): void {
+        this.loadRolesData();
         this.setStatusData();
-        this.setFilterForm();
-        this.loadData();
+        this.setFilterFormGroup();
         this.calculateFilter(this.filterForm.value);
+        this.filtersChanged.emit(this.filterForm.value);
     }
 
     public onPostcodeInput(event: Event): void {
@@ -62,13 +63,9 @@ export class OrganisationFiltersComponent {
         }
     }
 
-    private loadData(): void {
+    private loadRolesData(): void {
         this.primaryRoles$ = this.orgStore.getRolesListByType(true);
         this.nonPrimaryRoles$ = this.orgStore.getRolesListByType(false);
-    }
-
-    private setFilterForm(): void {
-        this.setFilterFormGroup();
     }
 
     private setFilterFormGroup(): void {
