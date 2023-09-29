@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { OrganisationApiComponent } from './components/organisation/organisation-api/organisation-api.component';
 import { HomeComponent } from './components/home/home.component';
 import { OrganisationViewComponent } from './components/organisation/organisation-view/organisation-view.component';
 import { SamplesComponent } from './components/samples/samples/samples.component';
@@ -17,10 +16,6 @@ const routes: Routes = [
     {
         path: 'home',
         component: HomeComponent,
-    },
-    {
-        path: 'organisations-api',
-        component: OrganisationApiComponent,
     },
     {
         path: 'organisations',
