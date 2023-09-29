@@ -12,6 +12,8 @@ import { IAsyncButtonInputConfig, ICheckboxMenuItem } from 'src/app/interfaces/s
 })
 export class TableComponent implements OnInit, AfterViewInit, OnChanges {
 
+    @Input() public pageSizeOptions = [5, 10, 20, 50, 100];
+    @Input() public intialPageSize = this.pageSizeOptions[1];
     @Input() public service: any;
     @Input() public dataSource: any;
     @Input() public columnConfig: IColumnConfig[] = [];
@@ -39,8 +41,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
     }
 
     public displayedColumns: string[] = [];
-    public pageSizeOptions = [5, 10, 20, 50, 100];
-    public intialPageSize = this.pageSizeOptions[1];
     public menuItems: ICheckboxMenuItem[] = [];
 
     constructor() { }
