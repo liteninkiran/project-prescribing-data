@@ -3,7 +3,7 @@
 namespace App\Services\Role;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Builder;
 use App\Models\Role;
 
 class RolePager
@@ -53,7 +53,9 @@ class RolePager
      */
     private function initialiseQuery(): self
     {
-        $this->query = Role::withCount('organisations');
+        $this->query = Role::withCount(['organisations' => function (Builder $query) {
+            $query->where('status', 'active');
+        }]);
         return $this;
     }
 
