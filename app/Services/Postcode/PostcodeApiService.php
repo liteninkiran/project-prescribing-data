@@ -302,11 +302,11 @@ class PostcodeApiService
 
         // If that failed, check the codes array
         if (!$value) {
-            // Remove the '_code' suffix from the key
-            $key = substr($key, 0, strlen($key) - 5);
-
-            // Check the codes array
-            $value = $this->getAttributeValueCheck($this->postcodeData['codes'], $key);
+            // Remove the '_code' suffix from the key and re-check
+            if(substr($key, strlen($key) - 5, 5) === '_code') {
+                $key = substr($key, 0, strlen($key) - 5);
+                $value = $this->getAttributeValueCheck($this->postcodeData['codes'], $key);
+            }
         }
 
         return $value;
@@ -321,17 +321,9 @@ class PostcodeApiService
      */
     private function getAttributeValueCheck(array $array, string $key): mixed
     {
-        // Initialise return value
-        $value = null;
-
-        // Store value from array if the key exists
-        if (array_key_exists($key, $array)) {
-            $value = $array[$key];
-        }
-
-        return $value;
+        return array_key_exists($key, $array) ? $array[$key] : null;
     }
-    
+
     /**
      * updateModel
      *

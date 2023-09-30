@@ -49,6 +49,15 @@ class Postcode extends Model
         'pfa_code',
         'primary_care_trust',
         'region',
+        'admin_county_id',
+        'admin_district_id',
+        'european_electoral_region_id',
+        'nhs_ha_id',
+        'nuts_id',
+        'parliamentary_constituency_id',
+        'pfa_id',
+        'primary_care_trust_id',
+        'region_id',
     ];
 
 
@@ -62,5 +71,95 @@ class Postcode extends Model
     public function organisations(): HasMany
     {
         return $this->hasMany(Organisation::class, 'postcode_id', 'id');
+    }
+
+    /**
+     * adminCounty
+     *
+     * @return BelongsTo
+     */
+    public function adminCounty(): BelongsTo
+    {
+        return $this->belongsTo(AdminCounty::class, 'admin_county_id', 'id');
+    }
+
+    /**
+     * adminDistrict
+     *
+     * @return BelongsTo
+     */
+    public function adminDistrict(): BelongsTo
+    {
+        return $this->belongsTo(AdminDistrict::class, 'admin_district_id', 'id');
+    }
+
+    /**
+     * europeanElectoralRegion
+     *
+     * @return BelongsTo
+     */
+    public function europeanElectoralRegion(): BelongsTo
+    {
+        return $this->belongsTo(EuropeanElectoralRegion::class, 'european_electoral_region_id', 'id');
+    }
+
+    /**
+     * healthAuthority
+     *
+     * @return BelongsTo
+     */
+    public function healthAuthority(): BelongsTo
+    {
+        return $this->belongsTo(HealthAuthority::class, 'nhs_ha_id', 'id');
+    }
+
+    /**
+     * nuts
+     *
+     * @return BelongsTo
+     */
+    public function nuts(): BelongsTo
+    {
+        return $this->belongsTo(Nuts::class, 'nuts_id', 'id');
+    }
+
+    /**
+     * parliamentaryConstituency
+     *
+     * @return BelongsTo
+     */
+    public function parliamentaryConstituency(): BelongsTo
+    {
+        return $this->belongsTo(ParliamentaryConstituency::class, 'parliamentary_constituency_id', 'id');
+    }
+
+    /**
+     * policeForceArea
+     *
+     * @return BelongsTo
+     */
+    public function policeForceArea(): BelongsTo
+    {
+        return $this->belongsTo(PoliceForceArea::class, 'pfa_id', 'id');
+    }
+
+    /**
+     * primaryCareTrust
+     *
+     * @return BelongsTo
+     */
+    public function primaryCareTrust(): BelongsTo
+    {
+        return $this->belongsTo(PrimaryCareTrust::class, 'primary_care_trust_id', 'id');
+    }
+
+    /**
+     * region
+     *
+     * @return BelongsTo
+     */
+    public function region(): BelongsTo
+    {
+        return $this->belongsTo(Region::class, 'region_id', 'id');
     }
 }

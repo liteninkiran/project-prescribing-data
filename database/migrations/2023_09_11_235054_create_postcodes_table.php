@@ -1,8 +1,20 @@
 <?php
 
+// Illuminate
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+
+// Models
+Use App\Models\AdminCounty;
+Use App\Models\AdminDistrict;
+Use App\Models\EuropeanElectoralRegion;
+Use App\Models\HealthAuthority;
+Use App\Models\Nuts;
+Use App\Models\ParliamentaryConstituency;
+Use App\Models\PoliceForceArea;
+Use App\Models\PrimaryCareTrust;
+Use App\Models\Region;
 
 return new class extends Migration
 {
@@ -51,6 +63,17 @@ return new class extends Migration
             $table->string ('pfa_code'                       )->nullable();
             $table->string ('primary_care_trust'             )->nullable();
             $table->string ('region'                         )->nullable();
+
+            $table->foreignIdFor(AdminCounty::class                 , 'admin_county_id'                 )->nullable()->constrained('admin_counties');
+            $table->foreignIdFor(AdminDistrict::class               , 'admin_district_id'               )->nullable()->constrained('admin_districts');
+            $table->foreignIdFor(EuropeanElectoralRegion::class     , 'european_electoral_region_id'    )->nullable()->constrained('european_electoral_regions');
+            $table->foreignIdFor(HealthAuthority::class             , 'nhs_ha_id'                       )->nullable()->constrained('health_authorities');
+            $table->foreignIdFor(Nuts::class                        , 'nuts_id'                         )->nullable()->constrained('nuts');
+            $table->foreignIdFor(ParliamentaryConstituency::class   , 'parliamentary_constituency_id'   )->nullable()->constrained('parliamentary_constituencies');
+            $table->foreignIdFor(PoliceForceArea::class             , 'pfa_id'                          )->nullable()->constrained('police_force_areas');
+            $table->foreignIdFor(PrimaryCareTrust::class            , 'primary_care_trust_id'           )->nullable()->constrained('primary_care_trusts');
+            $table->foreignIdFor(Region::class                      , 'region_id'                       )->nullable()->constrained('regions');
+
             $table->timestamps();
         });
     }
