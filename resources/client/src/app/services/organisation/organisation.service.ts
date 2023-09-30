@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { IOrganisation, IOrganisationFilters } from 'src/app/interfaces/organisation.interface';
+import { IOrganisation, IOrganisationFilters, IOrganisationMapResponse } from 'src/app/interfaces/organisation.interface';
 import { IPagedList } from 'src/app/interfaces/shared.interface';
 import * as moment from 'moment';
 
@@ -37,7 +37,7 @@ export class OrganisationService {
         );
     }
 
-    public loadMapData(filters: IOrganisationFilters, sortCol = 'name', sortOrder = 'asc', pageNumber = 0, pageSize = 10): Observable<IOrganisation[]> {
+    public loadMapData(filters: IOrganisationFilters, sortCol = 'name', sortOrder = 'asc', pageNumber = 0, pageSize = 10): Observable<IOrganisationMapResponse> {
         // Create required parameters
         let params: HttpParams = this.getParams(sortCol, sortOrder, pageNumber, pageSize);
 
@@ -52,9 +52,9 @@ export class OrganisationService {
             updated_at: new Date(organisation.updated_at),
         });
 
-        return this.http.get<IOrganisation[]>(url, options).pipe(
-            map((res: IOrganisation[]) => {
-                return res.map(callBack);
+        return this.http.get<IOrganisationMapResponse>(url, options).pipe(
+            map((res: IOrganisationMapResponse) => {
+                return { data: res.data.map(callBack), limit_exceeded: res.limit_exceeded};
             })
         );
     }

@@ -62,7 +62,7 @@ class OrganisationController extends Controller
     public function getMapData(OrganisationMapService $organisationMapService): JsonResponse
     {
         $filters = $this->getFiltersArray();
-        $response = $organisationMapService->getMapData();
+        $response = $organisationMapService->getMapData($filters);
         return response()->json($response);
     }
 

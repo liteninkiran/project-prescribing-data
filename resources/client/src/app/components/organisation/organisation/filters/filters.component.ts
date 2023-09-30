@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable, debounceTime, distinctUntilChanged, tap } from 'rxjs';
 import { IOrganisationFilterFormGroup, IOrganisationFilters, IOrganisationStatus } from 'src/app/interfaces/organisation.interface';
@@ -12,6 +12,8 @@ import { OrganisationStore } from 'src/app/services/organisation/organisation.st
     styleUrls: ['./filters.component.scss'],
 })
 export class OrganisationFiltersComponent {
+
+    @Input() public message: string = '';
 
     @Output() public filtersChanged = new EventEmitter<IOrganisationFilters>();
 

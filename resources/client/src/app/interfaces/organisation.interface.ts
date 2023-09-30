@@ -47,3 +47,8 @@ export interface IOrganisationStatus {
     id: string;
     displayName: string;
 };
+
+export interface IOrganisationMapResponse {
+    data: IOrganisation[],
+    limit_exceeded: boolean,
+}

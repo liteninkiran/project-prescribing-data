@@ -21,6 +21,10 @@
                         {{ filterText }}
                     </span>
 
+                    <span *ngIf="message" class="message">
+                        {{ message }}
+                    </span>
+                    
                 </mat-panel-description>
 
             </mat-expansion-panel-header>

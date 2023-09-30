@@ -1,6 +1,6 @@
 <!-- Filters -->
 <div class="filters">
-    <app-organisation-filters (filtersChanged)="updateFilters($event)"></app-organisation-filters>
+    <app-organisation-filters [message]="message" (filtersChanged)="updateFilters($event)"></app-organisation-filters>
 </div>
 
 <div>

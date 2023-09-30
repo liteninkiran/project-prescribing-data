@@ -1,23 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { IOrganisation, IOrganisationFilters } from 'src/app/interfaces/organisation.interface';
+import { IOrganisation, IOrganisationFilters, IOrganisationMapResponse } from 'src/app/interfaces/organisation.interface';
 import { OrganisationService } from 'src/app/services/organisation/organisation.service';
 import { icon, Marker } from 'leaflet';
 import { Observable } from 'rxjs';
 import * as L from 'leaflet';
-
-const blackIcon = L.icon({
-    iconUrl     : 'assets/map-marker.svg',
-    iconSize    : [40, 40], // size of the icon
-    iconAnchor  : [20, 40], // point of the icon which will correspond to marker's location
-    popupAnchor : [0, -40] // point from which the popup should open relative to the iconAnchor
-});
-
-const redIcon = L.icon({
-    iconUrl     : 'assets/map-marker-red.svg',
-    iconSize    : [40, 40], // size of the icon
-    iconAnchor  : [20, 40], // point of the icon which will correspond to marker's location
-    popupAnchor : [0, -40] // point from which the popup should open relative to the iconAnchor
-});
 
 @Component({
     selector: 'app-organisation-map',
@@ -27,55 +13,80 @@ const redIcon = L.icon({
 })
 export class OrganisationMapComponent implements OnInit {
     public filters: IOrganisationFilters = {} as IOrganisationFilters;
-    public data$!: Observable<IOrganisation[]>;
+    public data$!: Observable<IOrganisationMapResponse>;
     public data!: IOrganisation[];
+    public message: string = '';
 
     // Map
     private map!: L.Map;
-    private tiles!: L.TileLayer;
-
+    private featureGroup!: L.FeatureGroup<any>;
 
     constructor(
         readonly orgService: OrganisationService,
     ) { }
 
     public ngOnInit(): void {
+        this.initialiseMap();
+        this.loadData();
+    }
+
+    public loadData() {
         this.data$ = this.orgService.loadMapData(this.filters);
-        this.data$.subscribe((res: IOrganisation[]) => {
-            this.data = res;
-            this.setupMap();
+        this.data$.subscribe((res: IOrganisationMapResponse) => {
+            this.data = res.data;
+            this.message = 'Showing ' + this.data.length + ' items' + (res.limit_exceeded ? '. Limit exceeded. Please restrict your query using the filters.' : '');
+            this.clearMarkers();
+            this.addMarkersToMap();
         });
     }
 
     public updateFilters(filters: any): void {
         this.filters = filters;
+        this.loadData();
     }
 
-    private setupMap() {
+    private initialiseMap() {
         this.fixLeafletBug();
-        this.setMapObjects();
+        this.setMap();
     }
 
-    private setMapObjects() {
-            // Co-ordinates
-            const centreCoords: L.LatLngExpression = [55, -1];
-            const initialZoom = 6;
-            const map = L.map('map').setView(centreCoords, initialZoom);
-            const tileOptions = {
-                minZoom: 1,
-                maxZoom: 16,
-                ext: 'jpg',
+    private setMap() {
+        const centreCoords: L.LatLngExpression = [55, -1];
+        const initialZoom = 6;
+        const url = 'https://tiles.stadiamaps.com/tiles/stamen_watercolor/{z}/{x}/{y}.{ext}';
+        const tileOptions = {
+            minZoom: 1,
+            maxZoom: 16,
+            ext: 'jpg',
+        }
+        this.map = L.map('map').setView(centreCoords, initialZoom);
+        L.tileLayer(url, tileOptions).addTo(this.map);
+    }
+
+    private addMarkersToMap() {
+        const markers: L.Marker[] = [];
+
+        this.data.map((org: IOrganisation) => {
+            if (org.postcode?.latitude && org.postcode.longitude) {
+                const markerCoords: L.LatLngExpression = [org.postcode.latitude, org.postcode.longitude];
+                const marker = L.marker(markerCoords);
+                markers.push(marker);
             }
-            const url = 'https://tiles.stadiamaps.com/tiles/stamen_watercolor/{z}/{x}/{y}.{ext}';
-            const tiles = L.tileLayer(url, tileOptions).addTo(map);
-            this.data.map((org: IOrganisation) => {
-                if (org.postcode?.latitude && org.postcode.longitude) {
-                    const markerCoords: L.LatLngExpression = [org.postcode.latitude, org.postcode.longitude];
-                    const marker = L.marker(markerCoords).addTo(map);
-                }
-            });
-            // const onMapClick = (e: any) => map.setView(centreCoords, initialZoom);
-            // map.on('click', onMapClick);
+        });
+
+        this.featureGroup = L.featureGroup([ ...markers ]).addTo(this.map);
+        this.map.fitBounds(this.featureGroup.getBounds(), { padding: [40, 40] });
+
+
+
+        // const onMapClick = (e: any) => map.setView(centreCoords, initialZoom);
+        // map.on('click', onMapClick);
+    }
+
+    public clearMarkers() {
+        if (this.featureGroup && this.map.hasLayer(this.featureGroup)) {
+            this.map.removeLayer(this.featureGroup);
+        }
     }
 
     private fixLeafletBug() {
