@@ -53,11 +53,11 @@ export class OrganisationMapComponent implements OnInit {
     private setMap() {
         const centreCoords: L.LatLngExpression = [55, -1];
         const initialZoom = 6;
-        const url = 'https://tiles.stadiamaps.com/tiles/stamen_watercolor/{z}/{x}/{y}.{ext}';
+        const url = 'https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.{ext}';
         const tileOptions = {
-            minZoom: 1,
-            maxZoom: 16,
-            ext: 'jpg',
+            minZoom: 0,
+            maxZoom: 20,
+            ext: 'png',
         }
         this.map = L.map('map').setView(centreCoords, initialZoom);
         L.tileLayer(url, tileOptions).addTo(this.map);
@@ -68,19 +68,19 @@ export class OrganisationMapComponent implements OnInit {
 
         this.data.map((org: IOrganisation) => {
             if (org.postcode?.latitude && org.postcode.longitude) {
+                const markerMessage = `
+                    <h3>${org.org_id}</h3>
+                    <p>${org.primary_role.display_name}</p>
+                    <p>${org.name}</p>
+                `;
                 const markerCoords: L.LatLngExpression = [org.postcode.latitude, org.postcode.longitude];
-                const marker = L.marker(markerCoords);
+                const marker = L.marker(markerCoords).bindPopup(markerMessage);;
                 markers.push(marker);
             }
         });
 
         this.featureGroup = L.featureGroup([ ...markers ]).addTo(this.map);
         this.map.fitBounds(this.featureGroup.getBounds(), { padding: [40, 40] });
-
-
-
-        // const onMapClick = (e: any) => map.setView(centreCoords, initialZoom);
-        // map.on('click', onMapClick);
     }
 
     public clearMarkers() {
