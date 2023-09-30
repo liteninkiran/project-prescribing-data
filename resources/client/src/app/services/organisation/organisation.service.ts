@@ -32,10 +32,7 @@ export class OrganisationService {
             map((res: IPagedList) => {
                 this.pager = res;
                 const orgs: IOrganisation[] = res.data;
-                const orgsNew = orgs.map(callBack);
-                console.log(orgs);
-                console.log(orgsNew);
-                return orgsNew;
+                return orgs.map(callBack);
             })
         );
     }
