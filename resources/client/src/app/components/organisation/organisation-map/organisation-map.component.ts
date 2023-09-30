@@ -3,13 +3,14 @@ import { IOrganisation, IOrganisationFilters, IOrganisationMapResponse } from 's
 import { OrganisationService } from 'src/app/services/organisation/organisation.service';
 import { icon, Marker } from 'leaflet';
 import { Observable } from 'rxjs';
+import { DecimalPipe } from '@angular/common';
 import * as L from 'leaflet';
 
 @Component({
     selector: 'app-organisation-map',
     templateUrl: './organisation-map.component.html',
     styleUrls: ['./organisation-map.component.scss'],
-    providers: [OrganisationService],
+    providers: [OrganisationService, DecimalPipe],
 })
 export class OrganisationMapComponent implements OnInit {
     public filters: IOrganisationFilters = {} as IOrganisationFilters;
@@ -23,18 +24,18 @@ export class OrganisationMapComponent implements OnInit {
 
     constructor(
         readonly orgService: OrganisationService,
+        private _decimalPipe: DecimalPipe,
     ) { }
 
     public ngOnInit(): void {
         this.initialiseMap();
-        this.loadData();
     }
 
     public loadData() {
         this.data$ = this.orgService.loadMapData(this.filters);
         this.data$.subscribe((res: IOrganisationMapResponse) => {
             this.data = res.data;
-            this.message = 'Showing ' + this.data.length + ' items' + (res.limit_exceeded ? '. Limit exceeded. Please restrict your query using the filters.' : '');
+            this.setFilterMessage(res.total, res.limit, res.limit_exceeded);
             this.clearMarkers();
             this.addMarkersToMap();
         });
@@ -104,5 +105,16 @@ export class OrganisationMapComponent implements OnInit {
             shadowSize: [41, 41],
         });
         Marker.prototype.options.icon = iconDefault;
+    }
+
+    private setFilterMessage(total: number, limit: number, limit_exceeded: boolean): void {
+        const totalStr = this._decimalPipe.transform(total, '1.0-0');
+        const limitStr = this._decimalPipe.transform(limit, '1.0-0');
+        const warning = '<strong>Please restrict your query using the filters</strong>';
+        if (limit_exceeded) {
+            this.message = 'Showing ' + limitStr + ' of ' + totalStr + ' items ' + warning;
+        } else {
+            this.message = 'Showing ' + totalStr + ' items';
+        }
     }
 }

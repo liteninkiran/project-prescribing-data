@@ -6,6 +6,7 @@ import { ArrayConcatPipe } from '../pipes/array-concat.pipe';
 import { ArrayFilterPipe } from '../pipes/array-filter.pipe';
 import { DateAgoPipe } from '../pipes/date-ago.pipe';
 import { FormatValuePipe } from '../pipes/format-value.pipe';
+import { SafeHtmlPipe } from '../pipes/safe-html.pipe';
 
 @NgModule({
     imports: [
@@ -17,6 +18,7 @@ import { FormatValuePipe } from '../pipes/format-value.pipe';
         ArrayFilterPipe,
         FormatValuePipe,
         DateAgoPipe,
+        SafeHtmlPipe,
     ],
     exports: [
         ArrayConcatPipe,
@@ -24,6 +26,7 @@ import { FormatValuePipe } from '../pipes/format-value.pipe';
         ArrayFilterPipe,
         FormatValuePipe,
         DateAgoPipe,
+        SafeHtmlPipe,
     ],
 })
 export class PipeModule { }

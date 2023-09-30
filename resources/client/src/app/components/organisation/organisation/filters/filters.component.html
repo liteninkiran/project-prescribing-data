@@ -21,10 +21,9 @@
                         {{ filterText }}
                     </span>
 
-                    <span *ngIf="message" class="message">
-                        {{ message }}
-                    </span>
-                    
+                    <!-- Message to be shown on the panel -->
+                    <span *ngIf="message" class="message" [innerHtml]="message | safeHtml"></span>
+
                 </mat-panel-description>
 
             </mat-expansion-panel-header>

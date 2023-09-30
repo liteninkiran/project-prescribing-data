@@ -31,9 +31,12 @@ class OrganisationMapService
     public function getMapData(array $filters = []): array
     {
         $this->initialiseQuery()->addFilters($filters);
-        $results = $this->query->get()->toArray();
+        $total = $this->query->count();
+        $results = $this->query->take($this->limit)->get()->toArray();
         return [
             'data' => $results,
+            'total' => $total,
+            'limit' => $this->limit,
             'limit_exceeded' => count($results) === $this->limit,
         ];
     }
@@ -62,7 +65,6 @@ class OrganisationMapService
                 $q->whereNotNull('latitude');
                 $q->whereNotNull('longitude');
             })
-            ->take($this->limit)
             ->orderBy('org_id');
 
         return $this;

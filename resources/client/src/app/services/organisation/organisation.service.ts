@@ -54,7 +54,7 @@ export class OrganisationService {
 
         return this.http.get<IOrganisationMapResponse>(url, options).pipe(
             map((res: IOrganisationMapResponse) => {
-                return { data: res.data.map(callBack), limit_exceeded: res.limit_exceeded};
+                return { ...res, data: res.data.map(callBack) };
             })
         );
     }

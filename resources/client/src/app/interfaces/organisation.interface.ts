@@ -1,4 +1,4 @@
-import { FormControl } from "@angular/forms";
+import { FormControl } from '@angular/forms';
 import { IPrimaryRole } from "./role.interface";
 
 export interface IOrganisation {
@@ -18,9 +18,9 @@ export interface IOrganisation {
 };
 
 export interface IOrgPostcode {
-    id: number,
-    latitude: number,
-    longitude: number,
+    id: number;
+    latitude: number;
+    longitude: number;
 }
 
 export interface IOrganisationFilters {
@@ -49,6 +49,8 @@ export interface IOrganisationStatus {
 };
 
 export interface IOrganisationMapResponse {
-    data: IOrganisation[],
-    limit_exceeded: boolean,
+    data: IOrganisation[];
+    total: number;
+    limit: number;
+    limit_exceeded: boolean;
 }
