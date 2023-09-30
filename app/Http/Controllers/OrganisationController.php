@@ -11,6 +11,7 @@ use App\Models\Organisation;
 
 // Services
 use App\Services\Organisation\OrganisationApiService;
+use App\Services\Organisation\OrganisationMapService;
 use App\Services\Organisation\OrganisationPager;
 use App\Services\Postcode\PostcodeApiService;
 
@@ -25,15 +26,7 @@ class OrganisationController extends Controller
      */
     public function index(OrganisationPager $organisationPager): LengthAwarePaginator
     {
-        $filters = [
-            'org_id'            => request()->input('org_id', null),
-            'name'              => request()->input('name', null),
-            'postcode'          => request()->input('postcode', null),
-            'primary_roles'     => request()->input('primary_roles', null),
-            'non_primary_roles' => request()->input('non_primary_roles', null),
-            'last_change_date'  => request()->input('last_change_date', null),
-            'status'            => request()->input('status', null),
-        ];
+        $filters = $this->getFiltersArray();
         $pager = $organisationPager->getPaginatedOrganisations(
             $filters,
             request()->input('sortCol', 'id'),
@@ -64,5 +57,25 @@ class OrganisationController extends Controller
     {
         $response = $organisationApiService->updatePostcodeId(request()->input('roleId', null));
         return response()->json($response);
+    }
+
+    public function getMapData(OrganisationMapService $organisationMapService): JsonResponse
+    {
+        $filters = $this->getFiltersArray();
+        $response = $organisationMapService->getMapData();
+        return response()->json($response);
+    }
+
+    public function getFiltersArray(): array
+    {
+        return [
+            'org_id'            => request()->input('org_id', null),
+            'name'              => request()->input('name', null),
+            'postcode'          => request()->input('postcode', null),
+            'primary_roles'     => request()->input('primary_roles', null),
+            'non_primary_roles' => request()->input('non_primary_roles', null),
+            'last_change_date'  => request()->input('last_change_date', null),
+            'status'            => request()->input('status', null),
+        ];
     }
 }

@@ -12,6 +12,8 @@ export interface IOrganisation {
     primary_role_id: number;
     primary_role: IPrimaryRole;
     status: string;
+    latitude?: number | null;
+    longitude?: number | null;
     created_at: Date;
     updated_at: Date;
 };

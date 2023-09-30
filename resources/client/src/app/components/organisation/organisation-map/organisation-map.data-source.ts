@@ -5,7 +5,7 @@ import { OrganisationService } from '../../../services/organisation/organisation
 
 export class OrganisationMapDataSource implements DataSource<IOrganisation> {
 
-    private organisationSubject = new BehaviorSubject<IOrganisation[]>([]);
+    public organisationsSubject = new BehaviorSubject<IOrganisation[]>([]);
     private loadingSubject = new BehaviorSubject<boolean>(false);
 
     public loading$ = this.loadingSubject.asObservable();
@@ -13,11 +13,11 @@ export class OrganisationMapDataSource implements DataSource<IOrganisation> {
     constructor(private organisationService: OrganisationService) {}
 
     public connect(collectionViewer: CollectionViewer): Observable<IOrganisation[]> {
-        return this.organisationSubject.asObservable();
+        return this.organisationsSubject.asObservable();
     }
 
     public disconnect(collectionViewer: CollectionViewer): void {
-        this.organisationSubject.complete();
+        this.organisationsSubject.complete();
         this.loadingSubject.complete();
     }
 
@@ -28,6 +28,9 @@ export class OrganisationMapDataSource implements DataSource<IOrganisation> {
                 catchError(() => of([])),
                 finalize(() => this.loadingSubject.next(false))
             )
-            .subscribe(organisation => this.organisationSubject.next(organisation));
+            .subscribe(organisations => {
+                //console.log(organisations);
+                return this.organisationsSubject.next(organisations);
+            });
     }
 }

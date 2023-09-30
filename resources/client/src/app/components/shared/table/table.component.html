@@ -39,7 +39,10 @@
             <!-- Column Definitions -->
             <ng-container [matColumnDef]="item.columnId" *ngFor="let item of columnConfig">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ item.columnName }}</th>
-                <td mat-cell *matCellDef="let cell">{{ cell[item.columnId] | FormatValue }}</td>
+                <td mat-cell *matCellDef="let cell">
+                    <span *ngIf="item.property">{{ cell[item.columnId][item.property] | FormatValue }}</span> 
+                    <span *ngIf="!item.property">{{ cell[item.columnId] | FormatValue }}</span> 
+                </td>
             </ng-container>
 
             <!-- Action Button -->

@@ -44,6 +44,7 @@ class OrganisationPager
     private function initialiseQuery(): self
     {
         $selectColumns = [
+            'id',
             'name',
             'org_id',
             'status',
@@ -53,6 +54,8 @@ class OrganisationPager
             'last_change_date',
             'primary_role_id',
             'org_link',
+            'created_at',
+            'updated_at',
         ];
         $this->query = Organisation::select($selectColumns)
             ->with('primaryRole:id,display_name')

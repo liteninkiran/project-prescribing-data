@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { IOrganisationFilters } from 'src/app/interfaces/organisation.interface';
+import { IOrganisation, IOrganisationFilters } from 'src/app/interfaces/organisation.interface';
 import { IPagedList } from 'src/app/interfaces/shared.interface';
 import * as moment from 'moment';
 
@@ -12,7 +12,7 @@ export class OrganisationService {
 
     constructor(private http: HttpClient) {}
 
-    public loadData(filters: IOrganisationFilters, sortCol = 'name', sortOrder = 'asc', pageNumber = 0, pageSize = 10): Observable<any[]> {
+    public loadData(filters: IOrganisationFilters, sortCol = 'name', sortOrder = 'asc', pageNumber = 0, pageSize = 10): Observable<IOrganisation[]> {
         // Create required parameters
         let params: HttpParams = this.getParams(sortCol, sortOrder, pageNumber, pageSize);
 
@@ -21,9 +21,9 @@ export class OrganisationService {
 
         const url = '/api/organisations';
         const options = { params: params }
-        const callBack = (organisation: any) => ({
+        const callBack = (organisation: IOrganisation) => ({
             ...organisation,
-            primary_role_description: organisation.primary_role.display_name,
+            last_change_date: new Date(organisation.last_change_date),
             created_at: new Date(organisation.created_at),
             updated_at: new Date(organisation.updated_at),
         });
@@ -31,31 +31,33 @@ export class OrganisationService {
         return this.http.get<IPagedList>(url, options).pipe(
             map((res: IPagedList) => {
                 this.pager = res;
-                return res.data.map(callBack);
+                const orgs: IOrganisation[] = res.data;
+                const orgsNew = orgs.map(callBack);
+                console.log(orgs);
+                console.log(orgsNew);
+                return orgsNew;
             })
         );
     }
 
-    public loadMapData(filters: IOrganisationFilters, sortCol = 'name', sortOrder = 'asc', pageNumber = 0, pageSize = 10): Observable<any[]> {
+    public loadMapData(filters: IOrganisationFilters, sortCol = 'name', sortOrder = 'asc', pageNumber = 0, pageSize = 10): Observable<IOrganisation[]> {
         // Create required parameters
         let params: HttpParams = this.getParams(sortCol, sortOrder, pageNumber, pageSize);
 
         // Add filter parameters
         params = this.addFilters(filters, params);
 
-        const url = '/api/organisations';
+        const url = '/api/organisations-map';
         const options = { params: params }
-        const callBack = (organisation: any) => ({
+        const callBack = (organisation: IOrganisation) => ({
             ...organisation,
-            primary_role_description: organisation.primary_role.display_name,
             created_at: new Date(organisation.created_at),
             updated_at: new Date(organisation.updated_at),
         });
 
-        return this.http.get<IPagedList>(url, options).pipe(
-            map((res: IPagedList) => {
-                this.pager = res;
-                return res.data.map(callBack);
+        return this.http.get<IOrganisation[]>(url, options).pipe(
+            map((res: IOrganisation[]) => {
+                return res.map(callBack);
             })
         );
     }

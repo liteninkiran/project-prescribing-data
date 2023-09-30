@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { IOrganisationFilters } from 'src/app/interfaces/organisation.interface';
-import { OrganisationMapDataSource } from './organisation-map.data-source';
+import { IOrganisation, IOrganisationFilters } from 'src/app/interfaces/organisation.interface';
 import { OrganisationService } from 'src/app/services/organisation/organisation.service';
 import { icon, Marker } from 'leaflet';
-import * as turf from '@turf/turf';
+import { Observable } from 'rxjs';
 import * as L from 'leaflet';
 
 const blackIcon = L.icon({
@@ -28,64 +27,25 @@ const redIcon = L.icon({
 })
 export class OrganisationMapComponent implements OnInit {
     public filters: IOrganisationFilters = {} as IOrganisationFilters;
-    public dataSource!: OrganisationMapDataSource;
-
-    // User location
-    private getUserLocation = async (): Promise<GeolocationPosition> => {
-        return new Promise((res, rej) => {
-            navigator.geolocation.getCurrentPosition(res, rej);
-        });
-    };
-    private userLocation!: GeolocationPosition;
+    public data$!: Observable<IOrganisation[]>;
 
     // Map
     private map!: L.Map;
     private tiles!: L.TileLayer;
-    private urlTemplate: string = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
-    private tileLayerOptions: L.TileLayerOptions = {
-        maxZoom: 20,
-        attribution: '...',
-    };
-    private zoom = 12;
-    private centre = [50.794257, -1.066010];
-    private centreCoords!: L.LatLngExpression;
-    private otherCoords!: L.LatLngExpression[];
-    private featureGroup!: L.FeatureGroup<any>;
+
 
     constructor(
         readonly orgService: OrganisationService,
     ) { }
 
     public ngOnInit(): void {
-        this.dataSource = new OrganisationMapDataSource(this.orgService);
-        this.dataSource.loadMapData(this.filters);
-
-        this.setLocation();
-        this.setCordinates(this.centre[0], this.centre[1]);
+        this.data$ = this.orgService.loadMapData(this.filters);
+        this.data$.subscribe(console.log);
         this.setupMap();
     }
 
     public updateFilters(filters: any): void {
         this.filters = filters;
-    }
-
-    private async setLocation(setMap = false): Promise<void> {
-        if (!this.userLocation) {
-            this.userLocation = await this.getUserLocation();
-            if (setMap) {
-                this.setCordinates(this.userLocation.coords.latitude, this.userLocation.coords.longitude);
-                this.setupMap();
-            }
-        }
-    }
-
-    private setCordinates(lat: number, long: number) {
-        this.centreCoords = [lat, long];
-        this.otherCoords = [
-            this.centreCoords,
-            [lat + 0.005, long + 0.008],
-            [51, -1],
-        ];
     }
 
     private setupMap() {
@@ -94,53 +54,25 @@ export class OrganisationMapComponent implements OnInit {
     }
 
     private setMapObjects() {
-        this.map = L.map('map', { zoomSnap: 0.1 }).setView(this.centreCoords, this.zoom);
-        this.tiles = L.tileLayer(this.urlTemplate, this.tileLayerOptions).addTo(this.map);
-
-        const markers: L.Marker[] = [];
-
-        this.otherCoords.forEach((coords: L.LatLngExpression) => {
-            const marker: L.Marker = L
-                .marker(coords, { icon: blackIcon });
-                // .on('mousemove', (e: L.LeafletMouseEvent) => {
-                //     const m: L.Marker = e.target;
-                //     m.setIcon(redIcon);
-                // })
-                // .on('mouseout', (e: L.LeafletMouseEvent) => {
-                //     const m: L.Marker = e.target;
-                //     m.setIcon(blackIcon);
-                // });
-            markers.push(marker);
-        });
-
-        this.featureGroup = L
-            .featureGroup([...markers])
-            .addTo(this.map);
-            // .on('mousemove', (e: L.LeafletMouseEvent) => {
-            //     const m: L.Marker = e.propagatedFrom;
-            //     m.setIcon(redIcon);
-            // });
-
-        this.map.fitBounds(this.featureGroup.getBounds(), { padding: [40, 40] });
-
-        const options: {
-            units?: turf.Units;
-        } = {
-            units: 'miles'
-        };
-
-        this.map.on('mousemove', (e: L.LeafletMouseEvent) => {
-            const from = turf.point([e.latlng.lat, e.latlng.lng]);
-            markers.forEach((marker: L.Marker) => {
-                const to = turf.point([marker.getLatLng().lat, marker.getLatLng().lng]);
-                const distance = turf.distance(from, to, options);
-                distance < 3 ? marker.setIcon(redIcon) : marker.setIcon(blackIcon);
-            });
-        });
-
-        this.map.on('moveend', (e: L.LeafletEvent) => {
-            //console.log(this.map.getCenter());
-        });
+            // Co-ordinates
+            const centreCoords: L.LatLngExpression = [
+                50.79428759555364,
+                -1.0658993825417156,
+            ];
+            const markerCoords = centreCoords;
+            const initialZoom = 13;
+            const map = L.map('map').setView(centreCoords, initialZoom);
+            const tileOptions = {
+                minZoom: 1,
+                maxZoom: 16,
+                ext: 'jpg',
+            }
+            const url = 'https://tiles.stadiamaps.com/tiles/stamen_watercolor/{z}/{x}/{y}.{ext}';
+            const tiles = L.tileLayer(url, tileOptions).addTo(map);
+            const markerMessage = '<b>Hello world!</b><br />I am a popup.';
+            const marker = L.marker(markerCoords).addTo(map).bindPopup(markerMessage);
+            const onMapClick = (e: any) => map.setView(centreCoords, initialZoom);
+            map.on('click', onMapClick);
     }
 
     private fixLeafletBug() {

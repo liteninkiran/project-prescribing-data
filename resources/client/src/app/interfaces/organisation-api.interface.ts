@@ -46,12 +46,6 @@ export interface IRoleInput {
     nonPrimaryRole: FormControl,
 };
 
-export interface IColumnConfig {
-    columnId: string;
-    columnName: string;
-    visible: boolean;
-};
-
 export interface INumInputConfig {
     min: number;
     max: number;

@@ -1,9 +1,8 @@
 import { Component, Input, OnInit, AfterViewInit, OnChanges, ViewChild, SimpleChanges, SimpleChange, Output, EventEmitter } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { IColumnConfig } from 'src/app/interfaces/organisation-api.interface';
 import { merge, tap } from 'rxjs';
-import { IAsyncButtonInputConfig, ICheckboxMenuItem } from 'src/app/interfaces/shared.interface';
+import { IAsyncButtonInputConfig, ICheckboxMenuItem, IMatTableColumnConfig } from 'src/app/interfaces/shared.interface';
 
 @Component({
     selector: 'app-table',
@@ -16,7 +15,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
     @Input() public intialPageSize = this.pageSizeOptions[1];
     @Input() public service: any;
     @Input() public dataSource: any;
-    @Input() public columnConfig: IColumnConfig[] = [];
+    @Input() public columnConfig: IMatTableColumnConfig[] = [];
     @Input() public defaultSortCol: string = 'id';
     @Input() public title!: string;
     @Input() public filters: any;
@@ -91,8 +90,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
 
     private updateDisplayedColumns(): void {
         this.displayedColumns = this.columnConfig
-            .filter((config: IColumnConfig) => config.visible)
-            .map((config: IColumnConfig) => config.columnId);
+            .filter((config: IMatTableColumnConfig) => config.visible)
+            .map((config: IMatTableColumnConfig) => config.columnId);
         if (!this.actionButtonConfig.hide) {
             this.displayedColumns.push('actions');
         }
@@ -109,7 +108,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
 
     private updateMenuItems(): void {
         this.menuItems.map(item => {
-            const config: IColumnConfig = this.columnConfig.find(config => config.columnId === item.value) as IColumnConfig;
+            const config: IMatTableColumnConfig = this.columnConfig.find(config => config.columnId === item.value) as IMatTableColumnConfig;
             item.checked = config.visible;
         });
     }

@@ -27,6 +27,7 @@ Route::get('roles', [RoleController::class, 'index']);
 
 Route::post('organisations/update_postcode', [OrganisationController::class, 'updatePostcode']);
 Route::post('organisations/store_from_api/{roleId}', [OrganisationController::class, 'storeFromApi']);
+Route::get('organisations-map', [OrganisationController::class, 'getMapData']);
 Route::get('organisations', [OrganisationController::class, 'index']);
 
 Route::post('postcodes/store_from_api', [PostcodeController::class, 'storeFromApi']);
