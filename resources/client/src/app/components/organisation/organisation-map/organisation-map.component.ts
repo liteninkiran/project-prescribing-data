@@ -28,6 +28,7 @@ const redIcon = L.icon({
 export class OrganisationMapComponent implements OnInit {
     public filters: IOrganisationFilters = {} as IOrganisationFilters;
     public data$!: Observable<IOrganisation[]>;
+    public data!: IOrganisation[];
 
     // Map
     private map!: L.Map;
@@ -40,8 +41,10 @@ export class OrganisationMapComponent implements OnInit {
 
     public ngOnInit(): void {
         this.data$ = this.orgService.loadMapData(this.filters);
-        this.data$.subscribe(console.log);
-        this.setupMap();
+        this.data$.subscribe((res: IOrganisation[]) => {
+            this.data = res;
+            this.setupMap();
+        });
     }
 
     public updateFilters(filters: any): void {
@@ -55,12 +58,8 @@ export class OrganisationMapComponent implements OnInit {
 
     private setMapObjects() {
             // Co-ordinates
-            const centreCoords: L.LatLngExpression = [
-                50.79428759555364,
-                -1.0658993825417156,
-            ];
-            const markerCoords = centreCoords;
-            const initialZoom = 13;
+            const centreCoords: L.LatLngExpression = [55, -1];
+            const initialZoom = 6;
             const map = L.map('map').setView(centreCoords, initialZoom);
             const tileOptions = {
                 minZoom: 1,
@@ -69,10 +68,14 @@ export class OrganisationMapComponent implements OnInit {
             }
             const url = 'https://tiles.stadiamaps.com/tiles/stamen_watercolor/{z}/{x}/{y}.{ext}';
             const tiles = L.tileLayer(url, tileOptions).addTo(map);
-            const markerMessage = '<b>Hello world!</b><br />I am a popup.';
-            const marker = L.marker(markerCoords).addTo(map).bindPopup(markerMessage);
-            const onMapClick = (e: any) => map.setView(centreCoords, initialZoom);
-            map.on('click', onMapClick);
+            this.data.map((org: IOrganisation) => {
+                if (org.postcode?.latitude && org.postcode.longitude) {
+                    const markerCoords: L.LatLngExpression = [org.postcode.latitude, org.postcode.longitude];
+                    const marker = L.marker(markerCoords).addTo(map);
+                }
+            });
+            // const onMapClick = (e: any) => map.setView(centreCoords, initialZoom);
+            // map.on('click', onMapClick);
     }
 
     private fixLeafletBug() {

@@ -11,12 +11,17 @@ export interface IOrganisation {
     post_code: string;
     primary_role_id: number;
     primary_role: IPrimaryRole;
+    postcode?: IOrgPostcode;
     status: string;
-    latitude?: number | null;
-    longitude?: number | null;
     created_at: Date;
     updated_at: Date;
 };
+
+export interface IOrgPostcode {
+    id: number,
+    latitude: number,
+    longitude: number,
+}
 
 export interface IOrganisationFilters {
     organisationId: string | null;
