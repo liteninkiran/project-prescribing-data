@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Postcode extends Model
 {
@@ -81,6 +82,16 @@ class Postcode extends Model
     public function adminCounty(): BelongsTo
     {
         return $this->belongsTo(AdminCounty::class, 'admin_county_id', 'id');
+    }
+
+    /**
+     * adminCountyCode
+     *
+     * @return BelongsTo
+     */
+    public function adminCountyCode(): BelongsTo
+    {
+        return $this->belongsTo(AdminCounty::class, 'admin_county_code', 'code');
     }
 
     /**

@@ -27,4 +27,14 @@ class AdminCounty extends Model
     {
         return $this->hasMany(Postcode::class, 'admin_county_id', 'id');
     }
+
+    /**
+     * postcodeCodes
+     *
+     * @return HasMany
+     */
+    public function postcodeCodes(): HasMany
+    {
+        return $this->hasMany(Postcode::class, 'admin_county_code', 'code');
+    }
 }

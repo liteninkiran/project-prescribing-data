@@ -7,6 +7,7 @@ use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Artisan;
 
 // Models
 use App\Models\Organisation;
@@ -339,13 +340,14 @@ class PostcodeApiService
             }
         } else {
             $this->created ++;
+            Artisan::call('db:seed', ['--class' => 'PostcodeAttributesSeeder']);
         }
         $model->save();
         if ($model->wasChanged()) {
             $this->updated ++;
         }
     }
-    
+
     /**
      * getMissingPostcodes
      *
