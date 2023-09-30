@@ -308,6 +308,7 @@ class OrganisationApiService
             $arrayKey = $this->convertToCamelCase($key);
             if (array_key_exists($arrayKey, $organisation)) {
                 $value = $organisation[$arrayKey];
+                $value = $value === '' ? null : $value;
             }
         }
 
@@ -358,15 +359,19 @@ class OrganisationApiService
     /**
      * getPostcodeId
      *
-     * @param string $search
+     * @param string|null $search
      * @return int|null
      */
-    private function getPostcodeId(string $search): int | null
+    private function getPostcodeId(string|null $search): int | null
     {
-        $postcode = Postcode::where('postcode', $search)->first();
-        return $postcode ? $postcode->id : null;
+        if ($search) {
+            $postcode = Postcode::where('postcode', $search)->first();
+            return $postcode ? $postcode->id : null;
+        } else {
+            return null;
+        }
     }
-    
+
     /**
      * updateOrgLastUpdated
      *

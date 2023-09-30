@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('org_id')->unique();
             $table->string('status');
             $table->string('org_record_class');
-            $table->string('post_code');
+            $table->string('post_code')->nullable();
             $table->foreignIdFor(Postcode::class, 'postcode_id')->nullable()->constrained('postcodes');
             $table->date('last_change_date');
             $table->foreignIdFor(Role::class, 'primary_role_id')->constrained('roles');
