@@ -136,4 +136,22 @@ class Organisation extends Model
     {
         return $query->where('status', '=', $status);
     }
+
+    public function scopeAdminCountiesInRaw(Builder $query, array $ids): Builder
+    {
+        return $query->whereHas('postcode', function($postcode) use ($ids) {
+            $postcode->whereHas('adminCounty', function($adminCounty) use ($ids) {
+                $adminCounty->whereIntegerInRaw('id', $ids);
+            });
+        });
+    }
+
+    public function scopeAdminDistrictsInRaw(Builder $query, array $ids): Builder
+    {
+        return $query->whereHas('postcode', function($postcode) use ($ids) {
+            $postcode->whereHas('adminDistrict', function($adminDistrict) use ($ids) {
+                $adminDistrict->whereIntegerInRaw('id', $ids);
+            });
+        });
+    }
 }

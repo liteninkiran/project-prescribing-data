@@ -71,11 +71,13 @@ class OrganisationController extends Controller
         return [
             'org_id'            => request()->input('org_id', null),
             'name'              => request()->input('name', null),
-            'postcode'          => request()->input('postcode', null),
+            'status'            => request()->input('status', null),
             'primary_roles'     => request()->input('primary_roles', null),
             'non_primary_roles' => request()->input('non_primary_roles', null),
             'last_change_date'  => request()->input('last_change_date', null),
-            'status'            => request()->input('status', null),
+            'postcode'          => request()->input('postcode', null),
+            'admin_county'      => request()->input('admin_county', null),
+            'admin_district'    => request()->input('admin_district', null),
         ];
     }
 }
