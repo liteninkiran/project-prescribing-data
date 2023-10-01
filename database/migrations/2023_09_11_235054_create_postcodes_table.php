@@ -26,10 +26,10 @@ return new class extends Migration
         Schema::create('postcodes', function (Blueprint $table) {
             $table->id();
             $table->string ('postcode'                       )->unique();
-            $table->string ('incode'                         );
-            $table->string ('outcode'                        );
-            $table->string ('country'                        );
-            $table->integer('quality'                        );
+            $table->string ('incode'                         )->default('');
+            $table->string ('outcode'                        )->default('');
+            $table->string ('country'                        )->default('');
+            $table->integer('quality'                        )->default(0);
             $table->string ('admin_county'                   )->nullable();
             $table->string ('admin_county_code'              )->nullable();
             $table->string ('admin_district'                 )->nullable();

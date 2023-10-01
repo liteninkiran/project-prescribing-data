@@ -98,6 +98,9 @@ class PostcodeApiService
         // Loop through the chunks
         $this->chunkLoop();
 
+        // Populate the attributes
+        Artisan::call('db:seed', ['--class' => 'PostcodeAttributesSeeder']);
+
         // Return summary
         return [
             'created' => $this->created,
@@ -224,7 +227,7 @@ class PostcodeApiService
             }
         }
     }
-    
+
     /**
      * getAttributes
      *
@@ -237,7 +240,7 @@ class PostcodeApiService
         }
         return $attributes;
     }
-    
+
     /**
      * setColumns
      *
@@ -267,7 +270,7 @@ class PostcodeApiService
 
         $this->columns = $columns;
     }
-    
+
     /**
      * getAttributeValues
      *
@@ -289,7 +292,7 @@ class PostcodeApiService
         // Return the associative array
         return $values;
     }
-    
+
     /**
      * getAttributeValue
      *
@@ -312,7 +315,7 @@ class PostcodeApiService
 
         return $value;
     }
-    
+
     /**
      * getAttributeValueCheck
      *
@@ -338,13 +341,12 @@ class PostcodeApiService
             foreach ($values as $key => $value) {
                 $model->$key = $value;
             }
-        } else {
-            $this->created ++;
-            Artisan::call('db:seed', ['--class' => 'PostcodeAttributesSeeder']);
         }
         $model->save();
         if ($model->wasChanged()) {
             $this->updated ++;
+        } else {
+            $this->created ++;
         }
     }
 

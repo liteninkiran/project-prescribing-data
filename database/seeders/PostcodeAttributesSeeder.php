@@ -2,8 +2,12 @@
 
 namespace Database\Seeders;
 
+// Illuminate
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Eloquent\Builder;
+
+// Models
 use App\Models\Postcode;
 use App\Models\AdminCounty;
 use App\Models\AdminDistrict;
@@ -17,6 +21,8 @@ use App\Models\Region;
 
 class PostcodeAttributesSeeder extends Seeder
 {
+    private $query;
+
     /**
      * Run the database seeds.
      */
@@ -34,6 +40,147 @@ class PostcodeAttributesSeeder extends Seeder
         $this->healthAuthority();
         $this->primaryCareTrust();
         $this->region();
+
+        // Update postcodes
+        $this->updatePostcodes();
+    }
+    
+    /**
+     * updatePostcodes
+     *
+     * @return void
+     */
+    private function updatePostcodes(): void
+    {
+        $data = $this->getData();
+        foreach ($data as $d) {
+            $rows = 0;
+            $this->setQueryForUpsert(
+                $d->table,
+                $d->foreignKey,
+                $d->matchOnPrimary,
+                $d->matchOnForeign,
+            );
+            $rows += $this->upsertData([$d->foreignKey]);
+        }
+    }
+    
+    /**
+     * getData
+     *
+     * @return array
+     */
+    private function getData(): array
+    {
+        $arrays = [[
+                'table' => 'admin_counties',
+                'foreignKey' => 'admin_county_id',
+                'matchOnPrimary' => 'admin_county_code',
+                'matchOnForeign' => 'code',
+            ], [
+                'table' => 'admin_districts',
+                'foreignKey' => 'admin_district_id',
+                'matchOnPrimary' => 'admin_district_code',
+                'matchOnForeign' => 'code',
+            ], [
+                'table' => 'nuts',
+                'foreignKey' => 'nuts_id',
+                'matchOnPrimary' => 'nuts_code',
+                'matchOnForeign' => 'code',
+            ], [
+                'table' => 'parliamentary_constituencies',
+                'foreignKey' => 'parliamentary_constituency_id',
+                'matchOnPrimary' => 'parliamentary_constituency_code',
+                'matchOnForeign' => 'code',
+            ], [
+                'table' => 'police_force_areas',
+                'foreignKey' => 'pfa_id',
+                'matchOnPrimary' => 'pfa_code',
+                'matchOnForeign' => 'code',
+            ], [
+                'table' => 'european_electoral_regions',
+                'foreignKey' => 'european_electoral_region_id',
+                'matchOnPrimary' => 'european_electoral_region',
+                'matchOnForeign' => 'name',
+            ], [
+                'table' => 'health_authorities',
+                'foreignKey' => 'nhs_ha_id',
+                'matchOnPrimary' => 'nhs_ha',
+                'matchOnForeign' => 'name',
+            ], [
+                'table' => 'primary_care_trusts',
+                'foreignKey' => 'primary_care_trust_id',
+                'matchOnPrimary' => 'primary_care_trust',
+                'matchOnForeign' => 'name',
+            ], [
+                'table' => 'regions',
+                'foreignKey' => 'region_id',
+                'matchOnPrimary' => 'region',
+                'matchOnForeign' => 'name',
+            ],
+        ];
+
+
+        $objArray = array_map(function ($element) {
+            return (object) $element;
+        }, $arrays);
+        return $objArray;
+    }
+
+    /**
+     * upsertData
+     *
+     * @param string[] $updateFields
+     * @return int
+     */
+    private function upsertData(array $updateFields): int {
+        $data = $this->query->get()->toArray();
+        $chunkedData = array_chunk($data, 1000);
+        $uniqueFields = ['postcode'];
+        $result = 0;
+        foreach ($chunkedData as $data) {
+            $rows = Postcode::upsert($data, $uniqueFields, $updateFields);
+            $result += $rows;
+        }
+        return $result / 2;
+    }
+    
+    /**
+     * setQueryForUpsert
+     *
+     * @param string $table
+     * @param string $foreignKey
+     * @param string $matchOnPrimary
+     * @param string $matchOnForeign
+     * @return void
+     */
+    private function setQueryForUpsert(string $table, string $foreignKey, string $matchOnPrimary, string $matchOnForeign): void
+    {
+        $selectColumns = $this->getColumnNameArrayForUpsert($foreignKey);
+
+        $this->query = Postcode::query()
+            ->select($selectColumns)
+            ->from('postcodes', 'p')
+            ->join($table . ' AS t', 't.' . $matchOnForeign, '=', 'p.' . $matchOnPrimary)
+            ->where(function ($query) use ($foreignKey) {
+                $query
+                    ->whereNull('p.' . $foreignKey)
+                    // The orWhere() function was behaving unpredictably so I am using orWhereRaw().
+                    // The third argument was being treated as a parameter and sometimes returned 
+                    // matching records. It is baffling.
+                    ->orWhereRaw('p.' . $foreignKey . ' <> t.id');
+            });
+    }
+    
+    /**
+     * getColumnNameArrayForUpsert
+     *
+     * @param string $columnAlias
+     * @return array
+     */
+    private function getColumnNameArrayForUpsert(string $columnAlias): array
+    {
+        return [ 'p.postcode', 't.id as ' . $columnAlias ];
     }
 
     /**
@@ -139,12 +286,12 @@ class PostcodeAttributesSeeder extends Seeder
             $fieldName . '_code AS code',
             $fieldName . ' AS name',
         ];
-        $models = Postcode::query()
+        $query = Postcode::query()
             ->select($columns)
             ->distinct()
             ->whereNotNull($fieldName)
-            ->orderBy($fieldName)
-            ->get();
+            ->orderBy($fieldName);
+        $models = $query->get();
         foreach($models as $model) {
             $attributes = [ 'code' => $model->code ];
             $values = [ 'name' => $model->name ];
