@@ -75,11 +75,13 @@ export class OrganisationService {
     private addFilters(filters: IOrganisationFilters, params: HttpParams): HttpParams {
         if (filters.organisationId) { params = params.append('org_id', filters.organisationId); }
         if (filters.name) { params = params.append('name', filters.name); }
-        if (filters.postcode) { params = params.append('postcode', filters.postcode); }
+        if (filters.status) { params = params.append('status', filters.status); }
         if (filters.primaryRoles) { filters.primaryRoles.map((role) => params = params.append('primary_roles[]', role.toString())); }
         if (filters.nonPrimaryRoles) { filters.nonPrimaryRoles.map((role) => params = params.append('non_primary_roles[]', role.toString())); }
         if (filters.lastChangeDate) { params = params.append('last_change_date', moment(filters.lastChangeDate).format('YYYY-MM-DD')); }
-        if (filters.status) { params = params.append('status', filters.status); }
+        if (filters.postcode) { params = params.append('postcode', filters.postcode); }
+        if (filters.adminCounty) { filters.adminCounty.map((item) => params = params.append('admin_county[]', item.toString())); }
+        if (filters.adminDistrict) { filters.adminDistrict.map((item) => params = params.append('admin_district[]', item.toString())); }
         return params;
     }
 }

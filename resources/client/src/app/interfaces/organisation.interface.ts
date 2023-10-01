@@ -1,5 +1,5 @@
 import { FormControl } from '@angular/forms';
-import { IPrimaryRole } from "./role.interface";
+import { IPrimaryRole } from './role.interface';
 
 export interface IOrganisation {
     id: number;
@@ -31,16 +31,20 @@ export interface IOrganisationFilters {
     nonPrimaryRoles: number[] | null;
     lastChangeDate: Date | null;
     status: string | null;
+    adminCounty: number[] | null;
+    adminDistrict: number[] | null;
 };
 
 export interface IOrganisationFilterFormGroup {
     organisationId: FormControl<string | null>;
     name: FormControl<string | null>;
-    postcode: FormControl<string | null>;
+    status: FormControl<string | null>;
     primaryRoles: FormControl<number[] | null>;
     nonPrimaryRoles: FormControl<number[] | null>;
     lastChangeDate: FormControl<Date | null>;
-    status: FormControl<string | null>;
+    postcode: FormControl<string | null>;
+    adminCounty: FormControl<number[] | null>;
+    adminDistrict: FormControl<number[] | null>;
 };
 
 export interface IOrganisationStatus {

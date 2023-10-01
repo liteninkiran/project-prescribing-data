@@ -2,9 +2,11 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable, debounceTime, distinctUntilChanged, tap } from 'rxjs';
 import { IOrganisationFilterFormGroup, IOrganisationFilters, IOrganisationStatus } from 'src/app/interfaces/organisation.interface';
+import { IAdminCounty, IAdminDistrict } from 'src/app/interfaces/postcode.interface';
 import { IRole } from 'src/app/interfaces/role.interface';
 import { IFilterConfig } from 'src/app/interfaces/shared.interface';
 import { OrganisationStore } from 'src/app/services/organisation/organisation.store';
+import { PostcodeStore } from 'src/app/services/postcode/postcode.store';
 
 @Component({
     selector: 'app-organisation-filters',
@@ -23,11 +25,13 @@ export class OrganisationFiltersComponent {
     // Form Controls
     public organisationIdInput: FormControl<string   | null> = new FormControl(null)
     public nameInput          : FormControl<string   | null> = new FormControl(null)
-    public postcodeInput      : FormControl<string   | null> = new FormControl(null);
+    public statusInput        : FormControl<string   | null> = new FormControl('active');
     public primaryRoleInput   : FormControl<number[] | null> = new FormControl(null);
     public nonPrimaryRoleInput: FormControl<number[] | null> = new FormControl({ value: null, disabled: true });
     public lastChangeDateInput: FormControl<Date     | null> = new FormControl(null);
-    public statusInput        : FormControl<string   | null> = new FormControl('active');
+    public postcodeInput      : FormControl<string   | null> = new FormControl(null);
+    public adminCountyInput   : FormControl<number[] | null> = new FormControl(null);
+    public adminDistrictInput : FormControl<number[] | null> = new FormControl(null);
 
     // Config
     public filters: IFilterConfig[] = [];
@@ -35,16 +39,19 @@ export class OrganisationFiltersComponent {
     public maxDate: Date = new Date();
     public status: IOrganisationStatus[] = [];
 
-    // Role Data
+    // Reference Data
     public primaryRoles$!: Observable<IRole[]>;
     public nonPrimaryRoles$!: Observable<IRole[]>;
+    public adminCounty$!: Observable<IAdminCounty[]>;
+    public adminDistrict$!: Observable<IAdminDistrict[]>;
 
     constructor(
         private orgStore: OrganisationStore,
+        private postcodeStore: PostcodeStore,
     ) { }
 
     public ngOnInit(): void {
-        this.loadRolesData();
+        this.loadReferenceData();
         this.setStatusData();
         this.setFilterFormGroup();
         this.calculateFilter(this.filterForm.value);
@@ -65,20 +72,24 @@ export class OrganisationFiltersComponent {
         }
     }
 
-    private loadRolesData(): void {
+    private loadReferenceData(): void {
         this.primaryRoles$ = this.orgStore.getRolesListByType(true);
         this.nonPrimaryRoles$ = this.orgStore.getRolesListByType(false);
+        this.adminCounty$ = this.postcodeStore.getAdminCounties();
+        this.adminDistrict$ = this.postcodeStore.getAdminDistricts();
     }
 
     private setFilterFormGroup(): void {
         const formGroup: IOrganisationFilterFormGroup = {
             organisationId: this.organisationIdInput,
             name: this.nameInput,
-            postcode: this.postcodeInput,
+            status: this.statusInput,
             primaryRoles: this.primaryRoleInput,
             nonPrimaryRoles: this.nonPrimaryRoleInput,
             lastChangeDate: this.lastChangeDateInput,
-            status: this.statusInput,
+            postcode: this.postcodeInput,
+            adminCounty: this.adminCountyInput,
+            adminDistrict: this.adminDistrictInput,
         }
 
         this.filterForm = new FormGroup(formGroup);

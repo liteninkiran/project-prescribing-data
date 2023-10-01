@@ -33,4 +33,5 @@ Route::get('organisations', [OrganisationController::class, 'index']);
 Route::post('postcodes/store_from_api', [PostcodeController::class, 'storeFromApi']);
 Route::post('postcodes/store_from_api_auto_create', [PostcodeController::class, 'storeFromApiAutoCreate']);
 Route::post('postcodes/store_from_api_auto_update', [PostcodeController::class, 'storeFromApiAutoUpdate']);
+Route::get('postcodes/postcode_attributes', [PostcodeController::class, 'getPostcodeAttributes']);
 Route::get('postcodes', [PostcodeController::class, 'index']);

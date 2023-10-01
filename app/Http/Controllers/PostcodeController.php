@@ -15,6 +15,7 @@ use App\Http\Requests\UpdatePostcodeRequest;
 
 // Services
 use App\Services\Postcode\PostcodeApiService;
+use App\Services\Postcode\PostcodeAttributeLists;
 
 class PostcodeController extends Controller
 {
@@ -38,6 +39,12 @@ class PostcodeController extends Controller
     public function storeFromApiAutoUpdate(PostcodeApiService $postcodeService): JsonResponse
     {
         $response = $postcodeService->storeFromApiAutoUpdate();
+        return response()->json($response);
+    }
+
+    public function getPostcodeAttributes(PostcodeAttributeLists $postcodeAttributeLists): JsonResponse
+    {
+        $response = $postcodeAttributeLists->getPostcodeAttributes();
         return response()->json($response);
     }
 }

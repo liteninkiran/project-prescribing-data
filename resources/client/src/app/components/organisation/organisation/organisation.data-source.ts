@@ -29,7 +29,6 @@ export class OrganisationDataSource implements DataSource<IOrganisation> {
                 finalize(() => this.loadingSubject.next(false))
             )
             .subscribe(organisations => {
-                //console.log(organisations);
                 return this.organisationsSubject.next(organisations);
             });
     }
