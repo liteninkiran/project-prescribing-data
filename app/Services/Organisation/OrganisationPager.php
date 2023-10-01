@@ -79,6 +79,9 @@ class OrganisationPager
         if ($filters['postcode']) { $this->query->postcodeLike($filters['postcode']); }
         if ($filters['admin_county']) { $this->query->adminCountiesInRaw($filters['admin_county']); }
         if ($filters['admin_district']) { $this->query->adminDistrictsInRaw($filters['admin_district']); }
+        if ($filters['parliamentary_constituency']) { $this->query->parliamentaryConstituenciesInRaw($filters['parliamentary_constituency']); }
+        if ($filters['pfa']) { $this->query->policeForceAreaInRaw($filters['pfa']); }
+        if ($filters['nuts']) { $this->query->nutsInRaw($filters['nuts']); }
         return $this;
     }
 

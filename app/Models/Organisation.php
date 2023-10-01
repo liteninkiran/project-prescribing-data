@@ -154,4 +154,31 @@ class Organisation extends Model
             });
         });
     }
+
+    public function scopeParliamentaryConstituenciesInRaw(Builder $query, array $ids): Builder
+    {
+        return $query->whereHas('postcode', function($postcode) use ($ids) {
+            $postcode->whereHas('parliamentaryConstituency', function($parliamentaryConstituency) use ($ids) {
+                $parliamentaryConstituency->whereIntegerInRaw('id', $ids);
+            });
+        });
+    }
+
+    public function scopePoliceForceAreaInRaw(Builder $query, array $ids): Builder
+    {
+        return $query->whereHas('postcode', function($postcode) use ($ids) {
+            $postcode->whereHas('policeForceArea', function($pfa) use ($ids) {
+                $pfa->whereIntegerInRaw('id', $ids);
+            });
+        });
+    }
+
+    public function scopeNutsInRaw(Builder $query, array $ids): Builder
+    {
+        return $query->whereHas('postcode', function($postcode) use ($ids) {
+            $postcode->whereHas('nuts', function($nuts) use ($ids) {
+                $nuts->whereIntegerInRaw('id', $ids);
+            });
+        });
+    }
 }

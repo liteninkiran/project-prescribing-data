@@ -82,6 +82,9 @@ export class OrganisationService {
         if (filters.postcode) { params = params.append('postcode', filters.postcode); }
         if (filters.adminCounty) { filters.adminCounty.map((item) => params = params.append('admin_county[]', item.toString())); }
         if (filters.adminDistrict) { filters.adminDistrict.map((item) => params = params.append('admin_district[]', item.toString())); }
+        if (filters.parliamentaryConstituency) { filters.parliamentaryConstituency.map((item) => params = params.append('parliamentary_constituency[]', item.toString())); }
+        if (filters.policeForceArea) { filters.policeForceArea.map((item) => params = params.append('pfa[]', item.toString())); }
+        if (filters.nuts) { filters.nuts.map((item) => params = params.append('nuts[]', item.toString())); }
         return params;
     }
 }

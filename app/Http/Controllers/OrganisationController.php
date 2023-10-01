@@ -68,16 +68,26 @@ class OrganisationController extends Controller
 
     public function getFiltersArray(): array
     {
-        return [
-            'org_id'            => request()->input('org_id', null),
-            'name'              => request()->input('name', null),
-            'status'            => request()->input('status', null),
-            'primary_roles'     => request()->input('primary_roles', null),
-            'non_primary_roles' => request()->input('non_primary_roles', null),
-            'last_change_date'  => request()->input('last_change_date', null),
-            'postcode'          => request()->input('postcode', null),
-            'admin_county'      => request()->input('admin_county', null),
-            'admin_district'    => request()->input('admin_district', null),
+        $filterNames = [
+            'org_id',
+            'name',
+            'status',
+            'primary_roles',
+            'non_primary_roles',
+            'last_change_date',
+            'postcode',
+            'admin_county',
+            'admin_district',
+            'parliamentary_constituency',
+            'pfa',
+            'nuts',
         ];
+
+        $filters = array_reduce($filterNames, function ($result, $item) {
+            $result[$item] = request()->input($item, null);
+            return $result;
+        }, array());
+
+        return $filters;
     }
 }

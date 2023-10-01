@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable, debounceTime, distinctUntilChanged, tap } from 'rxjs';
 import { IOrganisationFilterFormGroup, IOrganisationFilters, IOrganisationStatus } from 'src/app/interfaces/organisation.interface';
-import { IAdminCounty, IAdminDistrict } from 'src/app/interfaces/postcode.interface';
+import { IPostcodeAttribute } from 'src/app/interfaces/postcode.interface';
 import { IRole } from 'src/app/interfaces/role.interface';
 import { IFilterConfig } from 'src/app/interfaces/shared.interface';
 import { OrganisationStore } from 'src/app/services/organisation/organisation.store';
@@ -23,15 +23,18 @@ export class OrganisationFiltersComponent {
     public filterForm!: FormGroup;
 
     // Form Controls
-    public organisationIdInput: FormControl<string   | null> = new FormControl(null)
-    public nameInput          : FormControl<string   | null> = new FormControl(null)
-    public statusInput        : FormControl<string   | null> = new FormControl('active');
-    public primaryRoleInput   : FormControl<number[] | null> = new FormControl(null);
-    public nonPrimaryRoleInput: FormControl<number[] | null> = new FormControl({ value: null, disabled: true });
-    public lastChangeDateInput: FormControl<Date     | null> = new FormControl(null);
-    public postcodeInput      : FormControl<string   | null> = new FormControl(null);
-    public adminCountyInput   : FormControl<number[] | null> = new FormControl(null);
-    public adminDistrictInput : FormControl<number[] | null> = new FormControl(null);
+    public organisationIdInput : FormControl<string   | null> = new FormControl(null)
+    public nameInput           : FormControl<string   | null> = new FormControl(null)
+    public statusInput         : FormControl<string   | null> = new FormControl('active');
+    public primaryRoleInput    : FormControl<number[] | null> = new FormControl(null);
+    public nonPrimaryRoleInput : FormControl<number[] | null> = new FormControl({ value: null, disabled: true });
+    public lastChangeDateInput : FormControl<Date     | null> = new FormControl(null);
+    public postcodeInput       : FormControl<string   | null> = new FormControl(null);
+    public adminCountyInput    : FormControl<number[] | null> = new FormControl(null);
+    public adminDistrictInput  : FormControl<number[] | null> = new FormControl(null);
+    public parliamentInput     : FormControl<number[] | null> = new FormControl(null);
+    public policeForceAreaInput: FormControl<number[] | null> = new FormControl(null);
+    public nutsInput           : FormControl<number[] | null> = new FormControl(null);
 
     // Config
     public filters: IFilterConfig[] = [];
@@ -42,8 +45,11 @@ export class OrganisationFiltersComponent {
     // Reference Data
     public primaryRoles$!: Observable<IRole[]>;
     public nonPrimaryRoles$!: Observable<IRole[]>;
-    public adminCounty$!: Observable<IAdminCounty[]>;
-    public adminDistrict$!: Observable<IAdminDistrict[]>;
+    public adminCounty$!: Observable<IPostcodeAttribute[]>;
+    public adminDistrict$!: Observable<IPostcodeAttribute[]>;
+    public parliamentaryConstituency$!: Observable<IPostcodeAttribute[]>;
+    public policeForceArea$!: Observable<IPostcodeAttribute[]>;
+    public nuts$!: Observable<IPostcodeAttribute[]>;
 
     constructor(
         private orgStore: OrganisationStore,
@@ -77,6 +83,9 @@ export class OrganisationFiltersComponent {
         this.nonPrimaryRoles$ = this.orgStore.getRolesListByType(false);
         this.adminCounty$ = this.postcodeStore.getAdminCounties();
         this.adminDistrict$ = this.postcodeStore.getAdminDistricts();
+        this.parliamentaryConstituency$ = this.postcodeStore.getParliamentaryConstituencies();
+        this.policeForceArea$ = this.postcodeStore.getPoliceForceAreas();
+        this.nuts$ = this.postcodeStore.getNuts();
     }
 
     private setFilterFormGroup(): void {
@@ -90,6 +99,9 @@ export class OrganisationFiltersComponent {
             postcode: this.postcodeInput,
             adminCounty: this.adminCountyInput,
             adminDistrict: this.adminDistrictInput,
+            parliamentaryConstituency: this.parliamentInput,
+            policeForceArea: this.policeForceAreaInput,
+            nuts: this.nutsInput,
         }
 
         this.filterForm = new FormGroup(formGroup);

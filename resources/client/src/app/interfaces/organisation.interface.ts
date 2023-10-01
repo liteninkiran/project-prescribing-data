@@ -33,6 +33,9 @@ export interface IOrganisationFilters {
     status: string | null;
     adminCounty: number[] | null;
     adminDistrict: number[] | null;
+    parliamentaryConstituency: number[] | null;
+    policeForceArea: number[] | null;
+    nuts: number[] | null;
 };
 
 export interface IOrganisationFilterFormGroup {
@@ -45,6 +48,9 @@ export interface IOrganisationFilterFormGroup {
     postcode: FormControl<string | null>;
     adminCounty: FormControl<number[] | null>;
     adminDistrict: FormControl<number[] | null>;
+    parliamentaryConstituency: FormControl<number[] | null>;
+    policeForceArea: FormControl<number[] | null>;
+    nuts: FormControl<number[] | null>;
 };
 
 export interface IOrganisationStatus {

@@ -73,9 +73,10 @@ export class OrganisationMapComponent implements OnInit {
                     <h3>${org.org_id}</h3>
                     <p>${org.primary_role.display_name}</p>
                     <p>${org.name}</p>
+                    <p>${org.post_code}</p>
                 `;
                 const markerCoords: L.LatLngExpression = [org.postcode.latitude, org.postcode.longitude];
-                const marker = L.marker(markerCoords).bindPopup(markerMessage);;
+                const marker = L.marker(markerCoords).bindPopup(markerMessage);
                 markers.push(marker);
             }
         });

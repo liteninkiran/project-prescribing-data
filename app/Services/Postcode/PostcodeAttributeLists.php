@@ -25,20 +25,40 @@ class PostcodeAttributeLists
         return [
             'admin_county' => $this->getAdminCounty(),
             'admin_district' => $this->getAdminDistrict(),
+            'parliamentary_constituency' => $this->getParliamentaryConstituency(),
+            'police_force_area' => $this->getPoliceForceArea(),
+            'nuts' => $this->getNuts(),
         ];
     }
 
     public function getAdminCounty(): Collection
     {
-        return AdminCounty::query()
-            ->select(['id', 'code', 'name'])
-            ->orderBy('name', 'asc')
-            ->get();
+        return $this->getCollection('App\Models\AdminCounty');
     }
 
     public function getAdminDistrict(): Collection
     {
-        return AdminDistrict::query()
+        return $this->getCollection('App\Models\AdminDistrict');
+    }
+
+    public function getParliamentaryConstituency(): Collection
+    {
+        return $this->getCollection('App\Models\ParliamentaryConstituency');
+    }
+
+    public function getPoliceForceArea(): Collection
+    {
+        return $this->getCollection('App\Models\PoliceForceArea');
+    }
+
+    public function getNuts(): Collection
+    {
+        return $this->getCollection('App\Models\Nuts');
+    }
+
+    public function getCollection(string $class): Collection
+    {
+        return $class::query()
             ->select(['id', 'code', 'name'])
             ->orderBy('name', 'asc')
             ->get();
