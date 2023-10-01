@@ -61,8 +61,10 @@ class OrganisationController extends Controller
 
     public function getMapData(OrganisationMapService $organisationMapService): JsonResponse
     {
+        //\DB::enableQueryLog();
         $filters = $this->getFiltersArray();
         $response = $organisationMapService->getMapData($filters);
+        //info(\DB::getQueryLog());
         return response()->json($response);
     }
 

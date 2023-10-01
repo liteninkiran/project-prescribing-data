@@ -27,7 +27,13 @@ class OrganisationMapService
      * @var int $limit
      */
     private $limit = 1000;
-
+    
+    /**
+     * getMapData
+     *
+     * @param array $filters
+     * @return array
+     */
     public function getMapData(array $filters = []): array
     {
         $this->initialiseQuery()->addFilters($filters);
@@ -40,27 +46,37 @@ class OrganisationMapService
             'limit_exceeded' => count($results) === $this->limit,
         ];
     }
-
+    
+    /**
+     * initialiseQuery
+     *
+     * @return self
+     */
     private function initialiseQuery(): self
     {
         $selectColumns = [
-            'id',
-            'name',
-            'org_id',
-            'status',
-            'org_record_class',
-            'post_code',
-            'postcode_id',
-            'last_change_date',
-            'primary_role_id',
-            'org_link',
-            'created_at',
-            'updated_at',
+            'organisations.id',
+            'organisations.name',
+            'organisations.org_id',
+            'organisations.status',
+            'organisations.org_record_class',
+            'organisations.post_code',
+            'organisations.postcode_id',
+            'organisations.last_change_date',
+            'organisations.primary_role_id',
+            'organisations.org_link',
+            'organisations.created_at',
+            'organisations.updated_at',
+            // 'p.latitude',
+            // 'p.longitude',
         ];
         $this->query = Organisation::query()
             ->with('postcode:id,latitude,longitude')
             ->with('primaryRole:id,display_name')
             ->select($selectColumns)
+            // ->join('postcodes AS p', 'p.id', '=', 'organisations.postcode_id')
+            // ->whereNotNull('p.latitude')
+            // ->whereNotNull('p.longitude')
             ->whereHas('postcode', function ($q) {
                 $q->whereNotNull('latitude');
                 $q->whereNotNull('longitude');
@@ -69,7 +85,13 @@ class OrganisationMapService
 
         return $this;
     }
-
+    
+    /**
+     * addFilters
+     *
+     * @param array $filters
+     * @return self
+     */
     private function addFilters(array $filters): self
     {
         if ($filters['org_id']) { $this->query->orgIdLike($filters['org_id']); }

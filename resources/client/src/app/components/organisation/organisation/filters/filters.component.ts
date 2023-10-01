@@ -31,7 +31,7 @@ export class OrganisationFiltersComponent {
     public lastChangeDateInput : FormControl<Date     | null> = new FormControl(null);
     public postcodeInput       : FormControl<string   | null> = new FormControl(null);
     public adminCountyInput    : FormControl<number[] | null> = new FormControl(null);
-    public adminDistrictInput  : FormControl<number[] | null> = new FormControl(null);
+    public adminDistrictInput  : FormControl<number[] | null> = new FormControl([216]);
     public parliamentInput     : FormControl<number[] | null> = new FormControl(null);
     public policeForceAreaInput: FormControl<number[] | null> = new FormControl(null);
     public nutsInput           : FormControl<number[] | null> = new FormControl(null);
