@@ -22,6 +22,7 @@ class RolePager
         'roles.display_name',
         'roles.primary_role',
         'roles.org_last_updated',
+        'roles.icon',
         'roles.created_at',
         'roles.updated_at',
     ];

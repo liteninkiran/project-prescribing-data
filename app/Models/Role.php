@@ -15,6 +15,7 @@ class Role extends Model
         'code',
         'display_name',
         'primary_role',
+        'icon',
     ];
     
     /**

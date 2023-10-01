@@ -65,6 +65,7 @@ export class RoleComponent implements OnInit {
             { columnId: 'primary_role', columnName: 'Primary Role', visible: true },
             { columnId: 'org_last_updated', columnName: 'Organisation Last Updated', visible: true },
             { columnId: 'organisations_count', columnName: 'Active Organisations', visible: true },
+            { columnId: 'icon', columnName: 'Map Icon', visible: true },
             { columnId: 'created_at', columnName: 'Created At', visible: false },
             { columnId: 'updated_at', columnName: 'Updated At', visible: false },
         ];

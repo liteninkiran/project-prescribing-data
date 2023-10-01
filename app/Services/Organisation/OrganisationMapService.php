@@ -70,7 +70,7 @@ class OrganisationMapService
         ];
         $this->query = Organisation::query()
             ->with('postcode:id,latitude,longitude')
-            ->with('primaryRole:id,display_name')
+            ->with('primaryRole:id,_id,display_name,icon')
             ->select($selectColumns)
             ->whereHas('postcode', function ($q) {
                 $q->whereNotNull('latitude');

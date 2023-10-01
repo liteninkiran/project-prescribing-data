@@ -47,7 +47,7 @@ export class OrganisationMapComponent implements OnInit {
     }
 
     private initialiseMap() {
-        this.fixLeafletBug();
+        //this.fixLeafletBug();
         this.setMap();
     }
 
@@ -76,7 +76,25 @@ export class OrganisationMapComponent implements OnInit {
                     <p>${org.post_code}</p>
                 `;
                 const markerCoords: L.LatLngExpression = [org.postcode.latitude, org.postcode.longitude];
-                const marker = L.marker(markerCoords).bindPopup(markerMessage);
+                const iconOptions: L.IconOptions = org.primary_role.icon ? {
+                    iconUrl     : org.primary_role.icon,
+                    // iconSize    : [30, 30],
+                    // iconAnchor  : [15, 30],
+                    // popupAnchor : [0, -30],
+                    iconSize    : [20, 20],
+                    iconAnchor  : [10, 20],
+                    popupAnchor : [0, -20],
+
+                } : {
+                    iconUrl     : 'assets/svg/map-marker/map-marker-a.svg',
+                    iconSize    : [20, 20],
+                    iconAnchor  : [10, 20],
+                    popupAnchor : [0, -20],
+
+                }
+                const markerIcon = L.icon(iconOptions);
+                const markerOptions: L.MarkerOptions = { icon: markerIcon }
+                const marker = L.marker(markerCoords, markerOptions).bindPopup(markerMessage);
                 markers.push(marker);
             }
         });

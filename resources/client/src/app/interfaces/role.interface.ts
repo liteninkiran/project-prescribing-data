@@ -8,6 +8,7 @@ export interface IRole {
     primary_role: boolean;
     org_last_updated: Date | null;
     organisations_count: number;
+    icon: string;
     created_at: Date;
     updated_at: Date;
 };
@@ -26,5 +27,7 @@ export interface IRoleFilterFormGroup {
 
 export interface IPrimaryRole {
     id: number;
+    _id: string;
     display_name: string;
+    icon: string;
 };
