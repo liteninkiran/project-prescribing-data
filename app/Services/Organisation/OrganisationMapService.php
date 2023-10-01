@@ -67,21 +67,16 @@ class OrganisationMapService
             'organisations.org_link',
             'organisations.created_at',
             'organisations.updated_at',
-            // 'p.latitude',
-            // 'p.longitude',
         ];
         $this->query = Organisation::query()
             ->with('postcode:id,latitude,longitude')
             ->with('primaryRole:id,display_name')
             ->select($selectColumns)
-            // ->join('postcodes AS p', 'p.id', '=', 'organisations.postcode_id')
-            // ->whereNotNull('p.latitude')
-            // ->whereNotNull('p.longitude')
             ->whereHas('postcode', function ($q) {
                 $q->whereNotNull('latitude');
                 $q->whereNotNull('longitude');
             })
-            ->orderBy('org_id');
+            ->inRandomOrder();
 
         return $this;
     }
