@@ -16,6 +16,7 @@ Use App\Models\PoliceForceArea;
 Use App\Models\PrimaryCareTrust;
 Use App\Models\Region;
 Use App\Models\Country;
+Use App\Models\PostcodeArea;
 
 return new class extends Migration
 {
@@ -75,6 +76,7 @@ return new class extends Migration
             $table->foreignIdFor(PrimaryCareTrust::class            , 'primary_care_trust_id'           )->nullable()->constrained('primary_care_trusts');
             $table->foreignIdFor(Region::class                      , 'region_id'                       )->nullable()->constrained('regions');
             $table->foreignIdFor(Country::class                     , 'country_id'                      )->nullable()->constrained('countries');
+            $table->foreignIdFor(PostcodeArea::class                , 'postcode_area_id'                )->nullable()->constrained('postcode_areas');
 
             $table->timestamps();
         });

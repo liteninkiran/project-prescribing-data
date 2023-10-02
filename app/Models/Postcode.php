@@ -59,8 +59,9 @@ class Postcode extends Model
         'pfa_id',
         'primary_care_trust_id',
         'region_id',
+        'country_id',
+        'postcode_area_id',
     ];
-
 
     /****************** RELATIONSHIPS ******************/
 
@@ -182,5 +183,15 @@ class Postcode extends Model
     public function country(): BelongsTo
     {
         return $this->belongsTo(Country::class, 'country_id', 'id');
+    }
+
+    /**
+     * postcodeArea
+     *
+     * @return BelongsTo
+     */
+    public function postcodeArea(): BelongsTo
+    {
+        return $this->belongsTo(PostcodeArea::class, 'postcode_area_id', 'id');
     }
 }
