@@ -73,7 +73,7 @@ class Organisation extends Model
     {
         return $query->where('name', 'LIKE', '%' . $name . '%');
     }
-    
+
     /**
      * scopePostcodeLike
      *
@@ -99,7 +99,7 @@ class Organisation extends Model
             $q->whereIn('_id', $roleIds);
         });
     }
-    
+
     /**
      * scopePrimaryRolesInRaw
      *
@@ -113,7 +113,7 @@ class Organisation extends Model
             $q->whereIntegerInRaw('id', $roleIds);
         });
     }
-    
+
     /**
      * scopeLastChangeDateAfter
      *
@@ -125,15 +125,27 @@ class Organisation extends Model
     {
         return $query->where('last_change_date', '>=', $date);
     }
-    
+
     /**
      * scopeStatus
+     *
+     * @param Builder $query
+     * @param int $status
+     * @return Builder
+     */
+    public function scopeStatus(Builder $query, int $status): Builder
+    {
+        return $query->where('inactive', '=', $status);
+    }
+
+    /**
+     * scopeStatusText
      *
      * @param Builder $query
      * @param string $status
      * @return Builder
      */
-    public function scopeStatus(Builder $query, string $status): Builder
+    public function scopeStatusText(Builder $query, string $status): Builder
     {
         return $query->where('status', '=', $status);
     }

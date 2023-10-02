@@ -75,7 +75,7 @@ export class OrganisationService {
     private addFilters(filters: IOrganisationFilters, params: HttpParams): HttpParams {
         if (filters.organisationId) { params = params.append('org_id', filters.organisationId); }
         if (filters.name) { params = params.append('name', filters.name); }
-        if (filters.status) { params = params.append('status', filters.status); }
+        if (filters.status !== null) { params = params.append('status', filters.status); }
         if (filters.primaryRoles) { filters.primaryRoles.map((role) => params = params.append('primary_roles[]', role.toString())); }
         if (filters.nonPrimaryRoles) { filters.nonPrimaryRoles.map((role) => params = params.append('non_primary_roles[]', role.toString())); }
         if (filters.lastChangeDate) { params = params.append('last_change_date', moment(filters.lastChangeDate).format('YYYY-MM-DD')); }

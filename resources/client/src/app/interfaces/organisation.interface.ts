@@ -30,7 +30,7 @@ export interface IOrganisationFilters {
     primaryRoles: number[] | null;
     nonPrimaryRoles: number[] | null;
     lastChangeDate: Date | null;
-    status: string | null;
+    status: number | null;
     adminCounty: number[] | null;
     adminDistrict: number[] | null;
     parliamentaryConstituency: number[] | null;
@@ -41,7 +41,7 @@ export interface IOrganisationFilters {
 export interface IOrganisationFilterFormGroup {
     organisationId: FormControl<string | null>;
     name: FormControl<string | null>;
-    status: FormControl<string | null>;
+    status: FormControl<number | null>;
     primaryRoles: FormControl<number[] | null>;
     nonPrimaryRoles: FormControl<number[] | null>;
     lastChangeDate: FormControl<Date | null>;
@@ -54,7 +54,7 @@ export interface IOrganisationFilterFormGroup {
 };
 
 export interface IOrganisationStatus {
-    id: string;
+    id: number;
     displayName: string;
 };
 

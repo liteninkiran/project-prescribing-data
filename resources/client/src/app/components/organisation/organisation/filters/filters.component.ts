@@ -25,13 +25,13 @@ export class OrganisationFiltersComponent {
     // Form Controls
     public organisationIdInput : FormControl<string   | null> = new FormControl(null)
     public nameInput           : FormControl<string   | null> = new FormControl(null)
-    public statusInput         : FormControl<string   | null> = new FormControl('active');
+    public statusInput         : FormControl<number   | null> = new FormControl(0);
     public primaryRoleInput    : FormControl<number[] | null> = new FormControl(null);
     public nonPrimaryRoleInput : FormControl<number[] | null> = new FormControl({ value: null, disabled: true });
     public lastChangeDateInput : FormControl<Date     | null> = new FormControl(null);
     public postcodeInput       : FormControl<string   | null> = new FormControl(null);
     public adminCountyInput    : FormControl<number[] | null> = new FormControl(null);
-    public adminDistrictInput  : FormControl<number[] | null> = new FormControl([216]);
+    public adminDistrictInput  : FormControl<number[] | null> = new FormControl(null);
     public parliamentInput     : FormControl<number[] | null> = new FormControl(null);
     public policeForceAreaInput: FormControl<number[] | null> = new FormControl(null);
     public nutsInput           : FormControl<number[] | null> = new FormControl(null);
@@ -133,8 +133,8 @@ export class OrganisationFiltersComponent {
 
     private statusData(): IOrganisationStatus[] {
         return [
-            { id: 'active', displayName: 'Active' },
-            { id: 'inactive', displayName: 'Inactive' },
+            { id: 0, displayName: 'Active' },
+            { id: 1, displayName: 'Inactive' },
         ];
     }
 }

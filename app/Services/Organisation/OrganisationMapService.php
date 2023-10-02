@@ -91,7 +91,7 @@ class OrganisationMapService
     {
         if ($filters['org_id']) { $this->query->orgIdLike($filters['org_id']); }
         if ($filters['name']) { $this->query->nameLike($filters['name']); }
-        if ($filters['status']) { $this->query->status($filters['status']); }
+        if ($filters['status'] !== null) { $this->query->status($filters['status']); }
         if ($filters['primary_roles']) { $this->query->primaryRolesInRaw($filters['primary_roles']); }
         if ($filters['last_change_date']) { $this->query->lastChangeDateAfter($filters['last_change_date']); }
         if ($filters['postcode']) { $this->query->postcodeLike($filters['postcode']); }
