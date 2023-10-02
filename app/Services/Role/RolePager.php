@@ -55,7 +55,7 @@ class RolePager
     private function initialiseQuery(): self
     {
         $this->query = Role::withCount(['organisations' => function (Builder $query) {
-            $query->where('status', 'active');
+            $query->status(0);
         }]);
         return $this;
     }
