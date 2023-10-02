@@ -79,11 +79,12 @@
                             #primaryRoleSelect
                             [formControl]="primaryRoleInput"
                             placeholder="Select Role(s)"
-                            multiple [panelClass]="['long-list', 'select-icon']"
+                            multiple
+                            [panelClass]="['long-list', 'select-icon']"
                         >
                             <mat-option *ngFor="let role of (primaryRoles$ | async)" [value]="role.id" class="small-font">
-                                <div class="role-container">
-                                    <div class="role-name">
+                                <div class="select-container">
+                                    <div class="select-display-name">
                                         {{ role.display_name }}
                                     </div>
                                     <div>
@@ -119,7 +120,8 @@
                             #nonPrimaryRoleSelect
                             [formControl]="nonPrimaryRoleInput"
                             placeholder="Select Role(s)"
-                            multiple panelClass="long-list"
+                            multiple
+                            panelClass="long-list"
                         >
                             <mat-option *ngFor="let role of (nonPrimaryRoles$ | async)" [value]="role.id">
                                 {{ role.display_name }}
@@ -172,7 +174,8 @@
                             #adminCountySelect
                             [formControl]="adminCountyInput"
                             placeholder="Select Administrative County(s)"
-                            multiple panelClass="long-list"
+                            multiple
+                            panelClass="long-list"
                         >
                             <mat-option *ngFor="let item of (adminCounty$ | async)" [value]="item.id">
                                 {{ item.name }}
@@ -205,7 +208,8 @@
                             #adminDistrictSelect
                             [formControl]="adminDistrictInput"
                             placeholder="Select Administrative District(s)"
-                            multiple panelClass="long-list"
+                            multiple
+                            panelClass="long-list"
                         >
                             <mat-option *ngFor="let item of (adminDistrict$ | async)" [value]="item.id">
                                 {{ item.name }}
@@ -238,7 +242,8 @@
                             #parliamentaryConstituencySelect
                             [formControl]="parliamentInput"
                             placeholder="Select Parliamentary Constituency(s)"
-                            multiple panelClass="long-list"
+                            multiple
+                            panelClass="long-list"
                         >
                             <mat-option *ngFor="let item of (parliamentaryConstituency$ | async)" [value]="item.id">
                                 {{ item.name }}
@@ -271,7 +276,8 @@
                             #policeForceAreaSelect
                             [formControl]="policeForceAreaInput"
                             placeholder="Select admin Police Force Area(s)"
-                            multiple panelClass="long-list"
+                            multiple
+                            panelClass="long-list"
                         >
                             <mat-option *ngFor="let item of (policeForceArea$ | async)" [value]="item.id">
                                 {{ item.name }}
@@ -304,7 +310,8 @@
                             #nutsSelect
                             [formControl]="nutsInput"
                             placeholder="Select Nut(s)"
-                            multiple panelClass="long-list"
+                            multiple
+                            panelClass="long-list"
                         >
                             <mat-option *ngFor="let item of (nuts$ | async)" [value]="item.id">
                                 {{ item.name }}
@@ -337,10 +344,18 @@
                             #postcodeAreaSelect
                             [formControl]="postcodeAreaInput"
                             placeholder="Select Postcode Area(s)"
-                            multiple panelClass="long-list"
+                            multiple
+                            [panelClass]="['long-list', 'select-icon']"
                         >
                             <mat-option *ngFor="let item of (postcodeArea$ | async)" [value]="item.id">
-                                {{ item.name }}
+                                <div class="select-container">
+                                    <div class="select-display-name">
+                                        {{ item.name }}
+                                    </div>
+                                    <div>
+                                        {{ item.code }}
+                                    </div>
+                                </div>
                             </mat-option>
                         </mat-select>
 
@@ -370,7 +385,8 @@
                             #euroSelect
                             [formControl]="euroInput"
                             placeholder="Select European Electoral Region(s)"
-                            multiple panelClass="long-list"
+                            multiple
+                            panelClass="long-list"
                         >
                             <mat-option *ngFor="let item of (euro$ | async)" [value]="item.id">
                                 {{ item.name }}
@@ -403,7 +419,8 @@
                             #nhsHasSelect
                             [formControl]="nhsHaInput"
                             placeholder="Select Health Authority(s)"
-                            multiple panelClass="long-list"
+                            multiple
+                            panelClass="long-list"
                         >
                             <mat-option *ngFor="let item of (healthAuthority$ | async)" [value]="item.id">
                                 {{ item.name }}
@@ -436,7 +453,8 @@
                             #primaryCareTrustSelect
                             [formControl]="priCareTrustInput"
                             placeholder="Select Primary Care Trust(s)"
-                            multiple panelClass="long-list"
+                            multiple
+                            panelClass="long-list"
                         >
                             <mat-option *ngFor="let item of (primaryCareTrust$ | async)" [value]="item.id">
                                 {{ item.name }}
@@ -469,7 +487,8 @@
                             #regionSelect
                             [formControl]="regionInput"
                             placeholder="Select Region(s)"
-                            multiple panelClass="long-list"
+                            multiple
+                            panelClass="long-list"
                         >
                             <mat-option *ngFor="let item of (region$ | async)" [value]="item.id">
                                 {{ item.name }}
@@ -502,7 +521,7 @@
                             #countrySelect
                             [formControl]="countryInput"
                             placeholder="Select Country(s)"
-                            multiple panelClass="long-list"
+                            multiple
                         >
                             <mat-option *ngFor="let item of (country$ | async)" [value]="item.id">
                                 {{ item.name }}

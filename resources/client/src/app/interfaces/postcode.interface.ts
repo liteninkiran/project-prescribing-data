@@ -1,12 +1,6 @@
 export interface IPostcodeAttribute {
     id: number;
-    code: string;
-    name: string;
-};
-
-export interface IPostcodeAttributeNameOnly {
-    id: number;
-    code: string;
+    code?: string;
     name: string;
 };
 

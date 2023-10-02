@@ -30,7 +30,7 @@ class PostcodeAttributeLists
             'parliamentary_constituency'    => $this->getCollection('App\Models\ParliamentaryConstituency'),
             'police_force_area'             => $this->getCollection('App\Models\PoliceForceArea'),
             'nuts'                          => $this->getCollection('App\Models\Nuts'),
-            'postcode_area'                 => $this->getCollection('App\Models\PostcodeArea'),
+            'postcode_area'                 => $this->getCollection('App\Models\PostcodeArea', true),
             'european_electoral_region'     => $this->getCollection('App\Models\EuropeanElectoralRegion'),
             'health_authority'              => $this->getCollection('App\Models\HealthAuthority'),
             'primary_care_trust'            => $this->getCollection('App\Models\PrimaryCareTrust'),
@@ -39,10 +39,18 @@ class PostcodeAttributeLists
         ];
     }
 
-    public function getCollection(string $class): Collection
+    public function getCollection(string $class, bool $code = false): Collection
     {
+        $columns = ['id', 'name'];
+        if ($code) {
+            $columns[] = 'code';
+        }
         return $class::query()
-            ->select(['id', 'name'])
+            ->select($columns)
+            ->whereHas('postcodes', function ($q) {
+                $q->whereNotNull('latitude');
+                $q->whereNotNull('longitude');
+            })
             ->orderBy('name', 'asc')
             ->get();
     }
