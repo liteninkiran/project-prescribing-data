@@ -85,6 +85,7 @@ export class OrganisationService {
         if (filters.parliamentaryConstituency) { filters.parliamentaryConstituency.map((item) => params = params.append('parliamentary_constituency[]', item.toString())); }
         if (filters.policeForceArea) { filters.policeForceArea.map((item) => params = params.append('pfa[]', item.toString())); }
         if (filters.nuts) { filters.nuts.map((item) => params = params.append('nuts[]', item.toString())); }
+        if (filters.postcodeArea) { filters.postcodeArea.map((item) => params = params.append('postcode_area[]', item.toString())); }
         if (filters.europeanElectoralRegion) { filters.europeanElectoralRegion.map((item) => params = params.append('european_electoral_region[]', item.toString())); }
         if (filters.healthAuthority) { filters.healthAuthority.map((item) => params = params.append('health_authority[]', item.toString())); }
         if (filters.primaryCareTrust) { filters.primaryCareTrust.map((item) => params = params.append('primary_care_trust[]', item.toString())); }

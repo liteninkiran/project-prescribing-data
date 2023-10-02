@@ -82,6 +82,7 @@ class OrganisationPager
         if ($filters['parliamentary_constituency']) { $this->query->parliamentaryConstituenciesInRaw($filters['parliamentary_constituency']); }
         if ($filters['pfa']) { $this->query->policeForceAreaInRaw($filters['pfa']); }
         if ($filters['nuts']) { $this->query->nutsInRaw($filters['nuts']); }
+        if ($filters['postcode_area']) { $this->query->postcodeAreaInRaw($filters['postcode_area']); }
         if ($filters['european_electoral_region']) { $this->query->europeanElectoralRegionInRaw($filters['european_electoral_region']); }
         if ($filters['health_authority']) { $this->query->healthAuthorityInRaw($filters['health_authority']); }
         if ($filters['primary_care_trust']) { $this->query->primaryCareTrustInRaw($filters['primary_care_trust']); }

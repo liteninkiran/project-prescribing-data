@@ -48,6 +48,10 @@ export class PostcodeStore {
         return this.attributes$.pipe(map(attributes => attributes.nuts));
     }
 
+    public getPostcodeArea(): Observable<IPostcodeAttribute[]> {
+        return this.attributes$.pipe(map(attributes => attributes.postcode_area));
+    }
+
     public getEuropeanElectoralRegion(): Observable<IPostcodeAttribute[]> {
         return this.attributes$.pipe(map(attributes => attributes.european_electoral_region));
     }

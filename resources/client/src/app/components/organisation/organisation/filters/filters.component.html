@@ -324,6 +324,39 @@
 
                     </mat-form-field>
 
+                    <!-- Postcode Area -->
+                    <mat-form-field>
+
+                        <!-- Label -->
+                        <mat-label>
+                            Postcode Area
+                        </mat-label>
+
+                        <!-- Postcode Area List -->
+                        <mat-select
+                            #postcodeAreaSelect
+                            [formControl]="postcodeAreaInput"
+                            placeholder="Select Postcode Area(s)"
+                            multiple panelClass="long-list"
+                        >
+                            <mat-option *ngFor="let item of (postcodeArea$ | async)" [value]="item.id">
+                                {{ item.name }}
+                            </mat-option>
+                        </mat-select>
+
+                        <!-- Clear Contents -->
+                        <button
+                            *ngIf="postcodeAreaInput.value?.length || 0 > 0"
+                            matSuffix
+                            mat-icon-button
+                            aria-label="Clear"
+                            (click)="postcodeAreaInput.setValue(null)"
+                        >
+                            <mat-icon>close</mat-icon>
+                        </button>
+
+                    </mat-form-field>
+
                     <!-- European Electoral Region -->
                     <mat-form-field>
 

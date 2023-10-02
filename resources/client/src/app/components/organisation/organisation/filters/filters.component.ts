@@ -35,6 +35,7 @@ export class OrganisationFiltersComponent {
     public parliamentInput     : FormControl<number[] | null> = new FormControl(null);
     public policeForceAreaInput: FormControl<number[] | null> = new FormControl(null);
     public nutsInput           : FormControl<number[] | null> = new FormControl(null);
+    public postcodeAreaInput   : FormControl<number[] | null> = new FormControl(null);
     public euroInput           : FormControl<number[] | null> = new FormControl(null);
     public nhsHaInput          : FormControl<number[] | null> = new FormControl(null);
     public priCareTrustInput   : FormControl<number[] | null> = new FormControl(null);
@@ -55,6 +56,7 @@ export class OrganisationFiltersComponent {
     public parliamentaryConstituency$!: Observable<IPostcodeAttribute[]>;
     public policeForceArea$!: Observable<IPostcodeAttribute[]>;
     public nuts$!: Observable<IPostcodeAttribute[]>;
+    public postcodeArea$!: Observable<IPostcodeAttribute[]>;
     public euro$!: Observable<IPostcodeAttribute[]>;
     public healthAuthority$!: Observable<IPostcodeAttribute[]>;
     public primaryCareTrust$!: Observable<IPostcodeAttribute[]>;
@@ -96,6 +98,7 @@ export class OrganisationFiltersComponent {
         this.parliamentaryConstituency$ = this.postcodeStore.getParliamentaryConstituencies();
         this.policeForceArea$ = this.postcodeStore.getPoliceForceAreas();
         this.nuts$ = this.postcodeStore.getNuts();
+        this.postcodeArea$ = this.postcodeStore.getPostcodeArea();
         this.euro$ = this.postcodeStore.getEuropeanElectoralRegion();
         this.healthAuthority$ = this.postcodeStore.getHealthAuthority();
         this.primaryCareTrust$ = this.postcodeStore.getPrimaryCareTrust();
@@ -117,6 +120,7 @@ export class OrganisationFiltersComponent {
             parliamentaryConstituency: this.parliamentInput,
             policeForceArea: this.policeForceAreaInput,
             nuts: this.nutsInput,
+            postcodeArea: this.postcodeAreaInput,
             europeanElectoralRegion: this.euroInput,
             healthAuthority: this.nhsHaInput,
             primaryCareTrust: this.priCareTrustInput,

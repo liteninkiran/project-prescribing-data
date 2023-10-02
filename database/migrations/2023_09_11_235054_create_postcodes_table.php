@@ -25,7 +25,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('postcodes', function (Blueprint $table) {
+        $query = "left(postcode, (case when substr(postcode, 2, 1) between '0' and '9' then 1 when substr(postcode, 3, 1) between '0' and '9' then 2 end))";
+        Schema::create('postcodes', function (Blueprint $table) use ($query) {
             $table->id();
             $table->string ('postcode'                       )->unique();
             $table->string ('incode'                         )->default('');
@@ -65,6 +66,11 @@ return new class extends Migration
             $table->string ('pfa_code'                       )->nullable();
             $table->string ('primary_care_trust'             )->nullable();
             $table->string ('region'                         )->nullable();
+
+            // Store postcode area as query
+            $table->string('postcode_area')
+                ->storedAs($query)
+                ->nullable();
 
             $table->foreignIdFor(AdminCounty::class                 , 'admin_county_id'                 )->nullable()->constrained('admin_counties');
             $table->foreignIdFor(AdminDistrict::class               , 'admin_district_id'               )->nullable()->constrained('admin_districts');

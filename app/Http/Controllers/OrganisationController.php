@@ -83,6 +83,7 @@ class OrganisationController extends Controller
             'parliamentary_constituency',
             'pfa',
             'nuts',
+            'postcode_area',
             'european_electoral_region',
             'health_authority',
             'primary_care_trust',

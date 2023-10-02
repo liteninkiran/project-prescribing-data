@@ -12,6 +12,7 @@ use App\Models\AdminDistrict;
 use App\Models\EuropeanElectoralRegion;
 use App\Models\HealthAuthority;
 use App\Models\Nuts;
+use App\Models\PostcodeArea;
 use App\Models\ParliamentaryConstituency;
 use App\Models\PoliceForceArea;
 use App\Models\PrimaryCareTrust;
@@ -29,6 +30,7 @@ class PostcodeAttributeLists
             'parliamentary_constituency'    => $this->getCollection('App\Models\ParliamentaryConstituency'),
             'police_force_area'             => $this->getCollection('App\Models\PoliceForceArea'),
             'nuts'                          => $this->getCollection('App\Models\Nuts'),
+            'postcode_area'                 => $this->getCollection('App\Models\PostcodeArea'),
             'european_electoral_region'     => $this->getCollection('App\Models\EuropeanElectoralRegion'),
             'health_authority'              => $this->getCollection('App\Models\HealthAuthority'),
             'primary_care_trust'            => $this->getCollection('App\Models\PrimaryCareTrust'),

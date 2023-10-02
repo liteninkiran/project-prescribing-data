@@ -46,7 +46,7 @@ class PostcodeAttributesSeeder extends Seeder
         // Update postcodes
         $this->updatePostcodes();
     }
-    
+
     /**
      * updatePostcodes
      *
@@ -98,6 +98,11 @@ class PostcodeAttributesSeeder extends Seeder
                 'table' => 'police_force_areas',
                 'foreignKey' => 'pfa_id',
                 'matchOnPrimary' => 'pfa_code',
+                'matchOnForeign' => 'code',
+            ], [
+                'table' => 'postcode_areas',
+                'foreignKey' => 'postcode_area_id',
+                'matchOnPrimary' => 'postcode_area',
                 'matchOnForeign' => 'code',
             ], [
                 'table' => 'european_electoral_regions',

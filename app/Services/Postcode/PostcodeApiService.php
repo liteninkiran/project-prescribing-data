@@ -254,6 +254,7 @@ class PostcodeApiService
         // Remove meta data fields
         $unsetColumns = [
             'id',
+            'postcode_area',
             'created_at',
             'updated_at',
         ];
