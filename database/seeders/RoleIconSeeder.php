@@ -62,7 +62,7 @@ class RoleIconSeeder extends Seeder
 
             // Sexual Assault
             case 'RO236': // SEXUAL ASSAULT REFERRAL CENTRE
-                return $path . 'sexual-assault/sexual-assault-d.svg';
+                return $path . 'sexual-assault/sexual-assault-e.svg';
 
             // Partnership
             case 'RO261': // STRATEGIC PARTNERSHIP
@@ -71,6 +71,15 @@ class RoleIconSeeder extends Seeder
             // Care
             case 'RO101': // SOCIAL CARE SITE
             case 'RO104': // SOCIAL CARE PROVIDER
+            case 'RO272': // PRIMARY CARE NETWORK
+            case 'RO171': // PRIMARY CARE GROUP
+            case 'RO179': // PRIMARY CARE TRUST
+            case 'RO180': // PRIMARY CARE TRUST SITE
+            case 'RO153': // NORTHERN IRELAND HEALTH & SOCIAL CARE BOARD
+            case 'RO154': // NORTHERN IRELAND HEALTH AND SOCIAL CARE TRUST
+            case 'RO180': // PRIMARY CARE TRUST SITE
+            case 'RO107': // CARE TRUST
+            case 'RO108': // CARE TRUST SITE
                 return $path . 'care/care-a.svg';
 
             // Children
@@ -83,9 +92,9 @@ class RoleIconSeeder extends Seeder
             case 'RO232': // IMMIGRATION REMOVAL CENTRE
                 return $path . 'immigration/immigration-c.svg';
 
-            // Denist
+            // Dentist
             case 'RO110': // GENERAL DENTAL PRACTICE
-                return $path . 'denist/denist-d.svg';
+                return $path . 'dentist/dentist-d.svg';
 
             // Optician
             case 'RO166': // OPTICAL HEADQUARTERS
@@ -94,8 +103,11 @@ class RoleIconSeeder extends Seeder
     
             // Pathology
             case 'RO173': // PATHOLOGY LAB
-                return $path . 'pathology/pathology-b.svg';
+                return $path . 'pathology/pathology-e.svg';
 
+            // Observatory
+            case 'RO134': // HEALTH OBSERVATORY
+                return $path . 'observatory/observatory-c.svg';
 
 
             // Everything else

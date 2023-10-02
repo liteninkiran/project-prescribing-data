@@ -13,7 +13,7 @@ export class FormatValuePipe implements PipeTransform {
         const type = typeof val;
         switch (type) {
             case 'number':
-                newVal = val === 0 ? null : formatNumber(val, this.locale, '1.0-0');
+                newVal = val === null ? null : (val === 0 ? '—' : formatNumber(val, this.locale, '1.0-0'));
                 break;
             case 'boolean':
                 newVal = (val ? String.fromCharCode(10003) : String.fromCharCode(10005) );

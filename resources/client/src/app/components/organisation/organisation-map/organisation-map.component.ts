@@ -78,12 +78,12 @@ export class OrganisationMapComponent implements OnInit {
                 const markerCoords: L.LatLngExpression = [org.postcode.latitude, org.postcode.longitude];
                 const iconOptions: L.IconOptions = org.primary_role.icon ? {
                     iconUrl     : org.primary_role.icon,
-                    // iconSize    : [30, 30],
-                    // iconAnchor  : [15, 30],
-                    // popupAnchor : [0, -30],
-                    iconSize    : [20, 20],
-                    iconAnchor  : [10, 20],
-                    popupAnchor : [0, -20],
+                    iconSize    : [30, 30],
+                    iconAnchor  : [15, 30],
+                    popupAnchor : [0, -30],
+                    // iconSize    : [20, 20],
+                    // iconAnchor  : [10, 20],
+                    // popupAnchor : [0, -20],
 
                 } : {
                     iconUrl     : 'assets/svg/map-marker/map-marker-a.svg',
