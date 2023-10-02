@@ -15,6 +15,7 @@ Use App\Models\ParliamentaryConstituency;
 Use App\Models\PoliceForceArea;
 Use App\Models\PrimaryCareTrust;
 Use App\Models\Region;
+Use App\Models\Country;
 
 return new class extends Migration
 {
@@ -73,6 +74,7 @@ return new class extends Migration
             $table->foreignIdFor(PoliceForceArea::class             , 'pfa_id'                          )->nullable()->constrained('police_force_areas');
             $table->foreignIdFor(PrimaryCareTrust::class            , 'primary_care_trust_id'           )->nullable()->constrained('primary_care_trusts');
             $table->foreignIdFor(Region::class                      , 'region_id'                       )->nullable()->constrained('regions');
+            $table->foreignIdFor(Country::class                     , 'country_id'                      )->nullable()->constrained('countries');
 
             $table->timestamps();
         });

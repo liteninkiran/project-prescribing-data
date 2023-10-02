@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Artisan;
 
 // Models
 use App\Models\Role;
@@ -54,6 +55,7 @@ class RoleController extends Controller
     public function storeFromApi(RoleApiService $roleApiService): JsonResponse
     {
         $response = $roleApiService->storeFromApi();
+        Artisan::call('db:seed', ['--class' => 'RoleIconSeeder']);
         return response()->json($response);
     }
     

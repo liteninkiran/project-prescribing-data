@@ -15,6 +15,7 @@ class Organisation extends Model
         'name',
         'org_id',
         'status',
+        'inactive',
         'org_record_class',
         'post_code',
         'postcode_id',

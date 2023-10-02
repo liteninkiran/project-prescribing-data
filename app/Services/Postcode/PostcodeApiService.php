@@ -259,7 +259,7 @@ class PostcodeApiService
         ];
 
         // Also remove key fields
-        $unsetColumns = array_merge($unsetColumns, $this->keyCols);
+        $unsetColumns = array_merge($unsetColumns, array_keys($this->keyCols));
 
         // Remove necessary columns from array
         foreach ($unsetColumns as $col) {

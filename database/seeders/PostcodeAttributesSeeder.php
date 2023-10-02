@@ -18,6 +18,7 @@ use App\Models\ParliamentaryConstituency;
 use App\Models\PoliceForceArea;
 use App\Models\PrimaryCareTrust;
 use App\Models\Region;
+use App\Models\Country;
 
 class PostcodeAttributesSeeder extends Seeder
 {
@@ -40,6 +41,7 @@ class PostcodeAttributesSeeder extends Seeder
         $this->healthAuthority();
         $this->primaryCareTrust();
         $this->region();
+        $this->country();
 
         // Update postcodes
         $this->updatePostcodes();
@@ -117,9 +119,13 @@ class PostcodeAttributesSeeder extends Seeder
                 'foreignKey' => 'region_id',
                 'matchOnPrimary' => 'region',
                 'matchOnForeign' => 'name',
+            ], [
+                'table' => 'countries',
+                'foreignKey' => 'country_id',
+                'matchOnPrimary' => 'country',
+                'matchOnForeign' => 'name',
             ],
         ];
-
 
         $objArray = array_map(function ($element) {
             return (object) $element;
@@ -268,9 +274,19 @@ class PostcodeAttributesSeeder extends Seeder
      *
      * @return void
      */
-    private function Region(): void
+    private function region(): void
     {
         $this->updateOrCreateModelsNameOnly('App\Models\Region', 'region');
+    }
+
+    /**
+     * Country
+     *
+     * @return void
+     */
+    private function country(): void
+    {
+        $this->updateOrCreateModelsNameOnly('App\Models\Country', 'country');
     }
 
     /**

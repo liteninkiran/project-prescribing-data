@@ -16,6 +16,7 @@ use App\Models\ParliamentaryConstituency;
 use App\Models\PoliceForceArea;
 use App\Models\PrimaryCareTrust;
 use App\Models\Region;
+use App\Models\Country;
 
 class PostcodeAttributeLists
 {    

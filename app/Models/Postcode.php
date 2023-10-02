@@ -173,4 +173,14 @@ class Postcode extends Model
     {
         return $this->belongsTo(Region::class, 'region_id', 'id');
     }
+
+    /**
+     * country
+     *
+     * @return BelongsTo
+     */
+    public function country(): BelongsTo
+    {
+        return $this->belongsTo(Country::class, 'country_id', 'id');
+    }
 }

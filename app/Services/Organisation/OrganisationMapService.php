@@ -76,7 +76,7 @@ class OrganisationMapService
                 $q->whereNotNull('latitude');
                 $q->whereNotNull('longitude');
             })
-            ->inRandomOrder();
+            ->orderBy('org_id', 'desc');
 
         return $this;
     }

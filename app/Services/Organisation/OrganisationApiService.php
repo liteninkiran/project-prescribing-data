@@ -116,6 +116,7 @@ class OrganisationApiService
             'organisations.name',
             'organisations.org_id',
             'organisations.status',
+            'organisations.inactive',
             'organisations.org_record_class',
             'organisations.post_code',
             'postcodes.id AS postcode_id',
@@ -225,6 +226,7 @@ class OrganisationApiService
         $values = $this->getAttributeValues($organisation, $columns);
         $values['postcode_id'] = $this->getPostcodeId($values['post_code']);
         $values['primary_role_id'] = $this->role->id;
+        $values['inactive'] = $organisation['Status'] === 'Inactive' ? 1 : 0;
         $model = Organisation::firstOrNew($attributes, $values);
         $this->updateModel($model, $values);
     }
@@ -278,7 +280,7 @@ class OrganisationApiService
         ];
 
         // Also remove key fields
-        $unsetColumns = array_merge($unsetColumns, $this->keyCols);
+        $unsetColumns = array_merge($unsetColumns, array_keys($this->keyCols));
 
         // Remove necessary columns from array
         foreach ($unsetColumns as $col) {
