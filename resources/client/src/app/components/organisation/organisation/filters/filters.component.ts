@@ -35,6 +35,11 @@ export class OrganisationFiltersComponent {
     public parliamentInput     : FormControl<number[] | null> = new FormControl(null);
     public policeForceAreaInput: FormControl<number[] | null> = new FormControl(null);
     public nutsInput           : FormControl<number[] | null> = new FormControl(null);
+    public euroInput           : FormControl<number[] | null> = new FormControl(null);
+    public nhsHaInput          : FormControl<number[] | null> = new FormControl(null);
+    public priCareTrustInput   : FormControl<number[] | null> = new FormControl(null);
+    public regionInput         : FormControl<number[] | null> = new FormControl(null);
+    public countryInput        : FormControl<number[] | null> = new FormControl(null);
 
     // Config
     public filters: IFilterConfig[] = [];
@@ -50,6 +55,11 @@ export class OrganisationFiltersComponent {
     public parliamentaryConstituency$!: Observable<IPostcodeAttribute[]>;
     public policeForceArea$!: Observable<IPostcodeAttribute[]>;
     public nuts$!: Observable<IPostcodeAttribute[]>;
+    public euro$!: Observable<IPostcodeAttribute[]>;
+    public healthAuthority$!: Observable<IPostcodeAttribute[]>;
+    public primaryCareTrust$!: Observable<IPostcodeAttribute[]>;
+    public region$!: Observable<IPostcodeAttribute[]>;
+    public country$!: Observable<IPostcodeAttribute[]>;
 
     constructor(
         private orgStore: OrganisationStore,
@@ -86,6 +96,11 @@ export class OrganisationFiltersComponent {
         this.parliamentaryConstituency$ = this.postcodeStore.getParliamentaryConstituencies();
         this.policeForceArea$ = this.postcodeStore.getPoliceForceAreas();
         this.nuts$ = this.postcodeStore.getNuts();
+        this.euro$ = this.postcodeStore.getEuropeanElectoralRegion();
+        this.healthAuthority$ = this.postcodeStore.getHealthAuthority();
+        this.primaryCareTrust$ = this.postcodeStore.getPrimaryCareTrust();
+        this.region$ = this.postcodeStore.getRegion();
+        this.country$ = this.postcodeStore.getCountry();
     }
 
     private setFilterFormGroup(): void {
@@ -102,6 +117,11 @@ export class OrganisationFiltersComponent {
             parliamentaryConstituency: this.parliamentInput,
             policeForceArea: this.policeForceAreaInput,
             nuts: this.nutsInput,
+            europeanElectoralRegion: this.euroInput,
+            healthAuthority: this.nhsHaInput,
+            primaryCareTrust: this.priCareTrustInput,
+            region: this.regionInput,
+            country: this.countryInput,
         }
 
         this.filterForm = new FormGroup(formGroup);

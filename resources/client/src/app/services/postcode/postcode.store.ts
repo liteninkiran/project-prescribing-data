@@ -47,4 +47,24 @@ export class PostcodeStore {
     public getNuts(): Observable<IPostcodeAttribute[]> {
         return this.attributes$.pipe(map(attributes => attributes.nuts));
     }
+
+    public getEuropeanElectoralRegion(): Observable<IPostcodeAttribute[]> {
+        return this.attributes$.pipe(map(attributes => attributes.european_electoral_region));
+    }
+
+    public getHealthAuthority(): Observable<IPostcodeAttribute[]> {
+        return this.attributes$.pipe(map(attributes => attributes.health_authority));
+    }
+
+    public getPrimaryCareTrust(): Observable<IPostcodeAttribute[]> {
+        return this.attributes$.pipe(map(attributes => attributes.primary_care_trust));
+    }
+
+    public getRegion(): Observable<IPostcodeAttribute[]> {
+        return this.attributes$.pipe(map(attributes => attributes.region));
+    }
+
+    public getCountry(): Observable<IPostcodeAttribute[]> {
+        return this.attributes$.pipe(map(attributes => attributes.country));
+    }
 }

@@ -83,6 +83,11 @@ class OrganisationController extends Controller
             'parliamentary_constituency',
             'pfa',
             'nuts',
+            'european_electoral_region',
+            'health_authority',
+            'primary_care_trust',
+            'region',
+            'country',
         ];
 
         $filters = array_reduce($filterNames, function ($result, $item) {

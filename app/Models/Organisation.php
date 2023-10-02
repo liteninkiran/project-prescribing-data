@@ -153,8 +153,8 @@ class Organisation extends Model
     public function scopeAdminCountiesInRaw(Builder $query, array $ids): Builder
     {
         return $query->whereHas('postcode', function($postcode) use ($ids) {
-            $postcode->whereHas('adminCounty', function($adminCounty) use ($ids) {
-                $adminCounty->whereIntegerInRaw('id', $ids);
+            $postcode->whereHas('adminCounty', function($attribute) use ($ids) {
+                $attribute->whereIntegerInRaw('id', $ids);
             });
         });
     }
@@ -162,8 +162,8 @@ class Organisation extends Model
     public function scopeAdminDistrictsInRaw(Builder $query, array $ids): Builder
     {
         return $query->whereHas('postcode', function($postcode) use ($ids) {
-            $postcode->whereHas('adminDistrict', function($adminDistrict) use ($ids) {
-                $adminDistrict->whereIntegerInRaw('id', $ids);
+            $postcode->whereHas('adminDistrict', function($attribute) use ($ids) {
+                $attribute->whereIntegerInRaw('id', $ids);
             });
         });
     }
@@ -171,8 +171,8 @@ class Organisation extends Model
     public function scopeParliamentaryConstituenciesInRaw(Builder $query, array $ids): Builder
     {
         return $query->whereHas('postcode', function($postcode) use ($ids) {
-            $postcode->whereHas('parliamentaryConstituency', function($parliamentaryConstituency) use ($ids) {
-                $parliamentaryConstituency->whereIntegerInRaw('id', $ids);
+            $postcode->whereHas('parliamentaryConstituency', function($attribute) use ($ids) {
+                $attribute->whereIntegerInRaw('id', $ids);
             });
         });
     }
@@ -180,8 +180,8 @@ class Organisation extends Model
     public function scopePoliceForceAreaInRaw(Builder $query, array $ids): Builder
     {
         return $query->whereHas('postcode', function($postcode) use ($ids) {
-            $postcode->whereHas('policeForceArea', function($pfa) use ($ids) {
-                $pfa->whereIntegerInRaw('id', $ids);
+            $postcode->whereHas('policeForceArea', function($attribute) use ($ids) {
+                $attribute->whereIntegerInRaw('id', $ids);
             });
         });
     }
@@ -189,8 +189,53 @@ class Organisation extends Model
     public function scopeNutsInRaw(Builder $query, array $ids): Builder
     {
         return $query->whereHas('postcode', function($postcode) use ($ids) {
-            $postcode->whereHas('nuts', function($nuts) use ($ids) {
-                $nuts->whereIntegerInRaw('id', $ids);
+            $postcode->whereHas('nuts', function($attribute) use ($ids) {
+                $attribute->whereIntegerInRaw('id', $ids);
+            });
+        });
+    }
+
+    public function scopeEuropeanElectoralRegionInRaw(Builder $query, array $ids): Builder
+    {
+        return $query->whereHas('postcode', function($postcode) use ($ids) {
+            $postcode->whereHas('europeanElectoralRegion', function($attribute) use ($ids) {
+                $attribute->whereIntegerInRaw('id', $ids);
+            });
+        });
+    }
+
+    public function scopeHealthAuthorityInRaw(Builder $query, array $ids): Builder
+    {
+        return $query->whereHas('postcode', function($postcode) use ($ids) {
+            $postcode->whereHas('healthAuthority', function($attribute) use ($ids) {
+                $attribute->whereIntegerInRaw('id', $ids);
+            });
+        });
+    }
+
+    public function scopePrimaryCareTrustInRaw(Builder $query, array $ids): Builder
+    {
+        return $query->whereHas('postcode', function($postcode) use ($ids) {
+            $postcode->whereHas('primaryCareTrust', function($attribute) use ($ids) {
+                $attribute->whereIntegerInRaw('id', $ids);
+            });
+        });
+    }
+
+    public function scopeRegionInRaw(Builder $query, array $ids): Builder
+    {
+        return $query->whereHas('postcode', function($postcode) use ($ids) {
+            $postcode->whereHas('region', function($attribute) use ($ids) {
+                $attribute->whereIntegerInRaw('id', $ids);
+            });
+        });
+    }
+
+    public function scopeCountryInRaw(Builder $query, array $ids): Builder
+    {
+        return $query->whereHas('postcode', function($postcode) use ($ids) {
+            $postcode->whereHas('country', function($attribute) use ($ids) {
+                $attribute->whereIntegerInRaw('id', $ids);
             });
         });
     }

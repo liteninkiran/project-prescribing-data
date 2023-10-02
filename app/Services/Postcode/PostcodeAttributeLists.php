@@ -24,43 +24,23 @@ class PostcodeAttributeLists
     public function getPostcodeAttributes(): array
     {
         return [
-            'admin_county' => $this->getAdminCounty(),
-            'admin_district' => $this->getAdminDistrict(),
-            'parliamentary_constituency' => $this->getParliamentaryConstituency(),
-            'police_force_area' => $this->getPoliceForceArea(),
-            'nuts' => $this->getNuts(),
+            'admin_county'                  => $this->getCollection('App\Models\AdminCounty'),
+            'admin_district'                => $this->getCollection('App\Models\AdminDistrict'),
+            'parliamentary_constituency'    => $this->getCollection('App\Models\ParliamentaryConstituency'),
+            'police_force_area'             => $this->getCollection('App\Models\PoliceForceArea'),
+            'nuts'                          => $this->getCollection('App\Models\Nuts'),
+            'european_electoral_region'     => $this->getCollection('App\Models\EuropeanElectoralRegion'),
+            'health_authority'              => $this->getCollection('App\Models\HealthAuthority'),
+            'primary_care_trust'            => $this->getCollection('App\Models\PrimaryCareTrust'),
+            'region'                        => $this->getCollection('App\Models\Region'),
+            'country'                       => $this->getCollection('App\Models\Country'),
         ];
-    }
-
-    public function getAdminCounty(): Collection
-    {
-        return $this->getCollection('App\Models\AdminCounty');
-    }
-
-    public function getAdminDistrict(): Collection
-    {
-        return $this->getCollection('App\Models\AdminDistrict');
-    }
-
-    public function getParliamentaryConstituency(): Collection
-    {
-        return $this->getCollection('App\Models\ParliamentaryConstituency');
-    }
-
-    public function getPoliceForceArea(): Collection
-    {
-        return $this->getCollection('App\Models\PoliceForceArea');
-    }
-
-    public function getNuts(): Collection
-    {
-        return $this->getCollection('App\Models\Nuts');
     }
 
     public function getCollection(string $class): Collection
     {
         return $class::query()
-            ->select(['id', 'code', 'name'])
+            ->select(['id', 'name'])
             ->orderBy('name', 'asc')
             ->get();
     }

@@ -36,6 +36,11 @@ export interface IOrganisationFilters {
     parliamentaryConstituency: number[] | null;
     policeForceArea: number[] | null;
     nuts: number[] | null;
+    europeanElectoralRegion: number[] | null;
+    healthAuthority: number[] | null;
+    primaryCareTrust: number[] | null;
+    region: number[] | null;
+    country: number[] | null;
 };
 
 export interface IOrganisationFilterFormGroup {
@@ -51,6 +56,11 @@ export interface IOrganisationFilterFormGroup {
     parliamentaryConstituency: FormControl<number[] | null>;
     policeForceArea: FormControl<number[] | null>;
     nuts: FormControl<number[] | null>;
+    europeanElectoralRegion: FormControl<number[] | null>;
+    healthAuthority: FormControl<number[] | null>;
+    primaryCareTrust: FormControl<number[] | null>;
+    region: FormControl<number[] | null>;
+    country: FormControl<number[] | null>;
 };
 
 export interface IOrganisationStatus {
