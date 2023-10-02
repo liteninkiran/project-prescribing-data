@@ -8,7 +8,7 @@ export interface IRole {
     primary_role: boolean;
     org_last_updated: Date | null;
     organisations_count: number | null;
-    icon: string;
+    icon: string | null;
     created_at: Date;
     updated_at: Date;
 };

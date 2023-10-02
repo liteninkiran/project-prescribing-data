@@ -79,10 +79,17 @@
                             #primaryRoleSelect
                             [formControl]="primaryRoleInput"
                             placeholder="Select Role(s)"
-                            multiple panelClass="long-list"
+                            multiple [panelClass]="['long-list', 'select-icon']"
                         >
-                            <mat-option *ngFor="let role of (primaryRoles$ | async)" [value]="role.id">
-                                {{ role.display_name }}
+                            <mat-option *ngFor="let role of (primaryRoles$ | async)" [value]="role.id" class="small-font">
+                                <div class="role-container">
+                                    <div class="role-name">
+                                        {{ role.display_name }}
+                                    </div>
+                                    <div>
+                                        <img *ngIf="role.icon" [src]="role.icon" />
+                                    </div>
+                                </div>
                             </mat-option>
                         </mat-select>
 

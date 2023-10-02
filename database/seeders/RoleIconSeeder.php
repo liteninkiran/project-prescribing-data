@@ -109,6 +109,24 @@ class RoleIconSeeder extends Seeder
             case 'RO134': // HEALTH OBSERVATORY
                 return $path . 'observatory/observatory-c.svg';
 
+            // NHS
+            case 'RO198': // NHS TRUST SITE
+            case 'RO197': // NHS TRUST
+            case 'RO158': // NON STATUTORY NHS ORGANISATION
+            case 'RO210': // NHS ENGLAND (REGION, LOCAL OFFICE)
+            case 'RO212': // NHS ENGLAND (REGION, LOCAL OFFICE) SITE
+            case 'RO161': // NHS SUPPORT AGENCY
+            case 'RO209': // NHS ENGLAND (REGION)
+            case 'RO169': // OTHER UNIT (IN SUPPORT OF NHS BUSINESS)
+                return $path . 'nhs/nhs-a.svg';
+
+
+            // Non-NHS
+            case 'RO157': // NON-NHS ORGANISATION
+                return $path . 'non-nhs/non-nhs-c.svg';
+    
+    
+
 
             // Everything else
             default:
