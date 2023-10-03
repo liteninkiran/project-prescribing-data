@@ -52,7 +52,7 @@ class OrganisationApiService
         $this->setRole($roleId);
 
         // Set timeout (not using queue yet)
-        $this->setTimeout(300);
+        $this->setTimeout(env('MAX_EXECUTION_TIME', 300));
 
         // Loop through the URLs (max row limit is 1,000)
         $this->looper();
