@@ -2,6 +2,15 @@ mat-form-field {
     width: 95%;
 }
 
+.filter-spacer {
+    width: 95%;
+}
+
+.spacer {
+    margin-bottom: 20px;
+}
+
+
 mat-panel-description {
     flex-grow: 4;
     mat-icon {
@@ -9,9 +18,23 @@ mat-panel-description {
     }
 }
 
+.field_set{
+    border-color: lightgray;
+    border-style: solid;
+    border-radius: 10px;
+    border-width: 1px;
+}
+
+legend {
+    padding-left: 10px;
+    padding-right: 10px;
+    color: gray;
+}
+
 .filter-container {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
+    padding: 15px 15px 0px 15px;
 }
 
 .message {
@@ -39,7 +62,4 @@ img {
     width: 100%;
 }
 
-.example-additional-selection {
-    opacity: 0.75;
-    font-size: 0.75em;
-}
+

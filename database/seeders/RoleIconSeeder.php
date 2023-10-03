@@ -25,17 +25,20 @@ class RoleIconSeeder extends Seeder
         $path = 'assets/svg/';
         switch ($roleId) {
             // Doctor
-            case 'RO96' : // Branch Surgery
             case 'RO315': // NI GP
             case 'RO227': // Scottish GP
             case 'RO177': // Prescribing Cost Centre
                 return $path . 'doctor/doctor-a.svg';
-
+            case 'RO96' : // Branch Surgery
+                return $path . 'doctor/doctor-b.svg';
+        
             // Pharmacy
             case 'RO181': // Pharmacy HQ
-            case 'RO182': // Pharmacy
-            case 'RO280': // Pharmacy Site
                 return $path . 'pharmacy/pharmacy-a.svg';
+            case 'RO182': // Pharmacy
+                return $path . 'pharmacy/pharmacy-b.svg';
+            case 'RO280': // Pharmacy Site
+                return $path . 'pharmacy/pharmacy-c.svg';
 
             // Cancer
             case 'RO103': // Cancer Network
@@ -49,8 +52,9 @@ class RoleIconSeeder extends Seeder
 
             // Police
             case 'RO233': // CONSTABULARY
-            case 'RO234': // POLICE CUSTODY SUITE
                 return $path . 'police/police-a.svg';
+            case 'RO234': // POLICE CUSTODY SUITE
+                return $path . 'police/police-b.svg';
 
             // Court
             case 'RO235': // COURT
@@ -98,8 +102,9 @@ class RoleIconSeeder extends Seeder
 
             // Optician
             case 'RO166': // OPTICAL HEADQUARTERS
+                return $path . 'optician/optician-b.svg';
             case 'RO167': // OPTICAL SITE
-                return $path . 'optician/optician-a.svg';
+                return $path . 'optician/optician-e.svg';
     
             // Pathology
             case 'RO173': // PATHOLOGY LAB
@@ -120,13 +125,9 @@ class RoleIconSeeder extends Seeder
             case 'RO169': // OTHER UNIT (IN SUPPORT OF NHS BUSINESS)
                 return $path . 'nhs/nhs-a.svg';
 
-
             // Non-NHS
             case 'RO157': // NON-NHS ORGANISATION
                 return $path . 'non-nhs/non-nhs-c.svg';
-    
-    
-
 
             // Everything else
             default:
