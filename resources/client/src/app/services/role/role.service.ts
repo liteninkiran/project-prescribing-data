@@ -30,6 +30,7 @@ export class RoleService {
             ...role,
             primary_role: !!role.primary_role,
             org_last_updated: role.org_last_updated ? new Date(role.org_last_updated) : null,
+            organisations_count: role.org_last_updated === null ? null : role.organisations_count,
             created_at: new Date(role.created_at),
             updated_at: new Date(role.updated_at),
         });

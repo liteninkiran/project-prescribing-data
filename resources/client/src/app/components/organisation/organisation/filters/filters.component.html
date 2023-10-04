@@ -21,6 +21,9 @@
                         {{ filterText }}
                     </span>
 
+                    <!-- Message to be shown on the panel -->
+                    <span *ngIf="message" class="message" [innerHtml]="message | safeHtml"></span>
+
                 </mat-panel-description>
 
             </mat-expansion-panel-header>
@@ -28,128 +31,545 @@
             <!-- Filters -->
             <form>
 
-                <div class="filter-container">
+                <!-- Misc Filters -->
+                <fieldset class="field_set">
 
-                    <!-- Org ID -->
-                    <mat-form-field>
-                        <mat-label>Organisation ID</mat-label>
-                        <input matInput [formControl]="organisationIdInput" placeholder="e.g. Y00082" (input)="onorganisationIdInput($event)">
-                        <button *ngIf="organisationIdInput.value" matSuffix mat-icon-button aria-label="Clear" (click)="organisationIdInput.setValue(null)" tabindex="-1">
-                            <mat-icon>close</mat-icon>
-                        </button>
-                    </mat-form-field>
+                    <legend>
+                        Misc Filters
+                    </legend>
 
-                    <!-- Name -->
-                    <mat-form-field>
-                        <mat-label>Organisation Name</mat-label>
-                        <input matInput [formControl]="nameInput" placeholder="e.g. Medical Practice">
-                        <button *ngIf="nameInput.value" matSuffix mat-icon-button aria-label="Clear" (click)="nameInput.setValue(null)" tabindex="-1">
-                            <mat-icon>close</mat-icon>
-                        </button>
-                    </mat-form-field>
+                    <div class="filter-container">
 
-                    <!-- Postcode -->
-                    <mat-form-field>
-                        <mat-label>Postcode</mat-label>
-                        <input matInput [formControl]="postcodeInput" placeholder="e.g. DA14" (input)="onPostcodeInput($event)">
-                        <button *ngIf="postcodeInput.value" matSuffix mat-icon-button aria-label="Clear" (click)="postcodeInput.setValue(null)" tabindex="-1">
-                            <mat-icon>close</mat-icon>
-                        </button>
-                    </mat-form-field>
+                        <!-- Org ID -->
+                        <mat-form-field>
+                            <mat-label>Organisation ID</mat-label>
+                            <input matInput [formControl]="organisationIdInput" placeholder="e.g. Y00082" (input)="onorganisationIdInput($event)">
+                            <button *ngIf="organisationIdInput.value" matSuffix mat-icon-button aria-label="Clear" (click)="organisationIdInput.setValue(null)" tabindex="-1">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                        </mat-form-field>
 
-                    <!-- Primary Role -->
-                    <mat-form-field>
+                        <!-- Name -->
+                        <mat-form-field>
+                            <mat-label>Organisation Name</mat-label>
+                            <input matInput [formControl]="nameInput" placeholder="e.g. Medical Practice">
+                            <button *ngIf="nameInput.value" matSuffix mat-icon-button aria-label="Clear" (click)="nameInput.setValue(null)" tabindex="-1">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                        </mat-form-field>
 
-                        <!-- Label -->
-                        <mat-label>
-                            Primary Role
-                        </mat-label>
+                        <!-- Status -->
+                        <mat-form-field>
+                            <mat-label>Status</mat-label>
+                            <mat-select [formControl]="statusInput" placeholder="Select a status">
+                                <mat-option [value]="null"></mat-option>
+                                <mat-option *ngFor="let s of status" [value]="s.id">
+                                    {{ s.displayName }}
+                                </mat-option>
+                            </mat-select>
+                            <button *ngIf="statusInput.value" matSuffix mat-icon-button aria-label="Clear"
+                                (click)="statusInput.setValue(null)">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                        </mat-form-field>
 
-                        <!-- Primary Role List -->
-                        <mat-select
-                            #primaryRoleSelect
-                            [formControl]="primaryRoleInput"
-                            placeholder="Select role(s)"
-                            multiple panelClass="long-list"
-                        >
-                            <mat-option *ngFor="let role of (primaryRoles$ | async)" [value]="role.id">
-                                {{ role.display_name }}
-                            </mat-option>
-                        </mat-select>
+                        <!-- Primary Role -->
+                        <mat-form-field>
 
-                        <!-- Clear Contents -->
-                        <button
-                            *ngIf="primaryRoleInput.value?.length || 0 > 0"
-                            matSuffix
-                            mat-icon-button
-                            aria-label="Clear"
-                            (click)="primaryRoleInput.setValue(null)"
-                        >
-                            <mat-icon>close</mat-icon>
-                        </button>
+                            <!-- Label -->
+                            <mat-label>
+                                Primary Role
+                            </mat-label>
 
-                    </mat-form-field>
+                            <!-- Primary Role List -->
+                            <mat-select
+                                #primaryRoleSelect
+                                [formControl]="primaryRoleInput"
+                                placeholder="Select Role(s)"
+                                multiple
+                                [panelClass]="['long-list', 'select-icon']"
+                            >
+                                <mat-option *ngFor="let role of (primaryRoles$ | async)" [value]="role.id" class="small-font">
+                                    <div class="select-container">
+                                        <div class="select-display-name">
+                                            {{ role.display_name }}
+                                        </div>
+                                        <div>
+                                            <img *ngIf="role.icon" [src]="role.icon" />
+                                        </div>
+                                    </div>
+                                </mat-option>
+                            </mat-select>
 
-                    <!-- Non Primary Role -->
-                    <mat-form-field *ngIf="false">
+                            <!-- Clear Contents -->
+                            <button
+                                *ngIf="primaryRoleInput.value?.length || 0 > 0"
+                                matSuffix
+                                mat-icon-button
+                                aria-label="Clear"
+                                (click)="primaryRoleInput.setValue(null)"
+                            >
+                                <mat-icon>close</mat-icon>
+                            </button>
 
-                        <!-- Label -->
-                        <mat-label>
-                            Non Primary Role
-                        </mat-label>
+                        </mat-form-field>
 
-                        <!-- Non Primary Role List -->
-                        <mat-select
-                            #nonPrimaryRoleSelect
-                            [formControl]="nonPrimaryRoleInput"
-                            placeholder="Select role(s)"
-                            multiple panelClass="long-list"
-                        >
-                            <mat-option *ngFor="let role of (nonPrimaryRoles$ | async)" [value]="role.id">
-                                {{ role.display_name }}
-                            </mat-option>
-                        </mat-select>
+                        <!-- Non Primary Role -->
+                        <mat-form-field *ngIf="false">
 
-                        <!-- Clear Contents -->
-                        <button
-                            *ngIf="nonPrimaryRoleInput.value?.length || 0 > 0"
-                            matSuffix
-                            mat-icon-button
-                            aria-label="Clear"
-                            (click)="nonPrimaryRoleInput.setValue(null)"
-                        >
-                            <mat-icon>close</mat-icon>
-                        </button>
+                            <!-- Label -->
+                            <mat-label>
+                                Non Primary Role
+                            </mat-label>
 
-                    </mat-form-field>
+                            <!-- Non Primary Role List -->
+                            <mat-select
+                                #nonPrimaryRoleSelect
+                                [formControl]="nonPrimaryRoleInput"
+                                placeholder="Select Role(s)"
+                                multiple
+                                panelClass="long-list"
+                            >
+                                <mat-option *ngFor="let role of (nonPrimaryRoles$ | async)" [value]="role.id">
+                                    {{ role.display_name }}
+                                </mat-option>
+                            </mat-select>
 
-                    <!-- Last Change Date -->
-                    <mat-form-field>
-                        <mat-label>Last Changed After</mat-label>
-                        <input matInput [matDatepicker]="picker" [formControl]="lastChangeDateInput" [max]="maxDate">
-                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker>
-                        <button *ngIf="lastChangeDateInput.value" matSuffix mat-icon-button aria-label="Clear" (click)="lastChangeDateInput.setValue(null)">
-                            <mat-icon>close</mat-icon>
-                        </button>
-                    </mat-form-field>
+                            <!-- Clear Contents -->
+                            <button
+                                *ngIf="nonPrimaryRoleInput.value?.length || 0 > 0"
+                                matSuffix
+                                mat-icon-button
+                                aria-label="Clear"
+                                (click)="nonPrimaryRoleInput.setValue(null)"
+                            >
+                                <mat-icon>close</mat-icon>
+                            </button>
 
-                    <!-- Status -->
-                    <mat-form-field>
-                        <mat-label>Status</mat-label>
-                        <mat-select [formControl]="statusInput" placeholder="Select a status">
-                            <mat-option [value]="null"></mat-option>
-                            <mat-option *ngFor="let s of status" [value]="s.id">
-                                {{ s.displayName }}
-                            </mat-option>
-                        </mat-select>
-                        <button *ngIf="statusInput.value" matSuffix mat-icon-button aria-label="Clear"
-                            (click)="statusInput.setValue(null)">
-                            <mat-icon>close</mat-icon>
-                        </button>
-                    </mat-form-field>
+                        </mat-form-field>
 
-                </div>
+                        <!-- Last Change Date -->
+                        <mat-form-field>
+                            <mat-label>Last Changed After</mat-label>
+                            <input matInput [matDatepicker]="picker" [formControl]="lastChangeDateInput" [max]="maxDate">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                            <button *ngIf="lastChangeDateInput.value" matSuffix mat-icon-button aria-label="Clear" (click)="lastChangeDateInput.setValue(null)">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                        </mat-form-field>
+
+                        <div class="filter-spacer">
+
+                        </div>
+
+                    </div>
+
+                </fieldset>
+
+                <div class="spacer"></div>
+
+                <!-- Postcode Filters -->
+                <fieldset class="field_set">
+
+                    <legend>
+                        Postcode Filters
+                    </legend>
+
+                    <div class="filter-container">
+
+                        <!-- Postcode -->
+                        <mat-form-field>
+                            <mat-label>Postcode</mat-label>
+                            <input matInput [formControl]="postcodeInput" placeholder="e.g. DA14" (input)="onPostcodeInput($event)">
+                            <button *ngIf="postcodeInput.value" matSuffix mat-icon-button aria-label="Clear" (click)="postcodeInput.setValue(null)" tabindex="-1">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                        </mat-form-field>
+
+                        <!-- Admin County -->
+                        <mat-form-field>
+
+                            <!-- Label -->
+                            <mat-label>
+                                Administrative County
+                            </mat-label>
+
+                            <!-- Admin County List -->
+                            <mat-select
+                                #adminCountySelect
+                                [formControl]="adminCountyInput"
+                                placeholder="Select Administrative County(s)"
+                                multiple
+                                panelClass="long-list"
+                            >
+                                <mat-option *ngFor="let item of (adminCounty$ | async)" [value]="item.id">
+                                    {{ item.name }}
+                                </mat-option>
+                            </mat-select>
+
+                            <!-- Clear Contents -->
+                            <button
+                                *ngIf="adminCountyInput.value?.length || 0 > 0"
+                                matSuffix
+                                mat-icon-button
+                                aria-label="Clear"
+                                (click)="adminCountyInput.setValue(null)"
+                            >
+                                <mat-icon>close</mat-icon>
+                            </button>
+
+                        </mat-form-field>
+
+                        <!-- Admin District -->
+                        <mat-form-field>
+
+                            <!-- Label -->
+                            <mat-label>
+                                Administrative District
+                            </mat-label>
+
+                            <!-- Admin District List -->
+                            <mat-select
+                                #adminDistrictSelect
+                                [formControl]="adminDistrictInput"
+                                placeholder="Select Administrative District(s)"
+                                multiple
+                                panelClass="long-list"
+                            >
+                                <mat-option *ngFor="let item of (adminDistrict$ | async)" [value]="item.id">
+                                    {{ item.name }}
+                                </mat-option>
+                            </mat-select>
+
+                            <!-- Clear Contents -->
+                            <button
+                                *ngIf="adminDistrictInput.value?.length || 0 > 0"
+                                matSuffix
+                                mat-icon-button
+                                aria-label="Clear"
+                                (click)="adminDistrictInput.setValue(null)"
+                            >
+                                <mat-icon>close</mat-icon>
+                            </button>
+
+                        </mat-form-field>
+
+                        <!-- Parliamentary Constituency -->
+                        <mat-form-field>
+
+                            <!-- Label -->
+                            <mat-label>
+                                Parliamentary Constituency
+                            </mat-label>
+
+                            <!-- Parliamentary Constituency List -->
+                            <mat-select
+                                #parliamentaryConstituencySelect
+                                [formControl]="parliamentInput"
+                                placeholder="Select Parliamentary Constituency(s)"
+                                multiple
+                                panelClass="long-list"
+                            >
+                                <mat-option *ngFor="let item of (parliamentaryConstituency$ | async)" [value]="item.id">
+                                    {{ item.name }}
+                                </mat-option>
+                            </mat-select>
+
+                            <!-- Clear Contents -->
+                            <button
+                                *ngIf="parliamentInput.value?.length || 0 > 0"
+                                matSuffix
+                                mat-icon-button
+                                aria-label="Clear"
+                                (click)="parliamentInput.setValue(null)"
+                            >
+                                <mat-icon>close</mat-icon>
+                            </button>
+
+                        </mat-form-field>
+
+                        <!-- Police Force Area -->
+                        <mat-form-field>
+
+                            <!-- Label -->
+                            <mat-label>
+                                Police Force Area
+                            </mat-label>
+
+                            <!-- Police Force Area List -->
+                            <mat-select
+                                #policeForceAreaSelect
+                                [formControl]="policeForceAreaInput"
+                                placeholder="Select admin Police Force Area(s)"
+                                multiple
+                                panelClass="long-list"
+                            >
+                                <mat-option *ngFor="let item of (policeForceArea$ | async)" [value]="item.id">
+                                    {{ item.name }}
+                                </mat-option>
+                            </mat-select>
+
+                            <!-- Clear Contents -->
+                            <button
+                                *ngIf="policeForceAreaInput.value?.length || 0 > 0"
+                                matSuffix
+                                mat-icon-button
+                                aria-label="Clear"
+                                (click)="policeForceAreaInput.setValue(null)"
+                            >
+                                <mat-icon>close</mat-icon>
+                            </button>
+
+                        </mat-form-field>
+
+                        <!-- Nuts -->
+                        <mat-form-field>
+
+                            <!-- Label -->
+                            <mat-label>
+                                Nuts
+                            </mat-label>
+
+                            <!-- Nuts List -->
+                            <mat-select
+                                #nutsSelect
+                                [formControl]="nutsInput"
+                                placeholder="Select Nut(s)"
+                                multiple
+                                panelClass="long-list"
+                            >
+                                <mat-option *ngFor="let item of (nuts$ | async)" [value]="item.id">
+                                    {{ item.name }}
+                                </mat-option>
+                            </mat-select>
+
+                            <!-- Clear Contents -->
+                            <button
+                                *ngIf="nutsInput.value?.length || 0 > 0"
+                                matSuffix
+                                mat-icon-button
+                                aria-label="Clear"
+                                (click)="nutsInput.setValue(null)"
+                            >
+                                <mat-icon>close</mat-icon>
+                            </button>
+
+                        </mat-form-field>
+
+                        <!-- Postcode Area -->
+                        <mat-form-field>
+
+                            <!-- Label -->
+                            <mat-label>
+                                Postcode Area
+                            </mat-label>
+
+                            <!-- Postcode Area List -->
+                            <mat-select
+                                #postcodeAreaSelect
+                                [formControl]="postcodeAreaInput"
+                                placeholder="Select Postcode Area(s)"
+                                multiple
+                                [panelClass]="['long-list', 'select-icon']"
+                            >
+                                <mat-option *ngFor="let item of (postcodeArea$ | async)" [value]="item.id">
+                                    <div class="select-container">
+                                        <div class="select-display-name">
+                                            {{ item.name }}
+                                        </div>
+                                        <div>
+                                            {{ item.code }}
+                                        </div>
+                                    </div>
+                                </mat-option>
+                            </mat-select>
+
+                            <!-- Clear Contents -->
+                            <button
+                                *ngIf="postcodeAreaInput.value?.length || 0 > 0"
+                                matSuffix
+                                mat-icon-button
+                                aria-label="Clear"
+                                (click)="postcodeAreaInput.setValue(null)"
+                            >
+                                <mat-icon>close</mat-icon>
+                            </button>
+
+                        </mat-form-field>
+
+                        <!-- European Electoral Region -->
+                        <mat-form-field>
+
+                            <!-- Label -->
+                            <mat-label>
+                                European Electoral Region
+                            </mat-label>
+
+                            <!-- European Electoral Region List -->
+                            <mat-select
+                                #euroSelect
+                                [formControl]="euroInput"
+                                placeholder="Select European Electoral Region(s)"
+                                multiple
+                                panelClass="long-list"
+                            >
+                                <mat-option *ngFor="let item of (euro$ | async)" [value]="item.id">
+                                    {{ item.name }}
+                                </mat-option>
+                            </mat-select>
+
+                            <!-- Clear Contents -->
+                            <button
+                                *ngIf="euroInput.value?.length || 0 > 0"
+                                matSuffix
+                                mat-icon-button
+                                aria-label="Clear"
+                                (click)="euroInput.setValue(null)"
+                            >
+                                <mat-icon>close</mat-icon>
+                            </button>
+
+                        </mat-form-field>
+
+                        <!-- Health Authority -->
+                        <mat-form-field>
+
+                            <!-- Label -->
+                            <mat-label>
+                                Health Authority
+                            </mat-label>
+
+                            <!-- Health Authority List -->
+                            <mat-select
+                                #nhsHasSelect
+                                [formControl]="nhsHaInput"
+                                placeholder="Select Health Authority(s)"
+                                multiple
+                                panelClass="long-list"
+                            >
+                                <mat-option *ngFor="let item of (healthAuthority$ | async)" [value]="item.id">
+                                    {{ item.name }}
+                                </mat-option>
+                            </mat-select>
+
+                            <!-- Clear Contents -->
+                            <button
+                                *ngIf="nhsHaInput.value?.length || 0 > 0"
+                                matSuffix
+                                mat-icon-button
+                                aria-label="Clear"
+                                (click)="nhsHaInput.setValue(null)"
+                            >
+                                <mat-icon>close</mat-icon>
+                            </button>
+
+                        </mat-form-field>
+
+                        <!-- Primary Care Trust -->
+                        <mat-form-field>
+
+                            <!-- Label -->
+                            <mat-label>
+                                Primary Care Trust
+                            </mat-label>
+
+                            <!-- Primary Care Trust List -->
+                            <mat-select
+                                #primaryCareTrustSelect
+                                [formControl]="priCareTrustInput"
+                                placeholder="Select Primary Care Trust(s)"
+                                multiple
+                                panelClass="long-list"
+                            >
+                                <mat-option *ngFor="let item of (primaryCareTrust$ | async)" [value]="item.id">
+                                    {{ item.name }}
+                                </mat-option>
+                            </mat-select>
+
+                            <!-- Clear Contents -->
+                            <button
+                                *ngIf="priCareTrustInput.value?.length || 0 > 0"
+                                matSuffix
+                                mat-icon-button
+                                aria-label="Clear"
+                                (click)="priCareTrustInput.setValue(null)"
+                            >
+                                <mat-icon>close</mat-icon>
+                            </button>
+
+                        </mat-form-field>
+
+                        <!-- Region -->
+                        <mat-form-field>
+
+                            <!-- Label -->
+                            <mat-label>
+                                Region
+                            </mat-label>
+
+                            <!-- Region List -->
+                            <mat-select
+                                #regionSelect
+                                [formControl]="regionInput"
+                                placeholder="Select Region(s)"
+                                multiple
+                                panelClass="long-list"
+                            >
+                                <mat-option *ngFor="let item of (region$ | async)" [value]="item.id">
+                                    {{ item.name }}
+                                </mat-option>
+                            </mat-select>
+
+                            <!-- Clear Contents -->
+                            <button
+                                *ngIf="regionInput.value?.length || 0 > 0"
+                                matSuffix
+                                mat-icon-button
+                                aria-label="Clear"
+                                (click)="regionInput.setValue(null)"
+                            >
+                                <mat-icon>close</mat-icon>
+                            </button>
+
+                        </mat-form-field>
+
+                        <!-- Country -->
+                        <mat-form-field>
+
+                            <!-- Label -->
+                            <mat-label>
+                                Country
+                            </mat-label>
+
+                            <!-- Country List -->
+                            <mat-select
+                                #countrySelect
+                                [formControl]="countryInput"
+                                placeholder="Select Country(s)"
+                                multiple
+                            >
+                                <mat-option *ngFor="let item of (country$ | async)" [value]="item.id">
+                                    {{ item.name }}
+                                </mat-option>
+                            </mat-select>
+
+                            <!-- Clear Contents -->
+                            <button
+                                *ngIf="countryInput.value?.length || 0 > 0"
+                                matSuffix
+                                mat-icon-button
+                                aria-label="Clear"
+                                (click)="countryInput.setValue(null)"
+                            >
+                                <mat-icon>close</mat-icon>
+                            </button>
+
+                        </mat-form-field>
+
+                    </div>
+
+                </fieldset>
 
             </form>
 

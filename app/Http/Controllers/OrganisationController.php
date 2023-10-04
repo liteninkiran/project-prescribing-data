@@ -2,104 +2,102 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Organisation;
-use App\Http\Requests\StoreOrganisationRequest;
-use App\Http\Requests\UpdateOrganisationRequest;
-use App\Services\Organisation\OrganisationService;
-use App\Services\Organisation\OrganisationPager;
+// Illuminate
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\JsonResponse;
+
+// Models
+use App\Models\Organisation;
+
+// Services
+use App\Services\Organisation\OrganisationApiService;
+use App\Services\Organisation\OrganisationMapService;
+use App\Services\Organisation\OrganisationPager;
+
+// Jobs
+use App\Jobs\StoreFromApi;
+use App\Jobs\UpdatePostcodeId;
 
 class OrganisationController extends Controller
 {
-    private $organisationService;
-    private $organisationPager;
-
-    public function __construct(
-        OrganisationService $organisationService,
-        OrganisationPager $organisationPager,
-    ) {
-        $this->organisationService = $organisationService;
-        $this->organisationPager = $organisationPager;
-    }
-
+    
     /**
-     * Display a listing of the resource.
+     * index
+     *
+     * @param OrganisationPager $organisationPager
+     * @return LengthAwarePaginator
      */
-    public function index()
+    public function index(OrganisationPager $organisationPager): LengthAwarePaginator
     {
-        // \DB::enableQueryLog();
-        $filters = [
-            'org_id'            => request()->input('org_id', null),
-            'name'              => request()->input('name', null),
-            'postcode'          => request()->input('postcode', null),
-            'primary_roles'     => request()->input('primary_roles', null),
-            'non_primary_roles' => request()->input('non_primary_roles', null),
-            'last_change_date'  => request()->input('last_change_date', null),
-            'status'            => request()->input('status', null),
-        ];
-        $pager = $this->organisationPager->getPaginatedOrganisations(
+        $filters = $this->getFiltersArray();
+        $pager = $organisationPager->getPaginatedOrganisations(
             $filters,
             request()->input('sortCol', 'id'),
             request()->input('sortOrder', 'asc'),
             request()->input('pageNumber', 0),
             request()->input('pageSize', 10),
         );
-        // $query = \DB::getQueryLog();
-        // info($query);
         return $pager;
     }
 
     /**
-     * Show the form for creating a new resource.
+     * storeFromApi
+     *
+     * @param string $roleId
+     * @return JsonResponse
      */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreOrganisationRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Organisation $organisation)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Organisation $organisation)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateOrganisationRequest $request, Organisation $organisation)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Organisation $organisation)
-    {
-        //
-    }
-
     public function storeFromApi(string $roleId): JsonResponse
     {
-        $response = $this->organisationService->storeFromApi($roleId);
+        StoreFromApi::dispatch($roleId);
+        $response['organisations'] = [ 'created' => 'Added to queue'];
+        $response['postcodes'    ] = [ 'created' => 'Added to queue'];
+        $response['org_postcodes'] = [ 'created' => 'Added to queue'];
         return response()->json($response);
+    }
+
+    public function updatePostcode(): JsonResponse
+    {
+        UpdatePostcodeId::dispatch(request()->input('roleId', null));
+        return response()->json([ 'response' => 'Added to queue' ]);
+    }
+
+    public function getMapData(OrganisationMapService $organisationMapService): JsonResponse
+    {
+        //\DB::enableQueryLog();
+        $filters = $this->getFiltersArray();
+        $response = $organisationMapService->getMapData($filters);
+        //info(\DB::getQueryLog());
+        return response()->json($response);
+    }
+
+    public function getFiltersArray(): array
+    {
+        $filterNames = [
+            'org_id',
+            'name',
+            'status',
+            'primary_roles',
+            'non_primary_roles',
+            'last_change_date',
+            'postcode',
+            'admin_county',
+            'admin_district',
+            'parliamentary_constituency',
+            'pfa',
+            'nuts',
+            'postcode_area',
+            'european_electoral_region',
+            'health_authority',
+            'primary_care_trust',
+            'region',
+            'country',
+        ];
+
+        $filters = array_reduce($filterNames, function ($result, $item) {
+            $result[$item] = request()->input($item, null);
+            return $result;
+        }, array());
+
+        return $filters;
     }
 }

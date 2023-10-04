@@ -1,4 +1,4 @@
-import { FormControl } from "@angular/forms";
+// import { FormControl } from "@angular/forms";
 
 export interface IOrganisations {
     Organisations: IOrganisation[];
@@ -29,52 +29,6 @@ export interface IRole {
     primaryRole: string;
     isPrimaryRole?: boolean;
     RowNum?: number;
-};
-
-export interface IRoleConfig {
-    primaryDefault: string[];
-    nonPrimaryDefault: string[];
-};
-
-export interface IRoleData {
-    primaryRoles: IRoles | null,
-    nonPrimaryRoles: IRoles | null,
-};
-
-export interface IRoleInput {
-    primaryRole: FormControl,
-    nonPrimaryRole: FormControl,
-};
-
-export interface IColumnConfig {
-    columnId: string;
-    columnName: string;
-    visible: boolean;
-};
-
-export interface INumInputConfig {
-    min: number;
-    max: number;
-    default: number;
-};
-
-export interface IStatusConfig {
-    default: string;
-};
-
-export interface IStatus {
-    id: string;
-    displayName: string;
-};
-
-export interface ILastChangeDateConfig {
-    min: Date;
-    max: Date;
-};
-
-export interface IValidControl {
-    name: string;
-    hasValue: boolean;
 };
 
 export interface ISingleOrgResponse {
@@ -171,7 +125,7 @@ export interface ISingleOrgStatusCount {
     view: number;
 };
 
-export interface IUrlObject {
-    url: string;
-    baseUrl: string;
-};
+// export interface IUrlObject {
+//     url: string;
+//     baseUrl: string;
+// };

@@ -30,7 +30,6 @@ export class OrganisationComponent implements OnInit {
     public ngOnInit(): void {
         this.dataSource = new OrganisationDataSource(this.orgService);
         this.columnConfig = this.columnConfigData();
-        this.filters.status = 'active';
     }
 
     public updateFilters(filters: any): void {
@@ -43,12 +42,10 @@ export class OrganisationComponent implements OnInit {
 
     private columnConfigData(): IMatTableColumnConfig[] {
         return [
-            // { columnId: 'id', columnName: 'ID', visible: false },
             { columnId: 'org_id', columnName: 'Organisation ID', visible: true },
             { columnId: 'name', columnName: 'Organisation Name', visible: true },
             { columnId: 'post_code', columnName: 'Postcode', visible: true },
-            // { columnId: 'primary_role_id', columnName: 'Primary Role ID', visible: false },
-            { columnId: 'primary_role_description', columnName: 'Primary Role', visible: true },
+            { columnId: 'primary_role', columnName: 'Primary Role', visible: true, property: 'display_name' },
             { columnId: 'status', columnName: 'Status', visible: true },
             { columnId: 'org_record_class', columnName: 'Record Class', visible: false },
             { columnId: 'last_change_date', columnName: 'Last Change Date', visible: false },

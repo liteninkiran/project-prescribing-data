@@ -25,14 +25,14 @@ export class OrganisationStore {
 
     private getRolesList(): void {
         const url = `${this.baseUrl}/rolesList`;
-        const loadCourses$ = this.http
+        const loadData$ = this.http
             .get<IRole[]>(url)
             .pipe(
                 map((roles: IRole[]) => roles.map((role: IRole) => ({ ...role, primary_role: !!role.primary_role }))),
                 catchError(err => throwError(() => err)),
                 tap(roles => this.subject.next(roles))
             );
-        loadCourses$.subscribe();
+        loadData$.subscribe();
     }
 
     public getRolesListByType(primary: boolean): Observable<IRole[]> {

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('code')->unique();
             $table->string('display_name')->unique();
             $table->boolean('primary_role');
+            $table->timestamp('org_last_updated')->nullable();
             $table->timestamps();
         });
     }

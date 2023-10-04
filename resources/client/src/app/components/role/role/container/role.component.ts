@@ -5,8 +5,6 @@ import { RoleService } from '../../../../services/role/role.service';
 import { IRoleFilters } from 'src/app/interfaces/role.interface';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { OrganisationService } from 'src/app/services/organisation/organisation.service';
-import { MatSort } from '@angular/material/sort';
-import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
     selector: 'app-role',
@@ -19,6 +17,7 @@ export class RoleComponent implements OnInit {
     public dataSource!: RoleDataSource;
     public columnConfig: IMatTableColumnConfig[] = [];
     public apiLoaded = false;
+    public reloadData: boolean = false;
     public actionButtonConfig: IAsyncButtonInputConfig = {
         buttonText: '',
         colour: 'primary',
@@ -26,8 +25,6 @@ export class RoleComponent implements OnInit {
         loaded: true,
         hideRow: 'primary_role',
     }
-    public paginator!: MatPaginator;
-    public sort!: MatSort;
 
     constructor(
         readonly roleService: RoleService,
@@ -48,7 +45,7 @@ export class RoleComponent implements OnInit {
         this.apiLoaded = false;
         this.roleService
             .loadDataFromApi()
-            .subscribe((res: any) => this.showSnackBar(res));
+            .subscribe((res: any) => this.showRoleSnackBar(res));
     }
 
     public onActionButtonClick(id: number): void {
@@ -56,28 +53,7 @@ export class RoleComponent implements OnInit {
         this.actionButtonConfig.loaded = false;
         this.orgService
             .loadDataFromApi(_id)
-            .subscribe(() => {
-                if (this.sort && this.paginator) {
-                    this.dataSource.loadData(
-                        this.filters,
-                        this.sort.active,
-                        this.sort.direction,
-                        this.paginator.pageIndex,
-                        this.paginator.pageSize
-                    );
-                } else {
-                    this.dataSource.loadData(this.filters);
-                }
-                this.actionButtonConfig.loaded = true;
-            });
-    }
-
-    public onSort(sort: MatSort): void {
-        this.sort = sort;
-    }
-
-    public onPaginate(paginator: MatPaginator): void {
-        this.paginator = paginator;
+            .subscribe((res: any) => this.showOrgSnackBar(res));
     }
 
     private columnConfigData(): IMatTableColumnConfig[] {
@@ -88,24 +64,39 @@ export class RoleComponent implements OnInit {
             { columnId: 'display_name', columnName: 'Name', visible: true },
             { columnId: 'primary_role', columnName: 'Primary Role', visible: true },
             { columnId: 'org_last_updated', columnName: 'Organisation Last Updated', visible: true },
+            { columnId: 'organisations_count', columnName: 'Active Organisations', visible: true },
+            { columnId: 'icon', columnName: 'Map Icon', visible: true },
             { columnId: 'created_at', columnName: 'Created At', visible: false },
             { columnId: 'updated_at', columnName: 'Updated At', visible: false },
         ];
     }
 
-    private showSnackBar(res: any) {
-        const config = new MatSnackBarConfig();
-        config.duration = 2000;
+    private showRoleSnackBar(res: any) {
         const message = {
             created: 'Created: ' + res.created + ' record(s)',
             updated: 'Updated: ' + res.updated + ' record(s)',
         }
+        this.showSnackBars(message);
+        this.apiLoaded = true;
+    }
+
+    private showOrgSnackBar(res: any) {
+        const message = {
+            created: 'Created: ' + res['organisations'].created + ' Organisation record(s) and ' + res['postcodes'].created + ' Postcode record(s)',
+            updated: 'Updated: ' + res['organisations'].updated + ' Organisation record(s) and ' + res['postcodes'].updated + ' Postcode record(s)',
+        }
+        this.showSnackBars(message);
+        this.actionButtonConfig.loaded = true;
+    }
+
+    private showSnackBars(messages: any) {
+        const config = new MatSnackBarConfig();
+        config.duration = 2000;
         const action = 'X';
-        const snackBarRef = this._snackBar.open(message.created, action, config);
+        const snackBarRef = this._snackBar.open(messages.created, action, config);
         snackBarRef
             .afterDismissed()
-            .subscribe(() => this._snackBar.open(message.updated, action, config));
-        this.apiLoaded = true;
-        this.dataSource.loadData(this.filters);
+            .subscribe(() => this._snackBar.open(messages.updated, action, config));
+        this.reloadData = !this.reloadData;
     }
 }

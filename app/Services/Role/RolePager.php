@@ -3,7 +3,7 @@
 namespace App\Services\Role;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Builder;
 use App\Models\Role;
 
 class RolePager
@@ -22,6 +22,7 @@ class RolePager
         'roles.display_name',
         'roles.primary_role',
         'roles.org_last_updated',
+        'roles.icon',
         'roles.created_at',
         'roles.updated_at',
     ];
@@ -38,15 +39,25 @@ class RolePager
      */
     public function getPaginatedRoles(array $filters = [], string $sortCol = 'id', string $sortOrder = 'asc', int $pageNumber = 0, int $pageSize = 5): LengthAwarePaginator
     {
-        // Initialise query
-        $this->query = Role::query();
-
-        // Add filters and order by clause
-        $this->addFilters($filters)
+        $this->initialiseQuery()
+            ->addFilters($filters)
             ->addOrderBy($sortCol, $sortOrder);
 
         // Paginate & return
         return $this->query->paginate($pageSize, $this->columns, 'pageNumber', $pageNumber + 1);
+    }
+
+    /**
+     * initialiseQuery
+     *
+     * @return self
+     */
+    private function initialiseQuery(): self
+    {
+        $this->query = Role::withCount(['organisations' => function (Builder $query) {
+            $query->status(0);
+        }]);
+        return $this;
     }
 
     /**

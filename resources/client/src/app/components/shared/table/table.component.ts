@@ -1,9 +1,8 @@
 import { Component, Input, OnInit, AfterViewInit, OnChanges, ViewChild, SimpleChanges, SimpleChange, Output, EventEmitter } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { IColumnConfig } from 'src/app/interfaces/organisation-api.interface';
 import { merge, tap } from 'rxjs';
-import { IAsyncButtonInputConfig, ICheckboxMenuItem } from 'src/app/interfaces/shared.interface';
+import { IAsyncButtonInputConfig, ICheckboxMenuItem, IMatTableColumnConfig } from 'src/app/interfaces/shared.interface';
 
 @Component({
     selector: 'app-table',
@@ -12,13 +11,16 @@ import { IAsyncButtonInputConfig, ICheckboxMenuItem } from 'src/app/interfaces/s
 })
 export class TableComponent implements OnInit, AfterViewInit, OnChanges {
 
+    @Input() public pageSizeOptions = [5, 10, 20, 50, 100];
+    @Input() public intialPageSize = this.pageSizeOptions[1];
     @Input() public service: any;
     @Input() public dataSource: any;
-    @Input() public columnConfig: IColumnConfig[] = [];
+    @Input() public columnConfig: IMatTableColumnConfig[] = [];
     @Input() public defaultSortCol: string = 'id';
     @Input() public title!: string;
     @Input() public filters: any;
     @Input() public showMenu: boolean = true;
+    @Input() public reloadData: boolean = false;
     @Input() public actionButtonConfig: IAsyncButtonInputConfig = {
         buttonText: 'Button',
         colour: '',
@@ -29,8 +31,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
     }
 
     @Output() public actionButtonClick = new EventEmitter<number>();
-    @Output() public paginatorOutput = new EventEmitter<MatPaginator>();
-    @Output() public sortOutput = new EventEmitter<MatSort>();
 
     @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort!: MatSort;
@@ -40,8 +40,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
     }
 
     public displayedColumns: string[] = [];
-    public pageSizeOptions = [5, 10, 20, 50, 100];
-    public intialPageSize = this.pageSizeOptions[1];
     public menuItems: ICheckboxMenuItem[] = [];
 
     constructor() { }
@@ -56,22 +54,14 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
         this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
         merge(this.sort.sortChange, this.paginator.page)
             .pipe(
-                tap(() => {
-                    this.loadData();
-                    this.sortOutput.emit(this.sort);
-                    this.paginatorOutput.emit(this.paginator);
-                })
+                tap(() => this.loadData())
             )
             .subscribe();
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
-        if (changes['filters']) {
-            const filtersChange: SimpleChange = changes['filters'];
-            if (!filtersChange.firstChange) {
-                this.loadData();
-            }
-        }
+        this.reloadDataOnInputChange(changes, 'filters');
+        this.reloadDataOnInputChange(changes, 'reloadData');
     }
 
     public onRowClicked(row: any): void {
@@ -100,8 +90,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
 
     private updateDisplayedColumns(): void {
         this.displayedColumns = this.columnConfig
-            .filter((config: IColumnConfig) => config.visible)
-            .map((config: IColumnConfig) => config.columnId);
+            .filter((config: IMatTableColumnConfig) => config.visible)
+            .map((config: IMatTableColumnConfig) => config.columnId);
         if (!this.actionButtonConfig.hide) {
             this.displayedColumns.push('actions');
         }
@@ -118,7 +108,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
 
     private updateMenuItems(): void {
         this.menuItems.map(item => {
-            const config: IColumnConfig = this.columnConfig.find(config => config.columnId === item.value) as IColumnConfig;
+            const config: IMatTableColumnConfig = this.columnConfig.find(config => config.columnId === item.value) as IMatTableColumnConfig;
             item.checked = config.visible;
         });
     }
@@ -127,5 +117,14 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
         this.columnConfig.map(config => {
             config.visible = formValue[config.columnId];
         });
+    }
+
+    private reloadDataOnInputChange(changes: SimpleChanges, inputName: string) {
+        const filtersChange: SimpleChange = changes[inputName];
+        if (filtersChange) {
+            if (!filtersChange.firstChange) {
+                this.loadData();
+            }
+        }
     }
 }

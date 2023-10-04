@@ -6,17 +6,17 @@ import { PipeModule } from 'src/app/modules/pipe.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 
-import { OrganisationApiComponent } from './organisation-api/organisation-api.component';
 import { OrganisationComponent } from './organisation/container/organisation.component';
 import { OrganisationFiltersComponent } from './organisation/filters/filters.component';
 import { OrganisationViewComponent } from './organisation-view/organisation-view.component';
+import { OrganisationMapComponent } from './organisation-map/organisation-map.component';
 
 @NgModule({
     declarations: [
-        OrganisationApiComponent,
         OrganisationComponent,
         OrganisationFiltersComponent,
         OrganisationViewComponent,
+        OrganisationMapComponent,
     ],
     imports: [
         CommonModule,
@@ -25,12 +25,6 @@ import { OrganisationViewComponent } from './organisation-view/organisation-view
         PipeModule,
         ReactiveFormsModule,
         SharedModule,
-    ],
-    exports: [
-        OrganisationApiComponent,
-        OrganisationComponent,
-        OrganisationFiltersComponent,
-        OrganisationViewComponent,
     ],
 })
 export class OrganisationModule { }

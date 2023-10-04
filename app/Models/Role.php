@@ -15,8 +15,14 @@ class Role extends Model
         'code',
         'display_name',
         'primary_role',
+        'icon',
     ];
-
+    
+    /**
+     * organisations
+     *
+     * @return HasMany
+     */
     public function organisations(): HasMany
     {
         return $this->hasMany(Organisation::class, 'primary_role_id', 'id');

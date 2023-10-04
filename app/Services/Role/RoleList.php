@@ -15,10 +15,9 @@ class RoleList
     public function allRoles(): Collection
     {
         return Role::query()
-            ->select(['id', 'display_name', 'primary_role'])
+            ->select(['id', 'display_name', 'primary_role', 'icon'])
             ->has('organisations')
             ->orderBy('display_name', 'asc')
-            ->orderBy('id', 'asc')
             ->get();
     }
 }

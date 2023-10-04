@@ -43,7 +43,23 @@ class OrganisationPager
      */
     private function initialiseQuery(): self
     {
-        $this->query = Organisation::with('primaryRole:id,display_name');
+        $selectColumns = [
+            'id',
+            'name',
+            'org_id',
+            'status',
+            'org_record_class',
+            'post_code',
+            'postcode_id',
+            'last_change_date',
+            'primary_role_id',
+            'org_link',
+            'created_at',
+            'updated_at',
+        ];
+        $this->query = Organisation::select($selectColumns)
+            ->with('primaryRole:id,display_name')
+            ->with('postcode:id,latitude,longitude');
         return $this;
     }
 
@@ -57,10 +73,21 @@ class OrganisationPager
     {
         if ($filters['org_id']) { $this->query->orgIdLike($filters['org_id']); }
         if ($filters['name']) { $this->query->nameLike($filters['name']); }
-        if ($filters['postcode']) { $this->query->postcodeLike($filters['postcode']); }
+        if ($filters['status'] !== null) { $this->query->status($filters['status']); }
         if ($filters['primary_roles']) { $this->query->primaryRolesInRaw($filters['primary_roles']); }
         if ($filters['last_change_date']) { $this->query->lastChangeDateAfter($filters['last_change_date']); }
-        if ($filters['status']) { $this->query->status($filters['status']); }
+        if ($filters['postcode']) { $this->query->postcodeLike($filters['postcode']); }
+        if ($filters['admin_county']) { $this->query->adminCountiesInRaw($filters['admin_county']); }
+        if ($filters['admin_district']) { $this->query->adminDistrictsInRaw($filters['admin_district']); }
+        if ($filters['parliamentary_constituency']) { $this->query->parliamentaryConstituenciesInRaw($filters['parliamentary_constituency']); }
+        if ($filters['pfa']) { $this->query->policeForceAreaInRaw($filters['pfa']); }
+        if ($filters['nuts']) { $this->query->nutsInRaw($filters['nuts']); }
+        if ($filters['postcode_area']) { $this->query->postcodeAreaInRaw($filters['postcode_area']); }
+        if ($filters['european_electoral_region']) { $this->query->europeanElectoralRegionInRaw($filters['european_electoral_region']); }
+        if ($filters['health_authority']) { $this->query->healthAuthorityInRaw($filters['health_authority']); }
+        if ($filters['primary_care_trust']) { $this->query->primaryCareTrustInRaw($filters['primary_care_trust']); }
+        if ($filters['region']) { $this->query->regionInRaw($filters['region']); }
+        if ($filters['country']) { $this->query->countryInRaw($filters['country']); }
         return $this;
     }
 

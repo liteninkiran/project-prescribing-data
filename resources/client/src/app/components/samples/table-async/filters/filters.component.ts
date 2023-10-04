@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs';
-import { IValidControl } from 'src/app/interfaces/organisation-api.interface';
 import { IRoleFilterFormGroup, IRoleFilters } from 'src/app/interfaces/role.interface';
 import { IFilterConfig } from 'src/app/interfaces/shared.interface';
 
@@ -39,27 +38,12 @@ export class AsyncFiltersComponent {
     }
 
     private setFilterFormGroup(): void {
-        const requireOneControl = () => {
-            return (formGroup: any) => {
-                const err = { atLeastOneRequired: 'Please apply one or more filters' };
-                const validControls: IValidControl[] = [
-                    { name: '_id', hasValue: formGroup.get('_id').value !== null },
-                    { name: 'roleName', hasValue: formGroup.get('roleName').value !== null },
-                    { name: 'primaryRole', hasValue: formGroup.get('primaryRole').value !== null },
-                ];
-                const valid = validControls.filter((ctl: IValidControl) => ctl.hasValue).length > 0;
-                return valid ? null : err;
-            }
-        }
-
         const formGroup: IRoleFilterFormGroup = {
             '_id': this._idInput,
             'roleName': this.roleNameInput,
             'primaryRole': this.primaryRoleInput,
         }
-
-        this.filterForm = new FormGroup(formGroup, requireOneControl());
-
+        this.filterForm = new FormGroup(formGroup);
         this.filterForm.valueChanges.pipe(
             debounceTime(500),
             distinctUntilChanged(),

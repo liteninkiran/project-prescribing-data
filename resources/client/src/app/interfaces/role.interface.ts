@@ -1,4 +1,4 @@
-import { FormControl } from "@angular/forms";
+import { FormControl } from '@angular/forms';
 
 export interface IRole {
     id: number;
@@ -7,6 +7,8 @@ export interface IRole {
     display_name: string;
     primary_role: boolean;
     org_last_updated: Date | null;
+    organisations_count: number | null;
+    icon: string | null;
     created_at: Date;
     updated_at: Date;
 };
@@ -25,5 +27,7 @@ export interface IRoleFilterFormGroup {
 
 export interface IPrimaryRole {
     id: number;
+    _id: string;
     display_name: string;
+    icon: string;
 };

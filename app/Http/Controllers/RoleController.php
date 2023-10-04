@@ -2,45 +2,41 @@
 
 namespace App\Http\Controllers;
 
-use DB;
+// Illuminate
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Artisan;
+
+// Models
 use App\Models\Role;
+
+// Requests
 use App\Http\Requests\StoreRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
+
+// Services
 use App\Services\Role\RoleApiService;
 use App\Services\Role\RolePager;
 use App\Services\Role\RoleList;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Http\Response;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Collection;
 
 class RoleController extends Controller
 {
-    private $roleApiService;
-    private $rolePager;
-    private $roleList;
-
-    public function __construct(
-        RoleApiService $roleApiService,
-        RolePager $rolePager,
-        RoleList $roleList,
-    ) {
-        $this->roleApiService = $roleApiService;
-        $this->rolePager = $rolePager;
-        $this->roleList = $roleList;
-    }
-
+    
     /**
-     * Display a listing of the resource.
+     * index
+     *
+     * @param RolePager $rolePager
+     * @return LengthAwarePaginator
      */
-    public function index(): LengthAwarePaginator
+    public function index(RolePager $rolePager): LengthAwarePaginator
     {
         $filters = [
             'primary_role' => request()->input('primary_role', null),
             'display_name' => request()->input('display_name', null),
             '_id'          => request()->input('_id', null),
         ];
-        $pager = $this->rolePager->getPaginatedRoles(
+        $pager = $rolePager->getPaginatedRoles(
             $filters,
             request()->input('sortCol', 'id'),
             request()->input('sortOrder', 'asc'),
@@ -49,63 +45,28 @@ class RoleController extends Controller
         );
         return $pager;
     }
-
+    
     /**
-     * Show the form for creating a new resource.
+     * storeFromApi
+     *
+     * @param RoleApiService $roleApiService
+     * @return JsonResponse
      */
-    public function create()
+    public function storeFromApi(RoleApiService $roleApiService): JsonResponse
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreRoleRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Role $role)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Role $role)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateRoleRequest $request, Role $role)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Role $role)
-    {
-        //
-    }
-
-    public function storeFromApi(): JsonResponse
-    {
-        $response = $this->roleApiService->storeFromApi();
+        $response = $roleApiService->storeFromApi();
+        Artisan::call('db:seed', ['--class' => 'RoleIconSeeder']);
         return response()->json($response);
     }
-
-    public function allRoles(): Collection
+    
+    /**
+     * allRoles
+     *
+     * @param RoleList $roleList
+     * @return Collection
+     */
+    public function allRoles(RoleList $roleList): Collection
     {
-        return $this->roleList->allRoles();
+        return $roleList->allRoles();
     }
 }

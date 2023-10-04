@@ -13,10 +13,15 @@ export class RoleFiltersComponent {
 
     @Output() public filtersChanged = new EventEmitter<any>();
 
+    // Form
     public filterForm!: FormGroup;
-    public _idInput: FormControl = new FormControl();
-    public roleNameInput: FormControl = new FormControl();
-    public primaryRoleInput: FormControl = new FormControl();
+
+    // Form Controls
+    public _idInput        : FormControl<string | null> = new FormControl(null);
+    public roleNameInput   : FormControl<string | null> = new FormControl(null);
+    public primaryRoleInput: FormControl<string | null> = new FormControl('true');
+
+    // Config
     public filters: IFilterConfig[] = [];
     public filterText: string = '';
 
@@ -27,14 +32,9 @@ export class RoleFiltersComponent {
     }
 
     private setFilterForm(): void {
-        this.setFilterInputs();
         this.setFilterFormGroup();
-    }
-
-    private setFilterInputs(): void {
-        this._idInput = new FormControl(null);
-        this.roleNameInput = new FormControl(null);
-        this.primaryRoleInput = new FormControl(null);
+        this.calculateFilter(this.filterForm.value);
+        this.filtersChanged.emit(this.filterForm.value);
     }
 
     private setFilterFormGroup(): void {
