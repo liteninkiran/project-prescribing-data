@@ -80,8 +80,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
         this.updateDisplayedColumns();
     }
 
-    public onActionClick(id: number): void {
-        this.actionButtonClick.emit(id);
+    public onActionClick(row: any): void {
+        this.actionButtonClick.emit(row);
     }
 
     private loadData(): void {

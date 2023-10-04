@@ -50,11 +50,10 @@ export class RoleComponent implements OnInit {
             .subscribe((res: any) => this.showRoleSnackBar(res));
     }
 
-    public onActionButtonClick(id: number): void {
-        const _id: string = this.dataSource.getInternalId(id);
+    public onActionButtonClick(row: any): void {
         this.actionButtonConfig.loaded = false;
         this.orgService
-            .loadDataFromApi(_id)
+            .loadDataFromApi(row._id)
             .subscribe((res: any) => this.actionButtonConfig.loaded = true);
     }
 
