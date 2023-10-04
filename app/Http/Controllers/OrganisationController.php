@@ -13,7 +13,10 @@ use App\Models\Organisation;
 use App\Services\Organisation\OrganisationApiService;
 use App\Services\Organisation\OrganisationMapService;
 use App\Services\Organisation\OrganisationPager;
-use App\Services\Postcode\PostcodeApiService;
+
+// Jobs
+use App\Jobs\StoreFromApi;
+use App\Jobs\UpdatePostcodeId;
 
 class OrganisationController extends Controller
 {
@@ -40,23 +43,22 @@ class OrganisationController extends Controller
     /**
      * storeFromApi
      *
-     * @param OrganisationApiService $organisationApiService
-     * @param PostcodeApiService $postcodeApiService
      * @param string $roleId
      * @return JsonResponse
      */
-    public function storeFromApi(OrganisationApiService $organisationApiService, PostcodeApiService $postcodeApiService, string $roleId): JsonResponse
+    public function storeFromApi(string $roleId): JsonResponse
     {
-        $response['organisations'] = $organisationApiService->storeFromApi($roleId);
-        $response['postcodes'] = $postcodeApiService->storeFromApiAutoCreate($roleId);
-        $response['org_postcodes'] = $organisationApiService->updatePostcodeId($roleId);
+        StoreFromApi::dispatch($roleId);
+        $response['organisations'] = [ 'created' => 'Added to queue'];
+        $response['postcodes'    ] = [ 'created' => 'Added to queue'];
+        $response['org_postcodes'] = [ 'created' => 'Added to queue'];
         return response()->json($response);
     }
 
-    public function updatePostcode(OrganisationApiService $organisationApiService): JsonResponse
+    public function updatePostcode(): JsonResponse
     {
-        $response = $organisationApiService->updatePostcodeId(request()->input('roleId', null));
-        return response()->json($response);
+        UpdatePostcodeId::dispatch(request()->input('roleId', null));
+        return response()->json([ 'response' => 'Added to queue' ]);
     }
 
     public function getMapData(OrganisationMapService $organisationMapService): JsonResponse

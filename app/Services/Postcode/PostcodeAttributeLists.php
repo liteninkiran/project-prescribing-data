@@ -47,10 +47,10 @@ class PostcodeAttributeLists
         }
         return $class::query()
             ->select($columns)
-            ->whereHas('postcodes', function ($q) {
-                $q->whereNotNull('latitude');
-                $q->whereNotNull('longitude');
-            })
+            // ->whereHas('postcodes', function ($q) {
+            //     $q->whereNotNull('latitude');
+            //     $q->whereNotNull('longitude');
+            // })
             ->orderBy('name', 'asc')
             ->get();
     }

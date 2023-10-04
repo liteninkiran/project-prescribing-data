@@ -93,7 +93,7 @@ class PostcodeApiService
         $this->setColumns();
 
         // Set timeout (not using queue yet)
-        $this->setTimeout(env('MAX_EXECUTION_TIME', 300));
+        //$this->setTimeout(env('MAX_EXECUTION_TIME', 300));
 
         // Loop through the chunks
         $this->chunkLoop();
@@ -125,7 +125,7 @@ class PostcodeApiService
         $this->setColumns();
 
         // Set timeout (not using queue yet)
-        $this->setTimeout(env('MAX_EXECUTION_TIME', 300));
+        //$this->setTimeout(env('MAX_EXECUTION_TIME', 300));
 
         // Loop through the chunks
         $this->chunkLoop();

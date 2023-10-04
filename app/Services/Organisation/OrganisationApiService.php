@@ -25,8 +25,8 @@ class OrganisationApiService
     /** @var int $limit Specify limit for API call. Max is 1,000. */
     private int $limit = 1000;
 
-    /** @var Role $role Do not touch*/
-    private Role $role;
+    /** @var Role|null $role Do not touch*/
+    private Role|null $role = null;
 
     /** @var int $totalRows Do not touch. */
     private int $totalRows = 0;
@@ -51,8 +51,8 @@ class OrganisationApiService
         // Set $role using model from DB
         $this->setRole($roleId);
 
-        // Set timeout (not using queue yet)
-        $this->setTimeout(env('MAX_EXECUTION_TIME', 300));
+        // // Set timeout (not using queue yet)
+        // $this->setTimeout(env('MAX_EXECUTION_TIME', 300));
 
         // Loop through the URLs (max row limit is 1,000)
         $this->looper();
@@ -79,7 +79,7 @@ class OrganisationApiService
         $this->updated = $this->upsertData();
 
         return [
-            'updated' =>  $this->updated,
+            'updated' => $this->updated,
         ];
     }
 
@@ -125,7 +125,7 @@ class OrganisationApiService
             'organisations.org_link',
         ];
     }
-    
+
     /**
      * getQueryForUpsert
      *
@@ -170,6 +170,8 @@ class OrganisationApiService
     {
         if ($roleId) {
             $this->role = Role::where('_id', $roleId)->firstOrFail();
+        } else {
+            $this->role = null;
         }
     }
 

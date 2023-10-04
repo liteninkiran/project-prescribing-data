@@ -34,7 +34,7 @@ export class OrganisationFiltersComponent {
     public adminDistrictInput  : FormControl<number[] | null> = new FormControl(null);
     public parliamentInput     : FormControl<number[] | null> = new FormControl(null);
     public policeForceAreaInput: FormControl<number[] | null> = new FormControl(null);
-    public nutsInput           : FormControl<number[] | null> = new FormControl(null);
+    public nutsInput           : FormControl<number[] | null> = new FormControl([64]);
     public postcodeAreaInput   : FormControl<number[] | null> = new FormControl(null);
     public euroInput           : FormControl<number[] | null> = new FormControl(null);
     public nhsHaInput          : FormControl<number[] | null> = new FormControl(null);
