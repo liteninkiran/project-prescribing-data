@@ -5,6 +5,7 @@ import { RoleService } from '../../../../services/role/role.service';
 import { IRoleFilters } from 'src/app/interfaces/role.interface';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { OrganisationService } from 'src/app/services/organisation/organisation.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-role',
@@ -30,6 +31,7 @@ export class RoleComponent implements OnInit {
         readonly roleService: RoleService,
         readonly orgService: OrganisationService,
         private _snackBar: MatSnackBar,
+        private router: Router,
     ) { }
 
     public ngOnInit(): void {
@@ -57,7 +59,7 @@ export class RoleComponent implements OnInit {
     }
 
     public onRowClick(row: any): void {
-        console.log(row);
+        this.router.navigate(['organisations'], { queryParams: { role: row.id }});
     }
 
     private columnConfigData(): IMatTableColumnConfig[] {

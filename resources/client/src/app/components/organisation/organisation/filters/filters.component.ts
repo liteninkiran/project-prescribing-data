@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Observable, debounceTime, distinctUntilChanged, tap } from 'rxjs';
 import { IOrganisationFilterFormGroup, IOrganisationFilters, IOrganisationStatus } from 'src/app/interfaces/organisation.interface';
 import { IRole } from 'src/app/interfaces/role.interface';
@@ -15,7 +16,7 @@ import { PostcodeStore } from 'src/app/services/postcode/postcode.store';
 export class OrganisationFiltersComponent {
 
     @Input() public message: string = '';
-    @Input() public defaultFilterValues: IOrganisationFilters = {} as IOrganisationFilters;
+    @Input() public defaultFilterValues: IOrganisationFilters = { } as IOrganisationFilters;
 
     @Output() public filtersChanged = new EventEmitter<IOrganisationFilters>();
 
@@ -49,6 +50,7 @@ export class OrganisationFiltersComponent {
     constructor(
         private orgStore: OrganisationStore,
         private postcodeStore: PostcodeStore,
+        private router: Router,
     ) { }
 
     public ngOnInit(): void {
@@ -105,7 +107,7 @@ export class OrganisationFiltersComponent {
     private calculateFilter(value: IOrganisationFilters): void {
         this.filters = [];
         Object.keys(value).map((key) => {
-            if (value[key as keyof IOrganisationFilters]) {
+            if (value[key as keyof IOrganisationFilters] !== null) {
                 this.filters.push({ field: key, value: value[key as keyof IOrganisationFilters]});
             }
         });
@@ -125,6 +127,14 @@ export class OrganisationFiltersComponent {
     }
 
     private getFilterFormControls(): IOrganisationFilterFormGroup {
+        const roleId: number = this.router.parseUrl(this.router.url).queryParams['role'];
+        if (roleId) {
+            if (this.defaultFilterValues.primaryRoles) {
+                this.defaultFilterValues.primaryRoles.push(roleId);
+            } else {
+                this.defaultFilterValues.primaryRoles = [roleId];
+            }
+        }
         return {
             organisationId              : new FormControl(this.defaultFilterValues.organisationId),
             name                        : new FormControl(this.defaultFilterValues.name),
