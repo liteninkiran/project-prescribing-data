@@ -32,6 +32,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
 
     @Output() public actionButtonClick = new EventEmitter<number>();
     @Output() public rowClick = new EventEmitter<any>();
+    @Output() public iconClick = new EventEmitter<any>();
 
     @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort!: MatSort;
@@ -67,6 +68,10 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
 
     public onRowClick(row: any): void {
         this.rowClick.emit(row);
+    }
+
+    public onIconClick(row: any): void {
+        this.iconClick.emit(row);
     }
 
     public onMenuClick(formValue: any): void {

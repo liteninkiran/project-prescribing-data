@@ -127,14 +127,7 @@ export class OrganisationFiltersComponent {
     }
 
     private getFilterFormControls(): IOrganisationFilterFormGroup {
-        const roleId: number = this.router.parseUrl(this.router.url).queryParams['role'];
-        if (roleId) {
-            if (this.defaultFilterValues.primaryRoles) {
-                this.defaultFilterValues.primaryRoles.push(roleId);
-            } else {
-                this.defaultFilterValues.primaryRoles = [roleId];
-            }
-        }
+        this.addQueryParamsToFilters();
         return {
             organisationId              : new FormControl(this.defaultFilterValues.organisationId),
             name                        : new FormControl(this.defaultFilterValues.name),
@@ -154,6 +147,16 @@ export class OrganisationFiltersComponent {
             primaryCareTrust            : new FormControl(this.defaultFilterValues.primaryCareTrust),
             region                      : new FormControl(this.defaultFilterValues.region),
             country                     : new FormControl(this.defaultFilterValues.country),
+        }
+    }
+
+    private addQueryParamsToFilters(): void {
+        const roleId: number = this.router.parseUrl(this.router.url).queryParams['role'];
+        if (roleId) {
+            if (!this.defaultFilterValues.primaryRoles) {
+                this.defaultFilterValues.primaryRoles = [];
+            }
+            this.defaultFilterValues.primaryRoles.push(+roleId);
         }
     }
 }

@@ -39,17 +39,28 @@
             <!-- Column Definitions -->
             <ng-container [matColumnDef]="item.columnId" *ngFor="let item of columnConfig">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ item.columnName }}</th>
-                <td mat-cell *matCellDef="let cell">
-                    <span *ngIf="item.property">{{ cell[item.columnId][item.property] | FormatValue }}</span> 
-                    <span *ngIf="!item.property">
-                        <ng-container *ngIf="item.columnId !== 'icon'">
-                            {{ cell[item.columnId] | FormatValue }}
-                        </ng-container>
-                        <ng-container *ngIf="item.columnId === 'icon'">
-                            <img [src]="cell[item.columnId] ?? 'assets/svg/map-marker/map-marker-a.svg'" />
-                        </ng-container>
-                    </span> 
-                </td>
+
+                <!-- Object -->
+                <ng-container *ngIf="item.property">
+                    <td mat-cell *matCellDef="let row" (click)="onRowClick(row)">
+                        {{ row[item.columnId][item.property] | FormatValue }}
+                    </td>
+                </ng-container>
+
+                <!-- Value -->
+                <ng-container *ngIf="!item.property && item.columnId !== 'icon'">
+                    <td mat-cell *matCellDef="let row" (click)="onRowClick(row)">
+                        {{ row[item.columnId] | FormatValue }}
+                    </td>
+                </ng-container>
+
+                <!-- Icon -->
+                <ng-container *ngIf="!item.property && item.columnId === 'icon'">
+                    <td mat-cell *matCellDef="let row" (click)="onIconClick(row)">
+                        <img [src]="row[item.columnId] ?? 'assets/svg/map-marker/map-marker-a.svg'" />
+                    </td>
+                </ng-container>
+
             </ng-container>
 
             <!-- Action Button -->
@@ -71,7 +82,7 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
 
             <!-- Data Rows -->
-            <tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="onRowClick(row)"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         
         </table>
 
@@ -85,3 +96,4 @@
     </div>
 
 </div>
+<!-- <span (click)="onRowClick(item)">{{ cell[item.columnId] | FormatValue }}</span> -->

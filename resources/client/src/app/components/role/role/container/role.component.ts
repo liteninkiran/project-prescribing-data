@@ -62,6 +62,10 @@ export class RoleComponent implements OnInit {
         this.router.navigate(['organisations'], { queryParams: { role: row.id }});
     }
 
+    public onIconClick(row: any): void {
+        this.router.navigate(['organisations-map'], { queryParams: { role: row.id }});
+    }
+
     private columnConfigData(): IMatTableColumnConfig[] {
         return [
             // { columnId: 'id', columnName: 'ID', visible: true },
