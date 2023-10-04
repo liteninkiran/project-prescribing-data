@@ -47,3 +47,9 @@ export interface IAsyncButtonInputConfig {
     hide?: boolean;
     hideRow: string;
 }
+
+export interface IMatSelectOptions {
+    id: number;
+    code?: string;
+    name: string;
+};

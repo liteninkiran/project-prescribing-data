@@ -43,8 +43,8 @@
                         <!-- Org ID -->
                         <mat-form-field>
                             <mat-label>Organisation ID</mat-label>
-                            <input matInput [formControl]="organisationIdInput" placeholder="e.g. Y00082" (input)="onorganisationIdInput($event)">
-                            <button *ngIf="organisationIdInput.value" matSuffix mat-icon-button aria-label="Clear" (click)="organisationIdInput.setValue(null)" tabindex="-1">
+                            <input matInput [formControl]="filterFormControls.organisationId" placeholder="e.g. Y00082" (input)="onorganisationIdInput($event)">
+                            <button *ngIf="filterFormControls.organisationId.value" matSuffix mat-icon-button aria-label="Clear" (click)="filterFormControls.organisationId.setValue(null)" tabindex="-1">
                                 <mat-icon>close</mat-icon>
                             </button>
                         </mat-form-field>
@@ -52,8 +52,8 @@
                         <!-- Name -->
                         <mat-form-field>
                             <mat-label>Organisation Name</mat-label>
-                            <input matInput [formControl]="nameInput" placeholder="e.g. Medical Practice">
-                            <button *ngIf="nameInput.value" matSuffix mat-icon-button aria-label="Clear" (click)="nameInput.setValue(null)" tabindex="-1">
+                            <input matInput [formControl]="filterFormControls.name" placeholder="e.g. Medical Practice">
+                            <button *ngIf="filterFormControls.name.value" matSuffix mat-icon-button aria-label="Clear" (click)="filterFormControls.name.setValue(null)" tabindex="-1">
                                 <mat-icon>close</mat-icon>
                             </button>
                         </mat-form-field>
@@ -61,14 +61,14 @@
                         <!-- Status -->
                         <mat-form-field>
                             <mat-label>Status</mat-label>
-                            <mat-select [formControl]="statusInput" placeholder="Select a status">
+                            <mat-select [formControl]="filterFormControls.status" placeholder="Select a status">
                                 <mat-option [value]="null"></mat-option>
                                 <mat-option *ngFor="let s of status" [value]="s.id">
                                     {{ s.displayName }}
                                 </mat-option>
                             </mat-select>
-                            <button *ngIf="statusInput.value" matSuffix mat-icon-button aria-label="Clear"
-                                (click)="statusInput.setValue(null)">
+                            <button *ngIf="filterFormControls.status.value" matSuffix mat-icon-button aria-label="Clear"
+                                (click)="filterFormControls.status.setValue(null)">
                                 <mat-icon>close</mat-icon>
                             </button>
                         </mat-form-field>
@@ -84,7 +84,7 @@
                             <!-- Primary Role List -->
                             <mat-select
                                 #primaryRoleSelect
-                                [formControl]="primaryRoleInput"
+                                [formControl]="filterFormControls.primaryRoles"
                                 placeholder="Select Role(s)"
                                 multiple
                                 [panelClass]="['long-list', 'select-icon']"
@@ -103,11 +103,11 @@
 
                             <!-- Clear Contents -->
                             <button
-                                *ngIf="primaryRoleInput.value?.length || 0 > 0"
+                                *ngIf="filterFormControls.primaryRoles.value?.length || 0 > 0"
                                 matSuffix
                                 mat-icon-button
                                 aria-label="Clear"
-                                (click)="primaryRoleInput.setValue(null)"
+                                (click)="filterFormControls.primaryRoles.setValue(null)"
                             >
                                 <mat-icon>close</mat-icon>
                             </button>
@@ -125,7 +125,7 @@
                             <!-- Non Primary Role List -->
                             <mat-select
                                 #nonPrimaryRoleSelect
-                                [formControl]="nonPrimaryRoleInput"
+                                [formControl]="filterFormControls.nonPrimaryRoles"
                                 placeholder="Select Role(s)"
                                 multiple
                                 panelClass="long-list"
@@ -137,11 +137,11 @@
 
                             <!-- Clear Contents -->
                             <button
-                                *ngIf="nonPrimaryRoleInput.value?.length || 0 > 0"
+                                *ngIf="filterFormControls.nonPrimaryRoles.value?.length || 0 > 0"
                                 matSuffix
                                 mat-icon-button
                                 aria-label="Clear"
-                                (click)="nonPrimaryRoleInput.setValue(null)"
+                                (click)="filterFormControls.nonPrimaryRoles.setValue(null)"
                             >
                                 <mat-icon>close</mat-icon>
                             </button>
@@ -151,10 +151,10 @@
                         <!-- Last Change Date -->
                         <mat-form-field>
                             <mat-label>Last Changed After</mat-label>
-                            <input matInput [matDatepicker]="picker" [formControl]="lastChangeDateInput" [max]="maxDate">
+                            <input matInput [matDatepicker]="picker" [formControl]="filterFormControls.lastChangeDate" [max]="maxDate">
                             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                             <mat-datepicker #picker></mat-datepicker>
-                            <button *ngIf="lastChangeDateInput.value" matSuffix mat-icon-button aria-label="Clear" (click)="lastChangeDateInput.setValue(null)">
+                            <button *ngIf="filterFormControls.lastChangeDate.value" matSuffix mat-icon-button aria-label="Clear" (click)="filterFormControls.lastChangeDate.setValue(null)">
                                 <mat-icon>close</mat-icon>
                             </button>
                         </mat-form-field>
@@ -181,391 +181,88 @@
                         <!-- Postcode -->
                         <mat-form-field>
                             <mat-label>Postcode</mat-label>
-                            <input matInput [formControl]="postcodeInput" placeholder="e.g. DA14" (input)="onPostcodeInput($event)">
-                            <button *ngIf="postcodeInput.value" matSuffix mat-icon-button aria-label="Clear" (click)="postcodeInput.setValue(null)" tabindex="-1">
+                            <input matInput [formControl]="filterFormControls.postcode" placeholder="e.g. DA14" (input)="onPostcodeInput($event)">
+                            <button *ngIf="filterFormControls.postcode.value" matSuffix mat-icon-button aria-label="Clear" (click)="filterFormControls.postcode.setValue(null)" tabindex="-1">
                                 <mat-icon>close</mat-icon>
                             </button>
                         </mat-form-field>
 
                         <!-- Admin County -->
-                        <mat-form-field>
-
-                            <!-- Label -->
-                            <mat-label>
-                                Administrative County
-                            </mat-label>
-
-                            <!-- Admin County List -->
-                            <mat-select
-                                #adminCountySelect
-                                [formControl]="adminCountyInput"
-                                placeholder="Select Administrative County(s)"
-                                multiple
-                                panelClass="long-list"
-                            >
-                                <mat-option *ngFor="let item of (adminCounty$ | async)" [value]="item.id">
-                                    {{ item.name }}
-                                </mat-option>
-                            </mat-select>
-
-                            <!-- Clear Contents -->
-                            <button
-                                *ngIf="adminCountyInput.value?.length || 0 > 0"
-                                matSuffix
-                                mat-icon-button
-                                aria-label="Clear"
-                                (click)="adminCountyInput.setValue(null)"
-                            >
-                                <mat-icon>close</mat-icon>
-                            </button>
-
-                        </mat-form-field>
+                        <app-async-select
+                            label="Admin County"
+                            [fControl]="filterFormControls.adminCounty"
+                            [data]="(adminCounty$ | async) || []"
+                        ></app-async-select>
 
                         <!-- Admin District -->
-                        <mat-form-field>
-
-                            <!-- Label -->
-                            <mat-label>
-                                Administrative District
-                            </mat-label>
-
-                            <!-- Admin District List -->
-                            <mat-select
-                                #adminDistrictSelect
-                                [formControl]="adminDistrictInput"
-                                placeholder="Select Administrative District(s)"
-                                multiple
-                                panelClass="long-list"
-                            >
-                                <mat-option *ngFor="let item of (adminDistrict$ | async)" [value]="item.id">
-                                    {{ item.name }}
-                                </mat-option>
-                            </mat-select>
-
-                            <!-- Clear Contents -->
-                            <button
-                                *ngIf="adminDistrictInput.value?.length || 0 > 0"
-                                matSuffix
-                                mat-icon-button
-                                aria-label="Clear"
-                                (click)="adminDistrictInput.setValue(null)"
-                            >
-                                <mat-icon>close</mat-icon>
-                            </button>
-
-                        </mat-form-field>
+                        <app-async-select
+                            label="Admin District"
+                            [fControl]="filterFormControls.adminDistrict"
+                            [data]="(adminDistrict$ | async) || []"
+                        ></app-async-select>
 
                         <!-- Parliamentary Constituency -->
-                        <mat-form-field>
-
-                            <!-- Label -->
-                            <mat-label>
-                                Parliamentary Constituency
-                            </mat-label>
-
-                            <!-- Parliamentary Constituency List -->
-                            <mat-select
-                                #parliamentaryConstituencySelect
-                                [formControl]="parliamentInput"
-                                placeholder="Select Parliamentary Constituency(s)"
-                                multiple
-                                panelClass="long-list"
-                            >
-                                <mat-option *ngFor="let item of (parliamentaryConstituency$ | async)" [value]="item.id">
-                                    {{ item.name }}
-                                </mat-option>
-                            </mat-select>
-
-                            <!-- Clear Contents -->
-                            <button
-                                *ngIf="parliamentInput.value?.length || 0 > 0"
-                                matSuffix
-                                mat-icon-button
-                                aria-label="Clear"
-                                (click)="parliamentInput.setValue(null)"
-                            >
-                                <mat-icon>close</mat-icon>
-                            </button>
-
-                        </mat-form-field>
+                        <app-async-select
+                            label="Parliamentary Constituency"
+                            [fControl]="filterFormControls.parliamentaryConstituency"
+                            [data]="(parliamentaryConstituency$ | async) || []"
+                        ></app-async-select>
 
                         <!-- Police Force Area -->
-                        <mat-form-field>
-
-                            <!-- Label -->
-                            <mat-label>
-                                Police Force Area
-                            </mat-label>
-
-                            <!-- Police Force Area List -->
-                            <mat-select
-                                #policeForceAreaSelect
-                                [formControl]="policeForceAreaInput"
-                                placeholder="Select admin Police Force Area(s)"
-                                multiple
-                                panelClass="long-list"
-                            >
-                                <mat-option *ngFor="let item of (policeForceArea$ | async)" [value]="item.id">
-                                    {{ item.name }}
-                                </mat-option>
-                            </mat-select>
-
-                            <!-- Clear Contents -->
-                            <button
-                                *ngIf="policeForceAreaInput.value?.length || 0 > 0"
-                                matSuffix
-                                mat-icon-button
-                                aria-label="Clear"
-                                (click)="policeForceAreaInput.setValue(null)"
-                            >
-                                <mat-icon>close</mat-icon>
-                            </button>
-
-                        </mat-form-field>
+                        <app-async-select
+                            label="Police Force Area"
+                            [fControl]="filterFormControls.policeForceArea"
+                            [data]="(policeForceArea$ | async) || []"
+                        ></app-async-select>
 
                         <!-- Nuts -->
-                        <mat-form-field>
-
-                            <!-- Label -->
-                            <mat-label>
-                                Nuts
-                            </mat-label>
-
-                            <!-- Nuts List -->
-                            <mat-select
-                                #nutsSelect
-                                [formControl]="nutsInput"
-                                placeholder="Select Nut(s)"
-                                multiple
-                                panelClass="long-list"
-                            >
-                                <mat-option *ngFor="let item of (nuts$ | async)" [value]="item.id">
-                                    {{ item.name }}
-                                </mat-option>
-                            </mat-select>
-
-                            <!-- Clear Contents -->
-                            <button
-                                *ngIf="nutsInput.value?.length || 0 > 0"
-                                matSuffix
-                                mat-icon-button
-                                aria-label="Clear"
-                                (click)="nutsInput.setValue(null)"
-                            >
-                                <mat-icon>close</mat-icon>
-                            </button>
-
-                        </mat-form-field>
+                        <app-async-select
+                            label="NUTS"
+                            [fControl]="filterFormControls.nuts"
+                            [data]="(nuts$ | async) || []"
+                        ></app-async-select>
 
                         <!-- Postcode Area -->
-                        <mat-form-field>
-
-                            <!-- Label -->
-                            <mat-label>
-                                Postcode Area
-                            </mat-label>
-
-                            <!-- Postcode Area List -->
-                            <mat-select
-                                #postcodeAreaSelect
-                                [formControl]="postcodeAreaInput"
-                                placeholder="Select Postcode Area(s)"
-                                multiple
-                                [panelClass]="['long-list', 'select-icon']"
-                            >
-                                <mat-option *ngFor="let item of (postcodeArea$ | async)" [value]="item.id">
-                                    <div class="select-container">
-                                        <div class="select-display-name">
-                                            {{ item.name }}
-                                        </div>
-                                        <div>
-                                            {{ item.code }}
-                                        </div>
-                                    </div>
-                                </mat-option>
-                            </mat-select>
-
-                            <!-- Clear Contents -->
-                            <button
-                                *ngIf="postcodeAreaInput.value?.length || 0 > 0"
-                                matSuffix
-                                mat-icon-button
-                                aria-label="Clear"
-                                (click)="postcodeAreaInput.setValue(null)"
-                            >
-                                <mat-icon>close</mat-icon>
-                            </button>
-
-                        </mat-form-field>
+                        <app-async-select
+                            label="Postcode Area"
+                            [fControl]="filterFormControls.postcodeArea"
+                            [data]="(postcodeArea$ | async) || []"
+                        ></app-async-select>
 
                         <!-- European Electoral Region -->
-                        <mat-form-field>
-
-                            <!-- Label -->
-                            <mat-label>
-                                European Electoral Region
-                            </mat-label>
-
-                            <!-- European Electoral Region List -->
-                            <mat-select
-                                #euroSelect
-                                [formControl]="euroInput"
-                                placeholder="Select European Electoral Region(s)"
-                                multiple
-                                panelClass="long-list"
-                            >
-                                <mat-option *ngFor="let item of (euro$ | async)" [value]="item.id">
-                                    {{ item.name }}
-                                </mat-option>
-                            </mat-select>
-
-                            <!-- Clear Contents -->
-                            <button
-                                *ngIf="euroInput.value?.length || 0 > 0"
-                                matSuffix
-                                mat-icon-button
-                                aria-label="Clear"
-                                (click)="euroInput.setValue(null)"
-                            >
-                                <mat-icon>close</mat-icon>
-                            </button>
-
-                        </mat-form-field>
+                        <app-async-select
+                            label="European Electoral Region"
+                            [fControl]="filterFormControls.europeanElectoralRegion"
+                            [data]="(europeanElectoralRegion$ | async) || []"
+                        ></app-async-select>
 
                         <!-- Health Authority -->
-                        <mat-form-field>
-
-                            <!-- Label -->
-                            <mat-label>
-                                Health Authority
-                            </mat-label>
-
-                            <!-- Health Authority List -->
-                            <mat-select
-                                #nhsHasSelect
-                                [formControl]="nhsHaInput"
-                                placeholder="Select Health Authority(s)"
-                                multiple
-                                panelClass="long-list"
-                            >
-                                <mat-option *ngFor="let item of (healthAuthority$ | async)" [value]="item.id">
-                                    {{ item.name }}
-                                </mat-option>
-                            </mat-select>
-
-                            <!-- Clear Contents -->
-                            <button
-                                *ngIf="nhsHaInput.value?.length || 0 > 0"
-                                matSuffix
-                                mat-icon-button
-                                aria-label="Clear"
-                                (click)="nhsHaInput.setValue(null)"
-                            >
-                                <mat-icon>close</mat-icon>
-                            </button>
-
-                        </mat-form-field>
+                        <app-async-select
+                            label="Health Authority"
+                            [fControl]="filterFormControls.healthAuthority"
+                            [data]="(healthAuthority$ | async) || []"
+                        ></app-async-select>
 
                         <!-- Primary Care Trust -->
-                        <mat-form-field>
-
-                            <!-- Label -->
-                            <mat-label>
-                                Primary Care Trust
-                            </mat-label>
-
-                            <!-- Primary Care Trust List -->
-                            <mat-select
-                                #primaryCareTrustSelect
-                                [formControl]="priCareTrustInput"
-                                placeholder="Select Primary Care Trust(s)"
-                                multiple
-                                panelClass="long-list"
-                            >
-                                <mat-option *ngFor="let item of (primaryCareTrust$ | async)" [value]="item.id">
-                                    {{ item.name }}
-                                </mat-option>
-                            </mat-select>
-
-                            <!-- Clear Contents -->
-                            <button
-                                *ngIf="priCareTrustInput.value?.length || 0 > 0"
-                                matSuffix
-                                mat-icon-button
-                                aria-label="Clear"
-                                (click)="priCareTrustInput.setValue(null)"
-                            >
-                                <mat-icon>close</mat-icon>
-                            </button>
-
-                        </mat-form-field>
+                        <app-async-select
+                            label="Primary Care Trust"
+                            [fControl]="filterFormControls.primaryCareTrust"
+                            [data]="(primaryCareTrust$ | async) || []"
+                        ></app-async-select>
 
                         <!-- Region -->
-                        <mat-form-field>
-
-                            <!-- Label -->
-                            <mat-label>
-                                Region
-                            </mat-label>
-
-                            <!-- Region List -->
-                            <mat-select
-                                #regionSelect
-                                [formControl]="regionInput"
-                                placeholder="Select Region(s)"
-                                multiple
-                                panelClass="long-list"
-                            >
-                                <mat-option *ngFor="let item of (region$ | async)" [value]="item.id">
-                                    {{ item.name }}
-                                </mat-option>
-                            </mat-select>
-
-                            <!-- Clear Contents -->
-                            <button
-                                *ngIf="regionInput.value?.length || 0 > 0"
-                                matSuffix
-                                mat-icon-button
-                                aria-label="Clear"
-                                (click)="regionInput.setValue(null)"
-                            >
-                                <mat-icon>close</mat-icon>
-                            </button>
-
-                        </mat-form-field>
+                        <app-async-select
+                            label="Region"
+                            [fControl]="filterFormControls.region"
+                            [data]="(region$ | async) || []"
+                        ></app-async-select>
 
                         <!-- Country -->
-                        <mat-form-field>
-
-                            <!-- Label -->
-                            <mat-label>
-                                Country
-                            </mat-label>
-
-                            <!-- Country List -->
-                            <mat-select
-                                #countrySelect
-                                [formControl]="countryInput"
-                                placeholder="Select Country(s)"
-                                multiple
-                            >
-                                <mat-option *ngFor="let item of (country$ | async)" [value]="item.id">
-                                    {{ item.name }}
-                                </mat-option>
-                            </mat-select>
-
-                            <!-- Clear Contents -->
-                            <button
-                                *ngIf="countryInput.value?.length || 0 > 0"
-                                matSuffix
-                                mat-icon-button
-                                aria-label="Clear"
-                                (click)="countryInput.setValue(null)"
-                            >
-                                <mat-icon>close</mat-icon>
-                            </button>
-
-                        </mat-form-field>
+                        <app-async-select
+                            label="Country"
+                            [fControl]="filterFormControls.country"
+                            [data]="(country$ | async) || []"
+                        ></app-async-select>
 
                     </div>
 

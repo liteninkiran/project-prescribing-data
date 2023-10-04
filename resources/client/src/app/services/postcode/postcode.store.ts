@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, catchError, map, tap, throwError } from 'rxjs';
-import { IPostcodeAttribute, IPostcodeAttributesResponse } from 'src/app/interfaces/postcode.interface';
+import { IPostcodeAttributesResponse } from 'src/app/interfaces/postcode.interface';
+import { IMatSelectOptions } from 'src/app/interfaces/shared.interface';
 
 @Injectable({
     providedIn: 'root'
@@ -28,47 +29,47 @@ export class PostcodeStore {
         loadData$.subscribe();
     }
 
-    public getAdminCounties(): Observable<IPostcodeAttribute[]> {
+    public getAdminCounties(): Observable<IMatSelectOptions[]> {
         return this.attributes$.pipe(map(attributes => attributes.admin_county));
     }
 
-    public getAdminDistricts(): Observable<IPostcodeAttribute[]> {
+    public getAdminDistricts(): Observable<IMatSelectOptions[]> {
         return this.attributes$.pipe(map(attributes => attributes.admin_district));
     }
 
-    public getParliamentaryConstituencies(): Observable<IPostcodeAttribute[]> {
+    public getParliamentaryConstituencies(): Observable<IMatSelectOptions[]> {
         return this.attributes$.pipe(map(attributes => attributes.parliamentary_constituency));
     }
 
-    public getPoliceForceAreas(): Observable<IPostcodeAttribute[]> {
+    public getPoliceForceAreas(): Observable<IMatSelectOptions[]> {
         return this.attributes$.pipe(map(attributes => attributes.police_force_area));
     }
 
-    public getNuts(): Observable<IPostcodeAttribute[]> {
+    public getNuts(): Observable<IMatSelectOptions[]> {
         return this.attributes$.pipe(map(attributes => attributes.nuts));
     }
 
-    public getPostcodeArea(): Observable<IPostcodeAttribute[]> {
+    public getPostcodeArea(): Observable<IMatSelectOptions[]> {
         return this.attributes$.pipe(map(attributes => attributes.postcode_area));
     }
 
-    public getEuropeanElectoralRegion(): Observable<IPostcodeAttribute[]> {
+    public getEuropeanElectoralRegion(): Observable<IMatSelectOptions[]> {
         return this.attributes$.pipe(map(attributes => attributes.european_electoral_region));
     }
 
-    public getHealthAuthority(): Observable<IPostcodeAttribute[]> {
+    public getHealthAuthority(): Observable<IMatSelectOptions[]> {
         return this.attributes$.pipe(map(attributes => attributes.health_authority));
     }
 
-    public getPrimaryCareTrust(): Observable<IPostcodeAttribute[]> {
+    public getPrimaryCareTrust(): Observable<IMatSelectOptions[]> {
         return this.attributes$.pipe(map(attributes => attributes.primary_care_trust));
     }
 
-    public getRegion(): Observable<IPostcodeAttribute[]> {
+    public getRegion(): Observable<IMatSelectOptions[]> {
         return this.attributes$.pipe(map(attributes => attributes.region));
     }
 
-    public getCountry(): Observable<IPostcodeAttribute[]> {
+    public getCountry(): Observable<IMatSelectOptions[]> {
         return this.attributes$.pipe(map(attributes => attributes.country));
     }
 }

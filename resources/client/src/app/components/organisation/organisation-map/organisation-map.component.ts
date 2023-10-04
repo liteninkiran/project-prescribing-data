@@ -14,6 +14,7 @@ import * as L from 'leaflet';
 })
 export class OrganisationMapComponent implements OnInit {
     public filters: IOrganisationFilters = {} as IOrganisationFilters;
+    public defaultFilterValues: IOrganisationFilters = { nuts: [64] } as IOrganisationFilters;
     public data$!: Observable<IOrganisationMapResponse>;
     public data!: IOrganisation[];
     public message: string = '';
@@ -31,7 +32,7 @@ export class OrganisationMapComponent implements OnInit {
         this.initialiseMap();
     }
 
-    public loadData() {
+    public loadData(): void {
         this.data$ = this.orgService.loadMapData(this.filters);
         this.data$.subscribe((res: IOrganisationMapResponse) => {
             this.data = res.data;
@@ -46,27 +47,37 @@ export class OrganisationMapComponent implements OnInit {
         this.loadData();
     }
 
-    private initialiseMap() {
-        //this.fixLeafletBug();
+    private initialiseMap(): void {
         this.setMap();
+        this.addTileLayer();
     }
 
-    private setMap() {
+    private setMap(): void {
         const centreCoords: L.LatLngExpression = [55, -1];
         const initialZoom = 6;
+        if (this.map) {
+            this.map.setView(centreCoords, initialZoom);
+        } else {
+            this.map = L.map('map').setView(centreCoords, initialZoom);
+        }
+    }
+
+    private addTileLayer(): void {
         const url = 'https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.{ext}';
         const tileOptions = {
             minZoom: 0,
             maxZoom: 20,
             ext: 'png',
         }
-        this.map = L.map('map').setView(centreCoords, initialZoom);
         L.tileLayer(url, tileOptions).addTo(this.map);
     }
 
-    private addMarkersToMap() {
+    private addMarkersToMap(): void {
+        if (this.data.length === 0) {
+            this.setMap();
+            return;
+        }
         const markers: L.Marker[] = [];
-
         this.data.map((org: IOrganisation) => {
             if (org.postcode?.latitude && org.postcode.longitude) {
                 const markerMessage = `
@@ -103,13 +114,13 @@ export class OrganisationMapComponent implements OnInit {
         this.map.fitBounds(this.featureGroup.getBounds(), { padding: [40, 40] });
     }
 
-    public clearMarkers() {
+    public clearMarkers(): void {
         if (this.featureGroup && this.map.hasLayer(this.featureGroup)) {
             this.map.removeLayer(this.featureGroup);
         }
     }
 
-    private fixLeafletBug() {
+    private fixLeafletBug(): void {
         const iconRetinaUrl = 'assets/marker-icon-2x.png';
         const iconUrl = 'assets/marker-icon.png';
         const shadowUrl = 'assets/marker-shadow.png';
