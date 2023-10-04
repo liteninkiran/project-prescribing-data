@@ -53,8 +53,11 @@ export class RoleComponent implements OnInit {
         this.actionButtonConfig.loaded = false;
         this.orgService
             .loadDataFromApi(_id)
-            // .subscribe((res: any) => this.showOrgSnackBar(res));
             .subscribe((res: any) => this.actionButtonConfig.loaded = true);
+    }
+
+    public onRowClick(row: any): void {
+        console.log(row);
     }
 
     private columnConfigData(): IMatTableColumnConfig[] {
@@ -80,15 +83,6 @@ export class RoleComponent implements OnInit {
         this.showSnackBars(message);
         this.apiLoaded = true;
     }
-
-    // private showOrgSnackBar(res: any) {
-    //     const message = {
-    //         created: 'Created: ' + res['organisations'].created + ' Organisation record(s) and ' + res['postcodes'].created + ' Postcode record(s)',
-    //         updated: 'Updated: ' + res['organisations'].updated + ' Organisation record(s) and ' + res['postcodes'].updated + ' Postcode record(s)',
-    //     }
-    //     this.showSnackBars(message);
-    //     this.actionButtonConfig.loaded = true;
-    // }
 
     private showSnackBars(messages: any) {
         const config = new MatSnackBarConfig();

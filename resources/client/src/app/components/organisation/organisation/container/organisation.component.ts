@@ -40,6 +40,10 @@ export class OrganisationComponent implements OnInit {
         alert(id);
     }
 
+    public onRowClick(row: any): void {
+        console.log(row);
+    }
+
     private columnConfigData(): IMatTableColumnConfig[] {
         return [
             { columnId: 'org_id', columnName: 'Organisation ID', visible: true },

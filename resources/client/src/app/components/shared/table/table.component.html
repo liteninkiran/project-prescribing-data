@@ -62,7 +62,7 @@
                         [colour]="actionButtonConfig.colour"
                         [icon]="actionButtonConfig.icon"
                         [loaded]="actionButtonConfig.loaded"
-                        (clickEvent)="onActionClick(row.id)"
+                        (clickEvent)="onActionClick(row)"
                     ></app-async-button>
                 </td>
             </ng-container>
@@ -71,7 +71,7 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
 
             <!-- Data Rows -->
-            <tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="onRowClicked(row)"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="onRowClick(row)"></tr>
         
         </table>
 
