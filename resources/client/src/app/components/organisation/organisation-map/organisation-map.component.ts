@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { IOrganisation, IOrganisationFilters, IOrganisationMapResponse } from 'src/app/interfaces/organisation.interface';
 import { OrganisationService } from 'src/app/services/organisation/organisation.service';
 import { icon, Marker } from 'leaflet';
@@ -26,6 +27,7 @@ export class OrganisationMapComponent implements OnInit {
     constructor(
         readonly orgService: OrganisationService,
         private _decimalPipe: DecimalPipe,
+        private router: Router,
     ) { }
 
     public ngOnInit(): void {
@@ -73,51 +75,47 @@ export class OrganisationMapComponent implements OnInit {
     }
 
     private addMarkersToMap(): void {
-        if (this.data.length === 0) {
-            this.setMap();
-            return;
-        }
+        if (this.data.length === 0) { this.setMap(); return; }
         const markers: L.Marker[] = [];
         this.data.map((org: IOrganisation) => {
-            if (org.postcode?.latitude && org.postcode.longitude) {
-                const markerMessage = `
-                    <h3>${org.org_id}</h3>
-                    <p>${org.primary_role.display_name}</p>
-                    <p>${org.name}</p>
-                    <p>${org.post_code}</p>
-                `;
-                const markerCoords: L.LatLngExpression = [org.postcode.latitude, org.postcode.longitude];
-                const iconOptions: L.IconOptions = org.primary_role.icon ? {
-                    iconUrl     : org.primary_role.icon,
-                    iconSize    : [30, 30],
-                    iconAnchor  : [15, 30],
-                    popupAnchor : [0, -30],
-                    // iconSize    : [20, 20],
-                    // iconAnchor  : [10, 20],
-                    // popupAnchor : [0, -20],
-
-                } : {
-                    iconUrl     : 'assets/svg/map-marker/map-marker-a.svg',
-                    iconSize    : [20, 20],
-                    iconAnchor  : [10, 20],
-                    popupAnchor : [0, -20],
-
-                }
-                const markerIcon = L.icon(iconOptions);
-                const markerOptions: L.MarkerOptions = { icon: markerIcon }
-                const marker = L.marker(markerCoords, markerOptions).bindPopup(markerMessage);
-                markers.push(marker);
-            }
+            const marker = this.addMarkerToMap(org);
+            if (marker) { markers.push(marker); }
         });
-
         this.featureGroup = L.featureGroup([ ...markers ]).addTo(this.map);
         this.map.fitBounds(this.featureGroup.getBounds(), { padding: [40, 40] });
     }
 
-    public clearMarkers(): void {
+    private addMarkerToMap(org: IOrganisation): L.Marker | undefined {
+        if (org.postcode?.latitude && org.postcode.longitude) {
+            const markerCoords: L.LatLngExpression = [org.postcode.latitude, org.postcode.longitude];
+            const iconOptions: L.IconOptions = org.primary_role.icon ? { ...defaultIcon, iconUrl: org.primary_role.icon } : defaultIcon;
+            const markerIcon = L.icon(iconOptions);
+            const markerOptions: L.MarkerOptions = { icon: markerIcon }
+            const onClick = () => this.router.navigate(['organisations/' + org.org_id]);
+            const tooltipText = this.getTooltipText(org);
+            const tooltipOptions: L.TooltipOptions = { direction: 'top', offset: [0, -30] }
+            const marker = L.marker(markerCoords, markerOptions)
+                .bindTooltip(tooltipText, tooltipOptions)
+                .on('click', onClick);
+            return marker;
+        } else {
+            return undefined;
+        }
+    }
+
+    private clearMarkers(): void {
         if (this.featureGroup && this.map.hasLayer(this.featureGroup)) {
             this.map.removeLayer(this.featureGroup);
         }
+    }
+
+    private getTooltipText(org: IOrganisation): string {
+        return `
+            <h3>${org.org_id}</h3>
+            <p>${org.primary_role.display_name}</p>
+            <p>${org.name}</p>
+            <p>${org.post_code}</p>
+        `;
     }
 
     private fixLeafletBug(): void {
@@ -141,10 +139,18 @@ export class OrganisationMapComponent implements OnInit {
         const totalStr = this._decimalPipe.transform(total, '1.0-0');
         const limitStr = this._decimalPipe.transform(limit, '1.0-0');
         const warning = '<strong>Please restrict your query using the filters</strong>';
+        this.message = 'Showing ';
         if (limit_exceeded) {
-            this.message = 'Showing ' + limitStr + ' of ' + totalStr + ' items ' + warning;
+            this.message += limitStr + ' of ' + totalStr + ' items ' + warning;
         } else {
-            this.message = 'Showing ' + totalStr + ' items';
+            this.message += totalStr + ' items';
         }
     }
+}
+
+const defaultIcon: L.IconOptions = {
+    iconUrl     : 'assets/svg/map-marker/map-marker-a.svg',
+    iconSize    : [25, 25],
+    iconAnchor  : [12.5, 25],
+    popupAnchor : [0, -25],
 }
