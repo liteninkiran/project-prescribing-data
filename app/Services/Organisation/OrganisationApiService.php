@@ -41,50 +41,54 @@ class OrganisationApiService
     private int $updated = 0;
 
     /**
+     * setRole
+     * 
+     * @param string|null $roleId
+     * @return self
+     */
+    public function setRole(string|null $roleId): self
+    {
+        if ($roleId) {
+            $this->role = Role::where('_id', $roleId)->firstOrFail();
+        } else {
+            $this->role = null;
+        }
+        return $this;
+    }
+
+    /**
+     * updateOrgLastUpdated
+     *
+     * @param bool $start
+     * @return self
+     */
+    public function updateOrgLastUpdated(bool $start): self
+    {
+        if ($this->role) {
+            $lowDate = new Carbon('1970-01-01 00:00:01');
+            $now = Carbon::now()->timezone('Europe/London');
+            $this->role->org_last_updated = ($start ? $lowDate : $now);
+            $this->role->save();
+        }
+        return $this;
+    }
+
+    /**
      * storeFromApi
      * 
-     * @param string $roleId
-     * @return array
+     * @return self
      */
-    public function storeFromApi(string $roleId): array
+    public function storeFromApi(): self
     {
-        // Set $role using model from DB
-        $this->setRole($roleId);
-
-        // // Set timeout (not using queue yet)
-        // $this->setTimeout(env('MAX_EXECUTION_TIME', 300));
-
-        // Loop through the URLs (max row limit is 1,000)
-        $this->looper();
-
-        // Update org_last_updated field
-        $this->updateOrgLastUpdated();
-
-        // Return summary
-        return [
-            'created' => $this->created,
-            'updated' => $this->updated,
-        ];
+        do {
+            $rows = $this->storeData();
+            $this->totalRows += $rows;
+        } while ($rows === $this->limit);
+        return $this;
     }
 
     /**
      * updatePostcodeId
-     *
-     * @param string|null $roleId
-     * @return array
-     */
-    public function updatePostcodeId(string|null $roleId = null): array
-    {
-        $this->setRole($roleId);
-        $this->updated = $this->upsertData();
-
-        return [
-            'updated' => $this->updated,
-        ];
-    }
-
-    /**
-     * upsertData
      * 
      * The upsert() function uses "ON DUPLICATE KEY UPDATE". From the MySql docs, it states:
      *     With ON DUPLICATE KEY UPDATE, the affected-rows value per row is 1 if the 
@@ -93,16 +97,15 @@ class OrganisationApiService
      *
      * @return int
      */
-    private function upsertData(): int {
+    public function updatePostcodeId(): self {
         $data = $this->getQueryForUpsert()->get()->toArray();
         $chunkedData = array_chunk($data, 1000);
         $uniqueFields = ['org_id'];
         $updateFields = ['postcode_id'];
-        $result = 0;
         foreach ($chunkedData as $data) {
-            $result += Organisation::upsert($data, $uniqueFields, $updateFields);
+            Organisation::upsert($data, $uniqueFields, $updateFields);
         }
-        return $result / 2;
+        return $this;
     }
 
     /**
@@ -145,34 +148,6 @@ class OrganisationApiService
         }
 
         return $query;
-    }
-
-    /**
-     * looper
-     * 
-     * @return void
-     */
-    private function looper(): void
-    {
-        do {
-            $rows = $this->storeData();
-            $this->totalRows += $rows;
-        } while ($rows === $this->limit);
-    }
-
-    /**
-     * setRole
-     * 
-     * @param string|null $roleId
-     * @return void
-     */
-    private function setRole(string|null $roleId): void
-    {
-        if ($roleId) {
-            $this->role = Role::where('_id', $roleId)->firstOrFail();
-        } else {
-            $this->role = null;
-        }
     }
 
     /**
@@ -373,19 +348,6 @@ class OrganisationApiService
             return $postcode ? $postcode->id : null;
         } else {
             return null;
-        }
-    }
-
-    /**
-     * updateOrgLastUpdated
-     *
-     * @return void
-     */
-    private function updateOrgLastUpdated(): void
-    {
-        if ($this->role) {
-            $this->role->org_last_updated = Carbon::now()->timezone('Europe/London');
-            $this->role->save();
         }
     }
 }
