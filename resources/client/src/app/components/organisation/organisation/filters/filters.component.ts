@@ -153,7 +153,7 @@ export class OrganisationFiltersComponent {
     private addQueryParamsToFilters(): void {
         let roles = this.router.parseUrl(this.router.url).queryParams['roles'];
         if (roles) {
-            roles = Array.isArray(roles) ? roles.map(Number) : [roles];
+            roles = Array.isArray(roles) ? roles.map(Number) : [+roles];
             this.defaultFilters.primaryRoles = roles.concat(this.defaultFilters.primaryRoles ?? []);
         }
     }
