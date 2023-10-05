@@ -22,6 +22,9 @@ export class OrganisationDataSource implements DataSource<IOrganisation> {
     }
 
     public loadData(filters: IOrganisationFilters, sortCol = 'name', sortOrder = 'asc', pageNumber = 0, pageSize = 10): void {
+        if (sortCol === 'primary_role') {
+            sortCol = 'roles.display_name';
+        }
         this.loadingSubject.next(true);
         this.organisationService
             .loadData(filters, sortCol, sortOrder, pageNumber, pageSize).pipe(

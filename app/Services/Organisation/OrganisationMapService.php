@@ -27,7 +27,7 @@ class OrganisationMapService
      * @var int $limit
      */
     private $limit = 1000;
-    
+
     /**
      * getMapData
      *
@@ -37,7 +37,7 @@ class OrganisationMapService
     public function getMapData(array $filters = []): array
     {
         $this->initialiseQuery()->addFilters($filters);
-        $total = $this->query->count();
+        $total = 100000; // $this->query->count();
         $results = $this->query->take($this->limit)->get()->toArray();
         return [
             'data' => $results,
@@ -46,7 +46,7 @@ class OrganisationMapService
             'limit_exceeded' => count($results) === $this->limit,
         ];
     }
-    
+
     /**
      * initialiseQuery
      *

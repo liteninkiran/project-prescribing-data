@@ -30,13 +30,16 @@ class OrganisationController extends Controller
      */
     public function index(OrganisationPager $organisationPager): LengthAwarePaginator
     {
-        return $organisationPager->getPaginatedOrganisations(
+        // \DB::enableQueryLog();
+        $response = $organisationPager->getPaginatedOrganisations(
             $this->getFiltersArray(),
             request()->input('sortCol', 'id'),
             request()->input('sortOrder', 'asc'),
             request()->input('pageNumber', 0),
             request()->input('pageSize', 10),
         );
+        // info(\DB::getQueryLog());
+        return $response;
     }
 
     /**
@@ -60,10 +63,10 @@ class OrganisationController extends Controller
 
     public function getMapData(OrganisationMapService $organisationMapService): JsonResponse
     {
-        //\DB::enableQueryLog();
+        // \DB::enableQueryLog();
         $filters = $this->getFiltersArray();
         $response = $organisationMapService->getMapData($filters);
-        //info(\DB::getQueryLog());
+        // info(\DB::getQueryLog());
         return response()->json($response);
     }
 
