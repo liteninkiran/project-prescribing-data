@@ -15,7 +15,7 @@ import * as L from 'leaflet';
 })
 export class OrganisationMapComponent implements OnInit {
     public filters: IOrganisationFilters = {} as IOrganisationFilters;
-    public defaultFilterValues: IOrganisationFilters = { } as IOrganisationFilters;
+    public defaultFilters: IOrganisationFilters = { status: 0 } as IOrganisationFilters;
     public data$!: Observable<IOrganisationMapResponse>;
     public data!: IOrganisation[];
     public message: string = '';

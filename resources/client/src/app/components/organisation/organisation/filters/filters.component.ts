@@ -16,7 +16,7 @@ import { PostcodeStore } from 'src/app/services/postcode/postcode.store';
 export class OrganisationFiltersComponent {
 
     @Input() public message: string = '';
-    @Input() public defaultFilterValues: IOrganisationFilters = { } as IOrganisationFilters;
+    @Input() public defaultFilters: IOrganisationFilters = { } as IOrganisationFilters;
 
     @Output() public filtersChanged = new EventEmitter<IOrganisationFilters>();
 
@@ -27,7 +27,7 @@ export class OrganisationFiltersComponent {
     public filterFormControls: any;
 
     // Config
-    public filters: IFilterConfig[] = [];
+    public appliedFilters: IFilterConfig[] = [];
     public filterText: string = '';
     public maxDate: Date = new Date();
     public status: IOrganisationStatus[] = [];
@@ -105,14 +105,14 @@ export class OrganisationFiltersComponent {
     }
 
     private calculateFilter(value: IOrganisationFilters): void {
-        this.filters = [];
+        this.appliedFilters = [];
         Object.keys(value).map((key) => {
             if (value[key as keyof IOrganisationFilters] !== null) {
-                this.filters.push({ field: key, value: value[key as keyof IOrganisationFilters]});
+                this.appliedFilters.push({ field: key, value: value[key as keyof IOrganisationFilters]});
             }
         });
-        const suffix = this.filters.length === 1 ? '' : 's';
-        this.filterText = this.filters.length === 0 ? '' : this.filters.length + ' Filter' + suffix + ' Applied';
+        const suffix = this.appliedFilters.length === 1 ? '' : 's';
+        this.filterText = this.appliedFilters.length === 0 ? '' : this.appliedFilters.length + ' Filter' + suffix + ' Applied';
     }
 
     private setStatusData(): void {
@@ -129,34 +129,32 @@ export class OrganisationFiltersComponent {
     private getFilterFormControls(): IOrganisationFilterFormGroup {
         this.addQueryParamsToFilters();
         return {
-            organisationId              : new FormControl(this.defaultFilterValues.organisationId),
-            name                        : new FormControl(this.defaultFilterValues.name),
-            status                      : new FormControl(this.defaultFilterValues.status),
-            primaryRoles                : new FormControl(this.defaultFilterValues.primaryRoles),
-            nonPrimaryRoles             : new FormControl({ value: this.defaultFilterValues.nonPrimaryRoles, disabled: true }),
-            lastChangeDate              : new FormControl(this.defaultFilterValues.lastChangeDate),
-            postcode                    : new FormControl(this.defaultFilterValues.postcode),
-            adminCounty                 : new FormControl(this.defaultFilterValues.adminCounty),
-            adminDistrict               : new FormControl(this.defaultFilterValues.adminDistrict),
-            parliamentaryConstituency   : new FormControl(this.defaultFilterValues.parliamentaryConstituency),
-            policeForceArea             : new FormControl(this.defaultFilterValues.policeForceArea),
-            nuts                        : new FormControl(this.defaultFilterValues.nuts),
-            postcodeArea                : new FormControl(this.defaultFilterValues.postcodeArea),
-            europeanElectoralRegion     : new FormControl(this.defaultFilterValues.europeanElectoralRegion),
-            healthAuthority             : new FormControl(this.defaultFilterValues.healthAuthority),
-            primaryCareTrust            : new FormControl(this.defaultFilterValues.primaryCareTrust),
-            region                      : new FormControl(this.defaultFilterValues.region),
-            country                     : new FormControl(this.defaultFilterValues.country),
+            organisationId              : new FormControl(this.defaultFilters.organisationId),
+            name                        : new FormControl(this.defaultFilters.name),
+            status                      : new FormControl(this.defaultFilters.status),
+            primaryRoles                : new FormControl(this.defaultFilters.primaryRoles),
+            nonPrimaryRoles             : new FormControl({ value: this.defaultFilters.nonPrimaryRoles, disabled: true }),
+            lastChangeDate              : new FormControl(this.defaultFilters.lastChangeDate),
+            postcode                    : new FormControl(this.defaultFilters.postcode),
+            adminCounty                 : new FormControl(this.defaultFilters.adminCounty),
+            adminDistrict               : new FormControl(this.defaultFilters.adminDistrict),
+            parliamentaryConstituency   : new FormControl(this.defaultFilters.parliamentaryConstituency),
+            policeForceArea             : new FormControl(this.defaultFilters.policeForceArea),
+            nuts                        : new FormControl(this.defaultFilters.nuts),
+            postcodeArea                : new FormControl(this.defaultFilters.postcodeArea),
+            europeanElectoralRegion     : new FormControl(this.defaultFilters.europeanElectoralRegion),
+            healthAuthority             : new FormControl(this.defaultFilters.healthAuthority),
+            primaryCareTrust            : new FormControl(this.defaultFilters.primaryCareTrust),
+            region                      : new FormControl(this.defaultFilters.region),
+            country                     : new FormControl(this.defaultFilters.country),
         }
     }
 
     private addQueryParamsToFilters(): void {
-        const roleId: number = this.router.parseUrl(this.router.url).queryParams['role'];
-        if (roleId) {
-            if (!this.defaultFilterValues.primaryRoles) {
-                this.defaultFilterValues.primaryRoles = [];
-            }
-            this.defaultFilterValues.primaryRoles.push(+roleId);
+        let roles = this.router.parseUrl(this.router.url).queryParams['roles'];
+        if (roles) {
+            roles = Array.isArray(roles) ? roles.map(Number) : [roles];
+            this.defaultFilters.primaryRoles = roles.concat(this.defaultFilters.primaryRoles ?? []);
         }
     }
 }

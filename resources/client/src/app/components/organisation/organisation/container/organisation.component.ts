@@ -13,7 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class OrganisationComponent implements OnInit {
     public filters: IOrganisationFilters = {} as IOrganisationFilters;
-    public defaultFilterValues: IOrganisationFilters = { status: 0 } as IOrganisationFilters;
+    public defaultFilters: IOrganisationFilters = { status: 0 } as IOrganisationFilters;
     public dataSource!: OrganisationDataSource;
     public columnConfig: IMatTableColumnConfig[] = [];
     public actionButtonConfig: IAsyncButtonInputConfig = {
