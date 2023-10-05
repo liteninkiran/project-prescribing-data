@@ -2,8 +2,11 @@
 
 namespace App\Services\Organisation;
 
+// Illuminate
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
+
+// Models
 use App\Models\Organisation;
 use App\Models\Role;
 

@@ -37,7 +37,7 @@ class OrganisationMapService
     public function getMapData(array $filters = []): array
     {
         $this->initialiseQuery()->addFilters($filters);
-        $total = 100000; // $this->query->count();
+        $total = $this->query->count();
         $results = $this->query->take($this->limit)->get()->toArray();
         return [
             'data' => $results,
@@ -54,31 +54,25 @@ class OrganisationMapService
      */
     private function initialiseQuery(): self
     {
-        $selectColumns = [
-            'organisations.id',
-            'organisations.name',
-            'organisations.org_id',
-            'organisations.status',
-            'organisations.org_record_class',
-            'organisations.post_code',
-            'organisations.postcode_id',
-            'organisations.last_change_date',
-            'organisations.primary_role_id',
-            'organisations.org_link',
-            'organisations.created_at',
-            'organisations.updated_at',
-        ];
         $this->query = Organisation::query()
             ->with('postcode:id,latitude,longitude')
             ->with('primaryRole:id,_id,display_name,icon')
-            ->select($selectColumns)
-            ->whereHas('postcode', function ($q) {
-                $q->whereNotNull('latitude');
-                $q->whereNotNull('longitude');
-            })
-            ->orderBy('org_id', 'desc');
+            ->select($this->getSelectColumns());
+            //->inRandomOrder();
 
         return $this;
+    }
+
+    private function getSelectColumns(): array
+    {
+        return [
+            'organisations.id',
+            'organisations.name',
+            'organisations.org_id',
+            'organisations.post_code',
+            'organisations.postcode_id',
+            'organisations.primary_role_id',
+        ];
     }
     
     /**
