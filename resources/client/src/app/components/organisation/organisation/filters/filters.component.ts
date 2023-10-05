@@ -69,10 +69,6 @@ export class OrganisationFiltersComponent {
         this.changeToUpperCase(this.filterFormControls.organisationId);
     }
 
-    public refreshData(): void {
-        this.filtersChanged.emit(this.filterForm.value);
-    }
-
     private changeToUpperCase(input: any) {
         if (input.value) {
             input.setValue(input.value.toUpperCase());

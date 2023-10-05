@@ -20,6 +20,17 @@
             <!-- Custom Header Row Definition -->
             <ng-container matColumnDef="custom-header-row" *ngIf="showMenu">
                 <th mat-header-cell *matHeaderCellDef [style.text-align]="'right'" [attr.colspan]="displayedColumns.length">
+
+                    <!-- Refresh Data -->
+                    <app-async-button
+                        buttonText=""
+                        colour="primary"
+                        icon="sync"
+                        [loaded]="true"
+                        (clickEvent)="refreshData()"
+                    ></app-async-button>
+
+                    <!-- Show / Hide Columns -->
                     <app-checkbox-menu
                         [items]="menuItems"
                         colour="primary"
@@ -28,6 +39,7 @@
                         yPosition="above"
                         (selectionChanged)="onMenuClick($event)"
                     ></app-checkbox-menu>
+
                 </th>
             </ng-container>
 

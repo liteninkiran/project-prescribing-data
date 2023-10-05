@@ -84,6 +84,10 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
         this.actionButtonClick.emit(row);
     }
 
+    public refreshData(): void {
+        this.loadData();
+    }
+
     private loadData(): void {
         this.dataSource.loadData(
             this.filters,
