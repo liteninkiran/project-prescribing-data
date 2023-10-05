@@ -55,6 +55,17 @@ class OrganisationController extends Controller
         return response()->json([ 'response' => 'Added to queue' ]);
     }
 
+    /**
+     * show
+     *
+     * @param Organisation $organisation
+     * @return JsonResponse
+     */
+    public function show(Organisation $organisation): JsonResponse
+    {
+        return response()->json($organisation);
+    }
+
     public function updatePostcode(): JsonResponse
     {
         UpdatePostcodeId::dispatch(request()->input('roleId', null));

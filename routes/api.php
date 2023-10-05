@@ -33,6 +33,7 @@ Route::get('roles', [RoleController::class, 'index']);
 
 Route::post('organisations/update_postcode', [OrganisationController::class, 'updatePostcode']);
 Route::post('organisations/store_from_api/{role:_id}', [OrganisationController::class, 'storeFromApi']);
+Route::get('organisations/{organisation:org_id}', [OrganisationController::class, 'show']);
 Route::get('organisations-map', [OrganisationController::class, 'getMapData']);
 Route::get('organisations', [OrganisationController::class, 'index']);
 

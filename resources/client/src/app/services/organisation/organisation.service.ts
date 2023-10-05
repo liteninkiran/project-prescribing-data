@@ -59,6 +59,11 @@ export class OrganisationService {
         );
     }
 
+    public loadOrganisation(id: string): Observable<IOrganisation> {
+        const url = '/api/organisations/' + id;
+        return this.http.get<IOrganisation>(url);
+    }
+
     public loadDataFromApi(roleId: string): Observable<any> {
         const url = `/api/organisations/store_from_api/${roleId}`;
         return this.http.post(url, {});
