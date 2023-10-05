@@ -10,7 +10,10 @@
 
 <!-- Filters -->
 <div class="filters">
-    <app-organisation-filters (filtersChanged)="updateFilters($event)"></app-organisation-filters>
+    <app-organisation-filters
+        [defaultFilters]="defaultFilters"
+        (filtersChanged)="updateFilters($event)"
+    ></app-organisation-filters>
 </div>
 
 <!-- Data -->
@@ -22,4 +25,5 @@
     defaultSortCol="name"
     [actionButtonConfig]="actionButtonConfig"
     (actionButtonClick)="onActionButtonClick($event)"
+    (rowClick)="onRowClick($event)"
 ></app-table>

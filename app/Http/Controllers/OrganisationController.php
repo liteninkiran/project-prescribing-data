@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 
 // Models
 use App\Models\Organisation;
+use App\Models\Role;
 
 // Services
 use App\Services\Organisation\OrganisationApiService;
@@ -29,30 +30,40 @@ class OrganisationController extends Controller
      */
     public function index(OrganisationPager $organisationPager): LengthAwarePaginator
     {
-        $filters = $this->getFiltersArray();
-        $pager = $organisationPager->getPaginatedOrganisations(
-            $filters,
+        // \DB::enableQueryLog();
+        $response = $organisationPager->getPaginatedOrganisations(
+            $this->getFiltersArray(),
             request()->input('sortCol', 'id'),
             request()->input('sortOrder', 'asc'),
             request()->input('pageNumber', 0),
             request()->input('pageSize', 10),
         );
-        return $pager;
+        // info(\DB::getQueryLog());
+        return $response;
     }
 
     /**
      * storeFromApi
      *
-     * @param string $roleId
+     * @param Role $role
      * @return JsonResponse
      */
-    public function storeFromApi(string $roleId): JsonResponse
+    public function storeFromApi(Role $role): JsonResponse
     {
-        StoreFromApi::dispatch($roleId);
-        $response['organisations'] = [ 'created' => 'Added to queue'];
-        $response['postcodes'    ] = [ 'created' => 'Added to queue'];
-        $response['org_postcodes'] = [ 'created' => 'Added to queue'];
-        return response()->json($response);
+        $dispatch = $role->org_last_updated !== '1970-01-01 00:00:01';
+        StoreFromApi::dispatchIf($dispatch, $role->_id);
+        return response()->json([ 'response' => 'Added to queue' ]);
+    }
+
+    /**
+     * show
+     *
+     * @param Organisation $organisation
+     * @return JsonResponse
+     */
+    public function show(Organisation $organisation): JsonResponse
+    {
+        return response()->json($organisation);
     }
 
     public function updatePostcode(): JsonResponse
@@ -63,10 +74,10 @@ class OrganisationController extends Controller
 
     public function getMapData(OrganisationMapService $organisationMapService): JsonResponse
     {
-        //\DB::enableQueryLog();
+        // \DB::enableQueryLog();
         $filters = $this->getFiltersArray();
         $response = $organisationMapService->getMapData($filters);
-        //info(\DB::getQueryLog());
+        // info(\DB::getQueryLog());
         return response()->json($response);
     }
 

@@ -5,6 +5,7 @@ import { RoleService } from '../../../../services/role/role.service';
 import { IRoleFilters } from 'src/app/interfaces/role.interface';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { OrganisationService } from 'src/app/services/organisation/organisation.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-role',
@@ -30,6 +31,7 @@ export class RoleComponent implements OnInit {
         readonly roleService: RoleService,
         readonly orgService: OrganisationService,
         private _snackBar: MatSnackBar,
+        private router: Router,
     ) { }
 
     public ngOnInit(): void {
@@ -48,12 +50,19 @@ export class RoleComponent implements OnInit {
             .subscribe((res: any) => this.showRoleSnackBar(res));
     }
 
-    public onActionButtonClick(id: number): void {
-        const _id: string = this.dataSource.getInternalId(id);
+    public onActionButtonClick(row: any): void {
         this.actionButtonConfig.loaded = false;
         this.orgService
-            .loadDataFromApi(_id)
-            .subscribe((res: any) => this.showOrgSnackBar(res));
+            .loadDataFromApi(row._id)
+            .subscribe((res: any) => this.actionButtonConfig.loaded = true);
+    }
+
+    public onRowClick(row: any): void {
+        this.router.navigate(['organisations'], { queryParams: { roles: row.id }});
+    }
+
+    public onIconClick(row: any): void {
+        this.router.navigate(['organisations-map'], { queryParams: { roles: row.id }});
     }
 
     private columnConfigData(): IMatTableColumnConfig[] {
@@ -78,15 +87,6 @@ export class RoleComponent implements OnInit {
         }
         this.showSnackBars(message);
         this.apiLoaded = true;
-    }
-
-    private showOrgSnackBar(res: any) {
-        const message = {
-            created: 'Created: ' + res['organisations'].created + ' Organisation record(s) and ' + res['postcodes'].created + ' Postcode record(s)',
-            updated: 'Updated: ' + res['organisations'].updated + ' Organisation record(s) and ' + res['postcodes'].updated + ' Postcode record(s)',
-        }
-        this.showSnackBars(message);
-        this.actionButtonConfig.loaded = true;
     }
 
     private showSnackBars(messages: any) {

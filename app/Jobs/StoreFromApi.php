@@ -43,8 +43,20 @@ class StoreFromApi implements ShouldQueue
         PostcodeApiService $postcodeApiService,
     ): void
     {
-        $response['organisations'] = $organisationApiService->storeFromApi($this->roleId);
-        $response['postcodes'] = $postcodeApiService->storeFromApiAutoCreate($this->roleId);
-        $response['org_postcodes'] = $organisationApiService->updatePostcodeId($this->roleId);
+        info('Started running job for role ' . $this->roleId);
+        // Store organisations
+        $organisationApiService
+            ->setRole($this->roleId)
+            ->updateOrgLastUpdated(true)
+            ->storeFromApi();
+
+        // Store postcodes
+        $postcodeApiService->storeFromApiAutoCreate($this->roleId);
+
+        // Update organisation's postcode_id
+        $organisationApiService
+            ->updatePostcodeId()
+            ->updateOrgLastUpdated(false);
+        info('Finished running job for role ' . $this->roleId);
     }
 }

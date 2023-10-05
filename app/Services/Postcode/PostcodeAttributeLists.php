@@ -3,7 +3,7 @@
 namespace App\Services\Postcode;
 
 // Illuminate
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Builder;
 
 // Models
 use App\Models\Postcode;
@@ -21,37 +21,46 @@ use App\Models\Country;
 
 class PostcodeAttributeLists
 {    
+    private PostcodeAttributeList $postcodeAttributeList;
+
+    public function __construct(
+        PostcodeAttributeList $postcodeAttributeList
+    ) {
+        $this->postcodeAttributeList = $postcodeAttributeList;
+    }
 
     public function getPostcodeAttributes(): array
     {
+        $excludeRows = [
+            'country' => [ 'name' => 'Channel Islands', 'name' => 'Isle of Man'],
+        ];
+        $includeRows = [
+            'admin_county' => [[ 'id' => 0, 'name' => 'NULL' ]],
+        ];
         return [
-            'admin_county'                  => $this->getCollection('App\Models\AdminCounty'),
-            'admin_district'                => $this->getCollection('App\Models\AdminDistrict'),
-            'parliamentary_constituency'    => $this->getCollection('App\Models\ParliamentaryConstituency'),
-            'police_force_area'             => $this->getCollection('App\Models\PoliceForceArea'),
-            'nuts'                          => $this->getCollection('App\Models\Nuts'),
-            'postcode_area'                 => $this->getCollection('App\Models\PostcodeArea', true),
-            'european_electoral_region'     => $this->getCollection('App\Models\EuropeanElectoralRegion'),
-            'health_authority'              => $this->getCollection('App\Models\HealthAuthority'),
-            'primary_care_trust'            => $this->getCollection('App\Models\PrimaryCareTrust'),
-            'region'                        => $this->getCollection('App\Models\Region'),
-            'country'                       => $this->getCollection('App\Models\Country'),
+            'admin_county'                  => $this->getAttributeList('AdminCounty', [], $includeRows['admin_county']),
+            'admin_district'                => $this->getAttributeList('AdminDistrict'),
+            'parliamentary_constituency'    => $this->getAttributeList('ParliamentaryConstituency'),
+            'police_force_area'             => $this->getAttributeList('PoliceForceArea'),
+            'nuts'                          => $this->getAttributeList('Nuts'),
+            'postcode_area'                 => $this->getAttributeList('PostcodeArea', [], [], ['code']),
+            'european_electoral_region'     => $this->getAttributeList('EuropeanElectoralRegion'),
+            'health_authority'              => $this->getAttributeList('HealthAuthority'),
+            'primary_care_trust'            => $this->getAttributeList('PrimaryCareTrust'),
+            'region'                        => $this->getAttributeList('Region'),
+            'country'                       => $this->getAttributeList('Country', $excludeRows['country']),
         ];
     }
 
-    public function getCollection(string $class, bool $code = false): Collection
+    public function getAttributeList(string $class, array $excludeRows = [], array $includeRows = [], array $includeColumns = []): array
     {
-        $columns = ['id', 'name'];
-        if ($code) {
-            $columns[] = 'code';
-        }
-        return $class::query()
-            ->select($columns)
-            // ->whereHas('postcodes', function ($q) {
-            //     $q->whereNotNull('latitude');
-            //     $q->whereNotNull('longitude');
-            // })
-            ->orderBy('name', 'asc')
-            ->get();
+        return $this->postcodeAttributeList
+            ->setClass($class)
+            ->setExcludeRows($excludeRows)
+            ->setIncludeRows($includeRows)
+            ->setColumns($includeColumns)
+            ->setModels()
+            ->setExtraModels()
+            ->getModels();
     }
 }

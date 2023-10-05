@@ -149,7 +149,7 @@ class Organisation extends Model
     {
         return $query->where('status', '=', $status);
     }
-    
+
     /**
      * scopeAdminCountiesInRaw
      *
@@ -159,13 +159,18 @@ class Organisation extends Model
      */
     public function scopeAdminCountiesInRaw(Builder $query, array $ids): Builder
     {
-        return $query->whereHas('postcode', function($postcode) use ($ids) {
-            $postcode->whereHas('adminCounty', function($attribute) use ($ids) {
-                $attribute->whereIntegerInRaw('id', $ids);
+        return $query->whereHas('postcode', function (Builder $postcode) use ($ids) {
+            $postcode->where(function (Builder $query) use ($ids) {
+                $query->whereHas('adminCounty', function (Builder $attribute) use ($ids) {
+                        $attribute->whereIntegerInRaw('id', $ids);
+                    })
+                    ->when(array_search(0, $ids) !== null, function (Builder $query) {
+                        $query->orWhereNull('admin_county_id');
+                    });
             });
         });
     }
-    
+
     /**
      * scopeAdminDistrictsInRaw
      *
@@ -181,7 +186,7 @@ class Organisation extends Model
             });
         });
     }
-    
+
     /**
      * scopeParliamentaryConstituenciesInRaw
      *
@@ -197,7 +202,7 @@ class Organisation extends Model
             });
         });
     }
-    
+
     /**
      * scopePoliceForceAreaInRaw
      *
@@ -213,7 +218,7 @@ class Organisation extends Model
             });
         });
     }
-    
+
     /**
      * scopeNutsInRaw
      *
@@ -229,7 +234,7 @@ class Organisation extends Model
             });
         });
     }
-    
+
     /**
      * scopeEuropeanElectoralRegionInRaw
      *
@@ -245,7 +250,7 @@ class Organisation extends Model
             });
         });
     }
-    
+
     /**
      * scopeHealthAuthorityInRaw
      *
@@ -261,7 +266,7 @@ class Organisation extends Model
             });
         });
     }
-    
+
     /**
      * scopePrimaryCareTrustInRaw
      *
@@ -277,7 +282,7 @@ class Organisation extends Model
             });
         });
     }
-    
+
     /**
      * scopeRegionInRaw
      *
@@ -293,7 +298,7 @@ class Organisation extends Model
             });
         });
     }
-    
+
     /**
      * scopeCountryInRaw
      *

@@ -2,8 +2,11 @@
 
 namespace App\Services\Organisation;
 
+// Illuminate
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
+
+// Models
 use App\Models\Organisation;
 use App\Models\Role;
 
@@ -44,20 +47,24 @@ class OrganisationPager
     private function initialiseQuery(): self
     {
         $selectColumns = [
-            'id',
-            'name',
-            'org_id',
-            'status',
-            'org_record_class',
-            'post_code',
-            'postcode_id',
-            'last_change_date',
-            'primary_role_id',
-            'org_link',
-            'created_at',
-            'updated_at',
+            'organisations.id',
+            'organisations.name',
+            'organisations.org_id',
+            'organisations.status',
+            'organisations.org_record_class',
+            'organisations.post_code',
+            'organisations.postcode_id',
+            'organisations.last_change_date',
+            'organisations.primary_role_id',
+            'organisations.org_link',
+            'organisations.created_at',
+            'organisations.updated_at',
         ];
         $this->query = Organisation::select($selectColumns)
+            // For ordering purposes
+            ->join('roles', 'roles.id','=','organisations.primary_role_id')
+
+            // Related data
             ->with('primaryRole:id,display_name')
             ->with('postcode:id,latitude,longitude');
         return $this;

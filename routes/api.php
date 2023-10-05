@@ -1,10 +1,16 @@
 <?php
 
+// Illuminate
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
+// Controllers
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\OrganisationController;
 use App\Http\Controllers\PostcodeController;
+
+// Models
+use App\Models\Role;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,7 +32,8 @@ Route::get('roles/rolesList', [RoleController::class, 'allRoles']);
 Route::get('roles', [RoleController::class, 'index']);
 
 Route::post('organisations/update_postcode', [OrganisationController::class, 'updatePostcode']);
-Route::post('organisations/store_from_api/{roleId}', [OrganisationController::class, 'storeFromApi']);
+Route::post('organisations/store_from_api/{role:_id}', [OrganisationController::class, 'storeFromApi']);
+Route::get('organisations/{organisation:org_id}', [OrganisationController::class, 'show']);
 Route::get('organisations-map', [OrganisationController::class, 'getMapData']);
 Route::get('organisations', [OrganisationController::class, 'index']);
 

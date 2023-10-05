@@ -1,0 +1,34 @@
+<mat-form-field>
+
+    <!-- Label -->
+    <mat-label>
+        <!-- Administrative County -->
+        {{ label }}
+    </mat-label>
+
+    <!-- Admin County List -->
+    <mat-select
+        [formControl]="fControl"
+        [placeholder]="'Select ' + label + '(s)'"
+        multiple
+        panelClass="long-list"
+    >
+        <ng-container *ngIf="data">
+            <mat-option *ngFor="let item of (data)" [value]="item.id">
+                {{ item.name }}
+            </mat-option>
+        </ng-container>
+    </mat-select>
+
+    <!-- Clear Contents -->
+    <button
+        *ngIf="fControl.value?.length || 0 > 0"
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        (click)="fControl.setValue(null)"
+    >
+        <mat-icon>close</mat-icon>
+    </button>
+
+</mat-form-field>

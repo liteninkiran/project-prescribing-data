@@ -41,6 +41,10 @@ class UpdatePostcodeId implements ShouldQueue
         OrganisationApiService $organisationApiService,
     ): void
     {
-        $response['org_postcodes'] = $organisationApiService->updatePostcodeId($this->roleId);
+        $organisationApiService
+            ->setRole($this->roleId)
+            ->updateOrgLastUpdated(true)
+            ->updatePostcodeId()
+            ->updateOrgLastUpdated(false);
     }
 }

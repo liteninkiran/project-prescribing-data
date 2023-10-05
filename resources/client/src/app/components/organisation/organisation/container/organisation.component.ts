@@ -3,6 +3,7 @@ import { IAsyncButtonInputConfig, IMatTableColumnConfig } from 'src/app/interfac
 import { OrganisationDataSource } from './../organisation.data-source';
 import { OrganisationService } from '../../../../services/organisation/organisation.service';
 import { IOrganisationFilters } from 'src/app/interfaces/organisation.interface';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
     selector: 'app-organisation',
@@ -12,6 +13,7 @@ import { IOrganisationFilters } from 'src/app/interfaces/organisation.interface'
 })
 export class OrganisationComponent implements OnInit {
     public filters: IOrganisationFilters = {} as IOrganisationFilters;
+    public defaultFilters: IOrganisationFilters = { status: 0 } as IOrganisationFilters;
     public dataSource!: OrganisationDataSource;
     public columnConfig: IMatTableColumnConfig[] = [];
     public actionButtonConfig: IAsyncButtonInputConfig = {
@@ -25,6 +27,8 @@ export class OrganisationComponent implements OnInit {
 
     constructor(
         readonly orgService: OrganisationService,
+        private route: ActivatedRoute,
+        private router: Router,
     ) { }
 
     public ngOnInit(): void {
@@ -38,6 +42,10 @@ export class OrganisationComponent implements OnInit {
 
     public onActionButtonClick(id: number): void {
         alert(id);
+    }
+
+    public onRowClick(row: any): void {
+        this.router.navigate([row.org_id], { relativeTo: this.route });
     }
 
     private columnConfigData(): IMatTableColumnConfig[] {
