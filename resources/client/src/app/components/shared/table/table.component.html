@@ -79,14 +79,10 @@
             <ng-container matColumnDef="actions" *ngIf="!actionButtonConfig.hide">
                 <th mat-header-cell *matHeaderCellDef>Actions</th>
                 <td mat-cell *matCellDef="let row">
-                    <app-async-button
-                        *ngIf="!actionButtonConfig.hideRow || row[actionButtonConfig.hideRow]"
-                        [buttonText]="actionButtonConfig.buttonText"
-                        [colour]="actionButtonConfig.colour"
-                        [icon]="actionButtonConfig.icon"
-                        [loaded]="actionButtonConfig.loaded"
-                        (clickEvent)="onActionClick(row)"
-                    ></app-async-button>
+                    <button mat-raised-button [color]="actionButtonConfig.colour" (click)="onActionClick(row)">
+                        <mat-icon *ngIf="actionButtonConfig.icon">{{ actionButtonConfig.icon }}</mat-icon>
+                        <span *ngIf="actionButtonConfig.buttonText" [ngClass]="{ 'spacer': actionButtonConfig.icon && actionButtonConfig.buttonText }">{{ actionButtonConfig.buttonText }}</span>
+                    </button>
                 </td>
             </ng-container>
 
