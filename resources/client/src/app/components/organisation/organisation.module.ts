@@ -9,7 +9,6 @@ import { SharedModule } from '../shared/shared.module';
 import { OrganisationComponent } from './organisation/container/organisation.component';
 import { OrganisationFiltersComponent } from './organisation/filters/filters.component';
 import { OrganisationViewComponent } from './organisation-view/organisation-view.component';
-import { OrganisationMapComponent } from './organisation-map/organisation-map.component';
 import { OrgViewComponent } from './org-view/org-view.component';
 import { OrgMapComponent } from './org-map/org-map.component';
 
@@ -18,7 +17,6 @@ import { OrgMapComponent } from './org-map/org-map.component';
         OrganisationComponent,
         OrganisationFiltersComponent,
         OrganisationViewComponent,
-        OrganisationMapComponent,
         OrgViewComponent,
         OrgMapComponent,
     ],

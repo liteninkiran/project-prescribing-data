@@ -14,11 +14,6 @@ export class NavbarLinksComponent {
             text: 'Home',
         },
         {
-            link: '/org-map',
-            icon: 'push_pin',
-            text: 'Org Map',
-        },
-        {
             link: '/organisations-map',
             icon: 'push_pin',
             text: 'Organisations Map',
