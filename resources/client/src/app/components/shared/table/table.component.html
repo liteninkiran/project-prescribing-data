@@ -22,13 +22,13 @@
                 <th mat-header-cell *matHeaderCellDef [style.text-align]="'right'" [attr.colspan]="displayedColumns.length">
 
                     <!-- Refresh Data -->
-                    <shared-async-button
+                    <shared-button
                         buttonText=""
                         colour="primary"
                         icon="sync"
                         [loaded]="true"
                         (clickEvent)="refreshData()"
-                    ></shared-async-button>
+                    ></shared-button>
 
                     <!-- Show / Hide Columns -->
                     <shared-checkbox-menu

@@ -2,11 +2,11 @@ import { Component, Input } from '@angular/core';
 import { IMatSelectOptions } from 'src/app/interfaces/shared.interface';
 
 @Component({
-    selector: 'shared-async-select',
-    templateUrl: './async-select.component.html',
-    styleUrls: ['./async-select.component.scss'],
+    selector: 'shared-select',
+    templateUrl: './select.component.html',
+    styleUrls: ['./select.component.scss'],
 })
-export class AsyncSelectComponent {
+export class SelectComponent {
 
     @Input() public label: string = 'Label';
     @Input() public fControl: any;
