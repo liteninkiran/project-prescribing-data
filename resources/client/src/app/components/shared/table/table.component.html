@@ -22,23 +22,23 @@
                 <th mat-header-cell *matHeaderCellDef [style.text-align]="'right'" [attr.colspan]="displayedColumns.length">
 
                     <!-- Refresh Data -->
-                    <app-async-button
+                    <shared-async-button
                         buttonText=""
                         colour="primary"
                         icon="sync"
                         [loaded]="true"
                         (clickEvent)="refreshData()"
-                    ></app-async-button>
+                    ></shared-async-button>
 
                     <!-- Show / Hide Columns -->
-                    <app-checkbox-menu
+                    <shared-checkbox-menu
                         [items]="menuItems"
                         colour="primary"
                         icon="menu"
                         xPosition="before"
                         yPosition="above"
                         (selectionChanged)="onMenuClick($event)"
-                    ></app-checkbox-menu>
+                    ></shared-checkbox-menu>
 
                 </th>
             </ng-container>

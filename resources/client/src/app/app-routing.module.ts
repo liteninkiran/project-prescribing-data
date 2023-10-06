@@ -13,6 +13,7 @@ import { DialogComponent } from './components/samples/dialog/dialog.component';
 import { OrganisationComponent } from './components/organisation/organisation/container/organisation.component';
 import { RoleComponent } from './components/role/role/container/role.component';
 import { OrgViewComponent } from './components/organisation/org-view/org-view.component';
+import { OrgMapComponent } from './components/organisation/org-map/org-map.component';
 
 const routes: Routes = [
     {
@@ -22,6 +23,10 @@ const routes: Routes = [
     {
         path: 'organisations',
         component: OrganisationComponent,
+    },
+    {
+        path: 'org-map',
+        component: OrgMapComponent,
     },
     {
         path: 'organisations-map',

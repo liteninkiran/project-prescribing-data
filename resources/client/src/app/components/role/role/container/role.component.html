@@ -8,13 +8,13 @@
 
     <!-- Refresh Data From API -->
     <div class="button-container">
-        <app-async-button
+        <shared-async-button
             buttonText="Refresh Data From API"
             colour="primary"
             icon="sync"
             [loaded]="apiLoaded"
             (clickEvent)="refreshDataFromApi()"
-        ></app-async-button>
+        ></shared-async-button>
     </div>
 </div>
 

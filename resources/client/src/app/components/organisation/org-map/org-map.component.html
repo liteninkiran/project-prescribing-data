@@ -1,0 +1,20 @@
+<!-- <app-organisation-map
+    [data]="((data$ | async)?.data) || []"
+></app-organisation-map> -->
+
+<!-- Filters -->
+<div class="filters">
+    <app-organisation-filters
+        [message]="message"
+        [defaultFilters]="defaultFilters"
+        (filtersChanged)="updateFilters($event)"
+    ></app-organisation-filters>
+</div>
+
+<ng-container *ngIf="(data$ | async) as data; else defaultTmpl">
+    <shared-organisation-map [data]="data.data"></shared-organisation-map>
+</ng-container>
+
+<ng-template #defaultTmpl>
+    Default Template
+</ng-template>

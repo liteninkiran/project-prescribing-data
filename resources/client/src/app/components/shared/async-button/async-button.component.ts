@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
-    selector: 'app-async-button',
+    selector: 'shared-async-button',
     templateUrl: './async-button.component.html',
     styleUrls: ['./async-button.component.scss'],
 })
