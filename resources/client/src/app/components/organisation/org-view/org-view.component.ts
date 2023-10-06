@@ -14,6 +14,7 @@ export class OrgViewComponent implements OnInit, OnDestroy {
     public id: string = '';
     public organisation$: Observable<IOrganisation> = new Observable<IOrganisation>();
     public organisation: IOrganisation = {} as IOrganisation;
+    public mapData: IOrganisation[] = [];
 
     private subscriptions: Subscription[] = [];
 
@@ -36,7 +37,8 @@ export class OrgViewComponent implements OnInit, OnDestroy {
         this.organisation$ = this.orgService.loadOrganisation(this.id);
         const sub: Subscription = this.organisation$.subscribe((res: IOrganisation) => {
             this.organisation = res;
-            console.log(this.organisation);
+            this.mapData = [];
+            this.mapData.push(res);
         });
         this.subscriptions.push(sub);
     }

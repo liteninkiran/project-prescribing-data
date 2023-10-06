@@ -60,7 +60,9 @@ export class MapComponent implements OnInit, OnChanges {
             if (marker) { markers.push(marker); }
         });
         this.featureGroup = L.featureGroup([ ...markers ]).addTo(this.map);
-        this.map.fitBounds(this.featureGroup.getBounds(), { padding: [40, 40] });
+        if (markers.length > 0) {
+            this.map.fitBounds(this.featureGroup.getBounds(), { padding: [40, 40] });
+        }
     }
 
     private addMarkerToMap(point: any): L.Marker | undefined {
