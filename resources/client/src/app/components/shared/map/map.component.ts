@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, OnDestroy, AfterViewInit, SimpleChanges, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import * as L from 'leaflet';
 
@@ -7,7 +7,9 @@ import * as L from 'leaflet';
     templateUrl: './map.component.html',
     styleUrls: ['./map.component.scss'],
 })
-export class MapComponent implements OnInit, OnChanges, OnDestroy {
+export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
+
+    @ViewChild('mapContainer') private mapContainer!: ElementRef;
 
     @Input() public data: any[] = [];
     @Input() public borderRadius = '0px';
@@ -21,7 +23,7 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy {
     ) { }
 
     public ngOnInit(): void {
-        this.initialiseMap();
+
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
@@ -31,6 +33,10 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy {
 
     public ngOnDestroy(): void {
 
+    }
+
+    public ngAfterViewInit(): void {
+        this.initialiseMap();
     }
 
     private fitBounds(): void {
@@ -47,10 +53,10 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy {
     private setMap(): void {
         const centreCoords: L.LatLngExpression = [55, -1];
         const initialZoom = 6;
-        if (!this.map) {
-            this.map = L.map('map');
+        if (!this.map && this.mapContainer) {
+            this.map = L.map(this.mapContainer.nativeElement);
+            this.map.setView(centreCoords, initialZoom);
         }
-        this.map.setView(centreCoords, initialZoom);
     }
 
     private addTileLayer(): void {
