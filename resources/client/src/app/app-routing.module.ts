@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { OrganisationViewComponent } from './components/organisation/organisation-view/organisation-view.component';
+import { OrganisationMapComponent } from './components/organisation/organisation-map/organisation-mapcomponent';
 import { SamplesComponent } from './components/samples/samples/samples.component';
 import { TableAsyncComponent } from './components/samples/table-async/table-async.component';
 import { TableSortComponent } from './components/samples/table-sort/table-sort.component';
@@ -12,7 +13,6 @@ import { DialogComponent } from './components/samples/dialog/dialog.component';
 import { OrganisationComponent } from './components/organisation/organisation/container/organisation.component';
 import { RoleComponent } from './components/role/role/container/role.component';
 import { OrgViewComponent } from './components/organisation/org-view/org-view.component';
-import { OrgMapComponent } from './components/organisation/org-map/org-map.component';
 
 const routes: Routes = [
     {
@@ -25,7 +25,7 @@ const routes: Routes = [
     },
     {
         path: 'organisations-map',
-        component: OrgMapComponent,
+        component: OrganisationMapComponent,
     },
     {
         path: 'roles',

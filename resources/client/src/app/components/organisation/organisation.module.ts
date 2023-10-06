@@ -10,15 +10,15 @@ import { OrganisationComponent } from './organisation/container/organisation.com
 import { OrganisationFiltersComponent } from './organisation/filters/filters.component';
 import { OrganisationViewComponent } from './organisation-view/organisation-view.component';
 import { OrgViewComponent } from './org-view/org-view.component';
-import { OrgMapComponent } from './org-map/org-map.component';
+import { OrganisationMapComponent } from './organisation-map/organisation-mapcomponent';
 
 @NgModule({
     declarations: [
         OrganisationComponent,
+        OrganisationMapComponent,
         OrganisationFiltersComponent,
         OrganisationViewComponent,
         OrgViewComponent,
-        OrgMapComponent,
     ],
     imports: [
         CommonModule,

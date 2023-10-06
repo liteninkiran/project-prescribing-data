@@ -1,16 +1,15 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
-import { IOrganisation } from 'src/app/interfaces/organisation.interface';
 import * as L from 'leaflet';
 
 @Component({
-    selector: 'shared-organisation-map',
-    templateUrl: './organisation-map.component.html',
-    styleUrls: ['./organisation-map.component.scss'],
+    selector: 'shared-map',
+    templateUrl: './map.component.html',
+    styleUrls: ['./map.component.scss'],
 })
-export class OrganisationMapComponent implements OnInit, OnChanges {
+export class MapComponent implements OnInit, OnChanges {
 
-    @Input() public data: IOrganisation[] = [];
+    @Input() public data: any[] = [];
 
     // Map
     private map!: L.Map;
@@ -56,22 +55,22 @@ export class OrganisationMapComponent implements OnInit, OnChanges {
     private addMarkersToMap(): void {
         if (this.data.length === 0) { this.setMap(); return; }
         const markers: L.Marker[] = [];
-        this.data.map((org: IOrganisation) => {
-            const marker = this.addMarkerToMap(org);
+        this.data.map((point: any) => {
+            const marker = this.addMarkerToMap(point);
             if (marker) { markers.push(marker); }
         });
         this.featureGroup = L.featureGroup([ ...markers ]).addTo(this.map);
         this.map.fitBounds(this.featureGroup.getBounds(), { padding: [40, 40] });
     }
 
-    private addMarkerToMap(org: IOrganisation): L.Marker | undefined {
-        if (org.postcode?.latitude && org.postcode.longitude) {
-            const markerCoords: L.LatLngExpression = [org.postcode.latitude, org.postcode.longitude];
-            const iconOptions: L.IconOptions = org.primary_role.icon ? { ...defaultIcon, iconUrl: org.primary_role.icon } : defaultIcon;
+    private addMarkerToMap(point: any): L.Marker | undefined {
+        if (point.postcode?.latitude && point.postcode.longitude) {
+            const markerCoords: L.LatLngExpression = [point.postcode.latitude, point.postcode.longitude];
+            const iconOptions: L.IconOptions = point.primary_role.icon ? { ...defaultIcon, iconUrl: point.primary_role.icon } : defaultIcon;
             const markerIcon = L.icon(iconOptions);
             const markerOptions: L.MarkerOptions = { icon: markerIcon }
-            const onClick = () => this.router.navigate(['organisations/' + org.org_id]);
-            const tooltipText = this.getTooltipText(org);
+            const onClick = () => this.router.navigate(['organisations/' + point.org_id]);
+            const tooltipText = this.getTooltipText(point);
             const tooltipOptions: L.TooltipOptions = { direction: 'top', offset: [0, -30] }
             const marker = L.marker(markerCoords, markerOptions)
                 .bindTooltip(tooltipText, tooltipOptions)
@@ -88,12 +87,12 @@ export class OrganisationMapComponent implements OnInit, OnChanges {
         }
     }
 
-    private getTooltipText(org: IOrganisation): string {
+    private getTooltipText(point: any): string {
         return `
-            <h3>${org.org_id}</h3>
-            <p>${org.primary_role.display_name}</p>
-            <p>${org.name}</p>
-            <p>${org.post_code}</p>
+            <h3>${point.org_id}</h3>
+            <p>${point.primary_role.display_name}</p>
+            <p>${point.name}</p>
+            <p>${point.post_code}</p>
         `;
     }
 }

@@ -5,12 +5,12 @@ import { IOrganisation, IOrganisationFilters, IOrganisationMapResponse } from 's
 import { OrganisationService } from 'src/app/services/organisation/organisation.service';
 
 @Component({
-    selector: 'app-org-map',
-    templateUrl: './org-map.component.html',
-    styleUrls: ['./org-map.component.scss'],
+    selector: 'app-organisation-map',
+    templateUrl: './organisation-map.component.html',
+    styleUrls: ['./organisation-map.component.scss'],
     providers: [OrganisationService, DecimalPipe],
 })
-export class OrgMapComponent implements OnInit, OnDestroy {
+export class OrganisationMapComponent implements OnInit, OnDestroy {
 
     public data$: Observable<IOrganisationMapResponse> = new Observable<IOrganisationMapResponse>();
     public data: IOrganisation[] = [];

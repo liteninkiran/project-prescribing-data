@@ -8,7 +8,7 @@ import { PipeModule } from 'src/app/modules/pipe.module';
 import { AsyncButtonComponent } from './async-button/async-button.component';
 import { CheckboxMenuComponent } from './checkbox-menu/checkbox-menu.component';
 import { AsyncSelectComponent } from './async-select/async-select.component';
-import { OrganisationMapComponent } from './organisation-map/organisation-map.component';
+import { MapComponent } from './map/map.component';
 
 @NgModule({
     declarations: [
@@ -16,7 +16,7 @@ import { OrganisationMapComponent } from './organisation-map/organisation-map.co
         AsyncButtonComponent,
         CheckboxMenuComponent,
         AsyncSelectComponent,
-        OrganisationMapComponent,
+        MapComponent,
     ],
     imports: [
         CommonModule,
@@ -29,7 +29,7 @@ import { OrganisationMapComponent } from './organisation-map/organisation-map.co
         AsyncButtonComponent,
         CheckboxMenuComponent,
         AsyncSelectComponent,
-        OrganisationMapComponent,
+        MapComponent,
     ],
 })
 export class SharedModule { }
