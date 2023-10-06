@@ -63,7 +63,7 @@ class OrganisationController extends Controller
      */
     public function show(Organisation $organisation): JsonResponse
     {
-        return response()->json($organisation->load('postcode:id,latitude,longitude')->load('primaryRole:id,display_name'));
+        return response()->json($organisation->load('postcode:id,latitude,longitude')->load('primaryRole:id,display_name,icon'));
     }
 
     public function updatePostcode(): JsonResponse
