@@ -12,7 +12,7 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
     @ViewChild('mapContainer') private mapContainer!: ElementRef;
 
     @Input() public data: any[] = [];
-    @Input() public borderRadius = '0px';
+    @Input() public borderRadius = '';
 
     // Map
     private map!: L.Map;
@@ -51,9 +51,9 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
     }
 
     private setMap(): void {
-        const centreCoords: L.LatLngExpression = [55, -1];
-        const initialZoom = 6;
         if (!this.map && this.mapContainer) {
+            const centreCoords: L.LatLngExpression = [55, -1];
+            const initialZoom = 6;
             this.map = L.map(this.mapContainer.nativeElement);
             this.map.setView(centreCoords, initialZoom);
         }
