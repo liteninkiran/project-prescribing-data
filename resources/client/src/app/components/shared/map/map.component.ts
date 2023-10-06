@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import * as L from 'leaflet';
 
@@ -7,9 +7,10 @@ import * as L from 'leaflet';
     templateUrl: './map.component.html',
     styleUrls: ['./map.component.scss'],
 })
-export class MapComponent implements OnInit, OnChanges {
+export class MapComponent implements OnInit, OnChanges, OnDestroy {
 
     @Input() public data: any[] = [];
+    @Input() public borderRadius = '0px';
 
     // Map
     private map!: L.Map;
@@ -26,6 +27,16 @@ export class MapComponent implements OnInit, OnChanges {
     public ngOnChanges(changes: SimpleChanges): void {
         this.clearMarkers();
         this.addMarkersToMap();
+    }
+
+    public ngOnDestroy(): void {
+
+    }
+
+    private fitBounds(): void {
+        if (this.featureGroup.getLayers().length > 0) {
+            this.map.fitBounds(this.featureGroup.getBounds(), { padding: [40, 40] });
+        }
     }
 
     private initialiseMap(): void {
@@ -60,9 +71,7 @@ export class MapComponent implements OnInit, OnChanges {
             if (marker) { markers.push(marker); }
         });
         this.featureGroup = L.featureGroup([ ...markers ]).addTo(this.map);
-        if (markers.length > 0) {
-            this.map.fitBounds(this.featureGroup.getBounds(), { padding: [40, 40] });
-        }
+        this.fitBounds();
     }
 
     private addMarkerToMap(point: any): L.Marker | undefined {
