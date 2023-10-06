@@ -5,7 +5,7 @@ import { merge, tap } from 'rxjs';
 import { IAsyncButtonInputConfig, ICheckboxMenuItem, IMatTableColumnConfig } from 'src/app/interfaces/shared.interface';
 
 @Component({
-    selector: 'app-table',
+    selector: 'shared-table',
     templateUrl: './table.component.html',
     styleUrls: ['./table.component.scss'],
 })

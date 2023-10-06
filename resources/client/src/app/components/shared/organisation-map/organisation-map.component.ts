@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { IOrganisation } from 'src/app/interfaces/organisation.interface';
 import * as L from 'leaflet';
@@ -8,7 +8,7 @@ import * as L from 'leaflet';
     templateUrl: './organisation-map.component.html',
     styleUrls: ['./organisation-map.component.scss'],
 })
-export class OrganisationMapComponent implements OnInit {
+export class OrganisationMapComponent implements OnInit, OnChanges {
 
     @Input() public data: IOrganisation[] = [];
 
@@ -22,6 +22,10 @@ export class OrganisationMapComponent implements OnInit {
 
     public ngOnInit(): void {
         this.initialiseMap();
+    }
+
+    public ngOnChanges(changes: SimpleChanges): void {
+        this.clearMarkers();
         this.addMarkersToMap();
     }
 

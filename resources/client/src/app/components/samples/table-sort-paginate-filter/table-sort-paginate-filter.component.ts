@@ -44,7 +44,7 @@ const NAMES: string[] = [
 ];
 
 @Component({
-    selector: 'app-table-sort-paginate-filter',
+    selector: 'shared-table-sort-paginate-filter',
     templateUrl: './table-sort-paginate-filter.component.html',
     styleUrls: ['./table-sort-paginate-filter.component.scss'],
 })

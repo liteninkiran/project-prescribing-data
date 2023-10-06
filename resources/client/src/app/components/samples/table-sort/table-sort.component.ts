@@ -43,7 +43,7 @@ const NAMES: string[] = [
 ];
 
 @Component({
-    selector: 'app-table-sort',
+    selector: 'shared-table-sort',
     templateUrl: './table-sort.component.html',
     styleUrls: ['./table-sort.component.scss'],
 })
