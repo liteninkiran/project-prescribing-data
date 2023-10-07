@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+<svg id="SvgjsSvg1021" width="256" height="256" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs">
+    <defs id="SvgjsDefs1022"></defs>
+    <g id="SvgjsG1023">
+        <svg xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" clip-rule="evenodd" viewBox="0 0 24 24" width="256" height="256">
+            <path fill="#eb5f6e" d="M12 1.5A7.504 7.504 0 0 0 4.5 9c0 8.104 7.204 13.403 7.204 13.403a.501.501 0 0 0 .592 0S19.5 17.104 19.5 9c0-4.139-3.361-7.5-7.5-7.5Z" class="coloreb5f6e svgShape"></path>
+            <path fill="#da4453" d="M13.5 21.376C11.449 19.463 7.5 15 7.5 9a7.507 7.507 0 0 1 6-7.35A7.504 7.504 0 0 0 4.5 9c0 8.104 7.204 13.403 7.204 13.403a.501.501 0 0 0 .592 0s.485-.357 1.204-1.027Z" class="colorda4453 svgShape"></path><circle cx="12" cy="9" r="3.5" fill="#f3f3f3" class="colorf3f3f3 svgShape"></circle>
+            <path fill="#e7e7e7" d="M13.5 12.163a3.503 3.503 0 0 1 0-6.326A3.501 3.501 0 0 0 8.5 9a3.501 3.501 0 0 0 5 3.163Z" class="colore7e7e7 svgShape"></path>
+            <path fill="#da4453" d="m2.646 3.354 18 18a.502.502 0 0 0 .708-.708l-18-18a.502.502 0 0 0-.708.708Z" class="colorda4453 svgShape"></path>
+            <path d="M16.277 16.443A20.23 20.23 0 0 1 12 21.365C10.691 20.301 5.5 15.662 5.5 9c0-1.077.262-2.093.726-2.987a.5.5 0 1 0-.887-.461A7.463 7.463 0 0 0 4.5 9c0 8.104 7.204 13.403 7.204 13.403a.501.501 0 0 0 .592 0s2.738-2.005 4.834-5.439a.5.5 0 1 0-.853-.521zM8.653 3.428A6.504 6.504 0 0 1 18.5 9c0 1.376-.223 2.665-.587 3.854a.5.5 0 0 0 .956.292c.392-1.278.631-2.666.631-4.146 0-4.139-3.361-7.5-7.5-7.5a7.466 7.466 0 0 0-3.864 1.072.5.5 0 0 0 .517.856z" fill="#000000" class="color000 svgShape"></path>
+            <path d="M12 11.5A2.5 2.5 0 0 1 9.5 9a.5.5 0 0 0-1 0c0 1.932 1.568 3.5 3.5 3.5a.5.5 0 0 0 0-1zm-1.5-4.499a2.5 2.5 0 0 1 3.584 3.38.5.5 0 1 0 .832.554 3.501 3.501 0 0 0-5.018-4.733.501.501 0 0 0 .602.799z" fill="#000000" class="color000 svgShape"></path>
+            <path d="m2.646 3.354 18 18a.502.502 0 0 0 .708-.708l-18-18a.502.502 0 0 0-.708.708Z" fill="#000000" class="color000 svgShape"></path>
+        </svg>
+    </g>
+</svg>

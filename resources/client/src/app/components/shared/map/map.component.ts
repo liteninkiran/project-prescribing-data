@@ -92,6 +92,7 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
             const marker = L.marker(markerCoords, markerOptions)
                 .bindTooltip(tooltipText, tooltipOptions)
                 .on('click', onClick);
+            marker.setOpacity(0.35);
             return marker;
         } else {
             return undefined;
