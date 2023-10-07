@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges, OnDestroy, AfterViewInit, SimpleChanges, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, OnDestroy, AfterViewInit, SimpleChanges, ViewChild, ElementRef, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import * as L from 'leaflet';
 
@@ -13,18 +13,22 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
 
     @Input() public data!: any[];
     @Input() public borderRadius = '';
+    @Input() public opacityOverride: number | null = null;
+
+    @Output() public opacityChanged = new EventEmitter<number>();
 
     public featureGroup!: L.FeatureGroup<any>;
 
     private map!: L.Map;
     private zoom = {
-        min: 5,
+        min: 6,
         max: 20,
         initial: 6,
     }
     private opacity = {
         min: 0.25,
         max: 1,
+        value: 0,
     }
 
     constructor(
@@ -32,12 +36,20 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
     ) { }
 
     public ngOnInit(): void {
-
+        this.calculateOpacity(this.zoom.initial);
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
-        this.clearMarkers();
-        this.addMarkersToMap();
+        const keys = Object.keys(changes);
+
+        if (keys.find(key => key === 'data')) {
+            this.clearMarkers();
+            this.addMarkersToMap();
+        }
+
+        if (keys.find(key => key === 'opacityOverride' && this.map)) {
+            this.changeMarkersOpacity(this.map.getZoom());
+        }
     }
 
     public ngOnDestroy(): void {
@@ -59,18 +71,25 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
         this.addTileLayer();
     }
 
+    private onMapZoom = (event: L.LeafletEvent): void => {
+        this.changeMarkersOpacity(event.target._zoom);
+    }
+
+    private changeMarkersOpacity(zoom: number): void {
+        if (this.featureGroup) {
+            this.calculateOpacity(zoom);
+            this.opacityChanged.emit(Math.round((this.opacity.value + Number.EPSILON) * 100));
+            this.featureGroup.eachLayer((layer: any) => {
+                layer.setOpacity(this.opacityOverride || this.opacity.value);
+            });
+        }
+    }
+
     private setMap(): void {
         if (!this.map && this.mapContainer) {
             const centreCoords: L.LatLngExpression = [55, -1];
             this.map = L.map(this.mapContainer.nativeElement);
-            this.map.on('zoom', (event: L.LeafletEvent) => {
-                if (this.featureGroup) {
-                    const opacity = this.calculateOpacity(event.target._zoom);
-                    this.featureGroup.eachLayer((layer: any) => {
-                        layer.setOpacity(opacity);
-                    });
-                }
-            });
+            this.map.on('zoom', this.onMapZoom);
             this.map.setView(centreCoords, this.zoom.initial);
         }
     }
@@ -86,17 +105,17 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
     }
 
     private addMarkersToMap(): void {
-        if (this.data.length === 0) { this.setMap(); return; }
+        if (!this.data || this.data.length === 0) { this.setMap(); return; }
         const markers: L.Marker[] = [];
         this.data.map((point: any) => {
-            const marker = this.addMarkerToMap(point);
+            const marker = this.addMarkerToMap(point, this.opacity.value);
             if (marker) { markers.push(marker); }
         });
         this.featureGroup = L.featureGroup([ ...markers ]).addTo(this.map);
         this.fitBounds();
     }
 
-    private addMarkerToMap(point: any): L.Marker | undefined {
+    private addMarkerToMap(point: any, opacity: number): L.Marker | undefined {
         if (point.postcode?.latitude && point.postcode.longitude) {
             const markerCoords: L.LatLngExpression = [point.postcode.latitude, point.postcode.longitude];
             const iconOptions: L.IconOptions = point.primary_role.icon ? { ...defaultIcon, iconUrl: point.primary_role.icon } : defaultIcon;
@@ -108,7 +127,7 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
             const marker = L.marker(markerCoords, markerOptions)
                 .bindTooltip(tooltipText, tooltipOptions)
                 .on('click', onClick);
-            marker.setOpacity(this.calculateOpacity(this.zoom.initial));
+            marker.setOpacity(opacity);
             return marker;
         } else {
             return undefined;
@@ -130,12 +149,12 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
         `;
     }
 
-    private calculateOpacity(zoom: number): number {
+    private calculateOpacity(zoom: number): void {
         const zoomDiff = this.zoom.max - this.zoom.min;
         const opacityDiff = this.opacity.max - this.opacity.min;
         const gradient = opacityDiff / zoomDiff;
         const intercept = this.opacity.min - (gradient * this.zoom.min);
-        return (gradient * zoom) + intercept;
+        this.opacity.value = (gradient * zoom) + intercept;
     }
 }
 

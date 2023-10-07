@@ -1,5 +1,23 @@
 .map-container {
     height: 700px;
     width: 100%;
+}
+
+.flex-container {
+    display: flex;
     margin-top: 20px;
+}
+
+.flex-child {
+    flex: 4;
+}  
+
+.flex-child:first-child {
+    margin-right: 20px;
+    flex: 1;
+} 
+
+mat-form-field {
+    margin-top: 20px;
+    width: 100%;
 }

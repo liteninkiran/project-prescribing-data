@@ -1,5 +1,6 @@
 import { DecimalPipe } from '@angular/common';
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { IOrganisation, IOrganisationFilters, IOrganisationMapResponse } from 'src/app/interfaces/organisation.interface';
 import { OrganisationService } from 'src/app/services/organisation/organisation.service';
@@ -13,10 +14,13 @@ import { OrganisationService } from 'src/app/services/organisation/organisation.
 export class OrganisationMapComponent implements OnInit, OnDestroy {
 
     public data$: Observable<IOrganisationMapResponse> = new Observable<IOrganisationMapResponse>();
-    public data: IOrganisation[] = [];
+    public data!: IOrganisation[];
     public filters: IOrganisationFilters = {} as IOrganisationFilters;
     public defaultFilters: IOrganisationFilters = { status: 0 } as IOrganisationFilters;
     public message: string = '';
+    public form!: FormGroup;
+    public opacityInput: FormControl<number | null> = new FormControl(null);
+    public opacity: number | null = null;
     private subscriptions: Subscription[] = [];
 
     constructor(
@@ -25,7 +29,7 @@ export class OrganisationMapComponent implements OnInit, OnDestroy {
     ) { }
 
     public ngOnInit(): void {
-
+        this.setMapControlsForm();
     }
 
     public ngOnDestroy(): void {
@@ -46,6 +50,10 @@ export class OrganisationMapComponent implements OnInit, OnDestroy {
         this.subscriptions.push(sub);
     }
 
+    public opacityChanged(opacity: number): void {
+        setTimeout(() => { this.opacity = opacity }, 0);
+    }
+
     private setFilterMessage(total: number, limit: number, limit_exceeded: boolean): void {
         const totalStr = this._decimalPipe.transform(total, '1.0-0');
         const limitStr = this._decimalPipe.transform(limit, '1.0-0');
@@ -56,5 +64,11 @@ export class OrganisationMapComponent implements OnInit, OnDestroy {
         } else {
             this.message += totalStr + ' items';
         }
+    }
+
+    private setMapControlsForm() {
+        this.form = new FormGroup({
+            opacity: this.opacityInput,
+        });
     }
 }
