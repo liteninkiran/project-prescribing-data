@@ -24,6 +24,6 @@ export class RoleSelectComponent {
     }
 
     private loadReferenceData(): void {
-        this.roles$ = this.orgStore.getRolesListByType2(true);
+        this.roles$ = this.orgStore.getRolesListByType(true);
     }
 }

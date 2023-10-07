@@ -35,11 +35,7 @@ export class OrganisationStore {
         loadData$.subscribe();
     }
 
-    public getRolesListByType(primary: boolean): Observable<IRole[]> {
-        return this.roles$.pipe(map(roles => roles.filter(role => role.primary_role === (primary === true))));
-    }
-
-    public getRolesListByType2(primary: boolean): Observable<IMatSelectOptions[]> {
+    public getRolesListByType(primary: boolean): Observable<IMatSelectOptions[]> {
         return this.roles$.pipe(map(roles => roles
                 .filter(role => role.primary_role === (primary === true))
                 .map(role => ({ id: role.id, name: role.display_name, code: role._id, icon: role.icon }))
