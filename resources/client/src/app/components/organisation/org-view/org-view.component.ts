@@ -3,15 +3,13 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { IOrganisation } from 'src/app/interfaces/organisation.interface';
-import { IRole } from 'src/app/interfaces/role.interface';
 import { OrganisationService } from 'src/app/services/organisation/organisation.service';
-import { OrganisationStore } from 'src/app/services/organisation/organisation.store';
 
 @Component({
     selector: 'app-org-view',
     templateUrl: './org-view.component.html',
     styleUrls: ['./org-view.component.scss'],
-    providers: [OrganisationService, OrganisationStore],
+    providers: [OrganisationService],
 })
 export class OrgViewComponent implements OnInit, OnDestroy {
     public id: string = '';
@@ -33,20 +31,17 @@ export class OrgViewComponent implements OnInit, OnDestroy {
         doubleClickZoom: false,
         dragging: false,
     }
-    public primaryRoles$!: Observable<IRole[]>;
 
     private subscriptions: Subscription[] = [];
 
     constructor(
         private route: ActivatedRoute,
         readonly orgService: OrganisationService,
-        private orgStore: OrganisationStore,
     ) {
 
     }
 
     public ngOnInit(): void {
-        this.primaryRoles$ = this.orgStore.getRolesListByType(true);
         this.setId();
         this.setForm();
     }

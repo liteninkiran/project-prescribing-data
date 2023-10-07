@@ -74,79 +74,9 @@
                         </mat-form-field>
 
                         <!-- Primary Role -->
-                        <mat-form-field>
-
-                            <!-- Label -->
-                            <mat-label>
-                                Primary Role
-                            </mat-label>
-
-                            <!-- Primary Role List -->
-                            <mat-select
-                                #primaryRoleSelect
-                                [formControl]="filterFormControls.primaryRoles"
-                                placeholder="Select Role(s)"
-                                multiple
-                                [panelClass]="['long-list', 'select-icon']"
-                            >
-                                <mat-option *ngFor="let role of (primaryRoles$ | async)" [value]="role.id" class="small-font">
-                                    <div class="select-container">
-                                        <div class="select-display-name">
-                                            {{ role.display_name }}
-                                        </div>
-                                        <div>
-                                            <img *ngIf="role.icon" [src]="role.icon" />
-                                        </div>
-                                    </div>
-                                </mat-option>
-                            </mat-select>
-
-                            <!-- Clear Contents -->
-                            <button
-                                *ngIf="filterFormControls.primaryRoles.value?.length || 0 > 0"
-                                matSuffix
-                                mat-icon-button
-                                aria-label="Clear"
-                                (click)="filterFormControls.primaryRoles.setValue(null)"
-                            >
-                                <mat-icon>close</mat-icon>
-                            </button>
-
-                        </mat-form-field>
-
-                        <!-- Non Primary Role -->
-                        <mat-form-field *ngIf="false">
-
-                            <!-- Label -->
-                            <mat-label>
-                                Non Primary Role
-                            </mat-label>
-
-                            <!-- Non Primary Role List -->
-                            <mat-select
-                                #nonPrimaryRoleSelect
-                                [formControl]="filterFormControls.nonPrimaryRoles"
-                                placeholder="Select Role(s)"
-                                multiple
-                                panelClass="long-list"
-                            >
-                                <mat-option *ngFor="let role of (nonPrimaryRoles$ | async)" [value]="role.id">
-                                    {{ role.display_name }}
-                                </mat-option>
-                            </mat-select>
-
-                            <!-- Clear Contents -->
-                            <button
-                                *ngIf="filterFormControls.nonPrimaryRoles.value?.length || 0 > 0"
-                                matSuffix
-                                mat-icon-button
-                                aria-label="Clear"
-                                (click)="filterFormControls.nonPrimaryRoles.setValue(null)"
-                            >
-                                <mat-icon>close</mat-icon>
-                            </button>
-
-                        </mat-form-field>
+                        <shared-role-select
+                            [control]="filterFormControls.primaryRoles"
+                        ></shared-role-select>
 
                         <!-- Last Change Date -->
                         <mat-form-field>

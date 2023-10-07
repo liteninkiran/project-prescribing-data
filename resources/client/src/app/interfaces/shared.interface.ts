@@ -50,6 +50,7 @@ export interface IAsyncButtonInputConfig {
 
 export interface IMatSelectOptions {
     id: number;
-    code?: string;
     name: string;
+    code?: string | null;
+    icon?: string | null;
 };

@@ -9,6 +9,7 @@ import { CheckboxMenuComponent } from './checkbox-menu/checkbox-menu.component';
 import { MapComponent } from './map/map.component';
 import { ButtonComponent } from './button/button.component';
 import { SelectComponent } from './select/select.component';
+import { RoleSelectComponent } from './role-select/role-select.component';
 
 @NgModule({
     declarations: [
@@ -17,6 +18,7 @@ import { SelectComponent } from './select/select.component';
         CheckboxMenuComponent,
         SelectComponent,
         MapComponent,
+        RoleSelectComponent,
     ],
     imports: [
         CommonModule,
@@ -30,6 +32,7 @@ import { SelectComponent } from './select/select.component';
         CheckboxMenuComponent,
         SelectComponent,
         MapComponent,
+        RoleSelectComponent,
     ],
 })
 export class SharedModule { }

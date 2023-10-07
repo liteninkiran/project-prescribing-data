@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, catchError, map, tap, throwError } from 'rxjs';
 import { IRole } from 'src/app/interfaces/role.interface';
-import { IPagedList } from 'src/app/interfaces/shared.interface';
+import { IMatSelectOptions, IPagedList } from 'src/app/interfaces/shared.interface';
 
 @Injectable({
     providedIn: 'root'
@@ -37,5 +37,12 @@ export class OrganisationStore {
 
     public getRolesListByType(primary: boolean): Observable<IRole[]> {
         return this.roles$.pipe(map(roles => roles.filter(role => role.primary_role === (primary === true))));
+    }
+
+    public getRolesListByType2(primary: boolean): Observable<IMatSelectOptions[]> {
+        return this.roles$.pipe(map(roles => roles
+                .filter(role => role.primary_role === (primary === true))
+                .map(role => ({ id: role.id, name: role.display_name, code: role._id, icon: role.icon }))
+        ));
     }
 }

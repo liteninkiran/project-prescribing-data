@@ -1,0 +1,7 @@
+<shared-select
+    label="Primary Role"
+    [fControl]="control"
+    [data]="(roles$ | async) || []"
+    [panelClass]="['long-list', 'select-icon']"
+    fontSize="10pt"
+></shared-select>

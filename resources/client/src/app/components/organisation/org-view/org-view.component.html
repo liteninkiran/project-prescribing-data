@@ -28,46 +28,10 @@
                     </mat-slider>
 
                     <!-- Primary Role -->
-                    <mat-form-field>
+                    <shared-role-select
+                        [control]="primaryRolesInput"
+                    ></shared-role-select>
 
-                        <!-- Label -->
-                        <mat-label>
-                            Primary Role
-                        </mat-label>
-
-                        <!-- Primary Role List -->
-                        <mat-select
-                            #primaryRoleSelect
-                            [formControl]="primaryRolesInput"
-                            placeholder="Select Role(s)"
-                            multiple
-                            [panelClass]="['long-list', 'select-icon']"
-                        >
-                            <mat-option *ngFor="let role of (primaryRoles$ | async)" [value]="role.id" class="small-font">
-                                <div class="select-container">
-                                    <div class="select-display-name">
-                                        {{ role.display_name }}
-                                    </div>
-                                    <div>
-                                        <img *ngIf="role.icon" [src]="role.icon" />
-                                    </div>
-                                </div>
-                            </mat-option>
-                        </mat-select>
-
-                        <!-- Clear Contents -->
-                        <button
-                            *ngIf="primaryRolesInput.value?.length || 0 > 0"
-                            matSuffix
-                            mat-icon-button
-                            aria-label="Clear"
-                            (click)="primaryRolesInput.setValue(null)"
-                        >
-                            <mat-icon>close</mat-icon>
-                        </button>
-
-                    </mat-form-field>
-                
                 </div>
 
             </fieldset>

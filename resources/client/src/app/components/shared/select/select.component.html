@@ -2,20 +2,26 @@
 
     <!-- Label -->
     <mat-label>
-        <!-- Administrative County -->
         {{ label }}
     </mat-label>
 
-    <!-- Admin County List -->
+    <!-- List -->
     <mat-select
         [formControl]="fControl"
         [placeholder]="'Select ' + label + '(s)'"
+        [panelClass]="panelClass"
         multiple
-        panelClass="long-list"
     >
         <ng-container *ngIf="data">
-            <mat-option *ngFor="let item of (data)" [value]="item.id">
-                {{ item.name }}
+            <mat-option *ngFor="let item of (data)" [value]="item.id" [ngStyle]="{ 'font-size': fontSize }">
+                <div class="select-container">
+                    <div class="select-container-child">
+                        {{ item.name }}
+                    </div>
+                    <div>
+                        <img *ngIf="item.icon" [src]="item.icon" />
+                    </div>
+                </div>
             </mat-option>
         </ng-container>
     </mat-select>
