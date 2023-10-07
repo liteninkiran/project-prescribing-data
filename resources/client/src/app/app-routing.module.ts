@@ -10,7 +10,7 @@ import { TableSortPaginateFilterComponent } from './components/samples/table-sor
 import { D3MapComponent } from './components/samples/d3-map/d3-map.component';
 import { LeafletMapComponent } from './components/samples/leaflet-map/leaflet-map.component';
 import { DialogComponent } from './components/samples/dialog/dialog.component';
-import { OrganisationComponent } from './components/organisation/organisation/container/organisation.component';
+import { OrganisationComponent } from './components/organisation/organisation/organisation.component';
 import { RoleComponent } from './components/role/role/container/role.component';
 import { OrgViewComponent } from './components/organisation/org-view/org-view.component';
 

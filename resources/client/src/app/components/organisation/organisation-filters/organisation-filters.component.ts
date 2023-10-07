@@ -4,13 +4,12 @@ import { Router } from '@angular/router';
 import { Observable, debounceTime, distinctUntilChanged, tap } from 'rxjs';
 import { IOrganisationFilterFormGroup, IOrganisationFilters, IOrganisationStatus } from 'src/app/interfaces/organisation.interface';
 import { IFilterConfig, IMatSelectOptions } from 'src/app/interfaces/shared.interface';
-import { OrganisationStore } from 'src/app/services/organisation/organisation.store';
 import { PostcodeStore } from 'src/app/services/postcode/postcode.store';
 
 @Component({
     selector: 'app-organisation-filters',
-    templateUrl: './filters.component.html',
-    styleUrls: ['./filters.component.scss'],
+    templateUrl: './organisation-filters.component.html',
+    styleUrls: ['./organisation-filters.component.scss'],
 })
 export class OrganisationFiltersComponent {
 
