@@ -14,18 +14,19 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
     @Input() public data!: any[];
     @Input() public borderRadius = '';
     @Input() public opacityOverride: number | null = null;
-    @Input() public zoomOverride!: number;
+    @Input() public manualZoom!: number;
+    @Input() public zoom = {
+        min: 6,
+        max: 20,
+        initial: 6,
+    }
+    @Input() public mapOptions: L.MapOptions = {}
 
     @Output() public opacityChanged = new EventEmitter<number[]>();
 
     public featureGroup!: L.FeatureGroup<any>;
 
     private map!: L.Map;
-    public zoom = {
-        min: 6,
-        max: 20,
-        initial: 6,
-    }
     private opacity = {
         min: 0.25,
         max: 1,
@@ -51,6 +52,10 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
         if (keys.find(key => key === 'opacityOverride' && this.map)) {
             this.changeMarkersOpacity(this.map.getZoom());
         }
+
+        if (keys.find(key => key === 'manualZoom' && this.map)) {
+            this.map.setZoom(this.manualZoom);
+        }
     }
 
     public ngOnDestroy(): void {
@@ -64,9 +69,10 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
     private fitBounds(): void {
         if (this.featureGroup.getLayers().length > 0) {
             this.map.fitBounds(this.featureGroup.getBounds(), { padding: [40, 40] });
-            if (this.zoomOverride) {
-                this.map.setView(this.map.getCenter(), this.zoomOverride);
+            if (this.manualZoom) {
+                this.map.setView(this.map.getCenter(), this.manualZoom);
             }
+            this.opacityChanged.emit([Math.round((this.opacity.value + Number.EPSILON) * 100), this.zoom.initial]);
         }
     }
 
@@ -92,7 +98,7 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
     private setMap(): void {
         if (!this.map && this.mapContainer) {
             const centreCoords: L.LatLngExpression = [55, -1];
-            this.map = L.map(this.mapContainer.nativeElement);
+            this.map = L.map(this.mapContainer.nativeElement, this.mapOptions);
             this.map.on('zoom', this.onMapZoom);
             this.map.setView(centreCoords, this.zoom.initial);
         }

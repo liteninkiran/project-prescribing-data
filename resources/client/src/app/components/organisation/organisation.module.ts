@@ -10,7 +10,7 @@ import { OrganisationComponent } from './organisation/container/organisation.com
 import { OrganisationFiltersComponent } from './organisation/filters/filters.component';
 import { OrganisationViewComponent } from './organisation-view/organisation-view.component';
 import { OrgViewComponent } from './org-view/org-view.component';
-import { OrganisationMapComponent } from './organisation-map/organisation-mapcomponent';
+import { OrganisationMapComponent } from './organisation-map/organisation-map.component';
 
 @NgModule({
     declarations: [

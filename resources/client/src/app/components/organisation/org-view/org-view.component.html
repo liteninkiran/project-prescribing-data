@@ -2,10 +2,46 @@
 
 <h2>{{ id }}</h2>
 
-<div class="map-container">
-    <shared-map
-        [data]="mapData"
-        [zoomOverride]="14"
-        borderRadius="50%"
-    ></shared-map>
+
+
+<div class="flex-container">
+
+    <!-- Controls -->
+    <div class="flex-child flex-controls">
+
+        <form>
+
+            <fieldset class="field_set">
+
+                <legend>
+                    Parameters
+                </legend>
+
+                <div class="filter-container">
+                    <mat-slider [min]="zoomSettings.min" [max]="zoomSettings.max" step="1">
+                        <input matInput matSliderThumb [formControl]="zoomInput" (dragEnd)="dragEnd($event)">
+                    </mat-slider>
+                </div>
+
+            </fieldset>
+
+            <p>{{ zoomInput.value }}</p>
+
+        </form>
+
+    </div>
+
+    <!-- Map -->
+    <div class="flex-child flex-map">
+        <div class="map-container">
+            <shared-map
+                [data]="mapData"
+                [manualZoom]="zoomInput.value || zoomSettings.min"
+                [zoom]="zoomSettings"
+                [mapOptions]="mapOptions"
+                borderRadius="50%"
+            ></shared-map>
+        </div>
+    </div>
+    
 </div>

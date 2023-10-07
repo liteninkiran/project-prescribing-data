@@ -21,3 +21,18 @@ mat-form-field {
     margin-top: 20px;
     width: 100%;
 }
+
+.field_set{
+    border-color: lightgray;
+    border-style: solid;
+    border-radius: 10px;
+    border-width: 1px;
+}
+
+legend {
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    color: gray;
+}
