@@ -14,13 +14,14 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
     @Input() public data!: any[];
     @Input() public borderRadius = '';
     @Input() public opacityOverride: number | null = null;
+    @Input() public zoomOverride!: number;
 
     @Output() public opacityChanged = new EventEmitter<number>();
 
     public featureGroup!: L.FeatureGroup<any>;
 
     private map!: L.Map;
-    private zoom = {
+    public zoom = {
         min: 6,
         max: 20,
         initial: 6,
@@ -63,6 +64,9 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
     private fitBounds(): void {
         if (this.featureGroup.getLayers().length > 0) {
             this.map.fitBounds(this.featureGroup.getBounds(), { padding: [40, 40] });
+            if (this.zoomOverride) {
+                this.map.setView(this.map.getCenter(), this.zoomOverride);
+            }
         }
     }
 
