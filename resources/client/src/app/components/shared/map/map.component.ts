@@ -130,14 +130,13 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
             const markerCoords: L.LatLngExpression = [point.postcode.latitude, point.postcode.longitude];
             const iconOptions: L.IconOptions = point.primary_role.icon ? { ...defaultIcon, iconUrl: point.primary_role.icon } : defaultIcon;
             const markerIcon = L.icon(iconOptions);
-            const markerOptions: L.MarkerOptions = { icon: markerIcon }
+            const markerOptions: L.MarkerOptions = { icon: markerIcon, opacity: opacity }
             const onClick = () => this.router.navigate(['organisations/' + point.org_id]);
             const tooltipText = this.getTooltipText(point);
             const tooltipOptions: L.TooltipOptions = { direction: 'top', offset: [0, -30] }
             const marker = L.marker(markerCoords, markerOptions)
                 .bindTooltip(tooltipText, tooltipOptions)
                 .on('click', onClick);
-            marker.setOpacity(opacity);
             return marker;
         } else {
             return undefined;

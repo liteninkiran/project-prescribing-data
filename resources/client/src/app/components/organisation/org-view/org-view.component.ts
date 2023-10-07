@@ -3,13 +3,15 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { IOrganisation } from 'src/app/interfaces/organisation.interface';
+import { IRole } from 'src/app/interfaces/role.interface';
 import { OrganisationService } from 'src/app/services/organisation/organisation.service';
+import { OrganisationStore } from 'src/app/services/organisation/organisation.store';
 
 @Component({
     selector: 'app-org-view',
     templateUrl: './org-view.component.html',
     styleUrls: ['./org-view.component.scss'],
-    providers: [OrganisationService],
+    providers: [OrganisationService, OrganisationStore],
 })
 export class OrgViewComponent implements OnInit, OnDestroy {
     public id: string = '';
@@ -24,23 +26,27 @@ export class OrgViewComponent implements OnInit, OnDestroy {
         initial: 6,
     }
     public zoomInput: FormControl<number | null> = new FormControl(this.initialZoom);
+    public primaryRolesInput: FormControl<number[] | null> = new FormControl([]);
     public zoom: number | null = null;
     public mapOptions: L.MapOptions = {
         scrollWheelZoom: false,
         doubleClickZoom: false,
         dragging: false,
     }
+    public primaryRoles$!: Observable<IRole[]>;
 
     private subscriptions: Subscription[] = [];
 
     constructor(
         private route: ActivatedRoute,
         readonly orgService: OrganisationService,
+        private orgStore: OrganisationStore,
     ) {
 
     }
 
     public ngOnInit(): void {
+        this.primaryRoles$ = this.orgStore.getRolesListByType(true);
         this.setId();
         this.setForm();
     }
@@ -73,6 +79,9 @@ export class OrgViewComponent implements OnInit, OnDestroy {
     private setForm() {
         this.form = new FormGroup({
             zoom: this.zoomInput,
+            primaryRoles: this.primaryRolesInput,
         });
+
+        this.primaryRolesInput.valueChanges.subscribe(console.log);
     }
 }

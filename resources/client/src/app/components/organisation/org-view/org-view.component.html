@@ -18,14 +18,59 @@
                 </legend>
 
                 <div class="filter-container">
+
+                    <mat-label>
+                        Zoom Level: {{ zoomInput.value }}
+                    </mat-label>
+
                     <mat-slider [min]="zoomSettings.min" [max]="zoomSettings.max" step="1">
-                        <input matInput matSliderThumb [formControl]="zoomInput" (dragEnd)="dragEnd($event)">
+                        <input matInput matSliderThumb [formControl]="zoomInput" (dragEnd)="dragEnd($event)" #zoomSlider>
                     </mat-slider>
+
+                    <!-- Primary Role -->
+                    <mat-form-field>
+
+                        <!-- Label -->
+                        <mat-label>
+                            Primary Role
+                        </mat-label>
+
+                        <!-- Primary Role List -->
+                        <mat-select
+                            #primaryRoleSelect
+                            [formControl]="primaryRolesInput"
+                            placeholder="Select Role(s)"
+                            multiple
+                            [panelClass]="['long-list', 'select-icon']"
+                        >
+                            <mat-option *ngFor="let role of (primaryRoles$ | async)" [value]="role.id" class="small-font">
+                                <div class="select-container">
+                                    <div class="select-display-name">
+                                        {{ role.display_name }}
+                                    </div>
+                                    <div>
+                                        <img *ngIf="role.icon" [src]="role.icon" />
+                                    </div>
+                                </div>
+                            </mat-option>
+                        </mat-select>
+
+                        <!-- Clear Contents -->
+                        <button
+                            *ngIf="primaryRolesInput.value?.length || 0 > 0"
+                            matSuffix
+                            mat-icon-button
+                            aria-label="Clear"
+                            (click)="primaryRolesInput.setValue(null)"
+                        >
+                            <mat-icon>close</mat-icon>
+                        </button>
+
+                    </mat-form-field>
+                
                 </div>
 
             </fieldset>
-
-            <p>{{ zoomInput.value }}</p>
 
         </form>
 
