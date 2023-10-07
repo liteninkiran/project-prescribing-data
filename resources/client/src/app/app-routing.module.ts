@@ -11,7 +11,7 @@ import { LeafletMapComponent } from './components/samples/leaflet-map/leaflet-ma
 import { DialogComponent } from './components/samples/dialog/dialog.component';
 import { OrganisationComponent } from './components/organisation/organisation/organisation.component';
 import { RoleComponent } from './components/role/role/container/role.component';
-import { OrgViewComponent } from './components/organisation/org-view/org-view.component';
+import { OrganisationViewComponent } from './components/organisation/organisation-view/organisation-view.component';
 
 const routes: Routes = [
     {
@@ -32,7 +32,7 @@ const routes: Routes = [
     },
     {
         path: 'organisations/:id',
-        component: OrgViewComponent,
+        component: OrganisationViewComponent,
     },
     {
         path: 'samples',

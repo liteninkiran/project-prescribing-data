@@ -8,7 +8,7 @@ import { SharedModule } from '../shared/shared.module';
 
 import { OrganisationComponent } from './organisation/organisation.component';
 import { OrganisationFiltersComponent } from './organisation-filters/organisation-filters.component';
-import { OrgViewComponent } from './org-view/org-view.component';
+import { OrganisationViewComponent } from './organisation-view/organisation-view.component';
 import { OrganisationMapComponent } from './organisation-map/organisation-map.component';
 
 @NgModule({
@@ -16,7 +16,7 @@ import { OrganisationMapComponent } from './organisation-map/organisation-map.co
         OrganisationComponent,
         OrganisationMapComponent,
         OrganisationFiltersComponent,
-        OrgViewComponent,
+        OrganisationViewComponent,
     ],
     imports: [
         CommonModule,

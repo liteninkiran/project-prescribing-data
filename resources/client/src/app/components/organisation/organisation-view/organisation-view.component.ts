@@ -7,11 +7,11 @@ import { OrganisationService } from 'src/app/services/organisation/organisation.
 
 @Component({
     selector: 'app-org-view',
-    templateUrl: './org-view.component.html',
-    styleUrls: ['./org-view.component.scss'],
+    templateUrl: './organisation-view.component.html',
+    styleUrls: ['./organisation-view.component.scss'],
     providers: [OrganisationService],
 })
-export class OrgViewComponent implements OnInit, OnDestroy {
+export class OrganisationViewComponent implements OnInit, OnDestroy {
     public id: string = '';
     public organisation$: Observable<IOrganisation> = new Observable<IOrganisation>();
     public organisation: IOrganisation = {} as IOrganisation;

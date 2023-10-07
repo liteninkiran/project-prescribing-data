@@ -1,15 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { OrgViewComponent } from './org-view.component';
+import { OrganisationViewComponent } from './organisation-view.component';
 
 describe('OrgViewComponent', () => {
-    let component: OrgViewComponent;
-    let fixture: ComponentFixture<OrgViewComponent>;
+    let component: OrganisationViewComponent;
+    let fixture: ComponentFixture<OrganisationViewComponent>;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            declarations: [OrgViewComponent]
+            declarations: [OrganisationViewComponent]
         });
-        fixture = TestBed.createComponent(OrgViewComponent);
+        fixture = TestBed.createComponent(OrganisationViewComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
