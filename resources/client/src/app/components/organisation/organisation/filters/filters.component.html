@@ -43,7 +43,7 @@
                         <!-- Org ID -->
                         <mat-form-field>
                             <mat-label>Organisation ID</mat-label>
-                            <input matInput [formControl]="filterFormControls.organisationId" placeholder="e.g. Y00082" (input)="onorganisationIdInput($event)">
+                            <input matInput [formControl]="filterFormControls.organisationId" placeholder="e.g. Y00082" (input)="onOrganisationIdInput($event)">
                             <button *ngIf="filterFormControls.organisationId.value" matSuffix mat-icon-button aria-label="Clear" (click)="filterFormControls.organisationId.setValue(null)" tabindex="-1">
                                 <mat-icon>close</mat-icon>
                             </button>

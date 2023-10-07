@@ -65,7 +65,7 @@ export class OrganisationFiltersComponent {
         this.changeToUpperCase(this.filterFormControls.postcode);
     }
 
-    public onorganisationIdInput(event: Event): void {
+    public onOrganisationIdInput(event: Event): void {
         this.changeToUpperCase(this.filterFormControls.organisationId);
     }
 
