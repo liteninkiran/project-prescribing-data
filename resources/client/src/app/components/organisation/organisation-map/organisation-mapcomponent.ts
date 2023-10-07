@@ -21,6 +21,7 @@ export class OrganisationMapComponent implements OnInit, OnDestroy {
     public form!: FormGroup;
     public opacityInput: FormControl<number | null> = new FormControl(null);
     public opacity: number | null = null;
+    public zoom: number | null = null;
     private subscriptions: Subscription[] = [];
 
     constructor(
@@ -50,8 +51,11 @@ export class OrganisationMapComponent implements OnInit, OnDestroy {
         this.subscriptions.push(sub);
     }
 
-    public opacityChanged(opacity: number): void {
-        setTimeout(() => { this.opacity = opacity }, 0);
+    public opacityChanged(values: number[]): void {
+        setTimeout(() => {
+            this.opacity = values[0];
+            this.zoom = values[1];
+        }, 0);
     }
 
     private setFilterMessage(total: number, limit: number, limit_exceeded: boolean): void {

@@ -16,7 +16,7 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
     @Input() public opacityOverride: number | null = null;
     @Input() public zoomOverride!: number;
 
-    @Output() public opacityChanged = new EventEmitter<number>();
+    @Output() public opacityChanged = new EventEmitter<number[]>();
 
     public featureGroup!: L.FeatureGroup<any>;
 
@@ -82,7 +82,7 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
     private changeMarkersOpacity(zoom: number): void {
         if (this.featureGroup) {
             this.calculateOpacity(zoom);
-            this.opacityChanged.emit(Math.round((this.opacity.value + Number.EPSILON) * 100));
+            this.opacityChanged.emit([Math.round((this.opacity.value + Number.EPSILON) * 100), zoom]);
             this.featureGroup.eachLayer((layer: any) => {
                 layer.setOpacity(this.opacityOverride || this.opacity.value);
             });
