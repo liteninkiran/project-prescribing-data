@@ -84,7 +84,7 @@ class RoleIconSeeder extends Seeder
             case 'RO180': // PRIMARY CARE TRUST SITE
             case 'RO107': // CARE TRUST
             case 'RO108': // CARE TRUST SITE
-                return $path . 'care/care-a.svg';
+                return $path . 'care/care-b.svg';
 
             // Children
             case 'RO231': // SECURE CHILDREN'S HOME
@@ -94,11 +94,11 @@ class RoleIconSeeder extends Seeder
 
             // Immigration
             case 'RO232': // IMMIGRATION REMOVAL CENTRE
-                return $path . 'immigration/immigration-c.svg';
+                return $path . 'immigration/immigration-a.svg';
 
             // Dentist
             case 'RO110': // GENERAL DENTAL PRACTICE
-                return $path . 'dentist/dentist-d.svg';
+                return $path . 'dentist/dentist-l.svg';
 
             // Optician
             case 'RO166': // OPTICAL HEADQUARTERS

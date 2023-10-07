@@ -11,12 +11,21 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
 
     @ViewChild('mapContainer') private mapContainer!: ElementRef;
 
-    @Input() public data: any[] = [];
+    @Input() public data!: any[];
     @Input() public borderRadius = '';
 
-    // Map
+    public featureGroup!: L.FeatureGroup<any>;
+
     private map!: L.Map;
-    private featureGroup!: L.FeatureGroup<any>;
+    private zoom = {
+        min: 5,
+        max: 20,
+        initial: 6,
+    }
+    private opacity = {
+        min: 0.25,
+        max: 1,
+    }
 
     constructor(
         private router: Router,
@@ -53,17 +62,24 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
     private setMap(): void {
         if (!this.map && this.mapContainer) {
             const centreCoords: L.LatLngExpression = [55, -1];
-            const initialZoom = 6;
             this.map = L.map(this.mapContainer.nativeElement);
-            this.map.setView(centreCoords, initialZoom);
+            this.map.on('zoom', (event: L.LeafletEvent) => {
+                if (this.featureGroup) {
+                    const opacity = this.calculateOpacity(event.target._zoom);
+                    this.featureGroup.eachLayer((layer: any) => {
+                        layer.setOpacity(opacity);
+                    });
+                }
+            });
+            this.map.setView(centreCoords, this.zoom.initial);
         }
     }
 
     private addTileLayer(): void {
         const url = 'https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.{ext}';
         const tileOptions = {
-            minZoom: 0,
-            maxZoom: 20,
+            minZoom: this.zoom.min,
+            maxZoom: this.zoom.max,
             ext: 'png',
         }
         L.tileLayer(url, tileOptions).addTo(this.map);
@@ -92,7 +108,7 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
             const marker = L.marker(markerCoords, markerOptions)
                 .bindTooltip(tooltipText, tooltipOptions)
                 .on('click', onClick);
-            marker.setOpacity(0.35);
+            marker.setOpacity(this.calculateOpacity(this.zoom.initial));
             return marker;
         } else {
             return undefined;
@@ -112,6 +128,14 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
             <p>${point.name}</p>
             <p>${point.post_code}</p>
         `;
+    }
+
+    private calculateOpacity(zoom: number): number {
+        const zoomDiff = this.zoom.max - this.zoom.min;
+        const opacityDiff = this.opacity.max - this.opacity.min;
+        const gradient = opacityDiff / zoomDiff;
+        const intercept = this.opacity.min - (gradient * this.zoom.min);
+        return (gradient * zoom) + intercept;
     }
 }
 
