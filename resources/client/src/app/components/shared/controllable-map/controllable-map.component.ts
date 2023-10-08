@@ -34,6 +34,7 @@ export class ControllableMapComponent implements OnInit, AfterViewInit, OnChange
         min: 0.25,
         max: 1,
     }
+    private intervalId!: any;
 
     constructor(
 
@@ -60,11 +61,22 @@ export class ControllableMapComponent implements OnInit, AfterViewInit, OnChange
     }
 
     public animateSlider(): void {
-        let i = 1;
-        let interval = setInterval(() => {
-            i += 1;
-            i === 51 ? clearInterval(interval) : this.opacityInput.setValue(i);
-        }, 100); 
+        let i = this.opacityInput.value === 100 ? 1 : this.opacityInput.value;
+        this.intervalId
+            ? this.clearInterval()
+            : this.intervalId = this.interval(i);
+    }
+
+    private clearInterval() {
+        clearInterval(this.intervalId);
+        this.intervalId = undefined;
+    }
+
+    private interval(i: number): any {
+        return setInterval(() =>
+            (i += 1) === 101
+                ? this.clearInterval()
+                : this.opacityInput.setValue(i), 100);
     }
 
     private initialiseMap(): void {
