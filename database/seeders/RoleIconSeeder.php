@@ -129,6 +129,37 @@ class RoleIconSeeder extends Seeder
             case 'RO157': // NON-NHS ORGANISATION
                 return $path . 'non-nhs/non-nhs-c.svg';
 
+            // Services
+            case 'RO216': // DATA SERVICES FOR COMMISSIONERS REGIONAL OFFICE (DSCRO)
+            case 'RO217': // DATA SERVICES FOR COMMISSIONERS REGIONAL OFFICE (DSCRO) SITE
+                return $path . 'services/services-d.svg';
+
+            // Executive
+            case 'RO89': // EXECUTIVE AGENCY PROGRAMME - DEPARTMENT
+            case 'RO90': // EXECUTIVE AGENCY SITE
+            case 'RO91': // EXECUTIVE AGENCY PROGRAMME
+            case 'RO116': // EXECUTIVE AGENCY
+                return $path . 'executive/executive-c.svg';
+
+
+            // Clinic
+            case 'RO98': // CLINICAL COMMISSIONING GROUP
+            case 'RO99': // CLINICAL COMMISSIONING GROUP SITE
+            case 'RO102': // CLINICAL NETWORK
+                return $path . 'clinic/clinic-d.svg';
+
+            // Government
+            case 'RO126': // GOVERNMENT DEPARTMENT
+            case 'RO131': // GOVERNMENT DEPARTMENT SITE
+            case 'RO128': // GOVERNMENT OFFICE REGION
+            case 'RO138': // ISLE OF MAN GOVERNMENT DEPARTMENT
+            case 'RO137': // ISLE OF MAN GOVERNMENT DIRECTORATE
+            case 'RO140': // ISLE OF MAN GOVERNMENT DIRECTORATE SITE
+                return $path . 'government/government-j.svg';
+        
+        
+    
+
             // Everything else
             default:
                 return null;
