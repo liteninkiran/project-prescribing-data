@@ -32,7 +32,7 @@ class PostcodeAttributeLists
     public function getPostcodeAttributes(): array
     {
         $excludeRows = [
-            'country' => [ 'name' => 'Channel Islands', 'name' => 'Isle of Man'],
+            'country' => [ 'Channel Islands', 'Isle of Man' ],
         ];
         $includeRows = [
             'admin_county' => [[ 'id' => 0, 'name' => 'NULL' ]],
