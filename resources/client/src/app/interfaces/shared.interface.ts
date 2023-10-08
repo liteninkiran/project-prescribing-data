@@ -54,3 +54,12 @@ export interface IMatSelectOptions {
     code?: string | null;
     icon?: string | null;
 };
+
+export interface IMapData {
+    id: number;
+    name: string;
+    icon: string | null;
+    postcode: string | null;
+    lat: number | null;
+    long: number | null;
+};

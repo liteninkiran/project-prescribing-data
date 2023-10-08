@@ -1,0 +1,47 @@
+<div style="margin-top: 20px; display: flex;">
+
+    <!-- Map Controls -->
+    <div class="map-controls">
+
+        <!-- Control List -->
+        <mat-list>
+
+            <!-- Zoom Level -->
+            <div mat-subheader>Zoom Level</div>
+            <mat-list-item id="item-1">
+                <mat-icon matListItemIcon (click)="resetMap()" matTooltip="Reset map" matTooltipPosition="above">search</mat-icon>
+                <div matListItemTitle>
+                    <span style="display: inline-block; width: 50%">{{ currentZoomLevel - zoom.min + 1 }}</span>
+                    <span style="display: inline-block; width: 50%; text-align: right;">Opacity {{ currentOpacityLevel | percent }}</span>
+                </div>
+                <mat-progress-bar mode="determinate" [value]="zoomProgress"></mat-progress-bar>
+            </mat-list-item>
+
+            <mat-divider></mat-divider>
+
+            <!-- Lat / Long -->
+            <div mat-subheader>Latitude / Longitude</div>
+            <mat-list-item>
+                <mat-icon matListItemIcon (click)="resetMap()" matTooltip="Reset map" matTooltipPosition="above">my_location</mat-icon>
+                <div matListItemTitle>
+                    <ng-container *ngIf="currentCentre; else loading">
+                        {{ currentCentre.lat | number: '1.0-4' }}, {{ currentCentre.lng | number: '1.0-4' }}
+                    </ng-container>
+                    <ng-template #loading>
+                        <mat-spinner diameter="30"></mat-spinner>
+                    </ng-template>
+                </div>
+            </mat-list-item>
+
+            <mat-divider></mat-divider>
+
+        </mat-list>
+
+    </div>
+
+    <!-- Map -->
+    <div #mapContainer class="map">
+        <mat-spinner *ngIf="!data" diameter="100" color="primary" style="position: absolute; top: 250px; right: 500px; z-index: 1000;"></mat-spinner>
+    </div>
+
+</div>
