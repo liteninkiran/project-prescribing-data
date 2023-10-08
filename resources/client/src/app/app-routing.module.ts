@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { OrganisationMapComponent } from './components/organisation/organisation-map/organisation-map.component';
-import { OrganisationViewComponent } from './components/organisation/organisation-view/organisation-view.component';
 import { SamplesComponent } from './components/samples/samples/samples.component';
 import { TableAsyncComponent } from './components/samples/table-async/table-async.component';
 import { TableSortComponent } from './components/samples/table-sort/table-sort.component';
@@ -10,9 +9,9 @@ import { TableSortPaginateFilterComponent } from './components/samples/table-sor
 import { D3MapComponent } from './components/samples/d3-map/d3-map.component';
 import { LeafletMapComponent } from './components/samples/leaflet-map/leaflet-map.component';
 import { DialogComponent } from './components/samples/dialog/dialog.component';
-import { OrganisationComponent } from './components/organisation/organisation/container/organisation.component';
+import { OrganisationComponent } from './components/organisation/organisation/organisation.component';
 import { RoleComponent } from './components/role/role/container/role.component';
-import { OrgViewComponent } from './components/organisation/org-view/org-view.component';
+import { OrganisationViewComponent } from './components/organisation/organisation-view/organisation-view.component';
 
 const routes: Routes = [
     {
@@ -32,12 +31,8 @@ const routes: Routes = [
         component: RoleComponent,
     },
     {
-        path: 'orgs/:id',
-        component: OrganisationViewComponent,
-    },
-    {
         path: 'organisations/:id',
-        component: OrgViewComponent,
+        component: OrganisationViewComponent,
     },
     {
         path: 'samples',

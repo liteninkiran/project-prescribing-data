@@ -8,13 +8,13 @@
 
     <!-- Refresh Data From API -->
     <div class="button-container">
-        <app-async-button
+        <shared-button
             buttonText="Refresh Data From API"
             colour="primary"
-            icon="sync"
+            icon="cloud"
             [loaded]="apiLoaded"
             (clickEvent)="refreshDataFromApi()"
-        ></app-async-button>
+        ></shared-button>
     </div>
 </div>
 
@@ -24,7 +24,7 @@
 </div>
 
 <!-- Data -->
-<app-table
+<shared-table
     [intialPageSize]="100"
     [dataSource]="dataSource"
     [columnConfig]="columnConfig"
@@ -36,4 +36,4 @@
     (actionButtonClick)="onActionButtonClick($event)"
     (rowClick)="onRowClick($event)"
     (iconClick)="onIconClick($event)"
-></app-table>
+></shared-table>

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ArrayConcatContactPipe } from '../pipes/array-concat-contact.pipe';
 import { ArrayConcatPipe } from '../pipes/array-concat.pipe';
 import { ArrayFilterPipe } from '../pipes/array-filter.pipe';
 import { DateAgoPipe } from '../pipes/date-ago.pipe';
@@ -14,7 +13,6 @@ import { SafeHtmlPipe } from '../pipes/safe-html.pipe';
     ],
     declarations: [
         ArrayConcatPipe,
-        ArrayConcatContactPipe,
         ArrayFilterPipe,
         FormatValuePipe,
         DateAgoPipe,
@@ -22,7 +20,6 @@ import { SafeHtmlPipe } from '../pipes/safe-html.pipe';
     ],
     exports: [
         ArrayConcatPipe,
-        ArrayConcatContactPipe,
         ArrayFilterPipe,
         FormatValuePipe,
         DateAgoPipe,

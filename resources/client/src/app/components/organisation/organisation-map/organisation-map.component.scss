@@ -1,18 +1,38 @@
-.map {
+.map-container {
+    height: 700px;
+    width: 100%;
+}
+
+.flex-container {
+    display: flex;
+    margin-top: 20px;
+}
+
+.flex-child {
+    flex: 4;
+}  
+
+.flex-child:first-child {
+    margin-right: 20px;
+    flex: 1;
+} 
+
+mat-form-field {
     margin-top: 20px;
     width: 100%;
-    height: 700px;
 }
 
-.spinner-container {
-    height: 360px;
-    width: 80%;
-    margin-top: 150px;
-    position: fixed;
+.field_set{
+    border-color: lightgray;
+    border-style: solid;
+    border-radius: 10px;
+    border-width: 1px;
 }
 
-mat-spinner {
+legend {
+    padding-left: 10px;
+    padding-right: 10px;
     margin-left: auto;
     margin-right: auto;
+    color: gray;
 }
-

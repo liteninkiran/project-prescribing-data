@@ -7,11 +7,49 @@
     ></app-organisation-filters>
 </div>
 
-<div>
+<!-- Map -->
+<div class="flex-container">
 
-    <!-- Map -->
-    <div id="map" class="map">
+    <!-- Controls -->
+    <div class="flex-child">
+
+        <form>
+
+            <!-- Misc Filters -->
+            <fieldset class="field_set">
+
+                <legend>
+                    Parameters
+                </legend>
+
+                <div class="filter-container">
+
+                    <p>Zoom Level: <span *ngIf="zoom !== null">{{ zoom }}</span></p>
+                    <p>Opacity Level: <span *ngIf="opacity !== null">{{ opacity }}%</span></p>
+
+                    <!-- Opacity Override -->
+                    <mat-form-field>
+                        <mat-label>Opacity Override</mat-label>
+                        <input matInput [formControl]="opacityInput" placeholder="Enter opacity" type="number" min="1" max="100" step="1">
+                    </mat-form-field>
+
+                </div>
+
+            </fieldset>
+
+        </form>
 
     </div>
 
+    <!-- Map -->
+    <div class="flex-child">
+        <div class="map-container">
+            <shared-map
+                [data]="data"
+                [opacityOverride]="opacityInput.value ? opacityInput.value / 100 : null"
+                (opacityChanged)="opacityChanged($event)"
+            ></shared-map>
+        </div>
+    </div>
+    
 </div>

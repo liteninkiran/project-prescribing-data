@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
-    selector: 'app-async-button',
-    templateUrl: './async-button.component.html',
-    styleUrls: ['./async-button.component.scss'],
+    selector: 'shared-button',
+    templateUrl: './button.component.html',
+    styleUrls: ['./button.component.scss'],
 })
-export class AsyncButtonComponent implements OnInit {
+export class ButtonComponent implements OnInit {
     @Input() public buttonText = '';
     @Input() public colour = 'Primary';
     @Input() public icon = '';

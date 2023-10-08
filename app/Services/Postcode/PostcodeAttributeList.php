@@ -62,10 +62,8 @@ class PostcodeAttributeList
         return $this->class::query()
             ->select($this->columns)
             ->when(count($this->excludeRows) > 0, function (Builder $query) {
-                $query->whereNotIn(
-                    array_keys($this->excludeRows)[0],
-                    array_values($this->excludeRows)
-                );
+                $array = array_values($this->excludeRows);
+                $query->whereNotIn('name', $array);
             })
             ->orderBy('name', 'asc');
     }

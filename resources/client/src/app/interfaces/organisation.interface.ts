@@ -49,7 +49,6 @@ export interface IOrganisationFilterFormGroup {
     name: FormControl<string | null>;
     status: FormControl<number | null>;
     primaryRoles: FormControl<number[] | null>;
-    nonPrimaryRoles: FormControl<number[] | null>;
     lastChangeDate: FormControl<Date | null>;
     postcode: FormControl<string | null>;
     adminCounty: FormControl<number[] | null>;

@@ -5,7 +5,7 @@ import { RoleService } from '../../../services/role/role.service';
 import { RoleDataSource } from '../../role/role/role.data-source';
 
 @Component({
-    selector: 'app-table-async',
+    selector: 'shared-table-async',
     templateUrl: './table-async.component.html',
     styleUrls: ['./table-async.component.scss'],
     providers: [RoleService],

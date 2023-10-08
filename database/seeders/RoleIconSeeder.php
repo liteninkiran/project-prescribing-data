@@ -84,7 +84,7 @@ class RoleIconSeeder extends Seeder
             case 'RO180': // PRIMARY CARE TRUST SITE
             case 'RO107': // CARE TRUST
             case 'RO108': // CARE TRUST SITE
-                return $path . 'care/care-a.svg';
+                return $path . 'care/care-b.svg';
 
             // Children
             case 'RO231': // SECURE CHILDREN'S HOME
@@ -94,11 +94,11 @@ class RoleIconSeeder extends Seeder
 
             // Immigration
             case 'RO232': // IMMIGRATION REMOVAL CENTRE
-                return $path . 'immigration/immigration-c.svg';
+                return $path . 'immigration/immigration-a.svg';
 
             // Dentist
             case 'RO110': // GENERAL DENTAL PRACTICE
-                return $path . 'dentist/dentist-d.svg';
+                return $path . 'dentist/dentist-l.svg';
 
             // Optician
             case 'RO166': // OPTICAL HEADQUARTERS
@@ -128,6 +128,37 @@ class RoleIconSeeder extends Seeder
             // Non-NHS
             case 'RO157': // NON-NHS ORGANISATION
                 return $path . 'non-nhs/non-nhs-c.svg';
+
+            // Services
+            case 'RO216': // DATA SERVICES FOR COMMISSIONERS REGIONAL OFFICE (DSCRO)
+            case 'RO217': // DATA SERVICES FOR COMMISSIONERS REGIONAL OFFICE (DSCRO) SITE
+                return $path . 'services/services-d.svg';
+
+            // Executive
+            case 'RO89': // EXECUTIVE AGENCY PROGRAMME - DEPARTMENT
+            case 'RO90': // EXECUTIVE AGENCY SITE
+            case 'RO91': // EXECUTIVE AGENCY PROGRAMME
+            case 'RO116': // EXECUTIVE AGENCY
+                return $path . 'executive/executive-c.svg';
+
+
+            // Clinic
+            case 'RO98': // CLINICAL COMMISSIONING GROUP
+            case 'RO99': // CLINICAL COMMISSIONING GROUP SITE
+            case 'RO102': // CLINICAL NETWORK
+                return $path . 'clinic/clinic-d.svg';
+
+            // Government
+            case 'RO126': // GOVERNMENT DEPARTMENT
+            case 'RO131': // GOVERNMENT DEPARTMENT SITE
+            case 'RO128': // GOVERNMENT OFFICE REGION
+            case 'RO138': // ISLE OF MAN GOVERNMENT DEPARTMENT
+            case 'RO137': // ISLE OF MAN GOVERNMENT DIRECTORATE
+            case 'RO140': // ISLE OF MAN GOVERNMENT DIRECTORATE SITE
+                return $path . 'government/government-j.svg';
+        
+        
+    
 
             // Everything else
             default:

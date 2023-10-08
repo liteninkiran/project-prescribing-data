@@ -1,0 +1,7 @@
+<!-- Map -->
+<div class="map" #mapContainer [ngStyle]="{ 'border-radius': borderRadius }"
+    *ngIf="featureGroup?.getLayers()?.length !== 0">
+
+</div>
+
+<img src="assets/svg/map/no-map-a.svg" *ngIf="featureGroup?.getLayers()?.length === 0">

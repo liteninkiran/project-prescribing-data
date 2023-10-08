@@ -3,7 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import { ICheckboxMenuItem } from 'src/app/interfaces/shared.interface';
 
 @Component({
-    selector: 'app-checkbox-menu',
+    selector: 'shared-checkbox-menu',
     templateUrl: './checkbox-menu.component.html',
     styleUrls: ['./checkbox-menu.component.scss'],
 })

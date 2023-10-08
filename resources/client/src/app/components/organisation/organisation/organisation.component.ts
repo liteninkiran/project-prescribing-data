@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IAsyncButtonInputConfig, IMatTableColumnConfig } from 'src/app/interfaces/shared.interface';
-import { OrganisationDataSource } from './../organisation.data-source';
-import { OrganisationService } from '../../../../services/organisation/organisation.service';
+import { OrganisationDataSource } from './organisation.data-source';
+import { OrganisationService } from '../../../services/organisation/organisation.service';
 import { IOrganisationFilters } from 'src/app/interfaces/organisation.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 

@@ -1,133 +1,58 @@
-<h2>{{ organisation.Name }}</h2>
+<h1>Organisation</h1>
 
-<div class="card-container">
-    <!-- Organisation Card -->
-    <mat-card class="card">
-
-        <!-- Card Header -->
-        <mat-card-header *ngIf="organisation.Name">
-            <mat-card-title>{{ organisation.Name | titlecase }}</mat-card-title>
-            <mat-card-subtitle>{{ organisation.OrgId.extension }}</mat-card-subtitle>
-        </mat-card-header>
-
-        <!-- Card Content -->
-        <mat-card-content *ngIf="organisation.Name">
-
-            <table>
-
-                <tbody>
-
-                    <!-- Record Class -->
-                    <tr>
-                        <td>Record Class</td>
-                        <td>{{ organisation.orgRecordClass }}</td>
-                    </tr>
-
-                    <!-- Status -->
-                    <tr>
-                        <td>Status</td>
-                        <td>{{ organisation.Status }}</td>
-                    </tr>
-
-                    <!-- Contacts -->
-                    <ng-container *ngIf="organisation.Contacts">
-                        <tr>
-                            <td>Contacts</td>
-                            <td>{{ organisation.Contacts.Contact | ArrayConcatContact }}</td>
-                        </tr>
-                    </ng-container>
-
-                    <!-- Roles -->
-                    <tr>
-                        <td>{{ organisation.Status }} Roles</td>
-                        <td>{{ roleCount.view }}</td>
-                    </tr>
-
-                    <!-- Relationships -->
-                    <tr>
-                        <td>{{ organisation.Status }} Relationships</td>
-                        <td>{{ relCount.view }}</td>
-                    </tr>
-
-                    <!-- Last Change Date -->
-                    <tr>
-                        <td>Last Change Date</td>
-                        <td>{{ organisation.LastChangeDate }}</td>
-                    </tr>
-
-                </tbody>
-
-            </table>
-
-        </mat-card-content>
-
-    </mat-card>
-
-    <!-- Postcode Card -->
-    <mat-card class="card">
-
-        <!-- Card Header -->
-            <mat-card-header *ngIf="organisation.Name">
-
-                <!-- Card Title -->
-                <mat-card-title>
-                    <span *ngIf="organisation.GeoLoc.Location.AddrLn1">{{ organisation.GeoLoc.Location.AddrLn1 | titlecase }}, </span>
-                    <span *ngIf="organisation.GeoLoc.Location.AddrLn2">{{ organisation.GeoLoc.Location.AddrLn2 | titlecase }}, </span>
-                    <span *ngIf="organisation.GeoLoc.Location.Town">{{ organisation.GeoLoc.Location.Town | titlecase }}, </span>
-                    <span *ngIf="organisation.GeoLoc.Location.County">{{ organisation.GeoLoc.Location.County }}, </span>
-                    <span *ngIf="organisation.GeoLoc.Location.PostCode">{{ organisation.GeoLoc.Location.PostCode }}</span>
-                </mat-card-title>
-
-                <!-- Card Subtitle -->
-                <mat-card-subtitle>
-                    Practice locations are approximate (based on postcode)
-                </mat-card-subtitle>
-
-            </mat-card-header>
-
-        <!-- Card Content -->
-        <mat-card-content>
-            <!-- Map -->
-            <div id="map" class="card">
-
-            </div>
-        </mat-card-content>
-
-    </mat-card>
+<h2>{{ id }}</h2>
+<div *ngIf="organisation && organisation.primary_role">
+    <h2>{{ organisation.primary_role.display_name }}</h2>
+    <h2>{{ organisation.name }}</h2>
 </div>
 
-<!-- Explore Object Drop-down Menu -->
-<div *ngIf="organisation.Name" class="explore-object-container">
+<div class="flex-container">
 
-    <mat-accordion>
+    <!-- Controls -->
+    <div class="flex-child flex-controls">
 
-        <mat-expansion-panel>
+        <form>
 
-            <!-- Panel Header -->
-            <mat-expansion-panel-header>
+            <fieldset class="field_set">
 
-                <!-- Panel Title -->
-                <mat-panel-title>
-                    Object Explorer
-                </mat-panel-title>
+                <legend>
+                    Parameters
+                </legend>
 
-                <!-- Panel Description -->
-                <mat-panel-description>
-                    {{ organisation.OrgId.extension }} | {{ organisation.Name | titlecase }},&nbsp;
-                    <span *ngIf="organisation.GeoLoc.Location.AddrLn1">{{ organisation.GeoLoc.Location.AddrLn1 | titlecase }},&nbsp;</span>
-                    <span *ngIf="organisation.GeoLoc.Location.AddrLn2">{{ organisation.GeoLoc.Location.AddrLn2 | titlecase }},&nbsp;</span>
-                    <span *ngIf="organisation.GeoLoc.Location.Town">{{ organisation.GeoLoc.Location.Town | titlecase }},&nbsp;</span>
-                    <span *ngIf="organisation.GeoLoc.Location.County">{{ organisation.GeoLoc.Location.County }},&nbsp;</span>
-                    <span *ngIf="organisation.GeoLoc.Location.PostCode">{{ organisation.GeoLoc.Location.PostCode }}</span>
-                </mat-panel-description>
+                <div class="filter-container">
 
-            </mat-expansion-panel-header>
+                    <mat-label>
+                        Zoom Level: {{ zoomInput.value }}
+                    </mat-label>
 
-            <ngx-json-viewer [json]="organisation" [expanded]="true">
-            </ngx-json-viewer>
+                    <mat-slider [min]="zoomSettings.min" [max]="zoomSettings.max" step="1">
+                        <input matInput matSliderThumb [formControl]="zoomInput" (dragEnd)="dragEnd($event)" #zoomSlider>
+                    </mat-slider>
 
-        </mat-expansion-panel>
+                    <!-- Primary Role -->
+                    <shared-role-select
+                        [control]="primaryRolesInput"
+                    ></shared-role-select>
 
-    </mat-accordion>
+                </div>
 
+            </fieldset>
+
+        </form>
+
+    </div>
+
+    <!-- Map -->
+    <div class="flex-child flex-map">
+        <div class="map-container">
+            <shared-map
+                [data]="mapData"
+                [manualZoom]="zoomInput.value || zoomSettings.min"
+                [zoom]="zoomSettings"
+                [mapOptions]="mapOptions"
+                borderRadius="50%"
+            ></shared-map>
+        </div>
+    </div>
+    
 </div>

@@ -3,15 +3,13 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable, debounceTime, distinctUntilChanged, tap } from 'rxjs';
 import { IOrganisationFilterFormGroup, IOrganisationFilters, IOrganisationStatus } from 'src/app/interfaces/organisation.interface';
-import { IRole } from 'src/app/interfaces/role.interface';
 import { IFilterConfig, IMatSelectOptions } from 'src/app/interfaces/shared.interface';
-import { OrganisationStore } from 'src/app/services/organisation/organisation.store';
 import { PostcodeStore } from 'src/app/services/postcode/postcode.store';
 
 @Component({
     selector: 'app-organisation-filters',
-    templateUrl: './filters.component.html',
-    styleUrls: ['./filters.component.scss'],
+    templateUrl: './organisation-filters.component.html',
+    styleUrls: ['./organisation-filters.component.scss'],
 })
 export class OrganisationFiltersComponent {
 
@@ -33,8 +31,6 @@ export class OrganisationFiltersComponent {
     public status: IOrganisationStatus[] = [];
 
     // Reference Data
-    public primaryRoles$!: Observable<IRole[]>;
-    public nonPrimaryRoles$!: Observable<IRole[]>;
     public adminCounty$!: Observable<IMatSelectOptions[]>;
     public adminDistrict$!: Observable<IMatSelectOptions[]>;
     public parliamentaryConstituency$!: Observable<IMatSelectOptions[]>;
@@ -48,7 +44,6 @@ export class OrganisationFiltersComponent {
     public country$!: Observable<IMatSelectOptions[]>;
 
     constructor(
-        private orgStore: OrganisationStore,
         private postcodeStore: PostcodeStore,
         private router: Router,
     ) { }
@@ -65,7 +60,7 @@ export class OrganisationFiltersComponent {
         this.changeToUpperCase(this.filterFormControls.postcode);
     }
 
-    public onorganisationIdInput(event: Event): void {
+    public onOrganisationIdInput(event: Event): void {
         this.changeToUpperCase(this.filterFormControls.organisationId);
     }
 
@@ -76,8 +71,6 @@ export class OrganisationFiltersComponent {
     }
 
     private loadReferenceData(): void {
-        this.primaryRoles$ = this.orgStore.getRolesListByType(true);
-        this.nonPrimaryRoles$ = this.orgStore.getRolesListByType(false);
         this.adminCounty$ = this.postcodeStore.getAdminCounties();
         this.adminDistrict$ = this.postcodeStore.getAdminDistricts();
         this.parliamentaryConstituency$ = this.postcodeStore.getParliamentaryConstituencies();
@@ -133,7 +126,6 @@ export class OrganisationFiltersComponent {
             name                        : new FormControl(this.defaultFilters.name),
             status                      : new FormControl(this.defaultFilters.status),
             primaryRoles                : new FormControl(this.defaultFilters.primaryRoles),
-            nonPrimaryRoles             : new FormControl({ value: this.defaultFilters.nonPrimaryRoles, disabled: true }),
             lastChangeDate              : new FormControl(this.defaultFilters.lastChangeDate),
             postcode                    : new FormControl(this.defaultFilters.postcode),
             adminCounty                 : new FormControl(this.defaultFilters.adminCounty),

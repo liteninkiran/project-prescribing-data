@@ -22,23 +22,23 @@
                 <th mat-header-cell *matHeaderCellDef [style.text-align]="'right'" [attr.colspan]="displayedColumns.length">
 
                     <!-- Refresh Data -->
-                    <app-async-button
+                    <shared-button
                         buttonText=""
                         colour="primary"
                         icon="sync"
                         [loaded]="true"
                         (clickEvent)="refreshData()"
-                    ></app-async-button>
+                    ></shared-button>
 
                     <!-- Show / Hide Columns -->
-                    <app-checkbox-menu
+                    <shared-checkbox-menu
                         [items]="menuItems"
                         colour="primary"
                         icon="menu"
                         xPosition="before"
                         yPosition="above"
                         (selectionChanged)="onMenuClick($event)"
-                    ></app-checkbox-menu>
+                    ></shared-checkbox-menu>
 
                 </th>
             </ng-container>
@@ -80,7 +80,7 @@
                 <th mat-header-cell *matHeaderCellDef>Actions</th>
                 <td mat-cell *matCellDef="let row">
                     <button mat-raised-button [color]="actionButtonConfig.colour" (click)="onActionClick(row)">
-                        <mat-icon *ngIf="actionButtonConfig.icon">{{ actionButtonConfig.icon }}</mat-icon>
+                        <mat-icon *ngIf="actionButtonConfig.icon" class="material-icons-outlined">{{ actionButtonConfig.icon }}</mat-icon>
                         <span *ngIf="actionButtonConfig.buttonText" [ngClass]="{ 'spacer': actionButtonConfig.icon && actionButtonConfig.buttonText }">{{ actionButtonConfig.buttonText }}</span>
                     </button>
                 </td>

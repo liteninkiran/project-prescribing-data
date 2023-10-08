@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { OrganisationMapComponent } from './organisation-map.component';
 
-describe('OrganisationMapComponent', () => {
+describe('OrgMapComponent', () => {
     let component: OrganisationMapComponent;
     let fixture: ComponentFixture<OrganisationMapComponent>;
 

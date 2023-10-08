@@ -17,7 +17,7 @@
 </div>
 
 <!-- Data -->
-<app-table
+<shared-table
     [dataSource]="dataSource"
     [columnConfig]="columnConfig"
     [service]="orgService"
@@ -26,4 +26,4 @@
     [actionButtonConfig]="actionButtonConfig"
     (actionButtonClick)="onActionButtonClick($event)"
     (rowClick)="onRowClick($event)"
-></app-table>
+></shared-table>

@@ -22,7 +22,7 @@ export class RoleComponent implements OnInit {
     public actionButtonConfig: IAsyncButtonInputConfig = {
         buttonText: '',
         colour: 'primary',
-        icon: 'sync',
+        icon: 'cloud',
         loaded: true,
         hideRow: 'primary_role',
     }

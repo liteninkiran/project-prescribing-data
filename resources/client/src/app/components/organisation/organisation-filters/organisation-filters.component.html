@@ -43,7 +43,7 @@
                         <!-- Org ID -->
                         <mat-form-field>
                             <mat-label>Organisation ID</mat-label>
-                            <input matInput [formControl]="filterFormControls.organisationId" placeholder="e.g. Y00082" (input)="onorganisationIdInput($event)">
+                            <input matInput [formControl]="filterFormControls.organisationId" placeholder="e.g. Y00082" (input)="onOrganisationIdInput($event)">
                             <button *ngIf="filterFormControls.organisationId.value" matSuffix mat-icon-button aria-label="Clear" (click)="filterFormControls.organisationId.setValue(null)" tabindex="-1">
                                 <mat-icon>close</mat-icon>
                             </button>
@@ -74,79 +74,9 @@
                         </mat-form-field>
 
                         <!-- Primary Role -->
-                        <mat-form-field>
-
-                            <!-- Label -->
-                            <mat-label>
-                                Primary Role
-                            </mat-label>
-
-                            <!-- Primary Role List -->
-                            <mat-select
-                                #primaryRoleSelect
-                                [formControl]="filterFormControls.primaryRoles"
-                                placeholder="Select Role(s)"
-                                multiple
-                                [panelClass]="['long-list', 'select-icon']"
-                            >
-                                <mat-option *ngFor="let role of (primaryRoles$ | async)" [value]="role.id" class="small-font">
-                                    <div class="select-container">
-                                        <div class="select-display-name">
-                                            {{ role.display_name }}
-                                        </div>
-                                        <div>
-                                            <img *ngIf="role.icon" [src]="role.icon" />
-                                        </div>
-                                    </div>
-                                </mat-option>
-                            </mat-select>
-
-                            <!-- Clear Contents -->
-                            <button
-                                *ngIf="filterFormControls.primaryRoles.value?.length || 0 > 0"
-                                matSuffix
-                                mat-icon-button
-                                aria-label="Clear"
-                                (click)="filterFormControls.primaryRoles.setValue(null)"
-                            >
-                                <mat-icon>close</mat-icon>
-                            </button>
-
-                        </mat-form-field>
-
-                        <!-- Non Primary Role -->
-                        <mat-form-field *ngIf="false">
-
-                            <!-- Label -->
-                            <mat-label>
-                                Non Primary Role
-                            </mat-label>
-
-                            <!-- Non Primary Role List -->
-                            <mat-select
-                                #nonPrimaryRoleSelect
-                                [formControl]="filterFormControls.nonPrimaryRoles"
-                                placeholder="Select Role(s)"
-                                multiple
-                                panelClass="long-list"
-                            >
-                                <mat-option *ngFor="let role of (nonPrimaryRoles$ | async)" [value]="role.id">
-                                    {{ role.display_name }}
-                                </mat-option>
-                            </mat-select>
-
-                            <!-- Clear Contents -->
-                            <button
-                                *ngIf="filterFormControls.nonPrimaryRoles.value?.length || 0 > 0"
-                                matSuffix
-                                mat-icon-button
-                                aria-label="Clear"
-                                (click)="filterFormControls.nonPrimaryRoles.setValue(null)"
-                            >
-                                <mat-icon>close</mat-icon>
-                            </button>
-
-                        </mat-form-field>
+                        <shared-role-select
+                            [control]="filterFormControls.primaryRoles"
+                        ></shared-role-select>
 
                         <!-- Last Change Date -->
                         <mat-form-field>
@@ -188,81 +118,81 @@
                         </mat-form-field>
 
                         <!-- Admin County -->
-                        <app-async-select
+                        <shared-select
                             label="Admin County"
                             [fControl]="filterFormControls.adminCounty"
                             [data]="(adminCounty$ | async) || []"
-                        ></app-async-select>
+                        ></shared-select>
 
                         <!-- Admin District -->
-                        <app-async-select
+                        <shared-select
                             label="Admin District"
                             [fControl]="filterFormControls.adminDistrict"
                             [data]="(adminDistrict$ | async) || []"
-                        ></app-async-select>
+                        ></shared-select>
 
                         <!-- Parliamentary Constituency -->
-                        <app-async-select
+                        <shared-select
                             label="Parliamentary Constituency"
                             [fControl]="filterFormControls.parliamentaryConstituency"
                             [data]="(parliamentaryConstituency$ | async) || []"
-                        ></app-async-select>
+                        ></shared-select>
 
                         <!-- Police Force Area -->
-                        <app-async-select
+                        <shared-select
                             label="Police Force Area"
                             [fControl]="filterFormControls.policeForceArea"
                             [data]="(policeForceArea$ | async) || []"
-                        ></app-async-select>
+                        ></shared-select>
 
                         <!-- Nuts -->
-                        <app-async-select
+                        <shared-select
                             label="NUTS"
                             [fControl]="filterFormControls.nuts"
                             [data]="(nuts$ | async) || []"
-                        ></app-async-select>
+                        ></shared-select>
 
                         <!-- Postcode Area -->
-                        <app-async-select
+                        <shared-select
                             label="Postcode Area"
                             [fControl]="filterFormControls.postcodeArea"
                             [data]="(postcodeArea$ | async) || []"
-                        ></app-async-select>
+                        ></shared-select>
 
                         <!-- European Electoral Region -->
-                        <app-async-select
+                        <shared-select
                             label="European Electoral Region"
                             [fControl]="filterFormControls.europeanElectoralRegion"
                             [data]="(europeanElectoralRegion$ | async) || []"
-                        ></app-async-select>
+                        ></shared-select>
 
                         <!-- Health Authority -->
-                        <app-async-select
+                        <shared-select
                             label="Health Authority"
                             [fControl]="filterFormControls.healthAuthority"
                             [data]="(healthAuthority$ | async) || []"
-                        ></app-async-select>
+                        ></shared-select>
 
                         <!-- Primary Care Trust -->
-                        <app-async-select
+                        <shared-select
                             label="Primary Care Trust"
                             [fControl]="filterFormControls.primaryCareTrust"
                             [data]="(primaryCareTrust$ | async) || []"
-                        ></app-async-select>
+                        ></shared-select>
 
                         <!-- Region -->
-                        <app-async-select
+                        <shared-select
                             label="Region"
                             [fControl]="filterFormControls.region"
                             [data]="(region$ | async) || []"
-                        ></app-async-select>
+                        ></shared-select>
 
                         <!-- Country -->
-                        <app-async-select
+                        <shared-select
                             label="Country"
                             [fControl]="filterFormControls.country"
                             [data]="(country$ | async) || []"
-                        ></app-async-select>
+                        ></shared-select>
 
                     </div>
 
