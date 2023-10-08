@@ -1,6 +1,7 @@
 import { Component, ElementRef, Input, OnInit, AfterViewInit, OnChanges, ViewChild, SimpleChanges } from '@angular/core';
 import { IMapData } from 'src/app/interfaces/shared.interface';
 import * as L from 'leaflet';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
     selector: 'shared-controllable-map',
@@ -24,6 +25,8 @@ export class ControllableMapComponent implements OnInit, AfterViewInit, OnChange
     public currentZoomLevel: number = this.zoom.initial;
     public zoomProgress: number = (this.zoom.initial - this.zoom.min) / (this.zoom.max - this.zoom.min) * 100;
     public currentCentre!: L.LatLng;
+    public form!: FormGroup;
+    public opacityInput: FormControl<number> = new FormControl(0) as FormControl<number>;
 
     private map!: L.Map;
     private featureGroup!: L.FeatureGroup<any>;
@@ -38,6 +41,7 @@ export class ControllableMapComponent implements OnInit, AfterViewInit, OnChange
 
     public ngOnInit(): void {
         this.setOpacity();
+        this.setForm();
     }
 
     public ngAfterViewInit(): void {
@@ -142,7 +146,7 @@ export class ControllableMapComponent implements OnInit, AfterViewInit, OnChange
     }
 
     private fitBounds(): void {
-        this.featureGroup.getLayers().length > 0
+        this.featureGroup && this.featureGroup.getLayers().length > 0
             ? this.map.fitBounds(this.featureGroup.getBounds(), { padding: [40, 40] })
             : this.setMapView();
     }
@@ -159,12 +163,22 @@ export class ControllableMapComponent implements OnInit, AfterViewInit, OnChange
         return (gradient * this.currentZoomLevel) + intercept;
     }
 
-    private changeMarkersOpacity(): void {
+    private changeMarkersOpacity(opacity: number = 0): void {
         if (this.featureGroup) {
             this.featureGroup.eachLayer((layer: any) => {
-                layer.setOpacity(this.currentOpacityLevel);
+                layer.setOpacity(opacity || this.currentOpacityLevel);
             });
         }
+    }
+
+    private setForm() {
+        this.form = new FormGroup({
+            opacity: this.opacityInput,
+        });
+
+        this.opacityInput.valueChanges.subscribe((value) => {
+            this.changeMarkersOpacity(value / 100);
+        });
     }
 }
 

@@ -12,7 +12,7 @@
                 <mat-icon matListItemIcon (click)="resetMap()" matTooltip="Reset map" matTooltipPosition="above">search</mat-icon>
                 <div matListItemTitle>
                     <span style="display: inline-block; width: 50%">{{ currentZoomLevel - zoom.min + 1 }}</span>
-                    <span style="display: inline-block; width: 50%; text-align: right;">Opacity {{ currentOpacityLevel | percent }}</span>
+                    <span style="display: inline-block; width: 50%; text-align: right;" *ngIf="opacityInput.value === 0">Opacity {{ currentOpacityLevel | percent }}</span>
                 </div>
                 <mat-progress-bar mode="determinate" [value]="zoomProgress"></mat-progress-bar>
             </mat-list-item>
@@ -30,6 +30,20 @@
                     <ng-template #loading>
                         <mat-spinner diameter="30"></mat-spinner>
                     </ng-template>
+                </div>
+            </mat-list-item>
+
+            <mat-divider></mat-divider>
+
+            <!-- Opacity Override -->
+            <div mat-subheader>Opacity Override<span *ngIf="opacityInput.value"> (Active)</span></div>
+            <mat-list-item>
+                <mat-icon matListItemIcon>opacity</mat-icon>
+                <div matListItemTitle>
+                    <mat-slider [min]="0" [max]="100" step="1">
+                        <input matInput matSliderThumb [formControl]="opacityInput">
+                    </mat-slider>
+                    <span *ngIf="opacityInput.value" style="display: inline-block; width: 18%; text-align: right;">{{ opacityInput.value }}%</span>
                 </div>
             </mat-list-item>
 

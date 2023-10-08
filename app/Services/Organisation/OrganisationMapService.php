@@ -57,11 +57,11 @@ class OrganisationMapService
         $this->query = Organisation::query()
             ->with('postcode:id,latitude,longitude')
             ->with('primaryRole:id,_id,display_name,icon')
-            ->select($this->getSelectColumns());
+            ->select($this->getSelectColumns())
             // ->join('postcodes', 'postcodes.id', '=', 'organisations.postcode_id')
             // ->orderBy('latitude', 'desc')
             // ->orderBy('longitude', 'asc');
-            //->inRandomOrder();
+            ->inRandomOrder();
 
         return $this;
     }
