@@ -59,6 +59,14 @@ export class ControllableMapComponent implements OnInit, AfterViewInit, OnChange
         this.fitBounds();
     }
 
+    public animateSlider(): void {
+        let i = 1;
+        let interval = setInterval(() => {
+            i += 1;
+            i === 51 ? clearInterval(interval) : this.opacityInput.setValue(i);
+        }, 100); 
+    }
+
     private initialiseMap(): void {
         this.setMap();
         this.addTileLayer();

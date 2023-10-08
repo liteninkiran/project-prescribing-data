@@ -38,7 +38,7 @@
             <!-- Opacity Override -->
             <div mat-subheader>Opacity Override<span *ngIf="opacityInput.value"> (Active)</span></div>
             <mat-list-item>
-                <mat-icon matListItemIcon>opacity</mat-icon>
+                <mat-icon matListItemIcon (click)="animateSlider()" matTooltip="Animate slider" matTooltipPosition="above">opacity</mat-icon>
                 <div matListItemTitle>
                     <mat-slider [min]="0" [max]="100" step="1">
                         <input matInput matSliderThumb [formControl]="opacityInput">
