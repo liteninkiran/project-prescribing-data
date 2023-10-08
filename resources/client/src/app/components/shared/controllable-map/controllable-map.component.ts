@@ -35,6 +35,7 @@ export class ControllableMapComponent implements OnInit, AfterViewInit, OnChange
         max: 1,
     }
     private intervalId!: any;
+    private overrideOpacityLevel: number = 0;
 
     constructor(
 
@@ -183,10 +184,10 @@ export class ControllableMapComponent implements OnInit, AfterViewInit, OnChange
         return (gradient * this.currentZoomLevel) + intercept;
     }
 
-    private changeMarkersOpacity(opacity: number = 0): void {
+    private changeMarkersOpacity(): void {
         if (this.featureGroup) {
             this.featureGroup.eachLayer((layer: any) => {
-                layer.setOpacity(opacity || this.currentOpacityLevel);
+                layer.setOpacity(this.overrideOpacityLevel || this.currentOpacityLevel);
             });
         }
     }
@@ -197,7 +198,8 @@ export class ControllableMapComponent implements OnInit, AfterViewInit, OnChange
         });
 
         this.opacityInput.valueChanges.subscribe((value) => {
-            this.changeMarkersOpacity(value / 100);
+            this.overrideOpacityLevel = value / 100;
+            this.changeMarkersOpacity();
         });
     }
 }
