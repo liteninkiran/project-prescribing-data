@@ -48,6 +48,9 @@ class PostcodeAttributesSeeder extends Seeder
 
         // Find Parliamentary Constituency / European Electoral Region relationships
         $this->updateParlConRegionId();
+
+        // Find European Electoral Region / Country relationships
+        $this->updateEerCountryId();
     }
 
     /**
@@ -354,6 +357,16 @@ class PostcodeAttributesSeeder extends Seeder
             $postcode = Postcode::where('parliamentary_constituency_id', $parlCon->id)->first();
             $parlCon->european_electoral_region_id = $postcode->european_electoral_region_id;
             $parlCon->save();
+        }
+    }
+
+    private function updateEerCountryId(): void
+    {
+        $eers = EuropeanElectoralRegion::whereNull('country_id')->get();
+        foreach ($eers as $eer) {
+            $postcode = Postcode::where('european_electoral_region_id', $eer->id)->first();
+            $eer->country_id = $postcode->country_id;
+            $eer->save();
         }
     }
 }
