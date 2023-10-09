@@ -5,6 +5,7 @@ import { IOrganisation, IOrganisationFilters, IOrganisationMapResponse } from 's
 import { IMapData } from 'src/app/interfaces/shared.interface';
 import { OrganisationService } from 'src/app/services/organisation/organisation.service';
 import { defaultIcon } from 'src/app/components/shared/controllable-map/controllable-map.component';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-organisation-map',
@@ -25,6 +26,7 @@ export class OrganisationMapComponent implements OnInit, OnDestroy {
     constructor(
         readonly orgService: OrganisationService,
         private _decimalPipe: DecimalPipe,
+        private router: Router,
     ) { }
 
     public ngOnInit(): void {
@@ -52,6 +54,7 @@ export class OrganisationMapComponent implements OnInit, OnDestroy {
                     icon_name: data.primary_role.display_name,
                     lat: data.postcode?.latitude || null,
                     long: data.postcode?.longitude || null,
+                    code: data.org_id,
                     name: data.name,
                     postcode: data.post_code,
                     tooltipText: this.getTooltipText(data),
@@ -60,6 +63,10 @@ export class OrganisationMapComponent implements OnInit, OnDestroy {
             this.setFilterMessage(res.total, res.limit, res.limit_exceeded);
         });
         this.subscriptions.push(sub);
+    }
+
+    public onMarkerClick(data: IMapData) {
+        this.router.navigate(['organisations/' + data.code]);
     }
 
     private setFilterMessage(total: number, limit: number, limit_exceeded: boolean): void {

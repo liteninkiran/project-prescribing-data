@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, AfterViewInit, OnChanges, ViewChild, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, AfterViewInit, OnChanges, ViewChild, SimpleChanges, EventEmitter, Output } from '@angular/core';
 import { IMapData } from 'src/app/interfaces/shared.interface';
 import { FormControl, FormGroup } from '@angular/forms';
 import * as L from 'leaflet';
@@ -12,6 +12,8 @@ export class ControllableMapComponent implements OnInit, AfterViewInit, OnChange
 
     /** Private View Child Properties */
     @ViewChild('mapContainer') private mapContainer!: ElementRef;
+
+    @Output() public markerClicked = new EventEmitter<IMapData>();
 
     /** Public Properties (Inputs) */
     @Input() public data: IMapData[] | undefined;
@@ -156,7 +158,7 @@ export class ControllableMapComponent implements OnInit, AfterViewInit, OnChange
         marker.bindTooltip(data.tooltipText, tooltipOptions);
 
         // On Events
-        const onClick = () => alert('Change Me');
+        const onClick = () => this.markerClicked.emit(data);
         marker.on('click', onClick);
 
         // Stick a fork in me... I'm done

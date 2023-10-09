@@ -57,6 +57,7 @@ export interface IMatSelectOptions {
 
 export interface IMapData {
     id: number;
+    code?: string;
     name: string;
     icon: string | null;
     icon_name: string | null;
