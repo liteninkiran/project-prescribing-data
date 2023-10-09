@@ -29,23 +29,24 @@ class PostcodeAttributesSeeder extends Seeder
      */
     public function run(): void
     {
-        // // Has code
-        // $this->adminCounty();
-        // $this->adminDistrict();
-        // $this->nuts();
-        // $this->parliamentaryConstituency();
-        // $this->policeForceArea();
+        // Has code
+        $this->adminCounty();
+        $this->adminDistrict();
+        $this->nuts();
+        $this->parliamentaryConstituency();
+        $this->policeForceArea();
 
-        // // Does not have code
-        // $this->europeanElectoralRegion();
-        // $this->healthAuthority();
-        // $this->primaryCareTrust();
-        // $this->region();
-        // $this->country();
+        // Does not have code
+        $this->europeanElectoralRegion();
+        $this->healthAuthority();
+        $this->primaryCareTrust();
+        $this->region();
+        $this->country();
 
-        // // Update postcodes
-        // $this->updatePostcodes();
+        // Update postcodes
+        $this->updatePostcodes();
 
+        // Find Parliamentary Constituency / European Electoral Region relationships
         $this->updateParlConRegionId();
     }
 
@@ -348,7 +349,11 @@ class PostcodeAttributesSeeder extends Seeder
 
     private function updateParlConRegionId(): void
     {
-        $parlCons = ParliamentaryConstituency::all();
-        info($parlCons->count());
+        $parlCons = ParliamentaryConstituency::whereNull('european_electoral_region_id')->get();
+        foreach ($parlCons as $parlCon) {
+            $postcode = Postcode::where('parliamentary_constituency_id', $parlCon->id)->first();
+            $parlCon->european_electoral_region_id = $postcode->european_electoral_region_id;
+            $parlCon->save();
+        }
     }
 }
