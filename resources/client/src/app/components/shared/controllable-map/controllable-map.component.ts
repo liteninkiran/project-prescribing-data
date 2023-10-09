@@ -1,7 +1,7 @@
 import { Component, ElementRef, Input, OnInit, AfterViewInit, OnChanges, ViewChild, SimpleChanges } from '@angular/core';
 import { IMapData } from 'src/app/interfaces/shared.interface';
-import * as L from 'leaflet';
 import { FormControl, FormGroup } from '@angular/forms';
+import * as L from 'leaflet';
 
 @Component({
     selector: 'shared-controllable-map',
@@ -136,25 +136,24 @@ export class ControllableMapComponent implements OnInit, AfterViewInit, OnChange
         this.featureGroup = L.featureGroup(markers as L.Marker[]).addTo(this.map);
    }
 
-    private addMarkerToMap(point: IMapData, opacity: number): L.Marker | undefined {
+    private addMarkerToMap(data: IMapData, opacity: number): L.Marker | undefined {
         // Check we have co-ordinates
-        if (!(point.lat && point.long)) {
+        if (!(data.lat && data.long)) {
             return undefined;
         }
 
         // Icon
-        const iconOptions: L.IconOptions = point.icon ? { ...defaultIcon, iconUrl: point.icon } : defaultIcon;
+        const iconOptions: L.IconOptions = data.icon ? { ...defaultIcon, iconUrl: data.icon } : defaultIcon;
         const icon = L.icon(iconOptions);
 
         // Marker
-        const markerCoords: L.LatLngExpression = [point.lat, point.long];
+        const markerCoords: L.LatLngExpression = [data.lat, data.long];
         const markerOptions: L.MarkerOptions = { icon, opacity }
         const marker = L.marker(markerCoords, markerOptions);
 
         // Tooltip
-        const tooltipText = this.getTooltipText(point);
         const tooltipOptions: L.TooltipOptions = { direction: 'top', offset: [0, -30], permanent: false }
-        marker.bindTooltip(tooltipText, tooltipOptions);
+        marker.bindTooltip(data.tooltipText, tooltipOptions);
 
         // On Events
         const onClick = () => alert('Change Me');
@@ -162,26 +161,6 @@ export class ControllableMapComponent implements OnInit, AfterViewInit, OnChange
 
         // Stick a fork in me... I'm done
         return marker;
-    }
-
-    private getTooltipText(point: IMapData): string {
-        return `
-            <div>
-                <div style="display: flex;">
-                    <div style="margin-right: 15px;">
-                        <img style="display: inline-block; height: 40px; width: 40px; margin-top: 4px;" src="${point.icon || defaultIcon.iconUrl}">
-                    </div>
-                    <div style="text-align: left; min-width: 200px; display: flex; align-items: center;">
-                        <h2 style="margin-top: 0; margin-bottom: 0; white-space: normal; color: royalblue;">${point.icon_name}</h2>
-                    </div>
-                </div>
-                <div style="white-space: normal;">
-                    <h3>${point.name}</h3>
-                </div>
-                
-                <p>${point.postcode}</p>
-            </div>
-        `;
     }
 
     private fitBounds(): void {
@@ -234,7 +213,7 @@ export class ControllableMapComponent implements OnInit, AfterViewInit, OnChange
     }
 }
 
-const defaultIcon: L.IconOptions = {
+export const defaultIcon: L.IconOptions = {
     iconUrl     : 'assets/svg/map-marker/map-marker-a.svg',
     iconSize    : [25, 25],
     iconAnchor  : [12.5, 25],

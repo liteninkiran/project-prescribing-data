@@ -4,6 +4,7 @@ import { Observable, Subscription } from 'rxjs';
 import { IOrganisation, IOrganisationFilters, IOrganisationMapResponse } from 'src/app/interfaces/organisation.interface';
 import { IMapData } from 'src/app/interfaces/shared.interface';
 import { OrganisationService } from 'src/app/services/organisation/organisation.service';
+import { defaultIcon } from 'src/app/components/shared/controllable-map/controllable-map.component';
 
 @Component({
     selector: 'app-organisation-map',
@@ -48,11 +49,12 @@ export class OrganisationMapComponent implements OnInit, OnDestroy {
                 return {
                     id: data.id,
                     icon: data.primary_role.icon || null,
-                    icon_name: data.primary_role.display_name || null,
+                    icon_name: data.primary_role.display_name,
                     lat: data.postcode?.latitude || null,
                     long: data.postcode?.longitude || null,
                     name: data.name,
                     postcode: data.post_code,
+                    tooltipText: this.getTooltipText(data),
                 }
             });
             this.setFilterMessage(res.total, res.limit, res.limit_exceeded);
@@ -70,5 +72,25 @@ export class OrganisationMapComponent implements OnInit, OnDestroy {
         } else {
             this.message += totalStr + ' items';
         }
+    }
+
+    private getTooltipText(org: IOrganisation): string {
+        return `
+            <div>
+                <div style="display: flex;">
+                    <div style="margin-right: 15px;">
+                        <img style="display: inline-block; height: 40px; width: 40px; margin-top: 4px;" src="${org.primary_role.icon || defaultIcon.iconUrl}">
+                    </div>
+                    <div style="text-align: left; min-width: 200px; display: flex; align-items: center;">
+                        <h2 style="margin-top: 0; margin-bottom: 0; white-space: normal; color: royalblue;">${org.primary_role.display_name}</h2>
+                    </div>
+                </div>
+                <div style="white-space: normal;">
+                    <h3>${org.name}</h3>
+                </div>
+                
+                <p>${org.post_code}</p>
+            </div>
+        `;
     }
 }

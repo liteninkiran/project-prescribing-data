@@ -63,4 +63,5 @@ export interface IMapData {
     postcode: string | null;
     lat: number | null;
     long: number | null;
+    tooltipText: string;
 };
