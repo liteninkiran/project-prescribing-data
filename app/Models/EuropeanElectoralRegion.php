@@ -26,4 +26,14 @@ class EuropeanElectoralRegion extends Model
     {
         return $this->hasMany(Postcode::class, 'european_electoral_region_id', 'id');
     }
+
+    /**
+     * parliamentaryConstituencies
+     *
+     * @return HasMany
+     */
+    public function parliamentaryConstituencies(): HasMany
+    {
+        return $this->hasMany(ParliamentaryConstituency::class, 'european_electoral_region_id', 'id');
+    }
 }

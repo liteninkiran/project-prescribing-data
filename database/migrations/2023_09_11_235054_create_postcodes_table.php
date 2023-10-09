@@ -6,17 +6,17 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 // Models
-Use App\Models\AdminCounty;
-Use App\Models\AdminDistrict;
-Use App\Models\EuropeanElectoralRegion;
-Use App\Models\HealthAuthority;
-Use App\Models\Nuts;
-Use App\Models\ParliamentaryConstituency;
-Use App\Models\PoliceForceArea;
-Use App\Models\PrimaryCareTrust;
-Use App\Models\Region;
-Use App\Models\Country;
-Use App\Models\PostcodeArea;
+use App\Models\AdminCounty;
+use App\Models\AdminDistrict;
+use App\Models\EuropeanElectoralRegion;
+use App\Models\HealthAuthority;
+use App\Models\Nuts;
+use App\Models\ParliamentaryConstituency;
+use App\Models\PoliceForceArea;
+use App\Models\PrimaryCareTrust;
+use App\Models\Region;
+use App\Models\Country;
+use App\Models\PostcodeArea;
 
 return new class extends Migration
 {
