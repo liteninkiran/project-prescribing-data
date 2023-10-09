@@ -152,8 +152,8 @@ export class ControllableMapComponent implements OnInit, AfterViewInit, OnChange
         const marker = L.marker(markerCoords, markerOptions);
 
         // Tooltip
-        const tooltipText = 'Change Me';
-        const tooltipOptions: L.TooltipOptions = { direction: 'top', offset: [0, -30] }
+        const tooltipText = this.getTooltipText(point);
+        const tooltipOptions: L.TooltipOptions = { direction: 'top', offset: [0, -30], permanent: false }
         marker.bindTooltip(tooltipText, tooltipOptions);
 
         // On Events
@@ -162,6 +162,26 @@ export class ControllableMapComponent implements OnInit, AfterViewInit, OnChange
 
         // Stick a fork in me... I'm done
         return marker;
+    }
+
+    private getTooltipText(point: IMapData): string {
+        return `
+            <div>
+                <div style="display: flex;">
+                    <div style="margin-right: 15px;">
+                        <img style="display: inline-block; height: 40px; width: 40px; margin-top: 4px;" src="${point.icon || defaultIcon.iconUrl}">
+                    </div>
+                    <div style="text-align: left; min-width: 200px; display: flex; align-items: center;">
+                        <h2 style="margin-top: 0; margin-bottom: 0; white-space: normal; color: royalblue;">${point.icon_name}</h2>
+                    </div>
+                </div>
+                <div style="white-space: normal;">
+                    <h3>${point.name}</h3>
+                </div>
+                
+                <p>${point.postcode}</p>
+            </div>
+        `;
     }
 
     private fitBounds(): void {

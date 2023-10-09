@@ -59,6 +59,7 @@ export interface IMapData {
     id: number;
     name: string;
     icon: string | null;
+    icon_name: string | null;
     postcode: string | null;
     lat: number | null;
     long: number | null;
