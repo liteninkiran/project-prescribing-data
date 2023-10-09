@@ -1,5 +1,32 @@
-mat-icon {
-    cursor: pointer;
+.map-container {
+    margin-top: 20px;
+    display: flex;
+}
+
+.map-controls {
+    border: 1px solid lightgray;
+    flex: 1;
+
+    .mat-list-zoom {
+        span {
+            display: inline-block;
+            width: 50%;
+        }
+
+        span:nth-child(2) {
+            text-align: right;
+        }
+    }
+
+    //.mat-list-lat-long { }
+
+    .mat-list-opacity {
+        span {
+            display: inline-block;
+            width: 18%;
+            text-align: right;
+        }
+    }
 }
 
 .map {
@@ -7,14 +34,20 @@ mat-icon {
     width: 100%;
     border: 1px solid lightgray;
     flex: 3;
-}
 
-.map-controls {
-    border: 1px solid lightgray;
-    flex: 1;
+    mat-spinner {
+        position: absolute;
+        top: 250px;
+        right: 500px;
+        z-index: 1000;
+    }
 }
 
 mat-slider {
     margin-left: 25px;
     width: 70%;
+}
+
+mat-icon {
+    cursor: pointer;
 }

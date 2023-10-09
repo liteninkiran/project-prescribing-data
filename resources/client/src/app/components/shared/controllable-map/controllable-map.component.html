@@ -1,4 +1,4 @@
-<div style="margin-top: 20px; display: flex;">
+<div class="map-container">
 
     <!-- Map Controls -->
     <div class="map-controls">
@@ -8,13 +8,18 @@
 
             <!-- Zoom Level -->
             <div mat-subheader>Zoom Level</div>
-            <mat-list-item id="item-1">
-                <mat-icon matListItemIcon (click)="resetMap()" matTooltip="Reset map" matTooltipPosition="above">search</mat-icon>
-                <div matListItemTitle>
-                    <span style="display: inline-block; width: 50%">{{ currentZoomLevel - zoom.min + 1 }}</span>
-                    <span style="display: inline-block; width: 50%; text-align: right;" *ngIf="opacityInput.value === 0">Opacity {{ currentOpacityLevel | percent }}</span>
+            <mat-list-item>
+                <mat-icon matListItemIcon (click)="resetMap()" matTooltip="Re-centre map" matTooltipPosition="above">search</mat-icon>
+                <div matListItemTitle class="mat-list-zoom">
+                    <ng-container *ngIf="data; else loadingZoom">
+                        <span>{{ currentZoomLevel - zoom.min + 1 }}</span>
+                        <span *ngIf="opacityInput.value === 0">Opacity {{ currentOpacityLevel | percent }}</span>
+                        <mat-progress-bar mode="determinate" [value]="zoomProgress"></mat-progress-bar>
+                    </ng-container>
+                    <ng-template #loadingZoom>
+                        <mat-spinner diameter="30"></mat-spinner>
+                    </ng-template>
                 </div>
-                <mat-progress-bar mode="determinate" [value]="zoomProgress"></mat-progress-bar>
             </mat-list-item>
 
             <mat-divider></mat-divider>
@@ -22,9 +27,9 @@
             <!-- Lat / Long -->
             <div mat-subheader>Latitude / Longitude</div>
             <mat-list-item>
-                <mat-icon matListItemIcon (click)="resetMap()" matTooltip="Reset map" matTooltipPosition="above">my_location</mat-icon>
-                <div matListItemTitle>
-                    <ng-container *ngIf="currentCentre; else loading">
+                <mat-icon matListItemIcon (click)="resetMap()" matTooltip="Re-center map" matTooltipPosition="above">my_location</mat-icon>
+                <div matListItemTitle class="mat-list-lat-long">
+                    <ng-container *ngIf="data && currentCentre; else loading">
                         {{ currentCentre.lat | number: '1.0-4' }}, {{ currentCentre.lng | number: '1.0-4' }}
                     </ng-container>
                     <ng-template #loading>
@@ -39,11 +44,11 @@
             <div mat-subheader>Opacity Override<span *ngIf="opacityInput.value"> (Active)</span></div>
             <mat-list-item>
                 <mat-icon matListItemIcon (click)="animateSlider()" matTooltip="Animate slider" matTooltipPosition="above">opacity</mat-icon>
-                <div matListItemTitle>
+                <div matListItemTitle class="mat-list-opacity">
                     <mat-slider [min]="0" [max]="100" step="1">
                         <input matInput matSliderThumb [formControl]="opacityInput">
                     </mat-slider>
-                    <span *ngIf="opacityInput.value" style="display: inline-block; width: 18%; text-align: right;">{{ opacityInput.value }}%</span>
+                    <span *ngIf="opacityInput.value">{{ opacityInput.value }}%</span>
                 </div>
             </mat-list-item>
 
@@ -55,7 +60,7 @@
 
     <!-- Map -->
     <div #mapContainer class="map">
-        <mat-spinner *ngIf="!data" diameter="100" color="primary" style="position: absolute; top: 250px; right: 500px; z-index: 1000;"></mat-spinner>
+        <mat-spinner *ngIf="!data" diameter="100" color="primary"></mat-spinner>
     </div>
 
 </div>

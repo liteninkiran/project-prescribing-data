@@ -40,9 +40,11 @@ export class ControllableMapComponent implements OnInit, AfterViewInit, OnChange
 
     ) { }
 
+    /** Public Functions (Angular) */
+
     public ngOnInit(): void {
         this.setOpacity();
-        this.setForm();
+        this.setOpacityForm();
     }
 
     public ngAfterViewInit(): void {
@@ -56,6 +58,8 @@ export class ControllableMapComponent implements OnInit, AfterViewInit, OnChange
         }
     }
 
+    /** Public Functions (Custom) */
+
     public resetMap(): void {
         this.fitBounds();
     }
@@ -67,6 +71,9 @@ export class ControllableMapComponent implements OnInit, AfterViewInit, OnChange
             : this.intervalId = this.interval(i);
     }
 
+    /** Private Functions */
+
+    /** Opacity Animation */
     private clearInterval() {
         clearInterval(this.intervalId);
         this.intervalId = undefined;
@@ -79,6 +86,7 @@ export class ControllableMapComponent implements OnInit, AfterViewInit, OnChange
                 : this.opacityInput.setValue(i), 100);
     }
 
+    /** Map Configuration */
     private initialiseMap(): void {
         this.setMap();
         this.addTileLayer();
@@ -94,17 +102,6 @@ export class ControllableMapComponent implements OnInit, AfterViewInit, OnChange
         this.map = L.map(this.mapContainer.nativeElement, this.mapOptions);
         this.map.on('zoom', this.onMapZoom);
         this.map.on('move', this.onMapMove);
-    }
-
-    private onMapZoom = (event: L.LeafletEvent): void => {
-        this.currentZoomLevel = event.target._zoom;
-        this.zoomProgress = (this.currentZoomLevel - this.zoom.min) / (this.zoom.max - this.zoom.min) * 100;
-        this.setOpacity();
-        this.changeMarkersOpacity();
-    }
-
-    private onMapMove = (event: L.LeafletEvent): void => {
-        setTimeout(() => this.currentCentre = this.map.getCenter());
     }
 
     private setMapView() {
@@ -171,6 +168,19 @@ export class ControllableMapComponent implements OnInit, AfterViewInit, OnChange
             : this.setMapView();
     }
 
+    /** Map Events */
+    private onMapZoom = (event: L.LeafletEvent): void => {
+        this.currentZoomLevel = event.target._zoom;
+        this.zoomProgress = (this.currentZoomLevel - this.zoom.min) / (this.zoom.max - this.zoom.min) * 100;
+        this.setOpacity();
+        this.changeMarkersOpacity();
+    }
+
+    private onMapMove = (event: L.LeafletEvent): void => {
+        setTimeout(() => this.currentCentre = this.map.getCenter());
+    }
+
+    /** Opacity */
     private setOpacity(): void {
         this.currentOpacityLevel = this.getOpacity();
     }
@@ -191,7 +201,7 @@ export class ControllableMapComponent implements OnInit, AfterViewInit, OnChange
         }
     }
 
-    private setForm() {
+    private setOpacityForm() {
         this.form = new FormGroup({
             opacity: this.opacityInput,
         });
