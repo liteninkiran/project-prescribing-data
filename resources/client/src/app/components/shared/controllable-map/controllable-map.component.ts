@@ -10,8 +10,10 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class ControllableMapComponent implements OnInit, AfterViewInit, OnChanges {
 
+    /** Private View Child Properties */
     @ViewChild('mapContainer') private mapContainer!: ElementRef;
 
+    /** Public Properties (Inputs) */
     @Input() public data: IMapData[] | undefined;
     @Input() public mapOptions: L.MapOptions = {}
     @Input() public initialCentreCoords: L.LatLngExpression = [54.5, -4];
@@ -21,6 +23,7 @@ export class ControllableMapComponent implements OnInit, AfterViewInit, OnChange
         initial: 6,
     }
 
+    /** Public Properties */
     public currentOpacityLevel: number = 1;
     public currentZoomLevel: number = this.zoom.initial;
     public zoomProgress: number = (this.zoom.initial - this.zoom.min) / (this.zoom.max - this.zoom.min) * 100;
@@ -28,6 +31,7 @@ export class ControllableMapComponent implements OnInit, AfterViewInit, OnChange
     public form!: FormGroup;
     public opacityInput: FormControl<number> = new FormControl(0) as FormControl<number>;
 
+    /** Private Properties */
     private map!: L.Map;
     private featureGroup!: L.FeatureGroup<any>;
     private opacity = {
@@ -36,9 +40,7 @@ export class ControllableMapComponent implements OnInit, AfterViewInit, OnChange
     }
     private intervalId!: any;
 
-    constructor(
-
-    ) { }
+    constructor() { }
 
     /** Public Functions (Angular) */
 
@@ -104,7 +106,7 @@ export class ControllableMapComponent implements OnInit, AfterViewInit, OnChange
         this.map.on('move', this.onMapMove);
     }
 
-    private setMapView() {
+    private setMapView(): void {
         this.map.setView(this.initialCentreCoords, this.zoom.initial);
     }
 
@@ -201,7 +203,7 @@ export class ControllableMapComponent implements OnInit, AfterViewInit, OnChange
         }
     }
 
-    private setOpacityForm() {
+    private setOpacityForm(): void {
         this.form = new FormGroup({
             opacity: this.opacityInput,
         });
