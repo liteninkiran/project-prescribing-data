@@ -108,6 +108,27 @@
 
                     <div class="filter-container">
 
+                        <!-- Country -->
+                        <shared-select
+                            label="Country"
+                            [fControl]="filterFormControls.country"
+                            [data]="(country$ | async) || []"
+                        ></shared-select>
+
+                        <!-- European Electoral Region -->
+                        <shared-select
+                            label="European Electoral Region"
+                            [fControl]="filterFormControls.europeanElectoralRegion"
+                            [data]="(europeanElectoralRegion$ | async) || []"
+                        ></shared-select>
+
+                        <!-- Parliamentary Constituency -->
+                        <shared-select
+                            label="Parliamentary Constituency"
+                            [fControl]="filterFormControls.parliamentaryConstituency"
+                            [data]="(parliamentaryConstituency$ | async) || []"
+                        ></shared-select>
+
                         <!-- Postcode -->
                         <mat-form-field>
                             <mat-label>Postcode</mat-label>
@@ -131,13 +152,6 @@
                             [data]="(adminDistrict$ | async) || []"
                         ></shared-select>
 
-                        <!-- Parliamentary Constituency -->
-                        <shared-select
-                            label="Parliamentary Constituency"
-                            [fControl]="filterFormControls.parliamentaryConstituency"
-                            [data]="(parliamentaryConstituency$ | async) || []"
-                        ></shared-select>
-
                         <!-- Police Force Area -->
                         <shared-select
                             label="Police Force Area"
@@ -159,13 +173,6 @@
                             [data]="(postcodeArea$ | async) || []"
                         ></shared-select>
 
-                        <!-- European Electoral Region -->
-                        <shared-select
-                            label="European Electoral Region"
-                            [fControl]="filterFormControls.europeanElectoralRegion"
-                            [data]="(europeanElectoralRegion$ | async) || []"
-                        ></shared-select>
-
                         <!-- Health Authority -->
                         <shared-select
                             label="Health Authority"
@@ -185,13 +192,6 @@
                             label="Region"
                             [fControl]="filterFormControls.region"
                             [data]="(region$ | async) || []"
-                        ></shared-select>
-
-                        <!-- Country -->
-                        <shared-select
-                            label="Country"
-                            [fControl]="filterFormControls.country"
-                            [data]="(country$ | async) || []"
                         ></shared-select>
 
                     </div>
