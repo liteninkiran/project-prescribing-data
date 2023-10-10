@@ -13,4 +13,5 @@
     borderRadius="50%"
     [initialCentreCoords]="[organisation.postcode?.latitude || 0, organisation.postcode?.longitude || 0]"
     (markerClicked)="onMarkerClick($event)"
+    (manualZoom)="onManualZoom($event)"
 ></shared-map>

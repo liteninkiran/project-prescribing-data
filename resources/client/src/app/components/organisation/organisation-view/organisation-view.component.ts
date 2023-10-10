@@ -50,6 +50,10 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
         alert(data.name);
     }
 
+    public onManualZoom(bounds: L.LatLngBounds) {
+        console.log(bounds);
+    }
+
     private loadData(): void {
         this.organisation$ = this.orgService.loadOrganisation(this.id);
         const sub: Subscription = this.organisation$.subscribe((res: IOrganisation) => {

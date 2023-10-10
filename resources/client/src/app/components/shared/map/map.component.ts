@@ -14,6 +14,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
     @ViewChild('mapContainer') private mapContainer!: ElementRef;
 
     @Output() public markerClicked = new EventEmitter<IMapData>();
+    @Output() public manualZoom = new EventEmitter<L.LatLngBounds>();
 
     /** Public Properties (Inputs) */
     @Input() public data: IMapData[] | undefined;
@@ -41,7 +42,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
 
     /** Private Properties */
     private map!: L.Map;
-    private featureGroup!: L.FeatureGroup<any>;
+    private featureGroup!: L.FeatureGroup<IMapData>;
     private opacity = {
         min: 0.25,
         max: 1,
@@ -145,10 +146,10 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
         const markers = this.data
             .map(point => this.addMarkerToMap(point, this.currentOpacityLevel))
             .filter(marker => marker);
-        this.featureGroup = L.featureGroup(markers as L.Marker[]).addTo(this.map);
+        this.featureGroup = L.featureGroup(markers as L.Marker<IMapData>[]).addTo(this.map);
    }
 
-    private addMarkerToMap(data: IMapData, opacity: number): L.Marker | undefined {
+    private addMarkerToMap(data: IMapData, opacity: number): L.Marker<IMapData> | undefined {
         // Check we have co-ordinates
         if (!(data.lat && data.long)) {
             return undefined;
@@ -176,8 +177,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
     }
 
     private fitBounds(): void {
-        this.featureGroup && this.featureGroup.getLayers().length > 0
-            ? this.zoom.manual ? this.setMapView() : this.map.fitBounds(this.featureGroup.getBounds(), { padding: [40, 40] })
+        this.featureGroup && this.featureGroup.getLayers().length > 0 && !this.zoom.manual
+            ? this.map.fitBounds(this.featureGroup.getBounds(), { padding: [40, 40] })
             : this.setMapView();
     }
 
@@ -224,6 +225,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
 
     private zoomInputChanged(value: number): void {
         this.map.setZoom(value);
+        this.manualZoom.emit(this.map.getBounds());
     }
 
     private setForm(): void {
