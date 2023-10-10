@@ -4,11 +4,11 @@ import { FormControl, FormGroup } from '@angular/forms';
 import * as L from 'leaflet';
 
 @Component({
-    selector: 'shared-controllable-map',
-    templateUrl: './controllable-map.component.html',
-    styleUrls: ['./controllable-map.component.scss'],
+    selector: 'shared-map',
+    templateUrl: './map.component.html',
+    styleUrls: ['./map.component.scss'],
 })
-export class ControllableMapComponent implements OnInit, AfterViewInit, OnChanges {
+export class MapComponent implements OnInit, AfterViewInit, OnChanges {
 
     /** Private View Child Properties */
     @ViewChild('mapContainer') private mapContainer!: ElementRef;

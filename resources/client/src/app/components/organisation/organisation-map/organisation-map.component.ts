@@ -4,7 +4,7 @@ import { Observable, Subscription } from 'rxjs';
 import { IOrganisation, IOrganisationFilters, IOrganisationMapResponse } from 'src/app/interfaces/organisation.interface';
 import { IMapData } from 'src/app/interfaces/shared.interface';
 import { OrganisationService } from 'src/app/services/organisation/organisation.service';
-import { defaultIcon } from 'src/app/components/shared/controllable-map/controllable-map.component';
+import { defaultIcon } from 'src/app/components/shared/map/map.component';
 import { Router } from '@angular/router';
 
 @Component({

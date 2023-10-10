@@ -1,15 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ControllableMapComponent } from './controllable-map.component';
+import { MapComponent } from './map.component';
 
 describe('ControllableMapComponent', () => {
-    let component: ControllableMapComponent;
-    let fixture: ComponentFixture<ControllableMapComponent>;
+    let component: MapComponent;
+    let fixture: ComponentFixture<MapComponent>;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            declarations: [ControllableMapComponent]
+            declarations: [MapComponent]
         });
-        fixture = TestBed.createComponent(ControllableMapComponent);
+        fixture = TestBed.createComponent(MapComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
