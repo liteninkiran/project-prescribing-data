@@ -59,8 +59,10 @@
     </div>
 
     <!-- Map -->
-    <div #mapContainer class="map">
-        <mat-spinner *ngIf="!data" diameter="100" color="primary"></mat-spinner>
+    <div [ngStyle]="{ 'width': width, 'height': '700px' }">
+        <div #mapContainer class="map" [ngStyle]="mapStyle">
+            <mat-spinner *ngIf="!data" diameter="100" color="primary"></mat-spinner>
+        </div>
     </div>
 
 </div>

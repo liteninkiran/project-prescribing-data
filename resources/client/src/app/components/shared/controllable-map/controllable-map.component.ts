@@ -19,6 +19,9 @@ export class ControllableMapComponent implements OnInit, AfterViewInit, OnChange
     @Input() public data: IMapData[] | undefined;
     @Input() public mapOptions: L.MapOptions = {}
     @Input() public initialCentreCoords: L.LatLngExpression = [54.5, -4];
+    @Input() public borderRadius = '0';
+    @Input() public height = '700px';
+    @Input() public width = '100%';
     @Input() public zoom = {
         min: 5,
         max: 20,
@@ -32,6 +35,7 @@ export class ControllableMapComponent implements OnInit, AfterViewInit, OnChange
     public currentCentre!: L.LatLng;
     public form!: FormGroup;
     public opacityInput: FormControl<number> = new FormControl(0) as FormControl<number>;
+    public mapStyle = { }
 
     /** Private Properties */
     private map!: L.Map;
@@ -49,6 +53,7 @@ export class ControllableMapComponent implements OnInit, AfterViewInit, OnChange
     public ngOnInit(): void {
         this.setOpacity();
         this.setOpacityForm();
+        this.setMapStyle();
     }
 
     public ngAfterViewInit(): void {
@@ -169,6 +174,13 @@ export class ControllableMapComponent implements OnInit, AfterViewInit, OnChange
         this.featureGroup && this.featureGroup.getLayers().length > 0
             ? this.map.fitBounds(this.featureGroup.getBounds(), { padding: [40, 40] })
             : this.setMapView();
+    }
+
+    private setMapStyle(): void {
+        this.mapStyle = {
+            'border-radius': this.borderRadius,
+            'height': this.height,
+        }
     }
 
     /** Map Events */

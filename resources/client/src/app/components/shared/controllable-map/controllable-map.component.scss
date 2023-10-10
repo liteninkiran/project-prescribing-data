@@ -5,7 +5,7 @@
 
 .map-controls {
     border: 1px solid lightgray;
-    flex: 1;
+    width: 400px;
 
     .mat-list-zoom {
         span {
@@ -30,10 +30,8 @@
 }
 
 .map {
-    height: 700px;
     width: 100%;
     border: 1px solid lightgray;
-    flex: 3;
 
     mat-spinner {
         position: absolute;
