@@ -264,38 +264,13 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
             northEast: bounds.getNorthEast(),
             northWest: bounds.getNorthWest(),
         }
-        this.distance.x = this.calculateDistance(this.mapBoundaryCoords.southEast, this.mapBoundaryCoords.southWest);
-        this.distance.y = this.calculateDistance(this.mapBoundaryCoords.southEast, this.mapBoundaryCoords.northEast);
+        this.distance.x = this.calculateDistance(this.mapBoundaryCoords.southWest, this.mapBoundaryCoords.southEast);
+        this.distance.y = this.calculateDistance(this.mapBoundaryCoords.southWest, this.mapBoundaryCoords.northWest);
     }
 
     private calculateDistance(point1: L.LatLng, point2: L.LatLng): number {
-        // Radius of earth in metres
-        const R = 6371e3;
-
-        // φ and λ need to be in radians
-        const r = Math.PI / 180; 
-
-        // Calculate whatever these things are
-        const φ1 = point1.lat * r
-        const φ2 = point2.lat * r;
-
-        // Also calculate whatever these things are
-        const Δφ = (point2.lat - point1.lat) * r;
-        const Δλ = (point2.lng - point1.lng) * r;
-
-        // Do some trig
-        const a1 = Math.sin(Δφ / 2) * Math.sin(Δφ / 2);
-        const a2 = Math.cos(φ1 / 1) * Math.cos(φ2 / 1);
-        const a3 = Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
-
-        // Apply magic
-        const a = a1 + (a2 * a3);
-
-        // ATAN2, what the hell is ATAN2?
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-        // Finally, something relatable
-        return R * c;
+        return L.latLng(point1.lat, point1.lng)
+            .distanceTo(L.latLng(point2.lat, point2.lng));
     }
 }
 
