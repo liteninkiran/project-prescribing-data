@@ -6,7 +6,6 @@ import { TableComponent } from './table/table.component';
 import { MaterialModule } from 'src/app/modules/material.module';
 import { PipeModule } from 'src/app/modules/pipe.module';
 import { CheckboxMenuComponent } from './checkbox-menu/checkbox-menu.component';
-import { MapComponent } from './map/map.component';
 import { ButtonComponent } from './button/button.component';
 import { SelectComponent } from './select/select.component';
 import { RoleSelectComponent } from './role-select/role-select.component';
@@ -18,7 +17,6 @@ import { ControllableMapComponent } from './controllable-map/controllable-map.co
         ButtonComponent,
         CheckboxMenuComponent,
         SelectComponent,
-        MapComponent,
         RoleSelectComponent,
         ControllableMapComponent,
     ],
@@ -33,7 +31,6 @@ import { ControllableMapComponent } from './controllable-map/controllable-map.co
         ButtonComponent,
         CheckboxMenuComponent,
         SelectComponent,
-        MapComponent,
         RoleSelectComponent,
         ControllableMapComponent,
     ],
