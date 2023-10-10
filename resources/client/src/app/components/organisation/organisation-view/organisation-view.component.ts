@@ -17,14 +17,16 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
     public organisation: IOrganisation = {} as IOrganisation;
     public mapData: IMapData[] | undefined;
     public zoomSettings = {
-        min: 6,
+        min: 10,
         max: 20,
-        initial: 14,
+        initial: 20,
+        manual: true,
     }
     public mapOptions: L.MapOptions = {
-        scrollWheelZoom: true,
+        scrollWheelZoom: false,
         doubleClickZoom: false,
         dragging: false,
+        zoomControl: false,
     }
 
     private subscriptions: Subscription[] = [];

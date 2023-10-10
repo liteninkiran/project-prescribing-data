@@ -26,6 +26,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
         min: 5,
         max: 20,
         initial: 6,
+        manual: false,
     }
 
     /** Public Properties */
@@ -35,6 +36,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
     public currentCentre!: L.LatLng;
     public form!: FormGroup;
     public opacityInput: FormControl<number> = new FormControl(0) as FormControl<number>;
+    public zoomInput: any; //FormControl<number> = new FormControl(this.zoom.initial) as FormControl<number>;
     public mapStyle = { }
 
     /** Private Properties */
@@ -52,7 +54,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
 
     public ngOnInit(): void {
         this.setOpacity();
-        this.setOpacityForm();
+        this.setForm();
         this.setMapStyle();
     }
 
@@ -64,6 +66,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
         const keys = Object.keys(changes);
         if (keys.find(key => key === 'data') && this.data) {
             this.populateMap();
+            this.zoomInput.setValue(this.currentZoomLevel);
         }
     }
 
@@ -216,13 +219,22 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
         }
     }
 
-    private setOpacityForm(): void {
+    private zoomInputChanged(value: number): void {
+        this.map.setZoom(value);
+    }
+
+    private setForm(): void {
         this.form = new FormGroup({
             opacity: this.opacityInput,
+            zoom: this.zoomInput = new FormControl(this.currentZoomLevel) as FormControl<number>,
         });
 
         this.opacityInput.valueChanges.subscribe((value) => {
             this.changeMarkersOpacity();
+        });
+
+        this.zoomInput.valueChanges.subscribe((value: number) => {
+            this.zoomInputChanged(value);
         });
     }
 }

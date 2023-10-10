@@ -7,26 +7,25 @@
     border: 1px solid lightgray;
     width: 400px;
 
-    .mat-list-zoom {
-        span {
-            display: inline-block;
-            width: 50%;
-        }
+    .zoom-container {
+        display: flex;
 
-        span:nth-child(2) {
-            text-align: right;
+        .zoom-subheader-opacity {
+            margin-left: auto;
         }
     }
 
-    //.mat-list-lat-long { }
-
-    .mat-list-opacity {
-        span {
-            display: inline-block;
-            width: 18%;
-            text-align: right;
-        }
+    span {
+        display: inline-block;
+        width: 18%;
+        text-align: right;
     }
+
+
+    .span-zoom-auto {
+        text-align: left;
+    }
+
 }
 
 .map {
@@ -35,9 +34,12 @@
 
     mat-spinner {
         position: absolute;
-        top: 250px;
-        right: 500px;
         z-index: 1000;
+        top: 0;
+        bottom: 0;
+        left: 0; 
+        right: 0; 
+        margin: auto auto auto auto; 
     }
 }
 

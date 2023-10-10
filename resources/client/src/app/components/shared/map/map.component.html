@@ -7,19 +7,33 @@
         <mat-list>
 
             <!-- Zoom Level -->
-            <div mat-subheader>Zoom Level</div>
+            <div class="zoom-container">
+                <div mat-subheader>Zoom Level (1 - {{ zoom.max - zoom.min + 1 }})</div>
+                <ng-container *ngIf="data; else loadingZoomOpacity">
+                    <div mat-subheader *ngIf="opacityInput.value === 0" class="zoom-subheader-opacity">Opacity {{ currentOpacityLevel | percent }}</div>
+                </ng-container>
+                <ng-template #loadingZoomOpacity>
+                    <mat-spinner diameter="30"></mat-spinner>
+                </ng-template>
+            </div>
             <mat-list-item>
                 <mat-icon matListItemIcon (click)="resetMap()" matTooltip="Re-centre map" matTooltipPosition="above">search</mat-icon>
-                <div matListItemTitle class="mat-list-zoom">
-                    <ng-container *ngIf="data; else loadingZoom">
-                        <span>{{ currentZoomLevel - zoom.min + 1 }}</span>
-                        <span *ngIf="opacityInput.value === 0">Opacity {{ currentOpacityLevel | percent }}</span>
-                        <mat-progress-bar mode="determinate" [value]="zoomProgress"></mat-progress-bar>
+                <div matListItemTitle>
+
+                    <ng-container *ngIf="zoom.manual; else zoomAuto">
+                        <mat-slider [min]="zoom.min" [max]="zoom.max" step="1">
+                            <input matInput matSliderThumb [formControl]="zoomInput">
+                        </mat-slider>
+                        <span class="span-zoom-manual">{{ currentZoomLevel - zoom.min + 1 }}</span>
                     </ng-container>
-                    <ng-template #loadingZoom>
-                        <mat-spinner diameter="30"></mat-spinner>
+
+                    <ng-template #zoomAuto>
+                        <span *ngIf="!zoom.manual" class="span-zoom-auto">{{ currentZoomLevel - zoom.min + 1 }}</span>
+                        <mat-progress-bar mode="determinate" [value]="zoomProgress" *ngIf="!zoom.manual"></mat-progress-bar>
                     </ng-template>
+
                 </div>
+
             </mat-list-item>
 
             <mat-divider></mat-divider>
@@ -28,7 +42,7 @@
             <div mat-subheader>Latitude / Longitude</div>
             <mat-list-item>
                 <mat-icon matListItemIcon (click)="resetMap()" matTooltip="Re-center map" matTooltipPosition="above">my_location</mat-icon>
-                <div matListItemTitle class="mat-list-lat-long">
+                <div matListItemTitle>
                     <ng-container *ngIf="data && currentCentre; else loading">
                         {{ currentCentre.lat | number: '1.0-4' }}, {{ currentCentre.lng | number: '1.0-4' }}
                     </ng-container>
