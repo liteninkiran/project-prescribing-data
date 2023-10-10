@@ -21,6 +21,7 @@ export class OrganisationMapComponent implements OnInit, OnDestroy {
     public filters: IOrganisationFilters = {} as IOrganisationFilters;
     public defaultFilters: IOrganisationFilters = { status: 0 } as IOrganisationFilters;
     public message: string = '';
+    public mapOptions: L.MapOptions = {}
     private subscriptions: Subscription[] = [];
 
     constructor(

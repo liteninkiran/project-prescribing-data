@@ -19,7 +19,7 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
     public zoomSettings = {
         min: 10,
         max: 20,
-        initial: 20,
+        initial: 15,
         manual: true,
     }
     public mapOptions: L.MapOptions = {

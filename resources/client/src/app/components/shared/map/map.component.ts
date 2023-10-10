@@ -73,7 +73,9 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
     /** Public Functions (Custom) */
 
     public resetMap(): void {
-        this.fitBounds();
+        this.zoom.manual
+            ? this.zoomInput.setValue(this.zoom.initial)
+            : this.fitBounds();
     }
 
     public animateSlider(): void {
@@ -116,8 +118,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
         this.map.on('move', this.onMapMove);
     }
 
-    private setMapView(): void {
-        this.map.setView(this.initialCentreCoords, this.zoom.initial);
+    private setMapView(coords: any = this.initialCentreCoords, zoom: number = this.zoom.initial): void {
+        this.map.setView(coords, zoom);
     }
 
     private addTileLayer(): void {
@@ -175,7 +177,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
 
     private fitBounds(): void {
         this.featureGroup && this.featureGroup.getLayers().length > 0
-            ? this.map.fitBounds(this.featureGroup.getBounds(), { padding: [40, 40] })
+            ? this.zoom.manual ? this.setMapView() : this.map.fitBounds(this.featureGroup.getBounds(), { padding: [40, 40] })
             : this.setMapView();
     }
 
