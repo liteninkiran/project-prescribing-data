@@ -1,3 +1,11 @@
+<ng-template #loading1>
+    <mat-spinner diameter="30" class="control-spinner-1"></mat-spinner>
+</ng-template>
+
+<ng-template #loading2>
+    <mat-spinner diameter="30" class="control-spinner-2"></mat-spinner>
+</ng-template>
+
 <div class="map-container">
 
     <!-- Map Controls -->
@@ -7,64 +15,230 @@
         <mat-list>
 
             <!-- Zoom Level -->
-            <div class="zoom-container">
-                <div mat-subheader>Zoom Level (1 - {{ zoom.max - zoom.min + 1 }})</div>
-                <ng-container *ngIf="data; else loadingZoomOpacity">
-                    <div mat-subheader *ngIf="opacityInput.value === 0" class="zoom-subheader-opacity">Opacity {{ currentOpacityLevel | percent }}</div>
-                </ng-container>
-                <ng-template #loadingZoomOpacity>
-                    <mat-spinner diameter="30"></mat-spinner>
-                </ng-template>
+            <div>
+
+                <!-- Sub-Header -->
+                <div mat-subheader>
+                    Zoom Level (1 - {{ zoom.max - zoom.min + 1 }})
+                </div>
+
+                <!-- Zoom Level -->
+                <mat-list-item>
+
+                    <!-- Icon -->
+                    <span
+                        matListItemIcon
+                        matTooltip="Reset map"
+                        matTooltipPosition="above"
+                        class="material-symbols-outlined mat-icon-span"
+                        (click)="resetMap()"
+                    >
+                        search
+                    </span>
+
+                    <!-- Title -->
+                    <div matListItemTitle>
+
+                        <!-- Manual Zoom -->
+                        <ng-container *ngIf="zoom.manual; else zoomAuto">
+
+                            <!-- Slider Container -->
+                            <div class="mat-list-slider-container">
+
+                                <!-- Slider -->
+                                <ng-container *ngIf="data; else loading1">
+                                    <mat-slider [min]="zoom.min" [max]="zoom.max" step="1" [showTickMarks]="true">
+                                        <input matInput matSliderThumb [formControl]="zoomInput">
+                                    </mat-slider>
+                                </ng-container>
+    
+                                <!-- Zoom Level -->
+                                <ng-container *ngIf="data; else loading2">
+                                    <span class="mat-list-slider-span">
+                                        {{ currentZoomLevel - zoom.min + 1 }}
+                                    </span>
+                                </ng-container>    
+                            </div>
+    
+                        </ng-container>
+
+                        <!-- Automatic Zoom -->
+                        <ng-template #zoomAuto>
+
+                            <!-- Zoom Level -->
+                            <span class="span-zoom-auto">
+                                {{ currentZoomLevel - zoom.min + 1 }}
+                            </span>
+
+                            <!-- Progress Bar -->
+                            <mat-progress-bar mode="determinate" [value]="zoomProgress"></mat-progress-bar>
+
+                        </ng-template>
+
+                    </div>
+
+                </mat-list-item>
+
             </div>
-            <mat-list-item>
-                <mat-icon matListItemIcon (click)="resetMap()" matTooltip="Re-centre map" matTooltipPosition="above">search</mat-icon>
-                <div matListItemTitle>
 
-                    <ng-container *ngIf="zoom.manual; else zoomAuto">
-                        <mat-slider [min]="zoom.min" [max]="zoom.max" step="1">
-                            <input matInput matSliderThumb [formControl]="zoomInput">
+            <mat-divider></mat-divider>
+
+            <!-- Map Dimensions -->
+            <div>
+
+                <!-- Sub-Header -->
+                <div mat-subheader>
+                    Map Dimensions
+                </div>
+
+                <!-- Width -->
+                <mat-list-item>
+
+                    <!-- Icon -->
+                    <span
+                        matListItemIcon
+                        class="material-symbols-outlined mat-icon-span"
+                    >
+                        width
+                    </span>
+
+                    <!-- Title -->
+                    <div matListItemTitle>
+                        Width
+                    </div>
+
+                    <!-- Value -->
+                    <ng-container *ngIf="data; else loading1">
+                        <div matListItemLine>
+                            {{ distance.x | number : '1.0-0' }} metres
+                        </div>
+                    </ng-container>
+
+                </mat-list-item>
+
+                <!-- Height -->
+                <mat-list-item>
+
+                    <!-- Icon -->
+                    <span matListItemIcon class="material-symbols-outlined mat-icon-span">
+                        height
+                    </span>
+
+                    <!-- Title -->
+                    <div matListItemTitle>
+                        Height
+                    </div>
+
+                    <!-- Value -->
+                    <ng-container *ngIf="data; else loading1">
+                        <div matListItemLine>
+                            {{ distance.x | number : '1.0-0' }} metres
+                        </div>
+                    </ng-container>
+
+                </mat-list-item>
+
+            </div>
+
+            <mat-divider></mat-divider>
+
+            <!-- Marker Opacity -->
+            <div>
+
+                <!-- Sub-Header Container -->
+                <div class="opacity-container">
+
+                    <!-- Sub-Header -->
+                    <div mat-subheader>
+                        Marker Opacity
+                    </div>
+
+                    <!-- Zoom-based Opacity Value -->
+                    <div mat-subheader *ngIf="opacityInput.value === 0" class="zoom-subheader-opacity">
+                        <ng-container *ngIf="data; else loading2">
+                            Opacity {{ currentOpacityLevel | percent }}
+                        </ng-container>
+                    </div>
+
+                </div>
+
+                <!-- Marker Opacity Override -->
+                <mat-list-item>
+
+                    <!-- Icon -->
+                    <span
+                        matListItemIcon
+                        matTooltip="Animate slider"
+                        matTooltipPosition="above"
+                        class="material-symbols-outlined mat-icon-span"
+                        (click)="animateSlider()"
+                    >
+                        opacity
+                    </span>
+
+                    <!-- Slider Container -->
+                    <div matListItemTitle class="mat-list-slider-container">
+
+                        <!-- Slider -->
+                        <mat-slider [min]="0" [max]="100" step="1">
+                            <input matInput matSliderThumb [formControl]="opacityInput">
                         </mat-slider>
-                        <span class="span-zoom-manual">{{ currentZoomLevel - zoom.min + 1 }}</span>
-                    </ng-container>
 
-                    <ng-template #zoomAuto>
-                        <span *ngIf="!zoom.manual" class="span-zoom-auto">{{ currentZoomLevel - zoom.min + 1 }}</span>
-                        <mat-progress-bar mode="determinate" [value]="zoomProgress" *ngIf="!zoom.manual"></mat-progress-bar>
-                    </ng-template>
+                        <!-- Slider Value -->
+                        <span class="mat-list-slider-span" *ngIf="opacityInput.value">
+                            {{ opacityInput.value }}%
+                        </span>
 
-                </div>
+                    </div>
 
-            </mat-list-item>
+                </mat-list-item>
 
-            <mat-divider></mat-divider>
-
-            <!-- Lat / Long -->
-            <div mat-subheader>Latitude / Longitude</div>
-            <mat-list-item>
-                <mat-icon matListItemIcon (click)="resetMap()" matTooltip="Re-center map" matTooltipPosition="above">my_location</mat-icon>
-                <div matListItemTitle>
-                    <ng-container *ngIf="data && currentCentre; else loading">
-                        {{ currentCentre.lat | number: '1.0-4' }}, {{ currentCentre.lng | number: '1.0-4' }}
-                    </ng-container>
-                    <ng-template #loading>
-                        <mat-spinner diameter="30"></mat-spinner>
-                    </ng-template>
-                </div>
-            </mat-list-item>
+            </div>
 
             <mat-divider></mat-divider>
 
-            <!-- Opacity Override -->
-            <div mat-subheader>Opacity Override<span *ngIf="opacityInput.value"> (Active)</span></div>
-            <mat-list-item>
-                <mat-icon matListItemIcon (click)="animateSlider()" matTooltip="Animate slider" matTooltipPosition="above">opacity</mat-icon>
-                <div matListItemTitle class="mat-list-opacity">
-                    <mat-slider [min]="0" [max]="100" step="1">
-                        <input matInput matSliderThumb [formControl]="opacityInput">
-                    </mat-slider>
-                    <span *ngIf="opacityInput.value">{{ opacityInput.value }}%</span>
-                </div>
-            </mat-list-item>
+            <!-- Map Co-ordinates -->
+            <mat-accordion class="map-coords">
+
+                <mat-expansion-panel>
+
+                    <mat-expansion-panel-header>
+                        <div mat-subheader>Map Co-ordinates</div>
+                    </mat-expansion-panel-header>
+
+                    <mat-list-item>
+                        <span matListItemIcon class="material-symbols-outlined mat-icon-span">point_scan</span>
+                        <div matListItemTitle>Centre</div>
+                        <div matListItemLine>{{ mapBoundaryCoords.centre.lat | number: '1.0-4' }}, {{ mapBoundaryCoords.centre.lng | number: '1.0-4' }}</div>
+                    </mat-list-item>
+
+                    <mat-list-item>
+                        <span matListItemIcon class="material-symbols-outlined mat-icon-span">south_east</span>
+                        <div matListItemTitle>South East</div>
+                        <div matListItemLine>{{ mapBoundaryCoords.southEast.lat | number: '1.0-4' }}, {{ mapBoundaryCoords.southEast.lng | number: '1.0-4' }}</div>
+                    </mat-list-item>
+
+                    <mat-list-item>
+                        <span matListItemIcon class="material-symbols-outlined mat-icon-span">south_west</span>
+                        <div matListItemTitle>South West</div>
+                        <div matListItemLine>{{ mapBoundaryCoords.southWest.lat | number: '1.0-4' }}, {{ mapBoundaryCoords.southWest.lng | number: '1.0-4' }}</div>
+                    </mat-list-item>
+
+                    <mat-list-item>
+                        <span matListItemIcon class="material-symbols-outlined mat-icon-span">north_east</span>
+                        <div matListItemTitle>North East</div>
+                        <div matListItemLine>{{ mapBoundaryCoords.northEast.lat | number: '1.0-4' }}, {{ mapBoundaryCoords.northEast.lng | number: '1.0-4' }}</div>
+                    </mat-list-item>
+
+                    <mat-list-item>
+                        <span matListItemIcon class="material-symbols-outlined mat-icon-span">north_west</span>
+                        <div matListItemTitle>North West</div>
+                        <div matListItemLine>{{ mapBoundaryCoords.northWest.lat | number: '1.0-4' }}, {{ mapBoundaryCoords.northWest.lng | number: '1.0-4' }}</div>
+                    </mat-list-item>
+
+                </mat-expansion-panel>
+
+            </mat-accordion>
 
             <mat-divider></mat-divider>
 
@@ -75,7 +249,7 @@
     <!-- Map -->
     <div class="map-flex-container">
         <div #mapContainer class="map" [ngStyle]="mapStyle">
-            <mat-spinner *ngIf="!data" diameter="100" color="primary"></mat-spinner>
+            <mat-spinner *ngIf="!data" diameter="100" color="primary" id="map-spinner"></mat-spinner>
         </div>
     </div>
 

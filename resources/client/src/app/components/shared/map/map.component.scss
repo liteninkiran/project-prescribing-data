@@ -7,7 +7,7 @@
     border: 1px solid lightgray;
     width: 350px;
 
-    .zoom-container {
+    .opacity-container {
         display: flex;
 
         .zoom-subheader-opacity {
@@ -15,10 +15,11 @@
         }
     }
 
-    span {
-        display: inline-block;
-        width: 18%;
+    .mat-list-slider-span {
         text-align: right;
+        flex: 1;
+        margin-top: auto;
+        margin-bottom: auto;
     }
 
     .span-zoom-auto {
@@ -26,11 +27,8 @@
     }
 
     mat-list-item {
-        mat-icon {
-            cursor: pointer;
-            margin-right: 10px;
-        }
-        
+        height: auto;
+        margin-bottom: 15px;
     }
 }
 
@@ -41,16 +39,6 @@
 
     .map {
         margin: auto;
-    
-        mat-spinner {
-            position: absolute;
-            z-index: 1000;
-            top: 0;
-            bottom: 0;
-            left: 0; 
-            right: 0; 
-            margin: auto auto auto auto; 
-        }
     }
 }
 
@@ -58,3 +46,31 @@ mat-slider {
     margin-left: 25px;
     width: 70%;
 }
+
+.mat-icon-span {
+    margin-right: 25px;
+    cursor: pointer;
+}
+
+.mat-list-slider-container {
+    display: flex;
+}
+
+#map-spinner {
+    position: absolute;
+    z-index: 1000;
+    top: 0;
+    bottom: 0;
+    left: 0; 
+    right: 0; 
+    margin: auto auto auto auto; 
+}
+
+.control-spinner-1 {
+    margin: auto auto auto 0; 
+}
+
+.control-spinner-2 {
+    margin: auto 0 auto auto;
+}
+

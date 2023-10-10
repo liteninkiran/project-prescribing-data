@@ -52,7 +52,7 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
     }
 
     public onManualZoom(bounds: L.LatLngBounds) {
-
+        // TODO Make new request to back-end with bounds
     }
 
     private loadData(): void {
