@@ -5,7 +5,7 @@
 
 .map-controls {
     border: 1px solid lightgray;
-    width: 400px;
+    width: 350px;
 
     .zoom-container {
         display: flex;
@@ -21,33 +21,40 @@
         text-align: right;
     }
 
-
     .span-zoom-auto {
         text-align: left;
     }
 
+    mat-list-item {
+        mat-icon {
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        
+    }
 }
 
-.map {
-    width: 100%;
-    border: 1px solid lightgray;
+.map-flex-container {
+    flex: 1;
+    height: 700px;
+    display: flex;
 
-    mat-spinner {
-        position: absolute;
-        z-index: 1000;
-        top: 0;
-        bottom: 0;
-        left: 0; 
-        right: 0; 
-        margin: auto auto auto auto; 
+    .map {
+        margin: auto;
+    
+        mat-spinner {
+            position: absolute;
+            z-index: 1000;
+            top: 0;
+            bottom: 0;
+            left: 0; 
+            right: 0; 
+            margin: auto auto auto auto; 
+        }
     }
 }
 
 mat-slider {
     margin-left: 25px;
     width: 70%;
-}
-
-mat-icon {
-    cursor: pointer;
 }

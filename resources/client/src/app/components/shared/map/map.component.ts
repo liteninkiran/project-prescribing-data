@@ -185,6 +185,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
         this.mapStyle = {
             'border-radius': this.borderRadius,
             'height': this.height,
+            'width': this.width,
         }
     }
 

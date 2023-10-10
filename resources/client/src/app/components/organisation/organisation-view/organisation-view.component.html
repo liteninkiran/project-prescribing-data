@@ -1,6 +1,6 @@
-<div style="display: flex;">
-    <h1 style="margin-right: 50px; margin-top: 0; margin-bottom: 0;" *ngIf="organisation">{{ organisation.name }}</h1>
-    <h1 style="margin-top: 0; margin-bottom: 0;">{{ id }}</h1>
+<div class="org-view-header">
+    <h1 class="header-id">{{ id }}</h1>
+    <h1 class="header-name" *ngIf="organisation">{{ organisation.name }}</h1>
 </div>
 
 <!-- Map -->
@@ -8,9 +8,9 @@
     [data]="mapData"
     [mapOptions]="mapOptions"
     [zoom]="zoomSettings"
-    width="500px"
-    height="500px"
+    width="650px"
+    height="650px"
     borderRadius="50%"
-    [initialCentreCoords]="[organisation?.postcode?.latitude || 0, organisation?.postcode?.longitude || 0]"
+    [initialCentreCoords]="[organisation.postcode?.latitude || 0, organisation.postcode?.longitude || 0]"
     (markerClicked)="onMarkerClick($event)"
 ></shared-map>

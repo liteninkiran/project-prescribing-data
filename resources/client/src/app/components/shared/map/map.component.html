@@ -73,7 +73,7 @@
     </div>
 
     <!-- Map -->
-    <div [ngStyle]="{ 'width': width, 'height': '700px' }">
+    <div class="map-flex-container">
         <div #mapContainer class="map" [ngStyle]="mapStyle">
             <mat-spinner *ngIf="!data" diameter="100" color="primary"></mat-spinner>
         </div>
