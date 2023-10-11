@@ -216,9 +216,16 @@
                     </mat-expansion-panel-header>
 
                     <mat-list-item>
-                        <span matListItemIcon class="material-symbols-outlined mat-icon-span">point_scan</span>
+                        <span
+                            matListItemIcon
+                            matTooltip="Reset map"
+                            matTooltipPosition="above"
+                            class="material-symbols-outlined mat-icon-span"
+                            (click)="resetMap()"
+                        >point_scan</span>
                         <div matListItemTitle>Centre</div>
                         <div matListItemLine>{{ mapBoundaryCoords.centre.lat | number: '1.0-4' }}, {{ mapBoundaryCoords.centre.lng | number: '1.0-4' }}</div>
+                        <img *ngIf="centreIcon && false" [src]="centreIcon">
                     </mat-list-item>
 
                     <mat-list-item>

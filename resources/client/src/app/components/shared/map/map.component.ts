@@ -29,6 +29,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
         initial: 6,
         manual: false,
     }
+    @Input() public useCentreIcon = false;
 
     /** Public Properties */
     public currentOpacityLevel: number = 1;
@@ -49,6 +50,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
         x: 0,
         y: 0,
     }
+    public centreIcon = '';
 
     /** Private Properties */
     private map!: L.Map;
@@ -211,6 +213,16 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
 
     private onMapMove = (event: L.LeafletEvent): void => {
         this.calculateMapBounds();
+        if (this.useCentreIcon) {
+            this.centreIcon = '';
+            this.featureGroup.getLayers().forEach((layer: any) => {
+                const dist = this.distanceBetweenTwoPoints(layer.getLatLng(), this.mapBoundaryCoords.centre);
+                if (dist < 100) {
+                    this.centreIcon = layer.options.icon.options.iconUrl;
+                    return;
+                }
+            });
+        }
     }
 
     /** Opacity */
@@ -264,11 +276,14 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
             northEast: bounds.getNorthEast(),
             northWest: bounds.getNorthWest(),
         }
-        this.distance.x = this.calculateDistance(this.mapBoundaryCoords.southWest, this.mapBoundaryCoords.southEast);
-        this.distance.y = this.calculateDistance(this.mapBoundaryCoords.southWest, this.mapBoundaryCoords.northWest);
+        const lat = Math.round((this.mapBoundaryCoords.centre.lat + Number.EPSILON) * 1000000) / 1000000;
+        const lng = Math.round((this.mapBoundaryCoords.centre.lng + Number.EPSILON) * 1000000) / 1000000;
+        this.mapBoundaryCoords.centre = L.latLng(lat, lng);
+        this.distance.x = this.distanceBetweenTwoPoints(this.mapBoundaryCoords.southWest, this.mapBoundaryCoords.southEast);
+        this.distance.y = this.distanceBetweenTwoPoints(this.mapBoundaryCoords.southWest, this.mapBoundaryCoords.northWest);
     }
 
-    private calculateDistance(point1: L.LatLng, point2: L.LatLng): number {
+    private distanceBetweenTwoPoints(point1: L.LatLng, point2: L.LatLng): number {
         return L.latLng(point1.lat, point1.lng)
             .distanceTo(L.latLng(point2.lat, point2.lng));
     }
