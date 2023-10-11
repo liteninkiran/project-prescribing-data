@@ -34,7 +34,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
     public currentOpacityLevel: number = 1;
     public currentZoomLevel: number = this.zoom.initial;
     public zoomProgress: number = (this.zoom.initial - this.zoom.min) / (this.zoom.max - this.zoom.min) * 100;
-    public currentCentre!: L.LatLng;
     public form!: FormGroup;
     public opacityInput: FormControl<number> = new FormControl(0) as FormControl<number>;
     public zoomInput: any; //FormControl<number> = new FormControl(this.zoom.initial) as FormControl<number>;
@@ -211,7 +210,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
     }
 
     private onMapMove = (event: L.LeafletEvent): void => {
-        setTimeout(() => this.currentCentre = this.map.getCenter());
+        this.calculateMapBounds();
     }
 
     /** Opacity */
@@ -256,6 +255,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
     }
 
     private calculateMapBounds() {
+        if (!this.map) { return; }
         const bounds: L.LatLngBounds = this.map.getBounds();
         this.mapBoundaryCoords = {
             centre: bounds.getCenter(),
