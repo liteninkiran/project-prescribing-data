@@ -51,7 +51,7 @@
 
                                     <!-- Slider -->
                                     <ng-container *ngIf="data; else loading1">
-                                        <mat-slider [min]="zoom.min" [max]="zoom.max" step="1" [showTickMarks]="true">
+                                        <mat-slider [min]="zoom.min" [max]="zoom.max" step="1" [discrete]="false" [showTickMarks]="true">
                                             <input matInput matSliderThumb [formControl]="zoomInput">
                                         </mat-slider>
                                     </ng-container>
@@ -59,7 +59,7 @@
                                     <!-- Zoom Level -->
                                     <ng-container *ngIf="data; else loading2">
                                         <span class="mat-list-slider-span">
-                                            {{ currentZoomLevel - zoom.min + 1 }}
+                                            {{ zoomInput.value - zoom.min + 1 }}
                                         </span>
                                     </ng-container>    
                                 </div>

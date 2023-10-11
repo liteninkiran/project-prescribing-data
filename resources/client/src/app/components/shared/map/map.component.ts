@@ -1,6 +1,7 @@
-import { Component, ElementRef, Input, OnInit, AfterViewInit, OnChanges, ViewChild, SimpleChanges, EventEmitter, Output } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, AfterViewInit, OnChanges, ViewChild, SimpleChanges, EventEmitter, Output, HostListener } from '@angular/core';
 import { IMapData } from 'src/app/interfaces/shared.interface';
 import { FormControl, FormGroup } from '@angular/forms';
+import { debounceTime, distinctUntilChanged, tap } from 'rxjs';
 import * as L from 'leaflet';
 
 @Component({
@@ -31,6 +32,10 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
         manual: false,
     }
     @Input() public useCentreIcon = false;
+
+    @HostListener('wheel', ['$event']) onMouseWheel(event: WheelEvent) {
+        this.onMapMouseWheel(event);
+    }
 
     /** Public Properties */
     public currentOpacityLevel: number = 1;
@@ -219,6 +224,16 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
         this.updateCentreIcon();
     }
 
+    private onMapMouseWheel = (event: WheelEvent): void => {
+        if (this.zoom.manual) {
+            const delta = event.deltaY < 0 ? 1 : -1;
+            const newValue = this.zoomInput.value + delta;
+            if (newValue >= this.zoom.min && newValue <= this.zoom.max) {
+                this.zoomInput.setValue(newValue);
+            }
+        }
+    }
+
     /** Opacity */
     private setOpacity(): void {
         this.currentOpacityLevel = this.getOpacity();
@@ -241,8 +256,10 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
     }
 
     private zoomInputChanged(value: number): void {
-        this.map.setZoom(value);
-        this.manualZoom.emit(this.map.getBounds());
+        if (this.map) {
+            this.map.setZoom(value);
+            this.manualZoom.emit(this.map.getBounds());
+        }
     }
 
     private roleInputChanged(value: number[]): void {
@@ -260,9 +277,12 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
             this.changeMarkersOpacity();
         });
 
-        this.zoomInput.valueChanges.subscribe((value: number) => {
-            this.zoomInputChanged(value);
-        });
+
+        this.zoomInput.valueChanges.pipe(
+            debounceTime(500),
+            distinctUntilChanged(),
+            tap((value: number) => this.zoomInputChanged(value))
+        ).subscribe();
 
         this.primaryRolesInput.valueChanges.subscribe((value: number[]) => {
             this.roleInputChanged(value);
