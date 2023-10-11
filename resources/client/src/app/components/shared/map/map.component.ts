@@ -4,6 +4,10 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs';
 import * as L from 'leaflet';
 
+interface IMapStyle {
+    [key: string]: any;
+}
+
 @Component({
     selector: 'shared-map',
     templateUrl: './map.component.html',
@@ -45,7 +49,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
     public opacityInput: FormControl<number> = new FormControl(0) as FormControl<number>;
     public zoomInput: any;
     public primaryRolesInput: any;
-    public mapStyle = { }
+    public mapStyle: IMapStyle = { }
     public mapBoundaryCoords = {
         centre: {} as L.LatLng,
         southEast: {} as L.LatLng,
@@ -193,6 +197,10 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
             'border-radius': this.borderRadius,
             'height': this.height,
             'width': this.width,
+        }
+
+        if (!this.zoom.manual) {
+            this.mapStyle['margin-top'] = '0';
         }
     }
 

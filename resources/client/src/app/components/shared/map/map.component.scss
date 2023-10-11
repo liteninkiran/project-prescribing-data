@@ -33,11 +33,10 @@
 
 .map-flex-container {
     flex: 1;
-    height: 700px;
     display: flex;
 
     .map {
-        margin: auto;
+        margin: 20px auto auto auto;
     }
 }
 
