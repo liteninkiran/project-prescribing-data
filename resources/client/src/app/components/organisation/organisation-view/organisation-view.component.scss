@@ -7,11 +7,21 @@
         text-align: center;
     }
 
-    .header-id {
+    .primary-roles {
         width: 350px;
     }
 
-    .header-name {
+    .org-header {
         flex: 1;
+        display: flex;
+
+        .org-header-id {
+            width: 200px;
+        }
+
+        .org-header-name {
+            flex: 1;
+        }
+
     }
 }
