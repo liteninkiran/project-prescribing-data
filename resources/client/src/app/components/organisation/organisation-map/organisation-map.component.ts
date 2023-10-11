@@ -94,7 +94,7 @@ export class OrganisationMapComponent implements OnInit, OnDestroy {
                     </div>
                 </div>
                 <div style="white-space: normal;">
-                    <h3>${org.name}</h3>
+                    <h3>${org.name} - ${org.org_id}</h3>
                 </div>
                 
                 <p>${org.post_code}</p>

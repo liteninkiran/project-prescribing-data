@@ -14,11 +14,15 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
     /** Private View Child Properties */
     @ViewChild('mapContainer') private mapContainer!: ElementRef;
 
-    @Output() public markerClicked = new EventEmitter<IMapData>();
-    @Output() public manualZoom = new EventEmitter<L.LatLngBounds>();
-    @Output() public roleChanged = new EventEmitter<number[]>();
+    /** Private Host Listener Events */
+    @HostListener('wheel', ['$event']) private onMouseWheel = (event: WheelEvent) => this.onMapMouseWheel(event)
 
-    /** Public Properties (Inputs) */
+    /** Private Output Events */
+    @Output() private markerClicked = new EventEmitter<IMapData>();
+    @Output() private manualZoom = new EventEmitter<L.LatLngBounds>();
+    @Output() private roleChanged = new EventEmitter<number[]>();
+
+    /** Public Input Properties */
     @Input() public data: IMapData[] | undefined;
     @Input() public mapOptions: L.MapOptions = {}
     @Input() public initialCentreCoords: L.LatLngExpression = [54.5, -4];
@@ -32,10 +36,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
         manual: false,
     }
     @Input() public useCentreIcon = false;
-
-    @HostListener('wheel', ['$event']) onMouseWheel(event: WheelEvent) {
-        this.onMapMouseWheel(event);
-    }
 
     /** Public Properties */
     public currentOpacityLevel: number = 1;
@@ -106,19 +106,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
     }
 
     /** Private Functions */
-
-    /** Opacity Animation */
-    private clearInterval() {
-        clearInterval(this.intervalId);
-        this.intervalId = undefined;
-    }
-
-    private interval(i: number): any {
-        return setInterval(() =>
-            (i += 1) === 101
-                ? this.clearInterval()
-                : this.opacityInput.setValue(i), 100);
-    }
 
     /** Map Configuration */
     private initialiseMap(): void {
@@ -209,86 +196,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
         }
     }
 
-    /** Map Events */
-    private onMapZoom = (event: L.LeafletEvent): void => {
-        this.currentZoomLevel = event.target._zoom;
-        this.zoomProgress = (this.currentZoomLevel - this.zoom.min) / (this.zoom.max - this.zoom.min) * 100;
-        this.setOpacity();
-        this.changeMarkersOpacity();
-        this.calculateMapBounds();
-        this.updateCentreIcon();
-    }
-
-    private onMapMove = (event: L.LeafletEvent): void => {
-        this.calculateMapBounds();
-        this.updateCentreIcon();
-    }
-
-    private onMapMouseWheel = (event: WheelEvent): void => {
-        if (this.zoom.manual) {
-            const delta = event.deltaY < 0 ? 1 : -1;
-            const newValue = this.zoomInput.value + delta;
-            if (newValue >= this.zoom.min && newValue <= this.zoom.max) {
-                this.zoomInput.setValue(newValue);
-            }
-        }
-    }
-
-    /** Opacity */
-    private setOpacity(): void {
-        this.currentOpacityLevel = this.getOpacity();
-    }
-
-    private getOpacity(): number {
-        const zoomDiff = this.zoom.max - this.zoom.min;
-        const opacityDiff = this.opacity.max - this.opacity.min;
-        const gradient = opacityDiff / zoomDiff;
-        const intercept = this.opacity.min - (gradient * this.zoom.min);
-        return (gradient * this.currentZoomLevel) + intercept;
-    }
-
-    private changeMarkersOpacity(): void {
-        if (this.featureGroup) {
-            this.featureGroup.eachLayer((layer: any) => {
-                layer.setOpacity(this.opacityInput.value / 100 || this.currentOpacityLevel);
-            });
-        }
-    }
-
-    private zoomInputChanged(value: number): void {
-        if (this.map) {
-            this.map.setZoom(value);
-            this.manualZoom.emit(this.map.getBounds());
-        }
-    }
-
-    private roleInputChanged(value: number[]): void {
-        this.roleChanged.emit(value);
-    }
-
-    private setForm(): void {
-        this.form = new FormGroup({
-            opacity: this.opacityInput,
-            zoom: this.zoomInput = new FormControl(this.currentZoomLevel) as FormControl<number>,
-            primaryRoles: this.primaryRolesInput = new FormControl([]) as FormControl<number[]>,
-        });
-
-        this.opacityInput.valueChanges.subscribe((value) => {
-            this.changeMarkersOpacity();
-        });
-
-
-        this.zoomInput.valueChanges.pipe(
-            debounceTime(500),
-            distinctUntilChanged(),
-            tap((value: number) => this.zoomInputChanged(value))
-        ).subscribe();
-
-        this.primaryRolesInput.valueChanges.subscribe((value: number[]) => {
-            this.roleInputChanged(value);
-        });
-    }
-
     private calculateMapBounds() {
         if (!this.map) { return; }
         const bounds: L.LatLngBounds = this.map.getBounds();
@@ -321,6 +228,102 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
                 }
             });
         }
+    }
+
+    /** Map Events */
+    private onMapZoom = (event: L.LeafletEvent): void => {
+        this.currentZoomLevel = event.target._zoom;
+        this.zoomProgress = (this.currentZoomLevel - this.zoom.min) / (this.zoom.max - this.zoom.min) * 100;
+        this.setOpacity();
+        this.changeMarkersOpacity();
+        this.calculateMapBounds();
+        this.updateCentreIcon();
+    }
+
+    private onMapMove = (event: L.LeafletEvent): void => {
+        this.calculateMapBounds();
+        this.updateCentreIcon();
+    }
+
+    private onMapMouseWheel = (event: WheelEvent): void => {
+        const el: HTMLElement = event.target as HTMLElement;
+        const classList: DOMTokenList = el.classList;
+        const mapDiv = classList.contains('leaflet-container');
+        if (this.zoom.manual && mapDiv) {
+            event.preventDefault();
+            const delta = event.deltaY < 0 ? 1 : -1;
+            const newValue = this.zoomInput.value + delta;
+            if (newValue >= this.zoom.min && newValue <= this.zoom.max) {
+                this.zoomInput.setValue(newValue);
+            }
+        }
+    }
+
+    /** Opacity */
+    private setOpacity(): void {
+        this.currentOpacityLevel = this.getOpacity();
+    }
+
+    private getOpacity(): number {
+        const zoomDiff = this.zoom.max - this.zoom.min;
+        const opacityDiff = this.opacity.max - this.opacity.min;
+        const gradient = opacityDiff / zoomDiff;
+        const intercept = this.opacity.min - (gradient * this.zoom.min);
+        return (gradient * this.currentZoomLevel) + intercept;
+    }
+
+    private changeMarkersOpacity(): void {
+        if (this.featureGroup) {
+            this.featureGroup.eachLayer((layer: any) => {
+                layer.setOpacity(this.opacityInput.value / 100 || this.currentOpacityLevel);
+            });
+        }
+    }
+
+    private clearInterval() {
+        clearInterval(this.intervalId);
+        this.intervalId = undefined;
+    }
+
+    private interval(i: number): any {
+        return setInterval(() =>
+            (i += 1) === 101
+                ? this.clearInterval()
+                : this.opacityInput.setValue(i), 100);
+    }
+
+    /** Form */
+    private zoomInputChanged(value: number): void {
+        if (this.map) {
+            this.map.setZoom(value);
+            this.manualZoom.emit(this.map.getBounds());
+        }
+    }
+
+    private roleInputChanged(value: number[]): void {
+        this.roleChanged.emit(value);
+    }
+
+    private setForm(): void {
+        this.form = new FormGroup({
+            opacity: this.opacityInput,
+            zoom: this.zoomInput = new FormControl(this.currentZoomLevel) as FormControl<number>,
+            primaryRoles: this.primaryRolesInput = new FormControl([]) as FormControl<number[]>,
+        });
+
+        this.opacityInput.valueChanges.subscribe((value) => {
+            this.changeMarkersOpacity();
+        });
+
+        this.zoomInput.valueChanges.pipe(
+            debounceTime(100),
+            distinctUntilChanged(),
+            tap((value: number) => this.zoomInputChanged(value))
+        ).subscribe();
+
+        this.primaryRolesInput.valueChanges.subscribe((value: number[]) => {
+            this.roleInputChanged(value);
+        });
     }
 }
 
