@@ -258,8 +258,8 @@
 
             <mat-divider></mat-divider>
 
-            <!-- Map Co-ordinates -->
-            <mat-accordion class="map-control-container">
+            <!-- Primary Roles -->
+            <mat-accordion class="map-control-container" *ngIf="zoom.manual">
 
                 <mat-expansion-panel>
 
@@ -267,7 +267,7 @@
                         <div mat-subheader>Primary Roles<span *ngIf="primaryRolesInput.value.length > 0"> ({{ primaryRolesInput.value.length }} selected)</span></div>
                     </mat-expansion-panel-header>
 
-                    <!-- Primary Role -->
+                    <!-- Primary Roles -->
                     <mat-list-item>
                         <shared-role-select
                             [control]="primaryRolesInput"
