@@ -15,6 +15,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
 
     @Output() public markerClicked = new EventEmitter<IMapData>();
     @Output() public manualZoom = new EventEmitter<L.LatLngBounds>();
+    @Output() public roleChanged = new EventEmitter<number[]>();
 
     /** Public Properties (Inputs) */
     @Input() public data: IMapData[] | undefined;
@@ -38,6 +39,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
     public form!: FormGroup;
     public opacityInput: FormControl<number> = new FormControl(0) as FormControl<number>;
     public zoomInput: any;
+    public primaryRolesInput: any;
     public mapStyle = { }
     public mapBoundaryCoords = {
         centre: {} as L.LatLng,
@@ -243,10 +245,15 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
         this.manualZoom.emit(this.map.getBounds());
     }
 
+    private roleInputChanged(value: number[]): void {
+        this.roleChanged.emit(value);
+    }
+
     private setForm(): void {
         this.form = new FormGroup({
             opacity: this.opacityInput,
             zoom: this.zoomInput = new FormControl(this.currentZoomLevel) as FormControl<number>,
+            primaryRoles: this.primaryRolesInput = new FormControl([]) as FormControl<number[]>,
         });
 
         this.opacityInput.valueChanges.subscribe((value) => {
@@ -255,6 +262,10 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
 
         this.zoomInput.valueChanges.subscribe((value: number) => {
             this.zoomInputChanged(value);
+        });
+
+        this.primaryRolesInput.valueChanges.subscribe((value: number[]) => {
+            this.roleInputChanged(value);
         });
     }
 
