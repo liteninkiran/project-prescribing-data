@@ -15,7 +15,7 @@
         <mat-list>
 
             <!-- Zoom Level -->
-            <mat-accordion class="map-coords">
+            <mat-accordion class="map-control-container">
 
                 <mat-expansion-panel>
 
@@ -34,7 +34,7 @@
                             matListItemIcon
                             matTooltip="Reset map"
                             matTooltipPosition="above"
-                            class="material-symbols-outlined mat-icon-span"
+                            class="material-symbols-outlined icon-span icon-pointer"
                             (click)="resetMap()"
                         >
                             search
@@ -90,7 +90,7 @@
             <mat-divider></mat-divider>
 
             <!-- Map Dimensions -->
-            <mat-accordion class="map-coords">
+            <mat-accordion class="map-control-container">
 
                 <mat-expansion-panel>
 
@@ -107,7 +107,7 @@
                         <!-- Icon -->
                         <span
                             matListItemIcon
-                            class="material-symbols-outlined mat-icon-span"
+                            class="material-symbols-outlined icon-span"
                         >
                             width
                         </span>
@@ -130,7 +130,7 @@
                     <mat-list-item>
 
                         <!-- Icon -->
-                        <span matListItemIcon class="material-symbols-outlined mat-icon-span">
+                        <span matListItemIcon class="material-symbols-outlined icon-span">
                             height
                         </span>
 
@@ -156,7 +156,7 @@
             <mat-divider></mat-divider>
 
             <!-- Marker Opacity -->
-            <mat-accordion class="map-coords">
+            <mat-accordion class="map-control-container">
 
                 <mat-expansion-panel>
 
@@ -182,7 +182,7 @@
                             matListItemIcon
                             matTooltip="Animate slider"
                             matTooltipPosition="above"
-                            class="material-symbols-outlined mat-icon-span"
+                            class="material-symbols-outlined icon-span icon-pointer"
                             (click)="animateSlider()"
                         >
                             opacity
@@ -207,7 +207,7 @@
             <mat-divider></mat-divider>
 
             <!-- Map Co-ordinates -->
-            <mat-accordion class="map-coords">
+            <mat-accordion class="map-control-container">
 
                 <mat-expansion-panel>
 
@@ -216,38 +216,38 @@
                     </mat-expansion-panel-header>
 
                     <mat-list-item>
-                        <span
+                        <span *ngIf="!useCentreIcon || !centreIcon"
                             matListItemIcon
                             matTooltip="Reset map"
                             matTooltipPosition="above"
-                            class="material-symbols-outlined mat-icon-span"
+                            class="material-symbols-outlined icon-span icon-pointer"
                             (click)="resetMap()"
                         >point_scan</span>
+                        <span matListItemIcon *ngIf="useCentreIcon && centreIcon"><img [src]="centreIcon"></span>
                         <div matListItemTitle>Centre</div>
                         <div matListItemLine>{{ mapBoundaryCoords.centre.lat | number: '1.0-4' }}, {{ mapBoundaryCoords.centre.lng | number: '1.0-4' }}</div>
-                        <img *ngIf="centreIcon && false" [src]="centreIcon">
                     </mat-list-item>
 
                     <mat-list-item>
-                        <span matListItemIcon class="material-symbols-outlined mat-icon-span">south_east</span>
+                        <span matListItemIcon class="material-symbols-outlined icon-span">south_east</span>
                         <div matListItemTitle>South East</div>
                         <div matListItemLine>{{ mapBoundaryCoords.southEast.lat | number: '1.0-4' }}, {{ mapBoundaryCoords.southEast.lng | number: '1.0-4' }}</div>
                     </mat-list-item>
 
                     <mat-list-item>
-                        <span matListItemIcon class="material-symbols-outlined mat-icon-span">south_west</span>
+                        <span matListItemIcon class="material-symbols-outlined icon-span">south_west</span>
                         <div matListItemTitle>South West</div>
                         <div matListItemLine>{{ mapBoundaryCoords.southWest.lat | number: '1.0-4' }}, {{ mapBoundaryCoords.southWest.lng | number: '1.0-4' }}</div>
                     </mat-list-item>
 
                     <mat-list-item>
-                        <span matListItemIcon class="material-symbols-outlined mat-icon-span">north_east</span>
+                        <span matListItemIcon class="material-symbols-outlined icon-span">north_east</span>
                         <div matListItemTitle>North East</div>
                         <div matListItemLine>{{ mapBoundaryCoords.northEast.lat | number: '1.0-4' }}, {{ mapBoundaryCoords.northEast.lng | number: '1.0-4' }}</div>
                     </mat-list-item>
 
                     <mat-list-item>
-                        <span matListItemIcon class="material-symbols-outlined mat-icon-span">north_west</span>
+                        <span matListItemIcon class="material-symbols-outlined icon-span">north_west</span>
                         <div matListItemTitle>North West</div>
                         <div matListItemLine>{{ mapBoundaryCoords.northWest.lat | number: '1.0-4' }}, {{ mapBoundaryCoords.northWest.lng | number: '1.0-4' }}</div>
                     </mat-list-item>

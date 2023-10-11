@@ -37,7 +37,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
     public zoomProgress: number = (this.zoom.initial - this.zoom.min) / (this.zoom.max - this.zoom.min) * 100;
     public form!: FormGroup;
     public opacityInput: FormControl<number> = new FormControl(0) as FormControl<number>;
-    public zoomInput: any; //FormControl<number> = new FormControl(this.zoom.initial) as FormControl<number>;
+    public zoomInput: any;
     public mapStyle = { }
     public mapBoundaryCoords = {
         centre: {} as L.LatLng,
@@ -209,20 +209,12 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
         this.setOpacity();
         this.changeMarkersOpacity();
         this.calculateMapBounds();
+        this.updateCentreIcon();
     }
 
     private onMapMove = (event: L.LeafletEvent): void => {
         this.calculateMapBounds();
-        if (this.useCentreIcon) {
-            this.centreIcon = '';
-            this.featureGroup.getLayers().forEach((layer: any) => {
-                const dist = this.distanceBetweenTwoPoints(layer.getLatLng(), this.mapBoundaryCoords.centre);
-                if (dist < 100) {
-                    this.centreIcon = layer.options.icon.options.iconUrl;
-                    return;
-                }
-            });
-        }
+        this.updateCentreIcon();
     }
 
     /** Opacity */
@@ -276,9 +268,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
             northEast: bounds.getNorthEast(),
             northWest: bounds.getNorthWest(),
         }
-        const lat = Math.round((this.mapBoundaryCoords.centre.lat + Number.EPSILON) * 1000000) / 1000000;
-        const lng = Math.round((this.mapBoundaryCoords.centre.lng + Number.EPSILON) * 1000000) / 1000000;
-        this.mapBoundaryCoords.centre = L.latLng(lat, lng);
         this.distance.x = this.distanceBetweenTwoPoints(this.mapBoundaryCoords.southWest, this.mapBoundaryCoords.southEast);
         this.distance.y = this.distanceBetweenTwoPoints(this.mapBoundaryCoords.southWest, this.mapBoundaryCoords.northWest);
     }
@@ -286,6 +275,21 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
     private distanceBetweenTwoPoints(point1: L.LatLng, point2: L.LatLng): number {
         return L.latLng(point1.lat, point1.lng)
             .distanceTo(L.latLng(point2.lat, point2.lng));
+    }
+
+    private updateCentreIcon() {
+        if (this.useCentreIcon) {
+            this.centreIcon = '';
+            this.featureGroup.getLayers().forEach((layer: any) => {
+                const point1: L.LatLng = layer.getLatLng();
+                const point2: L.LatLng = this.mapBoundaryCoords.centre;
+                const dist = this.distanceBetweenTwoPoints(point1, point2);
+                if (dist < this.distance.x * 0.02) {
+                    this.centreIcon = layer.options.icon.options.iconUrl;
+                    return;
+                }
+            });
+        }
     }
 }
 
