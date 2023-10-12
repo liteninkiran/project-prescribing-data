@@ -16,8 +16,10 @@ import { FormControl, FormGroup } from '@angular/forms';
 export class OrganisationViewComponent implements OnInit, OnDestroy {
     public form!: FormGroup;
     public primaryRolesInput: any;
+    public statusInput: any;
     public id: string = '';
-    public organisation$: Observable<IOrganisation> = new Observable<IOrganisation>();
+    public organisations$: Observable<IOrganisation[]> = new Observable<IOrganisation[]>();
+    public organisations: IOrganisation[] = [];
     public organisation: IOrganisation = {} as IOrganisation;
     public mapData: IMapData[] | undefined;
     public zoomSettings = {
@@ -43,8 +45,8 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        this.setId();
         this.setForm();
+        this.setId();
     }
 
     public ngOnDestroy(): void {
@@ -56,24 +58,26 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
     }
 
     public onManualZoom(bounds: L.LatLngBounds): void {
-        // TODO Make new request to back-end with bounds
+
     }
 
     private loadData(): void {
-        this.organisation$ = this.orgService.loadOrganisation(this.id);
-        const sub: Subscription = this.organisation$.subscribe((res: IOrganisation) => {
-            this.organisation = res;
-            this.mapData = [];
-            this.mapData?.push({
-                id: res.id,
-                icon: res.primary_role.icon || null,
-                icon_name: res.primary_role.display_name,
-                lat: res.postcode?.latitude || null,
-                long: res.postcode?.longitude || null,
-                code: res.org_id,
-                name: res.name,
-                postcode: res.post_code,
-                tooltipText: this.getTooltipText(res),
+        this.organisations$ = this.orgService.loadOrganisationData(this.id, this.form.value);
+        const sub: Subscription = this.organisations$.subscribe((res: IOrganisation[]) => {
+            this.organisations = res;
+            this.organisation = res.find((org) => org.org_id === this.id) as IOrganisation;
+            this.mapData = res.map((org) => {
+                return {
+                    id: org.id,
+                    icon: org.primary_role.icon || null,
+                    icon_name: org.primary_role.display_name,
+                    lat: org.postcode?.latitude || null,
+                    long: org.postcode?.longitude || null,
+                    code: org.org_id,
+                    name: org.name,
+                    postcode: org.post_code,
+                    tooltipText: this.getTooltipText(org),
+                }
             });
         });
         this.subscriptions.push(sub);
@@ -109,6 +113,7 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
     private setForm(): void {
         this.form = new FormGroup({
             primaryRoles: this.primaryRolesInput = new FormControl(null) as FormControl<number[] | null>,
+            status: this.statusInput = new FormControl(0) as FormControl<number[] | null>,
         });
 
         this.primaryRolesInput.valueChanges.pipe(
@@ -121,6 +126,6 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
     }
 
     private roleInputChanged(value: number[] | null): void {
-        console.log(value, this.organisation);
+        this.loadData();
     }
 }

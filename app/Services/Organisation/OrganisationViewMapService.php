@@ -22,11 +22,18 @@ class OrganisationViewMapService
     private Builder $query;
 
     /**
-     * columns
+     * defaultColumns
      *
-     * @var string[] $columns
+     * @var string[] $defaultColumns
      */
-    private array $columns;
+    private array $defaultColumns = [
+        'organisations.id',
+        'organisations.name',
+        'organisations.org_id',
+        'organisations.post_code',
+        'organisations.postcode_id',
+        'organisations.primary_role_id',
+    ];
 
     /**
      * limit
@@ -76,6 +83,21 @@ class OrganisationViewMapService
     {
         if ($roleIds) {
             $this->roleIds = $roleIds;
+            $this->query->primaryRolesInRaw($roleIds);
+        }
+        return $this;
+    }
+
+    /**
+     * setStatus
+     * 
+     * @param int|null $status
+     * @return self
+     */
+    public function setStatus(int|null $status): self
+    {
+        if ($status !== null) {
+            $this->query->status($status);
         }
         return $this;
     }
@@ -98,18 +120,9 @@ class OrganisationViewMapService
      * @param string[]|null $columns
      * @return self
      */
-    public function setColumns(array|null $columns = null): self
+    public function setColumns(array $columns = null): self
     {
-        $defaultColumns = [
-            'organisations.id',
-            'organisations.name',
-            'organisations.org_id',
-            'organisations.post_code',
-            'organisations.postcode_id',
-            'organisations.primary_role_id',
-        ];
-        $this->columns = ($columns !== null && count($columns)) > 0 ? $columns : $defaultColumns;
-        $this->query->select($this->columns);
+        $this->query->select($this->columns ?? $this->defaultColumns);
         return $this;
     }
 
@@ -126,15 +139,14 @@ class OrganisationViewMapService
     }
 
     /**
-     * applyRoleFilter
+     * setRadius
      *
+     * @param float $radius
      * @return self
      */
-    public function applyRoleFilter(): self
+    public function setRadius(float $radius): self
     {
-        if ($this->roleIds) {
-            $this->query->primaryRolesInRaw($this->roleIds);
-        }
+        $this->radius = $radius;
         return $this;
     }
 
@@ -158,11 +170,18 @@ class OrganisationViewMapService
 
         // Include other organisations by role, if required
         if ($this->roleIds) {
-            $organisations->combine($this->query->take($this->limit - 1)->get());
+            // \DB::enableQueryLog();
+            $otherOrgs = $this->query->take($this->limit - 1)->get();
+            // info(\DB::getQueryLog());
+            $organisations = $organisations->concat($otherOrgs);
+        }
+
+        if ($this->radius) {
+            // $this->query->reallyNotSure();
         }
 
         // Convert to array
-        return $organisations->toArray()[0];
+        return $organisations->toArray();
     }
 
     /**

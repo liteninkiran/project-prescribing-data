@@ -59,9 +59,12 @@ export class OrganisationService {
         );
     }
 
-    public loadOrganisation(id: string): Observable<IOrganisation> {
+    public loadOrganisationData(id: string, filters: IOrganisationFilters): Observable<IOrganisation[]> {
+        let params: HttpParams = new HttpParams();
+        params = this.addFilters(filters, params);
         const url = '/api/organisations/' + id;
-        return this.http.get<IOrganisation>(url);
+        const options = { params: params }
+        return this.http.get<IOrganisation[]>(url, options);
     }
 
     public loadDataFromApi(roleId: string): Observable<any> {
