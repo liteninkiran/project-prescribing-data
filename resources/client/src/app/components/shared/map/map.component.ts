@@ -24,7 +24,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
     /** Private Output Events */
     @Output() private markerClicked = new EventEmitter<IMapData>();
     @Output() private manualZoom = new EventEmitter<L.LatLngBounds>();
-    @Output() private roleChanged = new EventEmitter<number[]>();
 
     /** Public Input Properties */
     @Input() public data: IMapData[] | undefined;
@@ -308,15 +307,10 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
         }
     }
 
-    private roleInputChanged(value: number[]): void {
-        this.roleChanged.emit(value);
-    }
-
     private setForm(): void {
         this.form = new FormGroup({
             opacity: this.opacityInput,
             zoom: this.zoomInput = new FormControl(this.currentZoomLevel) as FormControl<number>,
-            primaryRoles: this.primaryRolesInput = new FormControl([]) as FormControl<number[]>,
         });
 
         this.opacityInput.valueChanges.subscribe((value) => {
@@ -328,10 +322,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
             distinctUntilChanged(),
             tap((value: number) => this.zoomInputChanged(value))
         ).subscribe();
-
-        this.primaryRolesInput.valueChanges.subscribe((value: number[]) => {
-            this.roleInputChanged(value);
-        });
     }
 }
 

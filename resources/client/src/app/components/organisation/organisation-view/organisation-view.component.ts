@@ -55,11 +55,6 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
         // TODO Make new request to back-end with bounds
     }
 
-    public onRoleChange(value: number[] | null) {
-        console.log(value);
-        // TODO Make new request to back-end with bounds
-    }
-
     private loadData(): void {
         this.organisation$ = this.orgService.loadOrganisation(this.id);
         const sub: Subscription = this.organisation$.subscribe((res: IOrganisation) => {
