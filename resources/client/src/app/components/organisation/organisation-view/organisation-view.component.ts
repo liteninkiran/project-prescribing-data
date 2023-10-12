@@ -34,6 +34,7 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
         dragging: false,
         zoomControl: false,
     }
+    public defaultIcon = defaultIcon;
 
     private subscriptions: Subscription[] = [];
 

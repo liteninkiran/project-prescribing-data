@@ -44,7 +44,7 @@ export class OrganisationService {
         // Add filter parameters
         params = this.addFilters(filters, params);
 
-        const url = '/api/organisations-map';
+        const url = '/api/organisations/map';
         const options = { params: params }
         const callBack = (organisation: IOrganisation) => ({
             ...organisation,

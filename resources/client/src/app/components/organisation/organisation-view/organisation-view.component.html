@@ -7,7 +7,9 @@
     <div class="org-header">
         <h1 class="org-header-name" *ngIf="organisation">{{ organisation.name }}</h1>
     </div>
-    <div class="org-header-spacer"></div>
+    <div class="org-header-role-icon" *ngIf="organisation && organisation.primary_role" >
+        <img [src]="organisation.primary_role.icon || defaultIcon.iconUrl">
+    </div>
 </div>
 
 <!-- Map -->
