@@ -29,10 +29,12 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
         manual: true,
     }
     public mapOptions: L.MapOptions = {
-        scrollWheelZoom: false,
-        doubleClickZoom: false,
-        dragging: false,
+        wheelDebounceTime: 100,
+        scrollWheelZoom: 'center',
+        doubleClickZoom: 'center',
         zoomControl: false,
+        dragging: false,
+        keyboard: false,
     }
     public defaultIcon = defaultIcon;
 

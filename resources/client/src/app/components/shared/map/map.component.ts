@@ -18,9 +18,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
     /** Private View Child Properties */
     @ViewChild('mapContainer') private mapContainer!: ElementRef;
 
-    /** Private Host Listener Events */
-    @HostListener('wheel', ['$event']) private onMouseWheel = (event: WheelEvent) => this.onMapMouseWheel(event)
-
     /** Private Output Events */
     @Output() private markerClicked = new EventEmitter<IMapData>();
     @Output() private manualZoom = new EventEmitter<L.LatLngBounds>();
@@ -230,20 +227,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
 
     private onMapMove = (event: L.LeafletEvent): void => {
         this.calculateMapBounds();
-    }
-
-    private onMapMouseWheel = (event: WheelEvent): void => {
-        const el: HTMLElement = event.target as HTMLElement;
-        const classList: DOMTokenList = el.classList;
-        const mapDiv = classList.contains('leaflet-container');
-        if (this.zoom.manual && mapDiv) {
-            event.preventDefault();
-            const delta = event.deltaY < 0 ? 1 : -1;
-            const newValue = this.zoomInput.value + delta;
-            if (newValue >= this.zoom.min && newValue <= this.zoom.max) {
-                this.zoomInput.setValue(newValue);
-            }
-        }
     }
 
     /** Opacity */
