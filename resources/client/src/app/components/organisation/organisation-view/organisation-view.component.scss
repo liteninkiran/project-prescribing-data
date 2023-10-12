@@ -15,13 +15,14 @@
         flex: 1;
         display: flex;
 
-        .org-header-id {
-            width: 200px;
-        }
-
         .org-header-name {
             flex: 1;
         }
 
     }
+
+    .org-header-spacer {
+        width: 100px;
+    }
+
 }

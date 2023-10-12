@@ -8,9 +8,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Eloquent\Builder;
 
 // Models
-use App\Models\Role;
 use App\Models\Organisation;
-use App\Models\Postcode;
 
 class OrganisationMapService
 {
@@ -77,7 +75,7 @@ class OrganisationMapService
             'organisations.primary_role_id',
         ];
     }
-    
+
     /**
      * addFilters
      *
