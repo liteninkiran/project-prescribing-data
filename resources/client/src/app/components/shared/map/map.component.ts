@@ -38,7 +38,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
         initial: 6,
         manual: false,
     }
-    @Input() public useCentreIcon = false;
 
     /** Public Properties */
     public currentOpacityLevel: number = 1;
@@ -59,7 +58,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
         x: 0,
         y: 0,
     }
-    public centreIcon = '';
 
     /** Private Properties */
     private map!: L.Map;
@@ -221,21 +219,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
             .distanceTo(L.latLng(point2.lat, point2.lng));
     }
 
-    private updateCentreIcon() {
-        if (this.useCentreIcon) {
-            this.centreIcon = '';
-            this.featureGroup.getLayers().forEach((layer: any) => {
-                const point1: L.LatLng = layer.getLatLng();
-                const point2: L.LatLng = this.mapBoundaryCoords.centre;
-                const dist = this.distanceBetweenTwoPoints(point1, point2);
-                if (dist < this.distance.x * 0.02) {
-                    this.centreIcon = layer.options.icon.options.iconUrl;
-                    return;
-                }
-            });
-        }
-    }
-
     /** Map Events */
     private onMapZoom = (event: L.LeafletEvent): void => {
         this.currentZoomLevel = event.target._zoom;
@@ -243,12 +226,10 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
         this.setOpacity();
         this.changeMarkersOpacity();
         this.calculateMapBounds();
-        this.updateCentreIcon();
     }
 
     private onMapMove = (event: L.LeafletEvent): void => {
         this.calculateMapBounds();
-        this.updateCentreIcon();
     }
 
     private onMapMouseWheel = (event: WheelEvent): void => {
