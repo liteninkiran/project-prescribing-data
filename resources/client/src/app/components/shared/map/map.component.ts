@@ -47,7 +47,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
     public form!: FormGroup;
     public opacityInput: FormControl<number> = new FormControl(0) as FormControl<number>;
     public zoomInput: any;
-    public primaryRolesInput: any;
     public mapStyle: IMapStyle = { }
     public mapBoundaryCoords = {
         centre: {} as L.LatLng,
