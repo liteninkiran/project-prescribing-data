@@ -1,26 +1,85 @@
-<div class="org-view-header">
-    <div class="primary-roles">
-        <shared-role-select
-            [control]="primaryRolesInput"
-        ></shared-role-select>
-    </div>
-    <div class="org-header">
-        <h1 class="org-header-name" *ngIf="organisation">{{ organisation.name }}</h1>
-    </div>
-    <div class="org-header-role-icon" *ngIf="organisation && organisation.primary_role" >
-        <img [src]="organisation.primary_role.icon || defaultIcon.iconUrl">
-    </div>
-</div>
+<ng-template #loading>
+    <mat-spinner diameter="30" class="loading-spinner"></mat-spinner>
+</ng-template>
 
 <!-- Map -->
-<shared-map
-    [data]="mapData"
-    [mapOptions]="mapOptions"
-    [zoom]="zoomSettings"
-    [initialCentreCoords]="[organisation.postcode?.latitude || 0, organisation.postcode?.longitude || 0]"
-    width="650px"
-    height="650px"
-    borderRadius="50%"
-    (markerClicked)="onMarkerClick($event)"
-    (manualZoom)="onManualZoom($event)"
-></shared-map>
+<ng-container *ngIf="organisation; else loading">
+    <h1 style="text-align: center; border: 1px solid lightgray; margin: 0; padding: 15px 0;">
+        {{ organisation.name }}
+    </h1>
+</ng-container>
+
+<div style="display: flex;">
+
+    <!-- Map -->
+    <div style="width: 1200px; border: 1px solid lightgray;">
+        <shared-map
+            [data]="mapData"
+            [mapOptions]="mapOptions"
+            [zoom]="zoomSettings"
+            [initialCentreCoords]="centreCoords"
+            width="650px"
+            height="650px"
+            borderRadius="50%"
+            (markerClicked)="onMarkerClick($event)"
+            (manualZoom)="onManualZoom($event)"
+        ></shared-map>
+    </div>
+
+    <!-- Organisation Details -->
+    <div style="flex: 1; border: 1px solid lightgray;">
+
+        <h1 style="text-align: center;">
+            Organisation Details
+        </h1>
+
+        <ng-container *ngIf="organisation; else loading">
+
+            <form>
+
+                <!-- Primary Role -->
+                <mat-form-field class="org-form-field">
+                    <mat-label>Primary Role</mat-label>
+                    <input matInput type="text" [value]="organisation.primary_role.display_name" [readonly]="true">
+                    <img [src]="organisation.primary_role.icon">
+                </mat-form-field>
+
+                <!-- Org ID -->
+                <mat-form-field class="org-form-field">
+                    <mat-label>Organisation ID</mat-label>
+                    <input matInput type="text" [value]="organisation.org_id" [readonly]="true">
+                </mat-form-field>
+
+                <!-- Postcode -->
+                <mat-form-field class="org-form-field">
+                    <mat-label>Postcode</mat-label>
+                    <input matInput type="text" [value]="organisation.post_code" [readonly]="true">
+                </mat-form-field>
+
+                <!-- Lat / Long -->
+                <mat-form-field class="org-form-field">
+                    <mat-label>Latitude / Longitude</mat-label>
+                    <input matInput type="text" [value]="organisation.postcode?.latitude" [readonly]="true">
+                    <input matInput type="text" [value]="organisation.postcode?.longitude" [readonly]="true">
+                </mat-form-field>
+
+                <!-- Last Change Date -->
+                <mat-form-field class="org-form-field">
+                    <mat-label>Last Change Date</mat-label>
+                    <input matInput type="text" [value]="organisation.last_change_date | dateAgo" [readonly]="true">
+                </mat-form-field>
+
+                <!-- Active -->
+                <mat-checkbox [checked]="!organisation.inactive" disabled>Active</mat-checkbox>
+
+                <!-- Organisation Link -->
+                <div class="org-link">
+                    <h3><a [href]="organisation.org_link" target="_blank">Link to Spine Services</a></h3>
+                </div>
+    
+            </form>
+
+        </ng-container>
+    </div>
+
+</div>

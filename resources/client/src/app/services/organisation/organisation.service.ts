@@ -64,7 +64,17 @@ export class OrganisationService {
         params = this.addFilters(filters, params);
         const url = '/api/organisations/' + id;
         const options = { params: params }
-        return this.http.get<IOrganisation[]>(url, options);
+        const callBack = (organisation: IOrganisation) => ({
+            ...organisation,
+            last_change_date: new Date(organisation.last_change_date),
+            created_at: new Date(organisation.created_at),
+            updated_at: new Date(organisation.updated_at),
+        });
+        return this.http.get<IOrganisation[]>(url, options).pipe(
+            map((res: IOrganisation[]) => {
+                return res.map(callBack);
+            })
+        );
     }
 
     public loadDataFromApi(roleId: string): Observable<any> {

@@ -20,7 +20,8 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
     public id: string = '';
     public organisations$: Observable<IOrganisation[]> = new Observable<IOrganisation[]>();
     public organisations: IOrganisation[] = [];
-    public organisation: IOrganisation = {} as IOrganisation;
+    public organisation!: IOrganisation;
+    public centreCoords!: L.LatLngExpression;
     public mapData: IMapData[] | undefined;
     public zoomSettings = {
         min: 10,
@@ -69,6 +70,7 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
         const sub: Subscription = this.organisations$.subscribe((res: IOrganisation[]) => {
             this.organisations = res;
             this.organisation = res.find((org) => org.org_id === this.id) as IOrganisation;
+            this.centreCoords = [this.organisation.postcode?.latitude || 0, this.organisation.postcode?.longitude || 0] as L.LatLngExpression;
             this.mapData = res.map((org) => {
                 return {
                     id: org.id,
