@@ -27,7 +27,7 @@ const routes: Routes = [
         component: OrganisationComponent,
     },
     {
-        path: 'organisations/map',
+        path: 'map',
         component: OrganisationMapComponent,
     },
     {

@@ -62,7 +62,7 @@ export class OrganisationService {
     public loadOrganisationData(id: string, filters: IOrganisationFilters): Observable<IOrganisation[]> {
         let params: HttpParams = new HttpParams();
         params = this.addFilters(filters, params);
-        const url = '/api/organisations/' + id;
+        const url = '/api/organisations/view/' + id;
         const options = { params: params }
         const callBack = (organisation: IOrganisation) => ({
             ...organisation,
