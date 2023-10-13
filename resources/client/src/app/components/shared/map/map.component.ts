@@ -150,9 +150,9 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
         const markers = this.data
             .map(point => this.addMarkerToMap(point, this.currentOpacityLevel))
             .filter(marker => marker);
-        this.noMarkers = markers.length === 0;
+        this.noMarkers = markers.length === 0 && this.zoom.manual;
         this.featureGroup = L.featureGroup(markers as L.Marker<IMapData>[]).addTo(this.map);
-   }
+    }
 
     private addMarkerToMap(data: IMapData, opacity: number): L.Marker<IMapData> | undefined {
         // Check we have co-ordinates
