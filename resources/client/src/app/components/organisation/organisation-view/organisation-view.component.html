@@ -96,10 +96,20 @@
                 <h4>Find active organisations near-by</h4>
 
                 <!-- Primary Roles -->
-                <shared-role-select
-                    [control]="primaryRolesInput"
-                    [exclude]="[organisation.primary_role.id]"
-                ></shared-role-select>
+                <div class="primary-roles-select">
+                    <shared-role-select
+                        [control]="primaryRolesInput"
+                        [exclude]="[organisation.primary_role.id]"
+                    ></shared-role-select>
+                </div>
+
+                <div class="primary-roles-results" *ngIf="primaryRolesInput.value">
+                    <p>{{ organisations.length | number: '1.0-0' }} record(s) found</p>
+                    <div *ngIf="organisations.length >= 1000" class="filter-warning">
+                        <p>Please select a smaller area</p>
+                        <p *ngIf="primaryRolesInput.value.length > 1">Please select fewer Primary Role(s)</p>
+                    </div>
+                </div>
 
             </div>
 

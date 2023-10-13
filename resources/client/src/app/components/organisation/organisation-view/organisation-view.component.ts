@@ -6,7 +6,6 @@ import { IAsyncButtonInputConfig, IMapData, IMatTableColumnConfig, IPaginatorCon
 import { OrganisationService } from 'src/app/services/organisation/organisation.service';
 import { defaultIcon } from 'src/app/components/shared/map/map.component';
 import { FormControl, FormGroup } from '@angular/forms';
-import { OrganisationDataSource } from '../organisation/organisation.data-source';
 
 @Component({
     selector: 'app-organisation-view',
@@ -118,6 +117,7 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
                     tooltipText: this.getTooltipText(org),
                 }
             });
+            this.organisations.splice(0, 1);
         });
         this.subscriptions.push(sub);
     }

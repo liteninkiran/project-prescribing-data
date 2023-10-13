@@ -40,7 +40,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
     public currentZoomLevel: number = this.zoom.initial;
     public zoomProgress: number = (this.zoom.initial - this.zoom.min) / (this.zoom.max - this.zoom.min) * 100;
     public form!: FormGroup;
-    public opacityInput: FormControl<number> = new FormControl(0) as FormControl<number>;
+    public opacityInput: FormControl<number> = new FormControl(1) as FormControl<number>;
     public mapStyle: IMapStyle = { }
     public mapBoundaryCoords = {
         centre: {} as L.LatLng,
@@ -268,8 +268,10 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
 
     /** Form */
     private setForm(): void {
+        this.opacityInput = new FormControl(this.zoom.manual ? 100: 0) as FormControl<number>;
+
         this.form = new FormGroup({
-            opacity: this.opacityInput,
+            opacity: this.opacityInput
         });
 
         this.opacityInput.valueChanges.subscribe((value) => {
