@@ -171,7 +171,9 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
         const marker = L.marker(markerCoords, markerOptions);
 
         // Tooltip
-        const tooltipOptions: L.TooltipOptions = { direction: 'top', offset: [0, -30], permanent: false }
+        const centreLat = this.initialCentreCoords[0 as keyof L.LatLngBoundsExpression] as number;
+        const direction: L.Direction = !this.zoom.manual ? 'top' : (data.lat > centreLat ? 'bottom': 'center');
+        const tooltipOptions: L.TooltipOptions = { direction, offset: [0, -30], permanent: false }
         marker.bindTooltip(data.tooltipText, tooltipOptions);
 
         // On Events
