@@ -55,6 +55,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
         x: 0,
         y: 0,
     }
+    public noMarkers = false;
 
     /** Private Properties */
     private map!: L.Map;
@@ -149,6 +150,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
         const markers = this.data
             .map(point => this.addMarkerToMap(point, this.currentOpacityLevel))
             .filter(marker => marker);
+        this.noMarkers = markers.length === 0;
         this.featureGroup = L.featureGroup(markers as L.Marker<IMapData>[]).addTo(this.map);
    }
 

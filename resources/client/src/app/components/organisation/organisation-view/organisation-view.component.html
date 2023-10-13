@@ -34,54 +34,58 @@
     <!-- Organisation Details -->
     <div class="org-container">
 
-        <h1>
-            Organisation Details
-        </h1>
-
         <ng-container *ngIf="organisation; else loading">
 
             <form>
 
-                <!-- Primary Role -->
-                <mat-form-field class="org-form-field">
-                    <mat-label>Primary Role</mat-label>
-                    <input matInput type="text" [value]="organisation.primary_role.display_name" [readonly]="true">
-                    <img [src]="organisation.primary_role.icon">
-                </mat-form-field>
+                <fieldset class="field_set">
 
-                <!-- Org ID -->
-                <mat-form-field class="org-form-field">
-                    <mat-label>Organisation ID</mat-label>
-                    <input matInput type="text" [value]="organisation.org_id" [readonly]="true">
-                </mat-form-field>
+                    <legend>
+                        Organisation
+                    </legend>
 
-                <!-- Postcode -->
-                <mat-form-field class="org-form-field">
-                    <mat-label>Postcode</mat-label>
-                    <input matInput type="text" [value]="organisation.post_code" [readonly]="true">
-                </mat-form-field>
+                    <!-- Primary Role -->
+                    <mat-form-field class="org-form-field">
+                        <mat-label>Primary Role</mat-label>
+                        <input matInput type="text" [value]="organisation.primary_role.display_name" [readonly]="true">
+                        <img [src]="organisation.primary_role.icon || defaultIcon.iconUrl">
+                    </mat-form-field>
 
-                <!-- Lat / Long -->
-                <mat-form-field class="org-form-field">
-                    <mat-label>Latitude / Longitude</mat-label>
-                    <input matInput type="text" [value]="organisation.postcode?.latitude | number: '1.6-6'" [readonly]="true">
-                    <input matInput type="text" [value]="organisation.postcode?.longitude | number: '1.6-6'" [readonly]="true">
-                </mat-form-field>
+                    <!-- Org ID -->
+                    <mat-form-field class="org-form-field">
+                        <mat-label>Organisation ID</mat-label>
+                        <input matInput type="text" [value]="organisation.org_id" [readonly]="true">
+                    </mat-form-field>
 
-                <!-- Last Change Date -->
-                <mat-form-field class="org-form-field">
-                    <mat-label>Last Change Date</mat-label>
-                    <input matInput type="text" [value]="organisation.last_change_date | dateAgo" [readonly]="true">
-                </mat-form-field>
+                    <!-- Postcode -->
+                    <mat-form-field class="org-form-field">
+                        <mat-label>Postcode</mat-label>
+                        <input matInput type="text" [value]="organisation.post_code" [readonly]="true">
+                    </mat-form-field>
 
-                <!-- Active -->
-                <mat-checkbox [checked]="!organisation.inactive" disabled>Active</mat-checkbox>
+                    <!-- Lat / Long -->
+                    <mat-form-field class="org-form-field">
+                        <mat-label>Latitude / Longitude</mat-label>
+                        <input matInput type="text" [value]="organisation.postcode?.latitude | number: '1.6-6'" [readonly]="true">
+                        <input matInput type="text" [value]="organisation.postcode?.longitude | number: '1.6-6'" [readonly]="true">
+                    </mat-form-field>
+
+                    <!-- Last Change Date -->
+                    <mat-form-field class="org-form-field">
+                        <mat-label>Last Change Date</mat-label>
+                        <input matInput type="text" [value]="organisation.last_change_date | dateAgo" [readonly]="true">
+                    </mat-form-field>
+
+                    <!-- Active -->
+                    <mat-checkbox [checked]="!organisation.inactive" disabled>Active</mat-checkbox>
+
+                </fieldset>
 
                 <!-- Organisation Link -->
                 <div class="org-link">
                     <h3><a [href]="organisation.org_link" target="_blank">Link to Spine Services</a></h3>
                 </div>
-    
+
             </form>
 
         </ng-container>

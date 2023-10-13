@@ -6,7 +6,13 @@
     <mat-spinner diameter="30" class="control-spinner-2"></mat-spinner>
 </ng-template>
 
-<div class="map-container">
+<ng-template #noMarkersTemplate>
+    <div class="no-data">
+        <h1>No postcode data could be found</h1>
+    </div>
+</ng-template>
+
+<div class="map-container" *ngIf="!noMarkers; else noMarkersTemplate">
 
     <!-- Map Controls -->
     <div class="map-controls">
