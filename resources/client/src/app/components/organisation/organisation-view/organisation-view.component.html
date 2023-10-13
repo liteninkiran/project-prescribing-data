@@ -77,17 +77,30 @@
                     </mat-form-field>
 
                     <!-- Active -->
-                    <mat-checkbox [checked]="!organisation.inactive" [disableRipple]="true" (click)="$event.preventDefault()">Active</mat-checkbox>
+                    <mat-checkbox
+                        [checked]="!organisation.inactive"
+                        [disableRipple]="true"
+                        (click)="$event.preventDefault()"
+                    >
+                        Active
+                    </mat-checkbox>
 
                 </fieldset>
 
             </form>
 
+            <!-- Near-by Organisations Filter -->
             <div class="primary-roles">
+
+                <!-- Heading -->
                 <h4>Find active organisations near-by</h4>
+
+                <!-- Primary Roles -->
                 <shared-role-select
                     [control]="primaryRolesInput"
+                    [exclude]="[organisation.primary_role.id]"
                 ></shared-role-select>
+
             </div>
 
         </ng-container>
@@ -95,7 +108,6 @@
     </div>
 
 </div>
-
 
 <!-- Data -->
 <shared-table

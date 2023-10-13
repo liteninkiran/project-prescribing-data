@@ -12,6 +12,7 @@ import { OrganisationStore } from 'src/app/services/organisation/organisation.st
 export class RoleSelectComponent {
 
     @Input() public control!: FormControl;
+    @Input() public exclude: number[] | null = null;
 
     public roles$!: Observable<IMatSelectOptions[]>;
 
@@ -24,6 +25,6 @@ export class RoleSelectComponent {
     }
 
     private loadReferenceData(): void {
-        this.roles$ = this.orgStore.getRolesListByType(true);
+        this.roles$ = this.orgStore.getRolesListByType(true, this.exclude);
     }
 }
