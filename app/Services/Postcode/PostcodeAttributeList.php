@@ -12,7 +12,12 @@ class PostcodeAttributeList
     private array $includeRows = [];
     private array $excludeRows = [];
     private array $columns = [];
-    private array $models = [];
+    private array $orderBy = [];
+    private Builder $query;
+
+    public function __construct()
+    {
+    }
 
     public function setClass(string $class): self
     {
@@ -38,33 +43,40 @@ class PostcodeAttributeList
         return $this;
     }
 
-    public function setModels(): self
+    public function setQuery(): self
     {
-        $this->models = $this->getModelsQuery()->get()->toArray();
+        $this->query = $this->getQuery();
         return $this;
     }
 
-    public function getModels(): array
+    public function setOrderBy(array $orderBy): self
     {
-        return $this->models;
+        $this->orderBy = $orderBy;
+        return $this->addOrderBy();
     }
 
-    public function setExtraModels(): self
+    public function execute(): array
     {
+        $data = $this->query->get()->toArray();
         foreach($this->includeRows as $row) {
-            array_push($this->models, $row);
+            array_push($data, $row);
         }
-        return $this;
+        return $data;
     }
 
-    private function getModelsQuery(): Builder
+    private function getQuery(): Builder
     {
         return $this->class::query()
             ->select($this->columns)
             ->when(count($this->excludeRows) > 0, function (Builder $query) {
                 $array = array_values($this->excludeRows);
                 $query->whereNotIn('name', $array);
-            })
-            ->orderBy('name', 'asc');
+            });
+    }
+
+    private function addOrderBy(): self
+    {
+        $this->query->orderBy('name', 'asc');
+        return $this;
     }
 }

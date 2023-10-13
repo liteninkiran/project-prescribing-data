@@ -29,5 +29,5 @@ export interface IPrimaryRole {
     id: number;
     _id: string;
     display_name: string;
-    icon: string;
+    icon: string | null;
 };

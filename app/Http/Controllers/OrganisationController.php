@@ -14,6 +14,7 @@ use App\Models\Role;
 use App\Services\Organisation\OrganisationApiService;
 use App\Services\Organisation\OrganisationMapService;
 use App\Services\Organisation\OrganisationPager;
+use App\Services\Organisation\OrganisationViewMapService;
 
 // Jobs
 use App\Jobs\StoreFromApi;
@@ -61,9 +62,19 @@ class OrganisationController extends Controller
      * @param Organisation $organisation
      * @return JsonResponse
      */
-    public function show(Organisation $organisation): JsonResponse
+    public function show(OrganisationViewMapService $organisationViewMapService, Organisation $organisation): JsonResponse
     {
-        return response()->json($organisation->load('postcode:id,latitude,longitude')->load('primaryRole:id,display_name,icon'));
+        // \DB::enableQueryLog();
+        $organisations = $organisationViewMapService
+            ->setColumns()
+            ->setOrganisation($organisation)
+            ->setRoleIds(request()->input('primary_roles', null))
+            ->setStatus(request()->input('status', 0))
+            ->setRadius(request()->input('radius', null))
+            ->execute();
+        // info(\DB::getQueryLog());
+
+        return response()->json($organisations);
     }
 
     public function updatePostcode(): JsonResponse

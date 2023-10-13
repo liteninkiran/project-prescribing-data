@@ -1,7 +1,241 @@
-<!-- Map -->
-<div class="map" #mapContainer [ngStyle]="{ 'border-radius': borderRadius }"
-    *ngIf="featureGroup?.getLayers()?.length !== 0">
+<ng-template #loading1>
+    <mat-spinner diameter="30" class="control-spinner-1"></mat-spinner>
+</ng-template>
+
+<ng-template #loading2>
+    <mat-spinner diameter="30" class="control-spinner-2"></mat-spinner>
+</ng-template>
+
+<ng-template #noMarkersTemplate>
+    <div class="no-data">
+        <h1>No postcode data could be found</h1>
+    </div>
+</ng-template>
+
+<div class="map-container" *ngIf="!noMarkers; else noMarkersTemplate">
+
+    <!-- Map Controls -->
+    <div class="map-controls">
+
+        <!-- Control List -->
+        <mat-list>
+
+            <!-- Zoom Level -->
+            <mat-accordion class="map-control-container">
+
+                <mat-expansion-panel>
+
+                    <!-- Sub-Header -->
+                    <mat-expansion-panel-header>
+                        <div mat-subheader>
+                            Zoom Level ({{ currentZoomLevel - zoom.min + 1 }} / {{ zoom.max - zoom.min + 1 }})
+                        </div>
+                    </mat-expansion-panel-header>
+
+                    <!-- Zoom Level -->
+                    <mat-list-item>
+
+                        <!-- Icon -->
+                        <span
+                            matListItemIcon
+                            matTooltip="Reset map"
+                            matTooltipPosition="above"
+                            class="material-symbols-outlined icon-span icon-pointer"
+                            (click)="resetMap()"
+                        >
+                            search
+                        </span>
+
+                        <!-- Progress Bar -->
+                        <div matListItemTitle>
+                            <mat-progress-bar mode="determinate" [value]="zoomProgress"></mat-progress-bar>
+                        </div>
+
+                    </mat-list-item>
+
+                </mat-expansion-panel>
+
+            </mat-accordion>
+
+            <mat-divider></mat-divider>
+
+            <!-- Map Dimensions -->
+            <mat-accordion class="map-control-container">
+
+                <mat-expansion-panel>
+
+                    <!-- Sub-Header -->
+                    <mat-expansion-panel-header>
+                        <div mat-subheader>
+                            Map Dimensions
+                        </div>
+                    </mat-expansion-panel-header>
+
+                    <!-- Width -->
+                    <mat-list-item>
+
+                        <!-- Icon -->
+                        <span
+                            matListItemIcon
+                            class="material-symbols-outlined icon-span"
+                        >
+                            width
+                        </span>
+
+                        <!-- Title -->
+                        <div matListItemTitle>
+                            Width
+                        </div>
+
+                        <!-- Value -->
+                        <ng-container *ngIf="data; else loading1">
+                            <div matListItemLine>
+                                {{ distance.x | distance }}
+                            </div>
+                        </ng-container>
+
+                    </mat-list-item>
+
+                    <!-- Height -->
+                    <mat-list-item>
+
+                        <!-- Icon -->
+                        <span matListItemIcon class="material-symbols-outlined icon-span">
+                            height
+                        </span>
+
+                        <!-- Title -->
+                        <div matListItemTitle>
+                            Height
+                        </div>
+
+                        <!-- Value -->
+                        <ng-container *ngIf="data; else loading1">
+                            <div matListItemLine>
+                                {{ distance.y | distance }}
+                            </div>
+                        </ng-container>
+
+                    </mat-list-item>
+
+
+                </mat-expansion-panel>
+
+            </mat-accordion>
+
+            <mat-divider></mat-divider>
+
+            <!-- Marker Opacity -->
+            <mat-accordion class="map-control-container">
+
+                <mat-expansion-panel>
+
+                    <!-- Sub-Header -->
+                    <mat-expansion-panel-header>
+                        <!-- Sub-Header Container -->
+                        <div class="opacity-container">
+
+                            <!-- Sub-Header -->
+                            <div mat-subheader>
+                                Marker Opacity <span *ngIf="data && !opacityInput.value">({{ currentOpacityLevel | percent }})</span>
+                                <span class="mat-list-slider-span" *ngIf="opacityInput.value">({{ opacityInput.value }}%)</span>
+                            </div>
+
+                        </div>
+                    </mat-expansion-panel-header>
+
+                    <!-- Width -->
+                    <mat-list-item>
+
+                        <!-- Icon -->
+                        <span
+                            matListItemIcon
+                            matTooltip="Animate slider"
+                            matTooltipPosition="above"
+                            class="material-symbols-outlined icon-span icon-pointer"
+                            (click)="animateSlider()"
+                        >
+                            opacity
+                        </span>
+
+                        <!-- Slider Container -->
+                        <div matListItemTitle class="mat-list-slider-container">
+
+                            <!-- Slider -->
+                            <mat-slider [min]="0" [max]="100" step="1">
+                                <input matInput matSliderThumb [formControl]="opacityInput">
+                            </mat-slider>
+
+                        </div>
+
+                    </mat-list-item>
+
+                </mat-expansion-panel>
+
+            </mat-accordion>
+
+            <mat-divider></mat-divider>
+
+            <!-- Map Co-ordinates -->
+            <mat-accordion class="map-control-container">
+
+                <mat-expansion-panel>
+
+                    <mat-expansion-panel-header>
+                        <div mat-subheader>Map Co-ordinates</div>
+                    </mat-expansion-panel-header>
+
+                    <mat-list-item>
+                        <span
+                            matListItemIcon
+                            matTooltip="Reset map"
+                            matTooltipPosition="above"
+                            class="material-symbols-outlined icon-span icon-pointer"
+                            (click)="resetMap()"
+                        >point_scan</span>
+                        <div matListItemTitle>Centre</div>
+                        <div matListItemLine>{{ mapBoundaryCoords.centre.lat | number: '1.0-4' }}, {{ mapBoundaryCoords.centre.lng | number: '1.0-4' }}</div>
+                    </mat-list-item>
+
+                    <mat-list-item>
+                        <span matListItemIcon class="material-symbols-outlined icon-span">south_east</span>
+                        <div matListItemTitle>South East</div>
+                        <div matListItemLine>{{ mapBoundaryCoords.southEast.lat | number: '1.0-4' }}, {{ mapBoundaryCoords.southEast.lng | number: '1.0-4' }}</div>
+                    </mat-list-item>
+
+                    <mat-list-item>
+                        <span matListItemIcon class="material-symbols-outlined icon-span">south_west</span>
+                        <div matListItemTitle>South West</div>
+                        <div matListItemLine>{{ mapBoundaryCoords.southWest.lat | number: '1.0-4' }}, {{ mapBoundaryCoords.southWest.lng | number: '1.0-4' }}</div>
+                    </mat-list-item>
+
+                    <mat-list-item>
+                        <span matListItemIcon class="material-symbols-outlined icon-span">north_east</span>
+                        <div matListItemTitle>North East</div>
+                        <div matListItemLine>{{ mapBoundaryCoords.northEast.lat | number: '1.0-4' }}, {{ mapBoundaryCoords.northEast.lng | number: '1.0-4' }}</div>
+                    </mat-list-item>
+
+                    <mat-list-item>
+                        <span matListItemIcon class="material-symbols-outlined icon-span">north_west</span>
+                        <div matListItemTitle>North West</div>
+                        <div matListItemLine>{{ mapBoundaryCoords.northWest.lat | number: '1.0-4' }}, {{ mapBoundaryCoords.northWest.lng | number: '1.0-4' }}</div>
+                    </mat-list-item>
+
+                </mat-expansion-panel>
+
+            </mat-accordion>
+
+            <mat-divider></mat-divider>
+
+        </mat-list>
+
+    </div>
+
+    <!-- Map -->
+    <div class="map-flex-container">
+        <div #mapContainer class="map" [ngStyle]="mapStyle">
+            <mat-spinner *ngIf="!data" diameter="100" color="primary" id="map-spinner"></mat-spinner>
+        </div>
+    </div>
 
 </div>
-
-<img src="assets/svg/map/no-map-a.svg" *ngIf="featureGroup?.getLayers()?.length === 0">

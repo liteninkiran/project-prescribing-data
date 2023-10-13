@@ -13,6 +13,7 @@ export interface IOrganisation {
     primary_role: IPrimaryRole;
     postcode?: IOrgPostcode;
     status: string;
+    inactive: number;
     created_at: Date;
     updated_at: Date;
 };

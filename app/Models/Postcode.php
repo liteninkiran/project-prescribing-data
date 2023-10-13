@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Builder;
 
 class Postcode extends Model
 {
@@ -193,5 +194,53 @@ class Postcode extends Model
     public function postcodeArea(): BelongsTo
     {
         return $this->belongsTo(PostcodeArea::class, 'postcode_area_id', 'id');
+    }
+
+
+    /******************    SCOPES    *******************/
+
+    public function scopeWithinDistanceOf(Builder $query, float $distance, float $lat, float $long): Builder
+    {
+        // Store co-ordinates in radians
+        $latFr = 'RADIANS(latitude)';
+        $lngFr =  'RADIANS(longitude)';
+        $latTo = "RADIANS($lat)";
+        $lngTo =  "RADIANS($long)";
+
+        // Calculate the longitudinal delta
+        $delta = "$lngFr - $lngTo";
+
+        // Apply magic
+        $a = "POW(COS($latTo) * SIN($delta), 2) + POW(COS($latFr) * SIN($latTo) - SIN($latFr) * COS($latTo) * COS($delta), 2)";
+        $b = "SIN($latFr) * SIN($latTo) + COS($latFr) * COS($latTo) * COS($delta)";
+        $angle = "ATAN2(SQRT($a), $b)";
+
+        // Create final raw statement
+        $raw = "$angle * 6371000 < $distance";
+
+        return $query->whereRaw($raw);
+    }
+
+    /**
+     * Calculates the great-circle distance between two points, with
+     * the Vincenty formula.
+     * @param float $latitudeFrom Latitude of start point in [deg decimal]
+     * @param float $longitudeFrom Longitude of start point in [deg decimal]
+     * @param float $latitudeTo Latitude of target point in [deg decimal]
+     * @param float $longitudeTo Longitude of target point in [deg decimal]
+     * @param float $earthRadius Mean earth radius in [m]
+     * @return float Distance between points in [m] (same as earthRadius)
+     */
+    private static function vincentyGreatCircleDistance(float $latitudeFrom, float $longitudeFrom, float $latitudeTo, float $longitudeTo, float $earthRadius = 6371000): float
+    {
+        $latFrom = deg2rad($latitudeFrom);
+        $lonFrom = deg2rad($longitudeFrom);
+        $latTo = deg2rad($latitudeTo);
+        $lonTo = deg2rad($longitudeTo);
+        $lonDelta = $lonTo - $lonFrom;
+        $a = pow(cos($latTo) * sin($lonDelta), 2) + pow(cos($latFrom) * sin($latTo) - sin($latFrom) * cos($latTo) * cos($lonDelta), 2);
+        $b = sin($latFrom) * sin($latTo) + cos($latFrom) * cos($latTo) * cos($lonDelta);
+        $angle = atan2(sqrt($a), $b);
+        return $angle * $earthRadius;
     }
 }

@@ -44,7 +44,7 @@ export class OrganisationService {
         // Add filter parameters
         params = this.addFilters(filters, params);
 
-        const url = '/api/organisations-map';
+        const url = '/api/organisations/map';
         const options = { params: params }
         const callBack = (organisation: IOrganisation) => ({
             ...organisation,
@@ -59,9 +59,27 @@ export class OrganisationService {
         );
     }
 
-    public loadOrganisation(id: string): Observable<IOrganisation> {
-        const url = '/api/organisations/' + id;
-        return this.http.get<IOrganisation>(url);
+    public loadOrganisationData(id: string, filters: IOrganisationFilters, radius: number): Observable<IOrganisation[]> {
+        let params: HttpParams = new HttpParams();
+        if (filters.primaryRoles) {
+            params = this.addFilters(filters, params);
+            if (radius > 0) {
+                params = params.append('radius', radius);
+            }
+        }
+        const url = '/api/organisations/view/' + id;
+        const options = { params: params }
+        const callBack = (organisation: IOrganisation) => ({
+            ...organisation,
+            last_change_date: new Date(organisation.last_change_date),
+            created_at: new Date(organisation.created_at),
+            updated_at: new Date(organisation.updated_at),
+        });
+        return this.http.get<IOrganisation[]>(url, options).pipe(
+            map((res: IOrganisation[]) => {
+                return res.map(callBack);
+            })
+        );
     }
 
     public loadDataFromApi(roleId: string): Observable<any> {

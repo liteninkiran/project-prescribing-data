@@ -37,14 +37,34 @@ class PostcodeAttributeLists
         $includeRows = [
             'admin_county' => [[ 'id' => 0, 'name' => 'NULL' ]],
         ];
+        $orderBy = [
+            'european_electoral_region' => [
+                'tables' => ['countries', 'country_id', 'id'],
+                'order' => [
+                    ['countries.name', 'asc'],
+                    ['european_electoral_regions.name', 'asc'],
+                ],
+            ],
+            'parliamentary_constituency' => [
+                'tables' => [
+                    ['european_electoral_regions', 'european_electoral_region_id', 'id'],
+                    ['countries', 'country_id', 'id'],
+                ],
+                'order' => [
+                    ['countries.name', 'asc'],
+                    ['european_electoral_regions.name', 'asc'],
+                    ['parliamentary_constituencies.name', 'asc'],
+                ],
+            ],
+        ];
         return [
-            'admin_county'                  => $this->getAttributeList('AdminCounty', [], $includeRows['admin_county']),
+            'admin_county'                  => $this->getAttributeList('AdminCounty', includeRows: $includeRows['admin_county']),
             'admin_district'                => $this->getAttributeList('AdminDistrict'),
-            'parliamentary_constituency'    => $this->getAttributeList('ParliamentaryConstituency'),
+            'parliamentary_constituency'    => $this->getAttributeList('ParliamentaryConstituency', orderBy: $orderBy['parliamentary_constituency']),
             'police_force_area'             => $this->getAttributeList('PoliceForceArea'),
             'nuts'                          => $this->getAttributeList('Nuts'),
-            'postcode_area'                 => $this->getAttributeList('PostcodeArea', [], [], ['code']),
-            'european_electoral_region'     => $this->getAttributeList('EuropeanElectoralRegion'),
+            'postcode_area'                 => $this->getAttributeList('PostcodeArea', includeColumns: ['code']),
+            'european_electoral_region'     => $this->getAttributeList('EuropeanElectoralRegion', orderBy: $orderBy['european_electoral_region']),
             'health_authority'              => $this->getAttributeList('HealthAuthority'),
             'primary_care_trust'            => $this->getAttributeList('PrimaryCareTrust'),
             'region'                        => $this->getAttributeList('Region'),
@@ -52,15 +72,15 @@ class PostcodeAttributeLists
         ];
     }
 
-    public function getAttributeList(string $class, array $excludeRows = [], array $includeRows = [], array $includeColumns = []): array
+    public function getAttributeList(string $class, array $excludeRows = [], array $includeRows = [], array $includeColumns = [], array $orderBy = []): array
     {
         return $this->postcodeAttributeList
             ->setClass($class)
             ->setExcludeRows($excludeRows)
             ->setIncludeRows($includeRows)
             ->setColumns($includeColumns)
-            ->setModels()
-            ->setExtraModels()
-            ->getModels();
+            ->setQuery()
+            ->setOrderBy($orderBy)
+            ->execute();
     }
 }

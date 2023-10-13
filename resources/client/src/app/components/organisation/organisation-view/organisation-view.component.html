@@ -1,58 +1,108 @@
-<h1>Organisation</h1>
+<!-- Loading Spinner -->
+<ng-template #loading>
+    <mat-spinner diameter="30" class="loading-spinner"></mat-spinner>
+</ng-template>
 
-<h2>{{ id }}</h2>
-<div *ngIf="organisation && organisation.primary_role">
-    <h2>{{ organisation.primary_role.display_name }}</h2>
-    <h2>{{ organisation.name }}</h2>
-</div>
+<ng-template #noPostcode>
+    <h1>No Postcode Data Available</h1>
+</ng-template>
 
-<div class="flex-container">
+<!-- Header -->
+<ng-container *ngIf="organisation; else loading">
+    <h1 class="page-header">
+        {{ organisation.name }}
+    </h1>
+</ng-container>
 
-    <!-- Controls -->
-    <div class="flex-child flex-controls">
-
-        <form>
-
-            <fieldset class="field_set">
-
-                <legend>
-                    Parameters
-                </legend>
-
-                <div class="filter-container">
-
-                    <mat-label>
-                        Zoom Level: {{ zoomInput.value }}
-                    </mat-label>
-
-                    <mat-slider [min]="zoomSettings.min" [max]="zoomSettings.max" step="1">
-                        <input matInput matSliderThumb [formControl]="zoomInput" (dragEnd)="dragEnd($event)" #zoomSlider>
-                    </mat-slider>
-
-                    <!-- Primary Role -->
-                    <shared-role-select
-                        [control]="primaryRolesInput"
-                    ></shared-role-select>
-
-                </div>
-
-            </fieldset>
-
-        </form>
-
-    </div>
+<div class="page-container">
 
     <!-- Map -->
-    <div class="flex-child flex-map">
-        <div class="map-container">
-            <shared-map
-                [data]="mapData"
-                [manualZoom]="zoomInput.value || zoomSettings.min"
-                [zoom]="zoomSettings"
-                [mapOptions]="mapOptions"
-                borderRadius="50%"
-            ></shared-map>
-        </div>
+    <div class="map-container">
+        <shared-map
+            [data]="mapData"
+            [mapOptions]="mapOptions"
+            [zoom]="zoomSettings"
+            [initialCentreCoords]="centreCoords"
+            width="650px"
+            height="650px"
+            borderRadius="50%"
+            (markerClicked)="onMarkerClick($event)"
+            (manualZoom)="onManualZoom($event)"
+        ></shared-map>
     </div>
-    
+
+    <!-- Organisation Details -->
+    <div class="org-container">
+
+        <ng-container *ngIf="organisation; else loading">
+
+            <form>
+
+                <fieldset class="field_set">
+
+                    <legend>
+                        <a [href]="organisation.org_link" target="_blank">Organisation</a>
+                    </legend>
+
+                    <!-- Primary Role -->
+                    <mat-form-field class="org-form-field">
+                        <mat-label>Primary Role</mat-label>
+                        <input matInput type="text" [value]="organisation.primary_role.display_name" [readonly]="true">
+                        <img [src]="organisation.primary_role.icon || defaultIcon.iconUrl">
+                    </mat-form-field>
+
+                    <!-- Org ID -->
+                    <mat-form-field class="org-form-field">
+                        <mat-label>Organisation ID</mat-label>
+                        <input matInput type="text" [value]="organisation.org_id" [readonly]="true">
+                    </mat-form-field>
+
+                    <!-- Postcode -->
+                    <mat-form-field class="org-form-field">
+                        <mat-label>Postcode</mat-label>
+                        <input matInput type="text" [value]="organisation.post_code" [readonly]="true">
+                    </mat-form-field>
+
+                    <!-- Lat / Long -->
+                    <mat-form-field class="org-form-field">
+                        <mat-label>Latitude / Longitude</mat-label>
+                        <input matInput type="text" [value]="organisation.postcode?.latitude | number: '1.6-6'" [readonly]="true">
+                        <input matInput type="text" [value]="organisation.postcode?.longitude | number: '1.6-6'" [readonly]="true">
+                    </mat-form-field>
+
+                    <!-- Last Change Date -->
+                    <mat-form-field class="org-form-field">
+                        <mat-label>Last Change Date</mat-label>
+                        <input matInput type="text" [value]="organisation.last_change_date | dateAgo" [readonly]="true">
+                    </mat-form-field>
+
+                    <!-- Active -->
+                    <mat-checkbox [checked]="!organisation.inactive" [disableRipple]="true" (click)="$event.preventDefault()">Active</mat-checkbox>
+
+                </fieldset>
+
+            </form>
+
+            <div class="primary-roles">
+                <h4>Find active organisations near-by</h4>
+                <shared-role-select
+                    [control]="primaryRolesInput"
+                ></shared-role-select>
+            </div>
+
+        </ng-container>
+
+    </div>
+
 </div>
+
+
+<!-- Data -->
+<shared-table
+    [dataSource]="organisations"
+    [columnConfig]="columnConfig"
+    [actionButtonConfig]="actionButtonConfig"
+    [showReloadDataButton]="false"
+    [paginatorConfig]="paginatorConfig"
+    defaultSortCol="name"
+></shared-table>

@@ -42,3 +42,11 @@ hr {
         margin-bottom: 15px;
     }
 }
+
+.map-control-container .mat-expansion-panel-body {
+    padding: 0;
+}
+
+.org-form-field .mat-mdc-form-field-infix {
+    display: flex;
+}

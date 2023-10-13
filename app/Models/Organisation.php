@@ -330,4 +330,11 @@ class Organisation extends Model
             });
         });
     }
+
+    public function scopeWithinDistanceOf(Builder $query, float $distance, float $lat, float $long): Builder
+    {
+        return $query->whereHas('postcode', function(Builder $postcode) use ($distance, $lat, $long) {
+            $postcode->withinDistanceOf($distance, $lat, $long);
+        });
+    }
 }

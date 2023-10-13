@@ -19,16 +19,16 @@ const routes: Routes = [
         component: HomeComponent,
     },
     {
+        path: 'roles',
+        component: RoleComponent,
+    },
+    {
         path: 'organisations',
         component: OrganisationComponent,
     },
     {
-        path: 'organisations-map',
+        path: 'map',
         component: OrganisationMapComponent,
-    },
-    {
-        path: 'roles',
-        component: RoleComponent,
     },
     {
         path: 'organisations/:id',

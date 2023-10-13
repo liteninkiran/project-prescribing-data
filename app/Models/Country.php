@@ -26,4 +26,14 @@ class Country extends Model
     {
         return $this->hasMany(Postcode::class, 'country_id', 'id');
     }
+
+    /**
+     * europeanElectoralRegions
+     *
+     * @return HasMany
+     */
+    public function europeanElectoralRegions(): HasMany
+    {
+        return $this->belongsTo(EuropeanElectoralRegion::class, 'european_electoral_region_id', 'id');
+    }
 }

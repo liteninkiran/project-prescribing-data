@@ -48,9 +48,29 @@ export interface IAsyncButtonInputConfig {
     hideRow: string;
 }
 
+export interface IPaginatorConfig {
+    pageSizeOptions: number[],
+    intialPageSize: number,
+    showFirstLastButtons: boolean,
+    hidePageSize: boolean,
+    disabled: boolean,
+}
+
 export interface IMatSelectOptions {
     id: number;
     name: string;
     code?: string | null;
     icon?: string | null;
+};
+
+export interface IMapData {
+    id: number;
+    code?: string;
+    name: string;
+    icon: string | null;
+    icon_name: string | null;
+    postcode: string | null;
+    lat: number | null;
+    long: number | null;
+    tooltipText: string;
 };

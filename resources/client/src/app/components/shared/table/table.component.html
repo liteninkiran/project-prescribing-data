@@ -13,7 +13,7 @@
             [dataSource]="dataSource"
             mat-table
             matSort
-            [matSortActive]="defaultSortCol"
+            [matSortActive]="!paginatorConfig.disabled ? defaultSortCol : ''"
             matSortDirection="asc"
             matSortDisableClear
         >
@@ -28,6 +28,7 @@
                         icon="sync"
                         [loaded]="true"
                         (clickEvent)="refreshData()"
+                        *ngIf="showReloadDataButton"
                     ></shared-button>
 
                     <!-- Show / Hide Columns -->
@@ -96,9 +97,11 @@
 
         <mat-paginator
             [length]="length"
-            [pageSize]="intialPageSize"
-            [pageSizeOptions]="pageSizeOptions"
-            [showFirstLastButtons]="true"
+            [pageSize]="paginatorConfig.intialPageSize"
+            [pageSizeOptions]="paginatorConfig.pageSizeOptions"
+            [showFirstLastButtons]="paginatorConfig.showFirstLastButtons"
+            [hidePageSize]="paginatorConfig.hidePageSize"
+            [disabled]="paginatorConfig.disabled"
         ></mat-paginator>
 
     </div>
