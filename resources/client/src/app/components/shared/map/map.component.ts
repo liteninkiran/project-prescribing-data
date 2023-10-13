@@ -64,6 +64,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
         max: 1,
     }
     private intervalId!: any;
+    private mapViewSet = false;
 
     constructor() { }
 
@@ -81,8 +82,10 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
 
     public ngOnChanges(changes: SimpleChanges): void {
         const keys = Object.keys(changes);
-        if (keys.find(key => key === 'data') && this.data) {
-            this.populateMap();
+        if (keys.find(key => key === 'data')) {
+            if (this.data) {
+                this.populateMap();
+            }
         }
     }
 
@@ -120,7 +123,10 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
     }
 
     private setMapView(coords: any = this.initialCentreCoords, zoom: number = this.zoom.initial): void {
-        this.map.setView(coords, zoom);
+        if (!this.mapViewSet || !this.zoom.manual) {
+            this.map.setView(coords, zoom);
+            this.mapViewSet = true;
+        }
     }
 
     private addTileLayer(): void {
