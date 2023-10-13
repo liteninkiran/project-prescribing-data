@@ -41,6 +41,7 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
     public defaultIcon = defaultIcon;
 
     private subscriptions: Subscription[] = [];
+    private radius: number = 0;
 
     constructor(
         private route: ActivatedRoute,
@@ -62,12 +63,12 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
 
     }
 
-    public onManualZoom(bounds: L.LatLngBounds): void {
-
+    public onManualZoom(radius: number): void {
+        this.radius = radius;
     }
 
     private loadData(): void {
-        this.organisations$ = this.orgService.loadOrganisationData(this.id, this.form.value);
+        this.organisations$ = this.orgService.loadOrganisationData(this.id, this.form.value, this.radius);
         const sub: Subscription = this.organisations$.subscribe((res: IOrganisation[]) => {
             this.organisations = res;
             this.organisation = res.find((org) => org.org_id === this.id) as IOrganisation;

@@ -20,7 +20,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
 
     /** Private Output Events */
     @Output() private markerClicked = new EventEmitter<IMapData>();
-    @Output() private manualZoom = new EventEmitter<L.LatLngBounds>();
+    @Output() private manualZoom = new EventEmitter<number>();
 
     /** Public Input Properties */
     @Input() public data: IMapData[] | undefined;
@@ -227,6 +227,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
         this.setOpacity();
         this.changeMarkersOpacity();
         this.calculateMapBounds();
+        this.manualZoom.emit(this.distance.x / 2);
     }
 
     private onMapMove = (event: L.LeafletEvent): void => {

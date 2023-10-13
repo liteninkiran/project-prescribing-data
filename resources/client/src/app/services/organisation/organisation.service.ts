@@ -59,9 +59,14 @@ export class OrganisationService {
         );
     }
 
-    public loadOrganisationData(id: string, filters: IOrganisationFilters): Observable<IOrganisation[]> {
+    public loadOrganisationData(id: string, filters: IOrganisationFilters, radius: number): Observable<IOrganisation[]> {
         let params: HttpParams = new HttpParams();
-        params = this.addFilters(filters, params);
+        if (filters.primaryRoles) {
+            params = this.addFilters(filters, params);
+            if (radius > 0) {
+                params = params.append('radius', radius);
+            }
+        }
         const url = '/api/organisations/view/' + id;
         const options = { params: params }
         const callBack = (organisation: IOrganisation) => ({

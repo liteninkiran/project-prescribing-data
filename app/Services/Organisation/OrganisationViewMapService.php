@@ -64,6 +64,20 @@ class OrganisationViewMapService
     private float $radius;
 
     /**
+     * lat
+     *
+     * @var float $lat
+     */
+    private float $lat;
+
+    /**
+     * long
+     *
+     * @var float $long
+     */
+    private float $long;
+
+    /**
      * __construct
      *
      * @return void
@@ -111,6 +125,8 @@ class OrganisationViewMapService
     public function setOrganisation(Organisation $organisation): self
     {
         $this->organisation = $organisation;
+        $this->lat = $organisation->postcode->latitude;
+        $this->long = $organisation->postcode->longitude;
         return $this;
     }
 
@@ -144,9 +160,12 @@ class OrganisationViewMapService
      * @param float $radius
      * @return self
      */
-    public function setRadius(float $radius): self
+    public function setRadius(float|null $radius): self
     {
-        $this->radius = $radius;
+        if ($radius !== null) {
+            $this->radius = $radius;
+            $this->query->withinDistanceOf($radius, $this->lat, $this->long);
+        }
         return $this;
     }
 
@@ -174,10 +193,6 @@ class OrganisationViewMapService
             $otherOrgs = $this->query->take($this->limit - 1)->get();
             // info(\DB::getQueryLog());
             $organisations = $organisations->concat($otherOrgs);
-        }
-
-        if ($this->radius) {
-            // $this->query->reallyNotSure();
         }
 
         // Convert to array

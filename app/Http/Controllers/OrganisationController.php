@@ -67,10 +67,10 @@ class OrganisationController extends Controller
         // \DB::enableQueryLog();
         $organisations = $organisationViewMapService
             ->setColumns()
+            ->setOrganisation($organisation)
             ->setRoleIds(request()->input('primary_roles', null))
             ->setStatus(request()->input('status', 0))
-            ->setRadius(request()->input('radius', 0))
-            ->setOrganisation($organisation)
+            ->setRadius(request()->input('radius', null))
             ->execute();
         // info(\DB::getQueryLog());
 
