@@ -28,7 +28,7 @@
                     <!-- Sub-Header -->
                     <mat-expansion-panel-header>
                         <div mat-subheader>
-                            Zoom Level ({{ ( zoom.manual ? zoomInput.value : currentZoomLevel) - zoom.min + 1 }})
+                            Zoom Level ({{ currentZoomLevel - zoom.min + 1 }} / {{ zoom.max - zoom.min + 1 }})
                         </div>
                     </mat-expansion-panel-header>
 
@@ -46,45 +46,9 @@
                             search
                         </span>
 
-                        <!-- Title -->
+                        <!-- Progress Bar -->
                         <div matListItemTitle>
-
-                            <!-- Manual Zoom -->
-                            <ng-container *ngIf="zoom.manual; else zoomAuto">
-
-                                <!-- Slider Container -->
-                                <div class="mat-list-slider-container">
-
-                                    <!-- Slider -->
-                                    <ng-container *ngIf="data; else loading1">
-                                        <mat-slider [min]="zoom.min" [max]="zoom.max" step="1" [discrete]="false" [showTickMarks]="true">
-                                            <input matInput matSliderThumb [formControl]="zoomInput">
-                                        </mat-slider>
-                                    </ng-container>
-        
-                                    <!-- Zoom Level -->
-                                    <ng-container *ngIf="data; else loading2">
-                                        <span class="mat-list-slider-span">
-                                            {{ zoomInput.value - zoom.min + 1 }}
-                                        </span>
-                                    </ng-container>    
-                                </div>
-        
-                            </ng-container>
-
-                            <!-- Automatic Zoom -->
-                            <ng-template #zoomAuto>
-
-                                <!-- Zoom Level -->
-                                <span class="span-zoom-auto">
-                                    {{ currentZoomLevel - zoom.min + 1 }}
-                                </span>
-
-                                <!-- Progress Bar -->
-                                <mat-progress-bar mode="determinate" [value]="zoomProgress"></mat-progress-bar>
-
-                            </ng-template>
-
+                            <mat-progress-bar mode="determinate" [value]="zoomProgress"></mat-progress-bar>
                         </div>
 
                     </mat-list-item>

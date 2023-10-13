@@ -42,7 +42,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
     public zoomProgress: number = (this.zoom.initial - this.zoom.min) / (this.zoom.max - this.zoom.min) * 100;
     public form!: FormGroup;
     public opacityInput: FormControl<number> = new FormControl(0) as FormControl<number>;
-    public zoomInput: any;
     public mapStyle: IMapStyle = { }
     public mapBoundaryCoords = {
         centre: {} as L.LatLng,
@@ -84,16 +83,13 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
         const keys = Object.keys(changes);
         if (keys.find(key => key === 'data') && this.data) {
             this.populateMap();
-            this.zoomInput.setValue(this.currentZoomLevel);
         }
     }
 
     /** Public Functions (Custom) */
 
     public resetMap(): void {
-        this.zoom.manual
-            ? this.zoomInput.setValue(this.zoom.initial)
-            : this.fitBounds();
+        this.fitBounds();
     }
 
     public animateSlider(): void {
@@ -265,28 +261,14 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
     }
 
     /** Form */
-    private zoomInputChanged(value: number): void {
-        if (this.map) {
-            this.map.setZoom(value);
-            this.manualZoom.emit(this.map.getBounds());
-        }
-    }
-
     private setForm(): void {
         this.form = new FormGroup({
             opacity: this.opacityInput,
-            zoom: this.zoomInput = new FormControl(this.currentZoomLevel) as FormControl<number>,
         });
 
         this.opacityInput.valueChanges.subscribe((value) => {
             this.changeMarkersOpacity();
         });
-
-        this.zoomInput.valueChanges.pipe(
-            debounceTime(100),
-            distinctUntilChanged(),
-            tap((value: number) => this.zoomInputChanged(value))
-        ).subscribe();
     }
 }
 

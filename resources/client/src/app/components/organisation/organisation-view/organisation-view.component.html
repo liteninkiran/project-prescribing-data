@@ -77,7 +77,7 @@
                     </mat-form-field>
 
                     <!-- Active -->
-                    <mat-checkbox [checked]="!organisation.inactive" disabled>Active</mat-checkbox>
+                    <mat-checkbox [checked]="!organisation.inactive" [disableRipple]="true" (click)="$event.preventDefault()">Active</mat-checkbox>
 
                 </fieldset>
 
