@@ -41,7 +41,7 @@
                 <fieldset class="field_set">
 
                     <legend>
-                        Organisation
+                        <a [href]="organisation.org_link" target="_blank">Organisation</a>
                     </legend>
 
                     <!-- Primary Role -->
@@ -81,12 +81,14 @@
 
                 </fieldset>
 
-                <!-- Organisation Link -->
-                <div class="org-link">
-                    <h3><a [href]="organisation.org_link" target="_blank">Link to Spine Services</a></h3>
-                </div>
-
             </form>
+
+            <div class="primary-roles">
+                <h4>Find other organisations near-by</h4>
+                <shared-role-select
+                    [control]="primaryRolesInput"
+                ></shared-role-select>
+            </div>
 
         </ng-container>
 
