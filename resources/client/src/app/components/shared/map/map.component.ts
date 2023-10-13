@@ -1,7 +1,6 @@
-import { Component, ElementRef, Input, OnInit, AfterViewInit, OnChanges, ViewChild, SimpleChanges, EventEmitter, Output, HostListener } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, AfterViewInit, OnChanges, ViewChild, SimpleChanges, EventEmitter, Output } from '@angular/core';
 import { IMapData } from 'src/app/interfaces/shared.interface';
 import { FormControl, FormGroup } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, tap } from 'rxjs';
 import * as L from 'leaflet';
 
 interface IMapStyle {
@@ -150,7 +149,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
             return;
         }
         const markers = this.data
-            .map(point => this.addMarkerToMap(point, this.currentOpacityLevel))
+            .map(point => this.addMarkerToMap(point, this.opacityInput.value > 0 ? this.opacityInput.value : this.currentOpacityLevel))
             .filter(marker => marker);
         this.noMarkers = markers.length === 0 && this.zoom.manual;
         this.featureGroup = L.featureGroup(markers as L.Marker<IMapData>[]).addTo(this.map);
