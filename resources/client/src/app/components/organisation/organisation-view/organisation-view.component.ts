@@ -93,6 +93,9 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
 
     public onManualZoom(radius: number): void {
         this.radius = radius;
+        if (this.primaryRolesInput.value) {
+            this.loadData();
+        }
     }
 
     private loadData(): void {
