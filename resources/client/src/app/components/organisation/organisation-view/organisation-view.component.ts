@@ -36,6 +36,7 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
         zoomControl: false,
         dragging: false,
         keyboard: false,
+        boxZoom: false,
     }
     public defaultIcon = defaultIcon;
 

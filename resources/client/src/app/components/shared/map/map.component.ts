@@ -166,7 +166,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
 
         // Marker
         const markerCoords: L.LatLngExpression = [data.lat, data.long];
-        const markerOptions: L.MarkerOptions = { icon, opacity }
+        const markerOptions: L.MarkerOptions = { icon, opacity, autoPanOnFocus: !this.zoom.manual }
         const marker = L.marker(markerCoords, markerOptions);
 
         // Tooltip
