@@ -2,6 +2,28 @@
     margin: auto;
 }
 
+.page-container {
+    display: flex;
+}
+
+.page-header {
+    text-align: center;
+    margin: 0;
+    padding: 15px 0;
+}
+
+.map-container {
+    width: 1200px;
+}
+
+.org-container {
+    flex: 1;
+
+    h1 {
+        text-align: center;
+    }
+}
+
 .org-form-field {
     width: 100%;
 }

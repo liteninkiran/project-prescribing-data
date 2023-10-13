@@ -71,6 +71,7 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
             this.organisations = res;
             this.organisation = res.find((org) => org.org_id === this.id) as IOrganisation;
             this.centreCoords = [this.organisation.postcode?.latitude || 0, this.organisation.postcode?.longitude || 0] as L.LatLngExpression;
+            this.mapData = undefined;
             this.mapData = res.map((org) => {
                 return {
                     id: org.id,
