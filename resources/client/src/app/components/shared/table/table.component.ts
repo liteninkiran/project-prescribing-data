@@ -2,7 +2,7 @@ import { Component, Input, OnInit, AfterViewInit, OnChanges, ViewChild, SimpleCh
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { merge, tap } from 'rxjs';
-import { IAsyncButtonInputConfig, ICheckboxMenuItem, IMatTableColumnConfig } from 'src/app/interfaces/shared.interface';
+import { IAsyncButtonInputConfig, ICheckboxMenuItem, IMatTableColumnConfig, IPaginatorConfig } from 'src/app/interfaces/shared.interface';
 
 @Component({
     selector: 'shared-table',
@@ -11,8 +11,13 @@ import { IAsyncButtonInputConfig, ICheckboxMenuItem, IMatTableColumnConfig } fro
 })
 export class TableComponent implements OnInit, AfterViewInit, OnChanges {
 
-    @Input() public pageSizeOptions = [5, 10, 20, 50, 100];
-    @Input() public intialPageSize = this.pageSizeOptions[1];
+    @Input() public paginatorConfig: IPaginatorConfig = {
+        pageSizeOptions: [5, 10, 20, 50, 100],
+        intialPageSize: 5,
+        showFirstLastButtons: true,
+        hidePageSize: false,
+        disabled: false,
+    }
     @Input() public service: any;
     @Input() public dataSource: any;
     @Input() public columnConfig: IMatTableColumnConfig[] = [];
@@ -20,6 +25,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
     @Input() public title!: string;
     @Input() public filters: any;
     @Input() public showMenu: boolean = true;
+    @Input() public showReloadDataButton: boolean = true;
     @Input() public reloadData: boolean = false;
     @Input() public actionButtonConfig: IAsyncButtonInputConfig = {
         buttonText: 'Button',
@@ -38,7 +44,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
     @ViewChild(MatSort, { static: true }) sort!: MatSort;
 
     public get length(): number {
-        return this.service.pager?.total;
+        return this.service ? this.service.pager?.total : 0;
     }
 
     public displayedColumns: string[] = [];
@@ -49,7 +55,9 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
     public ngOnInit(): void {
         this.updateDisplayedColumns();
         this.setMenuItems();
-        this.dataSource.loadData(this.filters, this.defaultSortCol, 'asc', 0, this.intialPageSize);
+        if (!Array.isArray(this.dataSource)) {
+            this.dataSource.loadData(this.filters, this.defaultSortCol, 'asc', 0, this.paginatorConfig.intialPageSize);
+        }
     }
 
     public ngAfterViewInit(): void {
@@ -89,13 +97,15 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
     }
 
     private loadData(): void {
-        this.dataSource.loadData(
-            this.filters,
-            this.sort.active,
-            this.sort.direction,
-            this.paginator.pageIndex,
-            this.paginator.pageSize
-        );
+        if (!Array.isArray(this.dataSource)) {
+            this.dataSource.loadData(
+                this.filters,
+                this.sort.active,
+                this.sort.direction,
+                this.paginator.pageIndex,
+                this.paginator.pageSize
+            );
+        }
     }
 
     private updateDisplayedColumns(): void {

@@ -30,9 +30,15 @@ class OrganisationViewMapService
         'organisations.id',
         'organisations.name',
         'organisations.org_id',
+        'organisations.status',
+        'organisations.org_record_class',
         'organisations.post_code',
         'organisations.postcode_id',
+        'organisations.last_change_date',
         'organisations.primary_role_id',
+        'organisations.org_link',
+        'organisations.created_at',
+        'organisations.updated_at',
     ];
 
     /**
@@ -189,9 +195,7 @@ class OrganisationViewMapService
 
         // Include other organisations by role, if required
         if ($this->roleIds) {
-            // \DB::enableQueryLog();
             $otherOrgs = $this->query->take($this->limit - 1)->get();
-            // info(\DB::getQueryLog());
             $organisations = $organisations->concat($otherOrgs);
         }
 
@@ -207,8 +211,10 @@ class OrganisationViewMapService
     private function getQuery(): Builder
     {
         return Organisation::query()
+            ->join('roles', 'roles.id', '=', 'organisations.primary_role_id')
             ->with('postcode:id,latitude,longitude')
             ->with('primaryRole:id,_id,display_name,icon')
-            ->inRandomOrder();
+            ->orderBy('roles.display_name')
+            ->orderBy('organisations.name');
     }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IAsyncButtonInputConfig, IMatTableColumnConfig } from 'src/app/interfaces/shared.interface';
+import { IAsyncButtonInputConfig, IMatTableColumnConfig, IPaginatorConfig } from 'src/app/interfaces/shared.interface';
 import { OrganisationDataSource } from './organisation.data-source';
 import { OrganisationService } from '../../../services/organisation/organisation.service';
 import { IOrganisationFilters } from 'src/app/interfaces/organisation.interface';
@@ -23,6 +23,13 @@ export class OrganisationComponent implements OnInit {
         loaded: true,
         hide: true,
         hideRow: 'primary_role',
+    }
+    public paginatorConfig: IPaginatorConfig = {
+        pageSizeOptions: [5, 10, 20, 50, 100],
+        intialPageSize: 10,
+        showFirstLastButtons: true,
+        hidePageSize: false,
+        disabled: false,
     }
 
     constructor(

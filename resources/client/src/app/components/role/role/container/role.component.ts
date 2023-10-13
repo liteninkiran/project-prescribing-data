@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IAsyncButtonInputConfig, IMatTableColumnConfig } from 'src/app/interfaces/shared.interface';
+import { IAsyncButtonInputConfig, IMatTableColumnConfig, IPaginatorConfig } from 'src/app/interfaces/shared.interface';
 import { RoleDataSource } from '../role.data-source';
 import { RoleService } from '../../../../services/role/role.service';
 import { IRoleFilters } from 'src/app/interfaces/role.interface';
@@ -25,6 +25,13 @@ export class RoleComponent implements OnInit {
         icon: 'cloud',
         loaded: true,
         hideRow: 'primary_role',
+    }
+    public paginatorConfig: IPaginatorConfig = {
+        pageSizeOptions: [5, 10, 20, 50, 100],
+        intialPageSize: 100,
+        showFirstLastButtons: true,
+        hidePageSize: false,
+        disabled: false,
     }
 
     constructor(

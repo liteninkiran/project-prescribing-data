@@ -48,6 +48,14 @@ export interface IAsyncButtonInputConfig {
     hideRow: string;
 }
 
+export interface IPaginatorConfig {
+    pageSizeOptions: number[],
+    intialPageSize: number,
+    showFirstLastButtons: boolean,
+    hidePageSize: boolean,
+    disabled: boolean,
+}
+
 export interface IMatSelectOptions {
     id: number;
     name: string;

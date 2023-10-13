@@ -95,3 +95,14 @@
     </div>
 
 </div>
+
+
+<!-- Data -->
+<shared-table
+    [dataSource]="organisations"
+    [columnConfig]="columnConfig"
+    [actionButtonConfig]="actionButtonConfig"
+    [showReloadDataButton]="false"
+    [paginatorConfig]="paginatorConfig"
+    defaultSortCol="name"
+></shared-table>

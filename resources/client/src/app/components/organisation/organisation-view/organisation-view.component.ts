@@ -2,10 +2,11 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, Subscription, debounceTime, distinctUntilChanged, tap } from 'rxjs';
 import { IOrganisation } from 'src/app/interfaces/organisation.interface';
-import { IMapData } from 'src/app/interfaces/shared.interface';
+import { IAsyncButtonInputConfig, IMapData, IMatTableColumnConfig, IPaginatorConfig } from 'src/app/interfaces/shared.interface';
 import { OrganisationService } from 'src/app/services/organisation/organisation.service';
 import { defaultIcon } from 'src/app/components/shared/map/map.component';
 import { FormControl, FormGroup } from '@angular/forms';
+import { OrganisationDataSource } from '../organisation/organisation.data-source';
 
 @Component({
     selector: 'app-organisation-view',
@@ -39,6 +40,33 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
         boxZoom: false,
     }
     public defaultIcon = defaultIcon;
+    public columnConfig: IMatTableColumnConfig[] = [
+        { columnId: 'org_id', columnName: 'Organisation ID', visible: true },
+        { columnId: 'name', columnName: 'Organisation Name', visible: true },
+        { columnId: 'post_code', columnName: 'Postcode', visible: true },
+        { columnId: 'primary_role', columnName: 'Primary Role', visible: true, property: 'display_name' },
+        { columnId: 'status', columnName: 'Status', visible: true },
+        { columnId: 'org_record_class', columnName: 'Record Class', visible: false },
+        { columnId: 'last_change_date', columnName: 'Last Change Date', visible: false },
+        { columnId: 'org_link', columnName: 'API Link', visible: false },
+        { columnId: 'created_at', columnName: 'Created At', visible: false },
+        { columnId: 'updated_at', columnName: 'Updated At', visible: false },
+    ];
+    public actionButtonConfig: IAsyncButtonInputConfig = {
+        buttonText: '',
+        colour: 'primary',
+        icon: 'visibility',
+        loaded: true,
+        hide: true,
+        hideRow: 'primary_role',
+    }
+    public paginatorConfig: IPaginatorConfig = {
+        pageSizeOptions: [],
+        intialPageSize: 100,
+        showFirstLastButtons: false,
+        hidePageSize: true,
+        disabled: true,
+    }
 
     private subscriptions: Subscription[] = [];
     private radius: number = 0;
