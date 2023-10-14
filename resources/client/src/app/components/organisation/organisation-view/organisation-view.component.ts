@@ -108,9 +108,10 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
         this.organisations$ = this.orgService.loadOrganisationData(this.id, this.form.value, this.radius * this.circleRadiusInput.value / 100);
         const sub: Subscription = this.organisations$.subscribe((res: IOrganisation[]) => {
             this.organisations = res;
-            this.organisation = res.find((org) => org.org_id === this.id) as IOrganisation;
-            this.centreCoords = [this.organisation.postcode?.latitude || 0, this.organisation.postcode?.longitude || 0] as L.LatLngExpression;
-            this.mapData = undefined;
+            if (!this.organisation) {
+                this.organisation = res.find((org) => org.org_id === this.id) as IOrganisation;
+                this.centreCoords = [this.organisation.postcode?.latitude || 0, this.organisation.postcode?.longitude || 0] as L.LatLngExpression;
+            }
             this.mapData = res.map((org) => {
                 return {
                     id: org.id,
@@ -163,17 +164,20 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
             status: this.statusInput = new FormControl(0) as FormControl<number[] | null>,
         });
 
-        this.primaryRolesInput.valueChanges.pipe(
+        let sub: Subscription = this.primaryRolesInput.valueChanges.pipe(
             debounceTime(1500),
             distinctUntilChanged(),
             tap((value: number[] | null) => {
                 this.roleInputChanged(value);
             })
         ).subscribe();
+        this.subscriptions.push(sub);
 
-        this.form.valueChanges.subscribe(() => {
+        sub = this.form.valueChanges.subscribe(() => {
             this.loadingData = true;
         });
+
+        this.subscriptions.push(sub);
     }
 
     private roleInputChanged(value: number[] | null): void {

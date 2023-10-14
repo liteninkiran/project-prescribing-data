@@ -113,7 +113,6 @@
                     <ng-container *ngIf="!loadingData; else loading">
                         <p>{{ organisations.length | number: '1.0-0' }} record(s) found</p>
                     </ng-container>
-                    
 
                     <mat-slider [min]="50" [max]="100" step="1">
                         <input matInput matSliderThumb [formControl]="circleRadiusInput" (dragEnd)="onDragEnd($event)">
