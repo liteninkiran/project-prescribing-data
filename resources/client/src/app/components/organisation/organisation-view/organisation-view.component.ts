@@ -16,7 +16,7 @@ import { defaultIcon } from 'src/app/components/shared/map/map.component';
 export class OrganisationViewComponent implements OnInit, OnDestroy {
     public form!: FormGroup;
     public primaryRolesInput: any;
-    public circleRadiusInput: any;
+    public circleRadiusInput: FormControl<number> = new FormControl(100) as FormControl<number>;
     public statusInput: any;
     public id: string = '';
     public organisations$: Observable<IOrganisation[]> = new Observable<IOrganisation[]>();
@@ -68,7 +68,7 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
         disabled: true,
     }
     public radius: number = 0;
-    public loading = false;
+    public loadingData = false;
 
     private subscriptions: Subscription[] = [];
 
@@ -104,7 +104,7 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
     }
 
     private loadData(): void {
-        this.loading = true;
+        this.loadingData = true;
         this.organisations$ = this.orgService.loadOrganisationData(this.id, this.form.value, this.radius * this.circleRadiusInput.value / 100);
         const sub: Subscription = this.organisations$.subscribe((res: IOrganisation[]) => {
             this.organisations = res;
@@ -125,7 +125,7 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
                 }
             });
             this.organisations.splice(0, 1);
-            this.loading = false;
+            this.loadingData = false;
         });
         this.subscriptions.push(sub);
     }
@@ -161,7 +161,6 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
         this.form = new FormGroup({
             primaryRoles: this.primaryRolesInput = new FormControl(null) as FormControl<number[] | null>,
             status: this.statusInput = new FormControl(0) as FormControl<number[] | null>,
-            circleRadius: this.circleRadiusInput = new FormControl(100) as FormControl<number>
         });
 
         this.primaryRolesInput.valueChanges.pipe(
@@ -172,20 +171,12 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
             })
         ).subscribe();
 
-        this.circleRadiusInput.valueChanges.pipe(
-            debounceTime(1500),
-            distinctUntilChanged(),
-            tap((value: number[] | null) => {
-                this.circleRadiusInputChanged(value);
-            })
-        ).subscribe();
+        this.form.valueChanges.subscribe(() => {
+            this.loadingData = true;
+        });
     }
 
     private roleInputChanged(value: number[] | null): void {
         this.loadData();
-    }
-
-    private circleRadiusInputChanged(value: number[] | null): void {
-        //this.loadData();
     }
 }
