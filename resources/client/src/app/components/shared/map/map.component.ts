@@ -58,6 +58,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
     /** Private Properties */
     private map!: L.Map;
     private featureGroup!: L.FeatureGroup<IMapData>;
+    private featureGroupCircle!: L.FeatureGroup;
     private opacity = {
         min: 0.25,
         max: 1,
@@ -144,6 +145,30 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
         }
     }
 
+    private clearCircle(): void {
+        if (this.featureGroupCircle && this.map.hasLayer(this.featureGroupCircle)) {
+            this.map.removeLayer(this.featureGroupCircle);
+        }
+    }
+
+    private addCircleToMap(): void {
+        if (!this.mapOptions.zoomControl || this.borderRadius !== '0') { return; }
+        this.clearCircle();
+        const circleOptions: L.CircleOptions = {
+            radius: this.distance.x / 2,
+            dashArray: '30 10',
+            weight: 2,
+            color: '#3388ff',
+            opacity: 0.5,
+            interactive: false,
+            fill: true,
+            fillColor: '#3388ff',
+            fillOpacity: 0.05,
+        }
+        const circle = L.circle(this.initialCentreCoords, circleOptions);
+        this.featureGroupCircle = L.featureGroup([circle]).addTo(this.map);
+    }
+
     private addMarkersToMap(): void {
         if (!this.data) {
             return;
@@ -214,6 +239,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
         }
         this.distance.x = this.distanceBetweenTwoPoints(this.mapBoundaryCoords.southWest, this.mapBoundaryCoords.southEast);
         this.distance.y = this.distanceBetweenTwoPoints(this.mapBoundaryCoords.southWest, this.mapBoundaryCoords.northWest);
+        this.addCircleToMap();
     }
 
     private distanceBetweenTwoPoints(point1: L.LatLng, point2: L.LatLng): number {

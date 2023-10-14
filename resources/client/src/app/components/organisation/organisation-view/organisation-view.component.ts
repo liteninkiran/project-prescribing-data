@@ -33,7 +33,7 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
         wheelDebounceTime: 100,
         scrollWheelZoom: 'center',
         doubleClickZoom: 'center',
-        zoomControl: false,
+        zoomControl: true,
         dragging: false,
         keyboard: false,
         boxZoom: false,
