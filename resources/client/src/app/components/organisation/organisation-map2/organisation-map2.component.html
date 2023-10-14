@@ -4,3 +4,8 @@
     [defaultFilters]="defaultFilters"
     (filtersChanged)="updateFilters($event)"
 ></app-organisation-filters>
+
+<shared-map-new
+    [data]="mapData$ | async"
+>
+</shared-map-new>

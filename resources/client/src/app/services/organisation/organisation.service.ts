@@ -46,17 +46,21 @@ export class OrganisationService {
 
         const url = '/api/organisations/map';
         const options = { params: params }
-        const callBack = (organisation: IOrganisation) => ({
-            ...organisation,
-            created_at: new Date(organisation.created_at),
-            updated_at: new Date(organisation.updated_at),
-        });
 
-        return this.http.get<IOrganisationMapResponse>(url, options).pipe(
-            map((res: IOrganisationMapResponse) => {
-                return { ...res, data: res.data.map(callBack) };
-            })
-        );
+        return this.http.get<IOrganisationMapResponse>(url, options);
+    }
+
+    public loadMapData2(filters: IOrganisationFilters): Observable<IOrganisationMapResponse> {
+        // Create required parameters
+        let params: HttpParams = new HttpParams();
+
+        // Add filter parameters
+        params = this.addFilters(filters, params);
+
+        const url = '/api/organisations/map';
+        const options = { params: params }
+
+        return this.http.get<IOrganisationMapResponse>(url, options);
     }
 
     public loadOrganisationData(id: string, filters: IOrganisationFilters, radius: number): Observable<IOrganisation[]> {

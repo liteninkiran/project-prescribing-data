@@ -1,1 +1,9 @@
-<p>map2 works!</p>
+<h1>Organisation Map</h1>
+
+<ng-template #loadingTemplate>
+    <mat-spinner diameter="30" class="loading-spinner"></mat-spinner>
+</ng-template>
+
+<ng-container *ngIf="data !== null; else loadingTemplate">
+    <pre>{{ data | json }}</pre>
+</ng-container>
