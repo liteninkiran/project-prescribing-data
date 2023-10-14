@@ -1,7 +1,6 @@
-import { Component, ElementRef, Input, OnInit, AfterViewInit, OnChanges, ViewChild, SimpleChanges, EventEmitter, Output, HostListener } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, AfterViewInit, OnChanges, ViewChild, SimpleChanges, EventEmitter, Output } from '@angular/core';
 import { IMapData } from 'src/app/interfaces/shared.interface';
 import { FormControl, FormGroup } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, tap } from 'rxjs';
 import * as L from 'leaflet';
 
 interface IMapStyle {
@@ -29,6 +28,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
     @Input() public borderRadius = '0';
     @Input() public height = '700px';
     @Input() public width = '100%';
+    @Input() public circleRadius = 100;
     @Input() public zoom = {
         min: 5,
         max: 20,
@@ -41,7 +41,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
     public currentZoomLevel: number = this.zoom.initial;
     public zoomProgress: number = (this.zoom.initial - this.zoom.min) / (this.zoom.max - this.zoom.min) * 100;
     public form!: FormGroup;
-    public opacityInput: FormControl<number> = new FormControl(0) as FormControl<number>;
+    public opacityInput: FormControl<number> = new FormControl(1) as FormControl<number>;
     public mapStyle: IMapStyle = { }
     public mapBoundaryCoords = {
         centre: {} as L.LatLng,
@@ -59,6 +59,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
     /** Private Properties */
     private map!: L.Map;
     private featureGroup!: L.FeatureGroup<IMapData>;
+    private featureGroupCircle!: L.FeatureGroup;
     private opacity = {
         min: 0.25,
         max: 1,
@@ -86,6 +87,9 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
             if (this.data) {
                 this.populateMap();
             }
+        }
+        if (keys.find(key => key === 'circleRadius')) {
+            this.addCircleToMap();
         }
     }
 
@@ -145,12 +149,36 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
         }
     }
 
+    private clearCircle(): void {
+        if (this.featureGroupCircle && this.map.hasLayer(this.featureGroupCircle)) {
+            this.map.removeLayer(this.featureGroupCircle);
+        }
+    }
+
+    private addCircleToMap(): void {
+        if (!this.mapOptions.zoomControl || this.borderRadius !== '0' || !this.map) { return; }
+        this.clearCircle();
+        const circleOptions: L.CircleOptions = {
+            radius: this.distance.x / 2 * (this.circleRadius / 100),
+            dashArray: '30 10',
+            weight: 2,
+            color: '#3388ff',
+            opacity: 0.5,
+            interactive: false,
+            fill: true,
+            fillColor: '#3388ff',
+            fillOpacity: 0.05,
+        }
+        const circle = L.circle(this.initialCentreCoords, circleOptions);
+        this.featureGroupCircle = L.featureGroup([circle]).addTo(this.map);
+    }
+
     private addMarkersToMap(): void {
         if (!this.data) {
             return;
         }
         const markers = this.data
-            .map(point => this.addMarkerToMap(point, this.currentOpacityLevel))
+            .map(point => this.addMarkerToMap(point, this.opacityInput.value > 0 ? this.opacityInput.value : this.currentOpacityLevel))
             .filter(marker => marker);
         this.noMarkers = markers.length === 0 && this.zoom.manual;
         this.featureGroup = L.featureGroup(markers as L.Marker<IMapData>[]).addTo(this.map);
@@ -172,7 +200,10 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
         const marker = L.marker(markerCoords, markerOptions);
 
         // Tooltip
-        const tooltipOptions: L.TooltipOptions = { direction: 'top', offset: [0, -30], permanent: false }
+        const centreLat = this.initialCentreCoords[0 as keyof L.LatLngBoundsExpression] as number;
+        const direction: L.Direction = !this.zoom.manual ? 'top' : (data.lat > centreLat ? 'bottom': 'top');
+        const offset: L.PointExpression = direction === 'top' ? [0, -30] : [0, 0];
+        const tooltipOptions: L.TooltipOptions = { direction, offset, permanent: false }
         marker.bindTooltip(data.tooltipText, tooltipOptions);
 
         // On Events
@@ -195,10 +226,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
             'height': this.height,
             'width': this.width,
         }
-
-        if (!this.zoom.manual) {
-            this.mapStyle['margin-top'] = '0';
-        }
     }
 
     private calculateMapBounds() {
@@ -213,6 +240,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
         }
         this.distance.x = this.distanceBetweenTwoPoints(this.mapBoundaryCoords.southWest, this.mapBoundaryCoords.southEast);
         this.distance.y = this.distanceBetweenTwoPoints(this.mapBoundaryCoords.southWest, this.mapBoundaryCoords.northWest);
+        this.addCircleToMap();
     }
 
     private distanceBetweenTwoPoints(point1: L.LatLng, point2: L.LatLng): number {
@@ -269,8 +297,10 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
 
     /** Form */
     private setForm(): void {
+        this.opacityInput = new FormControl(this.zoom.manual ? 100: 0) as FormControl<number>;
+
         this.form = new FormGroup({
-            opacity: this.opacityInput,
+            opacity: this.opacityInput
         });
 
         this.opacityInput.valueChanges.subscribe((value) => {

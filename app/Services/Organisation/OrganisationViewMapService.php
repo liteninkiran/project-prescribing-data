@@ -195,7 +195,7 @@ class OrganisationViewMapService
 
         // Include other organisations by role, if required
         if ($this->roleIds) {
-            $otherOrgs = $this->query->take($this->limit - 1)->get();
+            $otherOrgs = $this->query->take($this->limit)->get();
             $organisations = $organisations->concat($otherOrgs);
         }
 

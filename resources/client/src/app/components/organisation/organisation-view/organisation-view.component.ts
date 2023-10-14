@@ -1,12 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { FormControl, FormGroup } from '@angular/forms';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subscription, debounceTime, distinctUntilChanged, tap } from 'rxjs';
 import { IOrganisation } from 'src/app/interfaces/organisation.interface';
 import { IAsyncButtonInputConfig, IMapData, IMatTableColumnConfig, IPaginatorConfig } from 'src/app/interfaces/shared.interface';
 import { OrganisationService } from 'src/app/services/organisation/organisation.service';
 import { defaultIcon } from 'src/app/components/shared/map/map.component';
-import { FormControl, FormGroup } from '@angular/forms';
-import { OrganisationDataSource } from '../organisation/organisation.data-source';
 
 @Component({
     selector: 'app-organisation-view',
@@ -17,6 +16,7 @@ import { OrganisationDataSource } from '../organisation/organisation.data-source
 export class OrganisationViewComponent implements OnInit, OnDestroy {
     public form!: FormGroup;
     public primaryRolesInput: any;
+    public circleRadiusInput: FormControl<number> = new FormControl(100) as FormControl<number>;
     public statusInput: any;
     public id: string = '';
     public organisations$: Observable<IOrganisation[]> = new Observable<IOrganisation[]>();
@@ -31,10 +31,10 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
         manual: true,
     }
     public mapOptions: L.MapOptions = {
-        wheelDebounceTime: 100,
+        wheelDebounceTime: 500,
         scrollWheelZoom: 'center',
         doubleClickZoom: 'center',
-        zoomControl: false,
+        zoomControl: true,
         dragging: false,
         keyboard: false,
         boxZoom: false,
@@ -67,9 +67,10 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
         hidePageSize: true,
         disabled: true,
     }
+    public radius: number = 0;
+    public loadingData = false;
 
     private subscriptions: Subscription[] = [];
-    private radius: number = 0;
 
     constructor(
         private route: ActivatedRoute,
@@ -93,15 +94,24 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
 
     public onManualZoom(radius: number): void {
         this.radius = radius;
+        if (this.primaryRolesInput.value) {
+            this.loadData();
+        }
+    }
+
+    public onDragEnd(event: any) {
+        this.loadData();
     }
 
     private loadData(): void {
-        this.organisations$ = this.orgService.loadOrganisationData(this.id, this.form.value, this.radius);
+        this.loadingData = true;
+        this.organisations$ = this.orgService.loadOrganisationData(this.id, this.form.value, this.radius * this.circleRadiusInput.value / 100);
         const sub: Subscription = this.organisations$.subscribe((res: IOrganisation[]) => {
             this.organisations = res;
-            this.organisation = res.find((org) => org.org_id === this.id) as IOrganisation;
-            this.centreCoords = [this.organisation.postcode?.latitude || 0, this.organisation.postcode?.longitude || 0] as L.LatLngExpression;
-            this.mapData = undefined;
+            if (!this.organisation) {
+                this.organisation = res.find((org) => org.org_id === this.id) as IOrganisation;
+                this.centreCoords = [this.organisation.postcode?.latitude || 0, this.organisation.postcode?.longitude || 0] as L.LatLngExpression;
+            }
             this.mapData = res.map((org) => {
                 return {
                     id: org.id,
@@ -115,6 +125,8 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
                     tooltipText: this.getTooltipText(org),
                 }
             });
+            this.organisations.splice(0, 1);
+            this.loadingData = false;
         });
         this.subscriptions.push(sub);
     }
@@ -152,13 +164,20 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
             status: this.statusInput = new FormControl(0) as FormControl<number[] | null>,
         });
 
-        this.primaryRolesInput.valueChanges.pipe(
-            debounceTime(500),
+        let sub: Subscription = this.primaryRolesInput.valueChanges.pipe(
+            debounceTime(1500),
             distinctUntilChanged(),
             tap((value: number[] | null) => {
                 this.roleInputChanged(value);
             })
         ).subscribe();
+        this.subscriptions.push(sub);
+
+        sub = this.form.valueChanges.subscribe(() => {
+            this.loadingData = true;
+        });
+
+        this.subscriptions.push(sub);
     }
 
     private roleInputChanged(value: number[] | null): void {

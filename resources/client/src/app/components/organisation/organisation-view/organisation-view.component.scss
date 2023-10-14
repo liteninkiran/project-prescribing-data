@@ -27,7 +27,8 @@
 
 .org-container {
     flex: 1;
-    margin-top: 10px
+    margin-top: 10px;
+    margin-bottom: 20px;
 }
 
 .org-form-field {
@@ -87,11 +88,46 @@ legend {
     width: 400px;
     padding-left: 14px;
     margin-top: 20px;
-    h4 {
-        margin-top: 15px;
+
+    .primary-roles-header {
+        display: flex;
+        p {
+            flex: 1;
+            text-align: right;
+            padding-right: 20px;
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+    }
+
+    .primary-roles-select {
+        margin-bottom: 15px;
+    }
+
+    .primary-roles-results {
+        margin-bottom: 15px;
+        text-align: right;
+        padding-right: 20px;
+
+        p {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        .filter-warning {
+            font-weight: 500;
+            font-size: 14px;
+            color: red;
+            text-transform: uppercase;
+            margin-top: 10px;
+        }
     }
 }
 
 mat-checkbox {
     pointer-events: none;
+}
+
+mat-slider {
+    width: 100%;
 }
