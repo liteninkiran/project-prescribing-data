@@ -1,11 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { FormControl, FormGroup } from '@angular/forms';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subscription, debounceTime, distinctUntilChanged, tap } from 'rxjs';
 import { IOrganisation } from 'src/app/interfaces/organisation.interface';
 import { IAsyncButtonInputConfig, IMapData, IMatTableColumnConfig, IPaginatorConfig } from 'src/app/interfaces/shared.interface';
 import { OrganisationService } from 'src/app/services/organisation/organisation.service';
 import { defaultIcon } from 'src/app/components/shared/map/map.component';
-import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
     selector: 'app-organisation-view',
@@ -67,6 +67,7 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
         disabled: true,
     }
     public radius: number = 0;
+    public loading = false;
 
     private subscriptions: Subscription[] = [];
 
@@ -98,6 +99,7 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
     }
 
     private loadData(): void {
+        this.loading = true;
         this.organisations$ = this.orgService.loadOrganisationData(this.id, this.form.value, this.radius);
         const sub: Subscription = this.organisations$.subscribe((res: IOrganisation[]) => {
             this.organisations = res;
@@ -118,6 +120,7 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
                 }
             });
             this.organisations.splice(0, 1);
+            this.loading = false;
         });
         this.subscriptions.push(sub);
     }
@@ -156,7 +159,7 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
         });
 
         this.primaryRolesInput.valueChanges.pipe(
-            debounceTime(500),
+            debounceTime(1500),
             distinctUntilChanged(),
             tap((value: number[] | null) => {
                 this.roleInputChanged(value);

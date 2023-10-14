@@ -122,11 +122,13 @@
 </div>
 
 <!-- Data -->
-<shared-table
-    [dataSource]="organisations"
-    [columnConfig]="columnConfig"
-    [actionButtonConfig]="actionButtonConfig"
-    [showReloadDataButton]="false"
-    [paginatorConfig]="paginatorConfig"
-    defaultSortCol="name"
-></shared-table>
+<ng-container *ngIf="organisations.length > 0">
+    <shared-table
+        [dataSource]="organisations"
+        [columnConfig]="columnConfig"
+        [actionButtonConfig]="actionButtonConfig"
+        [showReloadDataButton]="false"
+        [paginatorConfig]="paginatorConfig"
+        defaultSortCol="name"
+    ></shared-table>
+</ng-container>

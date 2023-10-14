@@ -197,8 +197,9 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
 
         // Tooltip
         const centreLat = this.initialCentreCoords[0 as keyof L.LatLngBoundsExpression] as number;
-        const direction: L.Direction = !this.zoom.manual ? 'top' : (data.lat > centreLat ? 'bottom': 'center');
-        const tooltipOptions: L.TooltipOptions = { direction, offset: [0, -30], permanent: false }
+        const direction: L.Direction = !this.zoom.manual ? 'top' : (data.lat > centreLat ? 'bottom': 'top');
+        const offset: L.PointExpression = direction === 'top' ? [0, -30] : [0, 0];
+        const tooltipOptions: L.TooltipOptions = { direction, offset, permanent: false }
         marker.bindTooltip(data.tooltipText, tooltipOptions);
 
         // On Events
@@ -220,10 +221,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
             'border-radius': this.borderRadius,
             'height': this.height,
             'width': this.width,
-        }
-
-        if (!this.zoom.manual) {
-            this.mapStyle['margin-top'] = '0';
         }
     }
 
