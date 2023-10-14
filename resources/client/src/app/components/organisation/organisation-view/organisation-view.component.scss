@@ -27,7 +27,9 @@
 
 .org-container {
     flex: 1;
-    margin-top: 10px
+    margin-top: 10px;
+    margin-bottom: 20px;
+    border: 1px solid green;
 }
 
 .org-form-field {
@@ -127,6 +129,6 @@ mat-checkbox {
     pointer-events: none;
 }
 
-.mat-hint {
-    display: none;
+mat-slider {
+    width: 100%;
 }

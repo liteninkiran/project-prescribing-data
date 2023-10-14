@@ -23,6 +23,7 @@
             [mapOptions]="mapOptions"
             [zoom]="zoomSettings"
             [initialCentreCoords]="centreCoords"
+            [circleRadius]="circleRadiusInput.value"
             width="650px"
             height="650px"
             (markerClicked)="onMarkerClick($event)"
@@ -94,7 +95,7 @@
                 <!-- Heading -->
                 <div class="primary-roles-header">
                     <h4>Organisations Nearby</h4>
-                    <p>r = {{ radius | distance }}</p>
+                    <p>r = {{ radius * circleRadiusInput.value / 100 | distance }}</p>
                 </div>
 
                 <!-- Primary Roles -->
@@ -107,6 +108,11 @@
 
                 <div class="primary-roles-results" *ngIf="primaryRolesInput.value">
                     <p>{{ organisations.length | number: '1.0-0' }} record(s) found</p>
+
+                    <mat-slider [min]="50" [max]="100" step="1">
+                        <input matInput matSliderThumb [formControl]="circleRadiusInput" (dragEnd)="onDragEnd($event)">
+                    </mat-slider>
+
                     <div *ngIf="organisations.length >= 1000" class="filter-warning">
                         <p>Please select a smaller area</p>
                         <p *ngIf="primaryRolesInput.value.length > 1">Please select fewer Primary Role(s)</p>

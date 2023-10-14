@@ -28,6 +28,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
     @Input() public borderRadius = '0';
     @Input() public height = '700px';
     @Input() public width = '100%';
+    @Input() public circleRadius = 100;
     @Input() public zoom = {
         min: 5,
         max: 20,
@@ -86,6 +87,9 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
             if (this.data) {
                 this.populateMap();
             }
+        }
+        if (keys.find(key => key === 'circleRadius')) {
+            this.addCircleToMap();
         }
     }
 
@@ -152,10 +156,10 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
     }
 
     private addCircleToMap(): void {
-        if (!this.mapOptions.zoomControl || this.borderRadius !== '0') { return; }
+        if (!this.mapOptions.zoomControl || this.borderRadius !== '0' || !this.map) { return; }
         this.clearCircle();
         const circleOptions: L.CircleOptions = {
-            radius: this.distance.x / 2,
+            radius: this.distance.x / 2 * (this.circleRadius / 100),
             dashArray: '30 10',
             weight: 2,
             color: '#3388ff',
