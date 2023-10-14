@@ -12,6 +12,7 @@ import { DialogComponent } from './components/samples/dialog/dialog.component';
 import { OrganisationComponent } from './components/organisation/organisation/organisation.component';
 import { RoleComponent } from './components/role/role/container/role.component';
 import { OrganisationViewComponent } from './components/organisation/organisation-view/organisation-view.component';
+import { OrganisationMap2Component } from './components/organisation/organisation-map2/organisation-map2.component';
 
 const routes: Routes = [
     {
@@ -29,6 +30,10 @@ const routes: Routes = [
     {
         path: 'map',
         component: OrganisationMapComponent,
+    },
+    {
+        path: 'map2',
+        component: OrganisationMap2Component,
     },
     {
         path: 'organisations/:id',
