@@ -87,9 +87,18 @@ legend {
     width: 400px;
     padding-left: 14px;
     margin-top: 20px;
-    h4 {
-        margin-top: 15px;
+
+    .primary-roles-header {
+        display: flex;
+        p {
+            flex: 1;
+            text-align: right;
+            padding-right: 20px;
+            margin-top: auto;
+            margin-bottom: auto;
+        }
     }
+
     .primary-roles-select {
         margin-bottom: 15px;
     }

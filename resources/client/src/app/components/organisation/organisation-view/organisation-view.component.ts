@@ -66,9 +66,9 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
         hidePageSize: true,
         disabled: true,
     }
+    public radius: number = 0;
 
     private subscriptions: Subscription[] = [];
-    private radius: number = 0;
 
     constructor(
         private route: ActivatedRoute,
