@@ -68,7 +68,8 @@ class PostcodeAttributeLists
             'health_authority'              => $this->getAttributeList('HealthAuthority'),
             'primary_care_trust'            => $this->getAttributeList('PrimaryCareTrust'),
             'region'                        => $this->getAttributeList('Region'),
-            'country'                       => $this->getAttributeList('Country', $excludeRows['country']),
+            'country'                       => $this->getAttributeList('Country'),
+            // 'country'                       => $this->getAttributeList('Country', $excludeRows['country']),
         ];
     }
 

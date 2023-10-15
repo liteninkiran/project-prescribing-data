@@ -1,9 +1,14 @@
-<h1>Organisation Map</h1>
-
 <ng-template #loadingTemplate>
     <mat-spinner diameter="30" class="loading-spinner"></mat-spinner>
 </ng-template>
 
+<ng-template #noDataTemplate>
+    <h1>No Data</h1>
+</ng-template>
+
 <ng-container *ngIf="data !== null; else loadingTemplate">
-    <pre>{{ data | json }}</pre>
+    <ng-container *ngIf="data.length > 0; else noDataTemplate">
+        <h1>Map Goes Here</h1>  
+        <pre>{{ data | json }}</pre>
+    </ng-container>
 </ng-container>

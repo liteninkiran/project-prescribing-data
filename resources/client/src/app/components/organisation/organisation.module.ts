@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DecimalPipe } from '@angular/common';
 import { MaterialModule } from 'src/app/modules/material.module';
 import { NgModule } from '@angular/core';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
@@ -11,6 +11,7 @@ import { OrganisationFiltersComponent } from './organisation-filters/organisatio
 import { OrganisationViewComponent } from './organisation-view/organisation-view.component';
 import { OrganisationMapComponent } from './organisation-map/organisation-map.component';
 import { OrganisationMap2Component } from './organisation-map2/organisation-map2.component';
+import { OrganisationHelperService } from './organisation-helper.service';
 
 @NgModule({
     declarations: [
@@ -27,6 +28,10 @@ import { OrganisationMap2Component } from './organisation-map2/organisation-map2
         PipeModule,
         ReactiveFormsModule,
         SharedModule,
+    ],
+    providers: [
+        OrganisationHelperService,
+        DecimalPipe,
     ],
 })
 export class OrganisationModule { }

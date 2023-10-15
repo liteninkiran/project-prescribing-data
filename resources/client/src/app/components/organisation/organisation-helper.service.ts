@@ -1,8 +1,15 @@
 import { IOrganisation } from "src/app/interfaces/organisation.interface";
 import { defaultIcon } from "../shared/map/map.component";
 import { IMapData } from "src/app/interfaces/shared.interface";
+import { DecimalPipe } from "@angular/common";
+import { Injectable } from "@angular/core";
 
+@Injectable()
 export class OrganisationHelperService {
+
+    constructor(
+        private _decimalPipe: DecimalPipe,
+    ) { }
 
     public orgToMapData = (org: IOrganisation): IMapData => {
         return {
@@ -18,7 +25,20 @@ export class OrganisationHelperService {
         }
     }
 
-    private getTooltipText = (org: IOrganisation): string => {
+    public getFilterMessage = (total: number, numberOnMap: number, limit_exceeded: boolean): string => {
+        const totalStr = this._decimalPipe.transform(total, '1.0-0');
+        const limitStr = this._decimalPipe.transform(numberOnMap, '1.0-0');
+        const warning = '<strong>Please restrict your query using the filters</strong>';
+        let message = 'Showing ';
+        if (limit_exceeded) {
+            message += limitStr + ' of ' + totalStr + ' items ' + warning;
+        } else {
+            message += totalStr + ' items';
+        }
+        return message;
+    }
+
+    private getTooltipText(org: IOrganisation): string {
         return `
             <div>
                 <div style="display: flex;">
