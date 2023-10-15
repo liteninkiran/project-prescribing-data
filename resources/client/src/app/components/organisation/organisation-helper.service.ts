@@ -25,9 +25,9 @@ export class OrganisationHelperService {
         }
     }
 
-    public getFilterMessage = (total: number, numberOnMap: number, limit_exceeded: boolean): string => {
-        const totalStr = this._decimalPipe.transform(total, '1.0-0');
-        const limitStr = this._decimalPipe.transform(numberOnMap, '1.0-0');
+    public getFilterMessage = (total: number, limit: number, limit_exceeded: boolean, mapDataCount: number = -1): string => {
+        const totalStr = this._decimalPipe.transform(mapDataCount === -1 ? total : mapDataCount, '1.0-0');
+        const limitStr = this._decimalPipe.transform(mapDataCount === -1 ? limit : mapDataCount, '1.0-0');
         const warning = '<strong>Please restrict your query using the filters</strong>';
         let message = 'Showing ';
         if (limit_exceeded) {

@@ -43,7 +43,7 @@ export class OrganisationMap2Component implements OnInit {
             map((res) => {
                 const mapData: IMapData[] = res.data.map((org) => this.orgHelper.orgToMapData(org)).filter((map) => map.lat !== null);
                 this.orgData = res.data;
-                this.message = this.orgHelper.getFilterMessage(res.total, mapData.length, mapData.length < res.total);
+                this.message = this.orgHelper.getFilterMessage(res.total, res.limit, res.limit_exceeded, mapData.length);
                 return mapData;
             }),
         );

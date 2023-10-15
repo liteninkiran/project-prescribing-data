@@ -8,9 +8,14 @@ import { IMapData } from 'src/app/interfaces/shared.interface';
 })
 export class Map2Component implements OnInit {
     @Input() public data: IMapData[] | null = null;
+    @Input() public mapStyle: IMapStyle = { }
 
     public ngOnInit(): void {
 
     }
 
+}
+
+interface IMapStyle {
+    [key: string]: any;
 }

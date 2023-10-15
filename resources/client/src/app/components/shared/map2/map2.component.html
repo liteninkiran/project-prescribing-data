@@ -6,9 +6,11 @@
     <h1>No Data</h1>
 </ng-template>
 
-<ng-container *ngIf="data !== null; else loadingTemplate">
-    <ng-container *ngIf="data.length > 0; else noDataTemplate">
-        <h1>Map Goes Here</h1>  
-        <pre>{{ data | json }}</pre>
-    </ng-container>
+<ng-container *ngIf="!(data && data.length === 0); else noDataTemplate">
+    <div class="map-flex-container">
+        <div #mapContainer class="map" [ngStyle]="mapStyle">
+            <mat-spinner *ngIf="data === null" diameter="100" color="primary" id="map-spinner"></mat-spinner>
+        </div>
+    </div>
+    <pre *ngIf="data !== null">{{ data | json }}</pre>
 </ng-container>
