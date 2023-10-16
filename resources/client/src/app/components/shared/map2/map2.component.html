@@ -8,7 +8,7 @@
 
 <ng-container *ngIf="!(data && data.length === 0); else noDataTemplate">
     <div class="map-flex-container">
-        <div #mapContainer class="map" [ngStyle]="mapStyle">
+        <div #mapContainer class="map" [ngStyle]="mapStyle" id="map">
             <mat-spinner *ngIf="data === null" diameter="100" color="primary" id="map-spinner"></mat-spinner>
         </div>
     </div>

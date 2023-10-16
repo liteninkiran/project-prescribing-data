@@ -16,6 +16,11 @@ export class OrganisationMap2Component implements OnInit {
     // Map Data
     public mapData$: Observable<IMapData[]> = new Observable<IMapData[]>();
     public orgData: IOrganisation[] = [];
+    public mapStyle = {
+        height: '700px',
+        width: '100%',
+    }
+    public mapOptions: L.MapOptions = {}
 
     // Filters
     public filters: IOrganisationFilters = {} as IOrganisationFilters;
