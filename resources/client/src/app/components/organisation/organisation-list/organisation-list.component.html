@@ -24,21 +24,11 @@
 </div>
 
 <!-- Data Table -->
-<div [hidden]="view === 'map'">
-    <shared-table
-        [dataSource]="dataSource"
-        [columnConfig]="columnConfig"
-        [service]="orgService"
-        [filters]="filters"
-        [paginatorConfig]="paginatorConfig"
-        [defaultSortCol]="'name'"
-        [actionButtonConfig]="actionButtonConfig"
-        (actionButtonClick)="onActionButtonClick($event)"
-        (rowClick)="onRowClick($event)"
-    ></shared-table>
+<div *ngIf="view === 'list'">
+    <h1>Table...</h1>
 </div>
 
 <!-- Map -->
-<div [hidden]="view === 'list'">
+<div *ngIf="view === 'map'">
     <h1>Map...</h1>
 </div>

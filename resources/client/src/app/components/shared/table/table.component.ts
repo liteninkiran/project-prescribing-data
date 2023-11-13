@@ -74,6 +74,10 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
         this.reloadDataOnInputChange(changes, 'reloadData');
     }
 
+    public ngOnDestroy(): void {
+        this.dataSource.reset();
+    }
+
     public onRowClick(row: any): void {
         this.rowClick.emit(row);
     }

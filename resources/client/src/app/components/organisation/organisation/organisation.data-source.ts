@@ -35,4 +35,8 @@ export class OrganisationDataSource implements DataSource<IOrganisation> {
                 return this.organisationsSubject.next(organisations);
             });
     }
+
+    public reset() {
+        this.organisationsSubject = new BehaviorSubject<IOrganisation[]>([]);
+    }
 }
