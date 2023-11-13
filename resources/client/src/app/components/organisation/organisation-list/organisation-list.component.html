@@ -1,1 +1,24 @@
-<p>organisation-list works!</p>
+<!-- Heading -->
+<div class="heading">
+
+    <!-- Heading -->
+    <div>
+        <h1>Organisations</h1>
+    </div>
+
+    <div class="view-container">
+        <mat-button-toggle-group name="view" value="list" (change)="toggleView($event)">
+            <mat-button-toggle value="list">List</mat-button-toggle>
+            <mat-button-toggle value="map">Map</mat-button-toggle>
+        </mat-button-toggle-group>
+    </div>
+
+</div>
+
+<!-- Filters -->
+<div class="filters">
+    <app-organisation-filters
+        [defaultFilters]="defaultFilters"
+        (filtersChanged)="updateFilters($event)"
+    ></app-organisation-filters>
+</div>

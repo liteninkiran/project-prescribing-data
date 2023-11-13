@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button'
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
@@ -23,6 +24,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
 import { MatStepperModule } from '@angular/material/stepper';
@@ -36,6 +38,7 @@ import { MatTreeModule } from '@angular/material/tree';
     exports: [
         MatBadgeModule,
         MatButtonModule,
+        MatButtonToggleModule,
         MatCardModule,
         MatCheckboxModule,
         MatChipsModule,
@@ -57,6 +60,7 @@ import { MatTreeModule } from '@angular/material/tree';
         MatSelectModule,
         MatSidenavModule,
         MatSliderModule,
+        MatSlideToggleModule,
         MatSnackBarModule,
         MatSortModule,
         MatStepperModule,
