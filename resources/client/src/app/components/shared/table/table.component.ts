@@ -63,19 +63,13 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
     public ngAfterViewInit(): void {
         this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
         merge(this.sort.sortChange, this.paginator.page)
-            .pipe(
-                tap(() => this.loadData())
-            )
+            .pipe(tap(() => this.loadData()))
             .subscribe();
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
         this.reloadDataOnInputChange(changes, 'filters');
         this.reloadDataOnInputChange(changes, 'reloadData');
-    }
-
-    public ngOnDestroy(): void {
-        this.dataSource.reset();
     }
 
     public onRowClick(row: any): void {

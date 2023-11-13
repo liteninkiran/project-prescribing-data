@@ -73,6 +73,12 @@ class OrganisationMapService
             'organisations.post_code',
             'organisations.postcode_id',
             'organisations.primary_role_id',
+            'organisations.status',
+            'organisations.org_record_class',
+            'organisations.last_change_date',
+            'organisations.org_link',
+            'organisations.created_at',
+            'organisations.updated_at',
         ];
     }
 

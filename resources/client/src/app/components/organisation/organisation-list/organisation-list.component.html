@@ -32,3 +32,15 @@
 <div *ngIf="view === 'map'">
     <h1>Map...</h1>
 </div>
+
+<pre *ngIf="data">
+    {{ data[0] | json }}
+</pre>
+
+<hr>
+
+<div *ngIf="mapData">
+    <pre>
+        {{ mapData[0] | json }}
+    </pre>
+</div>
