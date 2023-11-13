@@ -22,3 +22,23 @@
         (filtersChanged)="updateFilters($event)"
     ></app-organisation-filters>
 </div>
+
+<!-- Data Table -->
+<div [hidden]="view === 'map'">
+    <shared-table
+        [dataSource]="dataSource"
+        [columnConfig]="columnConfig"
+        [service]="orgService"
+        [filters]="filters"
+        [paginatorConfig]="paginatorConfig"
+        [defaultSortCol]="'name'"
+        [actionButtonConfig]="actionButtonConfig"
+        (actionButtonClick)="onActionButtonClick($event)"
+        (rowClick)="onRowClick($event)"
+    ></shared-table>
+</div>
+
+<!-- Map -->
+<div [hidden]="view === 'list'">
+    <h1>Map...</h1>
+</div>
