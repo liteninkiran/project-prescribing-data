@@ -18,10 +18,14 @@ class OrganisationFactory extends Factory
     public function definition(): array
     {
         $role = Role::inRandomOrder()->first();
+        $randBool = $this->faker->numberBetween(1, 100) < 75;
+        $status = $randBool ? 'Active' : 'Inactive';
+        $inactive = $randBool ? 0 : 1;
         return [
             'name' => $this->faker->sentence(10),
             'org_id' => $this->faker->sentence(10),
-            'status' => $this->faker->numberBetween(1, 100) < 75 ? 'Active' : 'Inactive',
+            'status' => $status,
+            'inactive' => $inactive,
             'org_record_class' => 'RC1',
             'post_code' => $this->faker->postcode,
             'last_change_date' => $this->faker->date($format = 'Y-m-d', $max = 'now'),
