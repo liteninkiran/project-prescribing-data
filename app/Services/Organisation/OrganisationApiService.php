@@ -94,8 +94,7 @@ class OrganisationApiService
      *     With ON DUPLICATE KEY UPDATE, the affected-rows value per row is 1 if the 
      *     row is inserted as a new row, 2 if an existing row is updated, and 0 if 
      *     an existing row is set to its current values.
-     *
-     * @return int
+     * @return self
      */
     public function updatePostcodeId(): self {
         $data = $this->getQueryForUpsert()->get()->toArray();
