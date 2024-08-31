@@ -51,7 +51,7 @@ class OrganisationController extends Controller
     public function storeFromApi(Role $role): JsonResponse
     {
         $dispatch = $role->org_last_updated !== '1970-01-01 00:00:01';
-        StoreFromApi::dispatchIf($dispatch, $role->_id);
+        StoreFromApi::dispatchIf($dispatch, $role);
         return response()->json([ 'response' => 'Added to queue' ]);
     }
 

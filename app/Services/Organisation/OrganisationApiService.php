@@ -3,6 +3,7 @@
 namespace App\Services\Organisation;
 
 // Illuminate
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Eloquent\Builder;
@@ -11,9 +12,6 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Models\Role;
 use App\Models\Organisation;
 use App\Models\Postcode;
-
-// Carbon
-use Carbon\Carbon;
 
 class OrganisationApiService
 {
@@ -62,7 +60,7 @@ class OrganisationApiService
      * @param bool $start
      * @return self
      */
-    public function updateOrgLastUpdated(bool $start): self
+    public function setOrgLastUpdated(bool $start): self
     {
         if ($this->role) {
             $lowDate = new Carbon('1970-01-01 00:00:01');
@@ -71,6 +69,16 @@ class OrganisationApiService
             $this->role->save();
         }
         return $this;
+    }
+
+    /**
+     * getOrgLastUpdated
+     *
+     * @return ?Carbon
+     */
+    public function getOrgLastUpdated(): ?Carbon
+    {
+        return $this->role && $this->role->org_last_updated ? Carbon::parse($this->role->org_last_updated) : null;
     }
 
     /**

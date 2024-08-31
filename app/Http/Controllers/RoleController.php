@@ -8,17 +8,13 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Artisan;
 
-// Models
-use App\Models\Role;
-
-// Requests
-use App\Http\Requests\StoreRoleRequest;
-use App\Http\Requests\UpdateRoleRequest;
-
 // Services
 use App\Services\Role\RoleApiService;
 use App\Services\Role\RolePager;
 use App\Services\Role\RoleList;
+
+// Jobs
+use App\Jobs\StoreAllFromApi;
 
 class RoleController extends Controller
 {
@@ -56,6 +52,7 @@ class RoleController extends Controller
     {
         $response = $roleApiService->storeFromApi();
         Artisan::call('db:seed', ['--class' => 'RoleIconSeeder']);
+        StoreAllFromApi::dispatch();
         return response()->json($response);
     }
     

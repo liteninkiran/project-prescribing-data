@@ -3,22 +3,12 @@
 namespace Database\Seeders;
 
 // Illuminate
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Eloquent\Builder;
 
 // Models
 use App\Models\Postcode;
-use App\Models\AdminCounty;
-use App\Models\AdminDistrict;
 use App\Models\EuropeanElectoralRegion;
-use App\Models\HealthAuthority;
-use App\Models\Nuts;
 use App\Models\ParliamentaryConstituency;
-use App\Models\PoliceForceArea;
-use App\Models\PrimaryCareTrust;
-use App\Models\Region;
-use App\Models\Country;
 
 class PostcodeAttributesSeeder extends Seeder
 {
