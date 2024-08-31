@@ -34,7 +34,7 @@ class PostcodeApiService
     private array|null $postcodeData;
 
     /** @var array $tableColumns Field names from postcodes table. Do not touch*/
-    private array $tableColumns;
+    private array $columns;
 
     /** @var Role|null $role Do not touch*/
     private Role|null $role;
@@ -332,7 +332,7 @@ class PostcodeApiService
     /**
      * updateModel
      *
-     * @param array $model
+     * @param Postcode $model
      * @param array $values
      * @return void
      */

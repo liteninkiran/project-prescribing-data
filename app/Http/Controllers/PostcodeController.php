@@ -3,15 +3,7 @@
 namespace App\Http\Controllers;
 
 // Illuminate
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\JsonResponse;
-
-// Models
-use App\Models\Postcode;
-
-// Requests
-use App\Http\Requests\StorePostcodeRequest;
-use App\Http\Requests\UpdatePostcodeRequest;
 
 // Services
 use App\Services\Postcode\PostcodeApiService;
@@ -24,7 +16,7 @@ class PostcodeController extends Controller
         //
     }
 
-    public function storeFromApi(PostcodeService $postcodeService): JsonResponse
+    public function storeFromApi(PostcodeApiService $postcodeService): JsonResponse
     {
         $response = $postcodeService->storeFromApi(request()->input('postcodes', []));
         return response()->json($response);
