@@ -1,12 +1,17 @@
 mat-card {
-    padding-left: 20px;
-    padding-right: 20px;
     margin-left: 20px;
     margin-right: 20px;
-    height: 325px;
+    height: 100px;
     width: 100%;
 
     h2 {
         cursor: pointer;
+        height: 100%;
+        width: 100%;
+        margin-top: 0;
+        margin-bottom: 0;
+        align-items : center;
+        justify-content: center;
+        display: flex;
     }
 }
