@@ -29,6 +29,7 @@ import { RouterModule } from '@angular/router';
 import { CheckboxMenuComponent } from './dialog/checkbox-menu/checkbox-menu.component';
 import { D3Component } from './d3/d3.component';
 import { D3LineChartComponent } from './d3/d3-line-chart/d3-line-chart.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
     declarations: [
@@ -59,6 +60,7 @@ import { D3LineChartComponent } from './d3/d3-line-chart/d3-line-chart.component
         CheckboxMenuComponent,
     ],
     imports: [
+        HttpClientModule,
         CommonModule,
         FormsModule,
         ReactiveFormsModule,

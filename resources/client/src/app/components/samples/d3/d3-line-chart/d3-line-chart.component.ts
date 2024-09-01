@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ApiService } from '../api.service';
 
 @Component({
     selector: 'app-d3-line-chart',
@@ -9,12 +10,12 @@ export class D3LineChartComponent implements OnInit, OnDestroy {
 
     public data$: any;
 
-    constructor() {
+    constructor(private api: ApiService) {
 
     }
 
     public ngOnInit(): void {
-
+        this.data$ = this.api.getCovidData();
     }
 
     public ngOnDestroy(): void {

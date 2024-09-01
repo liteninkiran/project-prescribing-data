@@ -9,13 +9,15 @@ export class LineChartComponent implements OnInit, OnDestroy {
 
     @Input() public data: any;
 
-
     public ngOnInit(): void {
-
+        
     }
 
     public ngOnDestroy(): void {
 
     }
 
+    public logData(): void {
+        console.log(this.data);
+    }
 }
