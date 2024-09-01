@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 @Component({
-    selector: 'app-d3-map',
-    templateUrl: './d3-map.component.html',
-    styleUrls: ['./d3-map.component.scss'],
+    selector: 'app-d3',
+    templateUrl: './d3.component.html',
+    styleUrls: ['./d3.component.scss'],
 })
-export class D3MapComponent implements OnInit, OnDestroy {
+export class D3Component implements OnInit, OnDestroy {
 
     constructor() {
 

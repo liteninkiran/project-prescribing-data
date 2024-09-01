@@ -27,10 +27,12 @@ import { SharedModule } from '../shared/shared.module';
 import { SamplesComponent } from './samples/samples.component';
 import { RouterModule } from '@angular/router';
 import { CheckboxMenuComponent } from './dialog/checkbox-menu/checkbox-menu.component';
+import { D3Component } from './d3/d3.component';
 
 @NgModule({
     declarations: [
         SamplesComponent,
+        D3Component,
         D3MapComponent,
         MapComponent,
         LeafletMapComponent,
@@ -64,6 +66,7 @@ import { CheckboxMenuComponent } from './dialog/checkbox-menu/checkbox-menu.comp
     ],
     exports: [
         SamplesComponent,
+        D3Component,
         D3MapComponent,
         MapComponent,
         LeafletMapComponent,

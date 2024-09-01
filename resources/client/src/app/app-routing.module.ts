@@ -12,6 +12,7 @@ import { DialogComponent } from './components/samples/dialog/dialog.component';
 import { OrganisationComponent } from './components/organisation/organisation/organisation.component';
 import { RoleComponent } from './components/role/role/container/role.component';
 import { OrganisationViewComponent } from './components/organisation/organisation-view/organisation-view.component';
+import { D3Component } from './components/samples/d3/d3.component';
 
 const routes: Routes = [
     {
@@ -49,6 +50,10 @@ const routes: Routes = [
     {
         path: 'samples/table-sort-paginate-filter',
         component: TableSortPaginateFilterComponent,
+    },
+    {
+        path: 'samples/d3',
+        component: D3Component,
     },
     {
         path: 'samples/d3-map',
