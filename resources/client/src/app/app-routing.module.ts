@@ -13,6 +13,7 @@ import { OrganisationComponent } from './components/organisation/organisation/or
 import { RoleComponent } from './components/role/role/container/role.component';
 import { OrganisationViewComponent } from './components/organisation/organisation-view/organisation-view.component';
 import { D3Component } from './components/samples/d3/d3.component';
+import { D3LineChartComponent } from './components/samples/d3/d3-line-chart/d3-line-chart.component';
 
 const routes: Routes = [
     {
@@ -58,6 +59,10 @@ const routes: Routes = [
     {
         path: 'samples/d3-map',
         component: D3MapComponent,
+    },
+    {
+        path: 'samples/d3-line-chart',
+        component: D3LineChartComponent,
     },
     {
         path: 'samples/leaflet-map',

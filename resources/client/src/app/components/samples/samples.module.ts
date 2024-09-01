@@ -28,12 +28,14 @@ import { SamplesComponent } from './samples/samples.component';
 import { RouterModule } from '@angular/router';
 import { CheckboxMenuComponent } from './dialog/checkbox-menu/checkbox-menu.component';
 import { D3Component } from './d3/d3.component';
+import { D3LineChartComponent } from './d3/d3-line-chart/d3-line-chart.component';
 
 @NgModule({
     declarations: [
         SamplesComponent,
         D3Component,
         D3MapComponent,
+        D3LineChartComponent,
         MapComponent,
         LeafletMapComponent,
         Map2Component,
@@ -68,6 +70,7 @@ import { D3Component } from './d3/d3.component';
         SamplesComponent,
         D3Component,
         D3MapComponent,
+        D3LineChartComponent,
         MapComponent,
         LeafletMapComponent,
         Map2Component,
