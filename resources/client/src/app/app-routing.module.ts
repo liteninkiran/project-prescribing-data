@@ -6,7 +6,7 @@ import { SamplesComponent } from './components/samples/samples/samples.component
 import { TableAsyncComponent } from './components/samples/table-async/table-async.component';
 import { TableSortComponent } from './components/samples/table-sort/table-sort.component';
 import { TableSortPaginateFilterComponent } from './components/samples/table-sort-paginate-filter/table-sort-paginate-filter.component';
-import { D3MapComponent } from './components/samples/d3-map/d3-map.component';
+import { D3MapComponent } from './components/samples/d3/d3-map/d3-map.component';
 import { LeafletMapComponent } from './components/samples/leaflet-map/leaflet-map.component';
 import { DialogComponent } from './components/samples/dialog/dialog.component';
 import { OrganisationComponent } from './components/organisation/organisation/organisation.component';

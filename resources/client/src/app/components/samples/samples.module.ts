@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MapComponent } from './d3-map/map/map.component';
-import { D3MapComponent } from './d3-map/d3-map.component';
+import { MapComponent } from './d3/d3-map/map/map.component';
+import { D3MapComponent } from './d3/d3-map/d3-map.component';
 import { LeafletMapComponent } from './leaflet-map/leaflet-map.component';
 import { Map2Component } from './leaflet-map/map-2/map-2.component';
 import { DialogComponent } from './dialog/dialog.component';
