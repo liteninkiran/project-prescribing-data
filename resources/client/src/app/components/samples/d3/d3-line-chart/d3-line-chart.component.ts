@@ -7,6 +7,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 })
 export class D3LineChartComponent implements OnInit, OnDestroy {
 
+    public data$: any;
+
     constructor() {
 
     }

@@ -10,6 +10,7 @@ import { ButtonComponent } from './button/button.component';
 import { SelectComponent } from './select/select.component';
 import { RoleSelectComponent } from './role-select/role-select.component';
 import { MapComponent } from './map/map.component';
+import { LineChartComponent } from './line-chart/line-chart.component';
 
 @NgModule({
     declarations: [
@@ -19,6 +20,7 @@ import { MapComponent } from './map/map.component';
         SelectComponent,
         RoleSelectComponent,
         MapComponent,
+        LineChartComponent,
     ],
     imports: [
         CommonModule,
@@ -33,6 +35,7 @@ import { MapComponent } from './map/map.component';
         SelectComponent,
         RoleSelectComponent,
         MapComponent,
+        LineChartComponent,
     ],
 })
 export class SharedModule { }
