@@ -44,7 +44,7 @@ export class LineChartComponent implements OnInit, OnDestroy, OnChanges {
     public colours: any;
 
     // Selected Data
-    public selected = ['hospitalized', 'death', 'hospitalizedCurrently'];
+    public selected = ['hospitalised', 'death', 'hospitalisedCurrently'];
     public active = [true, true, true];
 
     // Axes
