@@ -4,14 +4,17 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subscription, debounceTime, distinctUntilChanged, tap } from 'rxjs';
 import { IOrganisation } from 'src/app/interfaces/organisation.interface';
 import { IAsyncButtonInputConfig, IMapData, IMatTableColumnConfig, IPaginatorConfig } from 'src/app/interfaces/shared.interface';
-import { OrganisationService } from 'src/app/services/organisation/organisation.service';
 import { defaultIcon } from 'src/app/components/shared/map/map.component';
+
+// Services
+import { OrganisationService } from 'src/app/services/organisation/organisation.service';
+import { OrganisationApiService } from 'src/app/services/organisation/organisation-api.service';
 
 @Component({
     selector: 'app-organisation-view',
     templateUrl: './organisation-view.component.html',
     styleUrls: ['./organisation-view.component.scss'],
-    providers: [OrganisationService],
+    providers: [OrganisationService, OrganisationApiService],
 })
 export class OrganisationViewComponent implements OnInit, OnDestroy {
     public form!: FormGroup;
@@ -69,12 +72,14 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
     }
     public radius: number = 0;
     public loadingData = false;
+    public prescribingData$ = new Observable<any>();
 
     private subscriptions: Subscription[] = [];
 
     constructor(
         private route: ActivatedRoute,
         readonly orgService: OrganisationService,
+        readonly orgApiService: OrganisationApiService,
     ) {
 
     }
@@ -92,6 +97,10 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
 
     }
 
+    public onGetDataClick(): void {
+        this.loadPrescribingData();
+    }
+
     public onManualZoom(radius: number): void {
         this.radius = radius;
         if (this.primaryRolesInput.value) {
@@ -101,6 +110,14 @@ export class OrganisationViewComponent implements OnInit, OnDestroy {
 
     public onDragEnd(event: any) {
         this.loadData();
+    }
+
+    private loadPrescribingData(): void {
+        this.prescribingData$ = this.orgApiService.getPrescribingData(this.id);
+        const sub: Subscription = this.prescribingData$.subscribe((res: any) => {
+            console.log(res);
+        });
+        this.subscriptions.push(sub);
     }
 
     private loadData(): void {

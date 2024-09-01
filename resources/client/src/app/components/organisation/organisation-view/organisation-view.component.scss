@@ -4,6 +4,7 @@
 
 .page-container {
     display: flex;
+    height: 750px;
 }
 
 .page-header {
@@ -130,4 +131,8 @@ mat-checkbox {
 
 mat-slider {
     width: 100%;
+}
+
+.prescribing-data {
+    margin-top: 10px;
 }
